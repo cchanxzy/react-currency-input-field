@@ -1,25 +1,25 @@
 const webpack = require('webpack');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: "./src/index.tsx",
+  entry: './src/index.tsx',
   output: {
-      filename: "bundle.js",
-      path: __dirname + "/dist"
+      filename: 'bundle.js',
+      path: __dirname + '/dist'
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   resolve: {
-      extensions: [".ts", ".tsx", ".js", ".json"]
+      extensions: ['.ts', '.tsx', '.js', '.json']
   },
   module: {
       rules: [
-          { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-          { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+          { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+          { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
       ]
   },
   externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
+      'react': 'React',
+      'react-dom': 'ReactDOM'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -36,8 +36,8 @@ if (process.env.NODE_ENV === 'dev') {
   console.log('Building for development');
 
   config.plugins.push(new HtmlWebPackPlugin({
-    template: "./src/index.html",
-    filename: "./index.html"
+    template: './src/index.html',
+    filename: './index.html'
   }));
 }
 

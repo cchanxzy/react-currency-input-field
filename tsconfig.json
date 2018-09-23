@@ -3,9 +3,11 @@
       "outDir": "./dist/",
       "sourceMap": true,
       "noImplicitAny": true,
-      "module": "commonjs",
+      "module": "commonJs",
+      "moduleResolution": "node",
       "target": "es6",
-      "jsx": "react"
+      "jsx": "react",
+      "esModuleInterop": true
   },
   "include": [
       "./src/**/*"
