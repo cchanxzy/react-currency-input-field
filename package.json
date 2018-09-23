@@ -1,0 +1,36 @@
+{
+  "name": "new-react-currency-input-field",
+  "version": "0.0.1",
+  "description": "React input field component for currency and numbers",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "NODE_ENV='prod' webpack --mode=production",
+    "start:dev": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "number",
+    "input"
+  ],
+  "author": "cchan.xzy",
+  "license": "MIT",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
+    "react-hot-loader": "^4.3.11",
+    "source-map-loader": "^0.2.4",
+    "typescript": "^3.0.3",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
+  },
+  "dependencies": {
+    "@types/react": "^16.4.14",
+    "@types/react-dom": "^16.0.7",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  }
+}
