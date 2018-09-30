@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const config = {
   entry: './src/index.ts',
   output: {
-      filename: 'bundle.js',
+      filename: 'index.js',
       path: __dirname + '/dist'
   },
   devtool: 'source-map',
