@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "NODE_ENV='prod' webpack --mode=production",
-    "start:dev": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
-    "test": "jest --coverage"
+    "start": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch"
   },
   "keywords": [
     "react",
@@ -46,7 +47,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",

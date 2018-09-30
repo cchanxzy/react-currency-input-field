@@ -1,13 +1,18 @@
 import { shallow } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 import CurrencyInput from '../../src/components/CurrencyInput';
 
 describe('<CurrencyInput /> component', () => {
-  test('Renders properly', () => {
-    const component = shallow(
-      <CurrencyInput compiler="TypeScript" framework="React" />,
+  test('Renders without error', () => {
+    const view = shallow(
+      <CurrencyInput
+        id="validationCustom01"
+        placeholder="£1,000"
+        className="form-control"
+        onChange={() => {}}
+      />
     );
-    const button = component.find('#settings__checkbox');
+    const component = view.find('#settings__checkbox');
     expect(component).toMatchSnapshot();
   });
 });

@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: './src/index.tsx',
+  entry: './src/index.ts',
   output: {
       filename: 'bundle.js',
       path: __dirname + '/dist'
@@ -34,10 +34,10 @@ if (process.env.NODE_ENV === 'prod') {
 
 if (process.env.NODE_ENV === 'dev') {
   console.log('Building for development');
+  config.entry = './src/example.tsx';
 
   config.plugins.push(new HtmlWebPackPlugin({
-    template: './src/index.html',
-    filename: './index.html'
+    template: './src/example.html'
   }));
 }
 

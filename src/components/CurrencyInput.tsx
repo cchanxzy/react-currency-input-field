@@ -11,7 +11,7 @@ interface IProps {
   className?: string;
   limit?: number;
   prefix?: string;
-  suffix?: string;
+  handleError?: () => void,
   onChange: (value: number) => void;
   placeholder?: string;
 }
@@ -39,14 +39,13 @@ export class CurrenyInput extends PureComponent<IProps, IState> {
     } = event;
 
     const {
-      prefix,
       onChange,
       limit,
+      prefix,
     } = this.props;
 
     let stringValue = value;
 
-    
     if (prefix) {
       stringValue = value.replace(prefix, '');
     }
@@ -55,13 +54,14 @@ export class CurrenyInput extends PureComponent<IProps, IState> {
       this.setState({
         value: '',
       });
-      this.props.onChange(0);
+      onChange(null);
       return false;
     }
 
     let intValue = parseInt(removeCommas(stringValue), 10);
-  
+
     const max = limit || 9999999999999;
+
     if (checkIsValidNumber(intValue, max)) {
       let setValue = addCommas(intValue);
 
@@ -69,19 +69,16 @@ export class CurrenyInput extends PureComponent<IProps, IState> {
         setValue = `${prefix}${setValue}`;
       }
 
-      if (this.props.suffix) {
-        setValue += this.props.suffix;
-      }
-
       this.setState({ value: setValue });
-      onChange(intValue);
     }
+    onChange(intValue);
   }
 
   render() {
     const {
       className,
       id,
+      handleError,
       placeholder,
     } = this.props;
 
