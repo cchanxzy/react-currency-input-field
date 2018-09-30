@@ -1,6 +1,6 @@
 {
   "name": "react-currency-input-field",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React input field component for currency and numbers",
   "main": "dist/index.js",
   "scripts": {
