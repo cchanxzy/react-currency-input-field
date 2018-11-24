@@ -1,6 +1,6 @@
 {
   "name": "react-currency-input-field",
-  "version": "0.0.4",
+  "version": "0.0.41",
   "description": "React input field component for currency and numbers",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/cchanxzy/React-Currency-Input-Field"
   },
-  "bugs" :{
+  "bugs": {
     "email": "cchan.xzy@gmail.com",
     "url": "https://github.com/cchanxzy/React-Currency-Input-Field/issues"
   },
