@@ -16,7 +16,7 @@ interface IState {
   value: string;
 }
 
-export class CurrenyInput extends PureComponent<IProps, IState> {
+export class CurrencyInput extends PureComponent<IProps, IState> {
   private constructor(props: IProps) {
     super(props);
 
@@ -82,4 +82,4 @@ export class CurrenyInput extends PureComponent<IProps, IState> {
   }
 }
 
-export default CurrenyInput;
+export default CurrencyInput;
