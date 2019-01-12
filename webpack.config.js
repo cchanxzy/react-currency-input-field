@@ -30,6 +30,10 @@ const config = {
 
 if (process.env.NODE_ENV === 'prod') {
   console.log('Building for production');
+  config.output.libraryTarget = 'commonjs2';
+  config.externals = {
+    react: 'commonjs react',
+  };
 }
 
 if (process.env.NODE_ENV === 'dev') {

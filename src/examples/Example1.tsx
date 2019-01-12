@@ -8,8 +8,8 @@ interface IState {
 }
 
 export class Example extends PureComponent<{}, IState> {
-  private constructor() {
-    super({});
+  private constructor(props: {}) {
+    super(props);
 
     this.state = {
       errorMessage: '',
