@@ -3,18 +3,18 @@ import { hot } from 'react-hot-loader';
 import CurrencyInput from '../components/CurrencyInput';
 
 interface IState {
-  errorMessage: string,
+  errorMessage: string;
   inputClass: string;
 }
 
 export class Example extends PureComponent<{}, IState> {
-  private constructor(){
+  private constructor() {
     super({});
 
     this.state = {
       errorMessage: '',
       inputClass: '',
-    }
+    };
 
     this.validateValue = this.validateValue.bind(this);
   }
@@ -42,20 +42,18 @@ export class Example extends PureComponent<{}, IState> {
   public render() {
     return (
       <form className="needs-validation">
-      <div className="form-row">
-        <div className="col-sm-12">
-          <label htmlFor="validationCustom01">Please input a value:</label>
-          <CurrencyInput
-            id="validationCustom01"
-            placeholder="$1999"
-            className={`form-control ${this.state.inputClass}`}
-            onChange={this.validateValue}
-            prefix={this.prefix}
-          />
-          <div className="invalid-feedback">
-            {this.state.errorMessage}
+        <div className="form-row">
+          <div className="col-sm-12">
+            <label htmlFor="validationCustom01">Please input a value:</label>
+            <CurrencyInput
+              id="validationCustom01"
+              placeholder="$1999"
+              className={`form-control ${this.state.inputClass}`}
+              onChange={this.validateValue}
+              prefix={this.prefix}
+            />
+            <div className="invalid-feedback">{this.state.errorMessage}</div>
           </div>
-        </div>
         </div>
       </form>
     );

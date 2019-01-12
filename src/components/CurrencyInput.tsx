@@ -1,17 +1,13 @@
 import React, { PureComponent } from 'react';
 
-import {
-  addCommas,
-  removeCommas,
-  checkIsValidNumber,
-} from './utilities';
+import { addCommas, removeCommas, checkIsValidNumber } from './utilities';
 
 interface IProps {
   id: string;
   className?: string;
   limit?: number;
   prefix?: string;
-  handleError?: () => void,
+  handleError?: () => void;
   onChange: (value: number) => void;
   placeholder?: string;
 }
@@ -33,16 +29,10 @@ export class CurrenyInput extends PureComponent<IProps, IState> {
 
   processChange(event: React.ChangeEvent<HTMLInputElement>) {
     const {
-      target: {
-        value,
-      }
+      target: { value },
     } = event;
 
-    const {
-      onChange,
-      limit,
-      prefix,
-    } = this.props;
+    const { onChange, limit, prefix } = this.props;
 
     let stringValue = value;
 
@@ -75,12 +65,7 @@ export class CurrenyInput extends PureComponent<IProps, IState> {
   }
 
   render() {
-    const {
-      className,
-      id,
-      handleError,
-      placeholder,
-    } = this.props;
+    const { className, id, handleError, placeholder } = this.props;
 
     const { value } = this.state;
 

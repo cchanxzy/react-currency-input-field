@@ -3,18 +3,18 @@ import { hot } from 'react-hot-loader';
 import CurrencyInput from '../components/CurrencyInput';
 
 interface IState {
-  errorMessage: string,
+  errorMessage: string;
   inputClass: string;
 }
 
 export class Example extends PureComponent<{}, IState> {
-  private constructor(){
+  private constructor() {
     super({});
 
     this.state = {
       errorMessage: '',
       inputClass: '',
-    }
+    };
 
     this.validateValue = this.validateValue.bind(this);
   }
@@ -30,7 +30,9 @@ export class Example extends PureComponent<{}, IState> {
       });
     } else if (value >= this.limit) {
       this.setState({
-        errorMessage: `Please enter a value equal or lower than ${this.prefix}${this.limit}`,
+        errorMessage: `Please enter a value equal or lower than ${this.prefix}${
+          this.limit
+        }`,
         inputClass: 'is-invalid',
       });
     } else if (value === null) {
@@ -47,21 +49,21 @@ export class Example extends PureComponent<{}, IState> {
   public render() {
     return (
       <form className="needs-validation">
-      <div className="form-row">
-        <div className="col-sm-12">
-          <label htmlFor="validationCustom01">Please enter a value (max £1,000)</label>
-          <CurrencyInput
-            id="validationCustom01"
-            placeholder="£1,000"
-            className={`form-control ${this.state.inputClass}`}
-            onChange={this.validateValue}
-            limit={this.limit}
-            prefix={this.prefix}
-          />
-          <div className="invalid-feedback">
-            {this.state.errorMessage}
+        <div className="form-row">
+          <div className="col-sm-12">
+            <label htmlFor="validationCustom01">
+              Please enter a value (max £1,000)
+            </label>
+            <CurrencyInput
+              id="validationCustom01"
+              placeholder="£1,000"
+              className={`form-control ${this.state.inputClass}`}
+              onChange={this.validateValue}
+              limit={this.limit}
+              prefix={this.prefix}
+            />
+            <div className="invalid-feedback">{this.state.errorMessage}</div>
           </div>
-        </div>
         </div>
       </form>
     );

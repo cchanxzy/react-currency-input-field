@@ -1,6 +1,7 @@
-export const addCommas = (value:number) => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const addCommas = (value: number) =>
+  value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-export const removeCommas = (value:string) => value.replace(/,/g, '');
+export const removeCommas = (value: string) => value.replace(/,/g, '');
 
 export const checkIsValidNumber = (input: number, limit: number) => {
   if (input === 0) {
@@ -11,5 +12,5 @@ export const checkIsValidNumber = (input: number, limit: number) => {
     return false;
   }
 
-  return (input <= limit);
+  return input <= limit;
 };
