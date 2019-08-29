@@ -7,7 +7,8 @@
     "build": "NODE_ENV='prod' webpack --mode=production",
     "start": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
     "test": "jest --coverage",
-    "test:watch": "jest --coverage --watch"
+    "test:watch": "jest --coverage --watch",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,8 @@
   "author": "cchan.xzy",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
     "@types/enzyme": "^3.1.14",
     "@types/jest": "^23.3.2",
     "@types/react": "^16.4.14",
@@ -34,10 +37,12 @@
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^3.0.4",
     "jest": "^25.0.0",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
     "source-map-loader": "^0.2.4",
+    "standard-version": "^7.0.0",
     "ts-jest": "^23.10.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
@@ -67,5 +72,15 @@
   },
   "dependencies": {
     "react": "^16.9.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
