@@ -1,9 +1,6 @@
-name: CI
+name: PR
 
-on:
-  push:
-    branches:
-      - master
+on: [pull_request]
 
 jobs:
   build:
@@ -19,9 +16,3 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
-      - name: Release
-        run: npm run release
-      - name: Publish
-        run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
-          npm publish
