@@ -22,9 +22,11 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git remote set-url origin https://github.com/cchanxzy:${secrets.GITHUB_TOKEN}/React-Currency-Input-Field.git
+          git remote set-url origin https://github.com/cchanxzy:$GITHUB_TOKEN/React-Currency-Input-Field.git
           npm run release
           git push --follow-tags origin HEAD
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release:
     needs: install-build-and-test
     runs-on: ubuntu-latest
