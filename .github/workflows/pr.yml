@@ -3,16 +3,16 @@ name: PR
 on: [pull_request]
 
 jobs:
-  build:
+  install-build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
-      - name: Dependencies
+      - name: Install dependencies
         run: |
           npm install
           npm install react
-      - name: Test
-        run: npm run test
-      - name: Build
+      - name: Build package
         run: npm run build
+      - name: Run tests
+        run: npm run test
