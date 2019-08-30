@@ -1,0 +1,38 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  install-build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install react
+      - name: Build package
+        run: npm run build
+      - name: Run tests
+        run: npm run test
+      - name: Prepare new release
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          npm run release
+  release:
+    needs: install-build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
