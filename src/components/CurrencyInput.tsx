@@ -1,85 +1,59 @@
-import React, { PureComponent } from 'react';
+import React, { FC, useState } from 'react';
 
-import { addCommas, removeCommas, checkIsValidNumber } from './utilities';
+import { addCommas, checkIsValidNumber, removeCommas } from './utilities';
 
 interface IProps {
   id: string;
   className?: string;
-  limit?: number;
-  prefix?: string;
-  handleError?: () => void;
-  onChange: (value: number) => void;
+  onChange: (value: number | null) => void;
   placeholder?: string;
+  prefix?: string;
 }
 
-interface IState {
-  value: string;
-}
+export const CurrencyInput: FC<IProps> = ({ id, className, onChange, placeholder, prefix }) => {
+  const [value, setValue] = useState('');
 
-export class CurrencyInput extends PureComponent<IProps, IState> {
-  private constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      value: '',
-    };
-
-    this.processChange = this.processChange.bind(this);
-  }
-
-  processChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const processChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value },
+      target: { value: eventVal },
     } = event;
 
-    const { onChange, limit, prefix } = this.props;
-
-    let stringValue = value;
+    let stringValue = eventVal;
 
     if (prefix) {
-      stringValue = value.replace(prefix, '');
+      stringValue = stringValue.replace(prefix, '');
     }
 
     if (stringValue === '' || stringValue === null) {
-      this.setState({
-        value: '',
-      });
       onChange(null);
-      return false;
+      return setValue('');
     }
 
-    let intValue = parseInt(removeCommas(stringValue), 10);
+    const intValue = parseInt(removeCommas(stringValue), 10);
 
-    const max = limit || 9999999999999;
-
-    if (checkIsValidNumber(intValue, max)) {
-      let setValue = addCommas(intValue);
+    if (checkIsValidNumber(intValue)) {
+      let newValue = addCommas(intValue);
 
       if (prefix) {
-        setValue = `${prefix}${setValue}`;
+        newValue = `${prefix}${newValue}`;
       }
 
-      this.setState({ value: setValue });
+      setValue(newValue);
     }
+
     onChange(intValue);
-  }
+  };
 
-  render() {
-    const { className, id, handleError, placeholder } = this.props;
-
-    const { value } = this.state;
-
-    return (
-      <input
-        type="string"
-        id={id}
-        className={className}
-        onChange={this.processChange}
-        placeholder={placeholder}
-        value={value}
-      />
-    );
-  }
-}
+  return (
+    <input
+      type="string"
+      id={id}
+      className={className}
+      onChange={processChange}
+      placeholder={placeholder}
+      value={value}
+    />
+  );
+};
 
 export default CurrencyInput;
