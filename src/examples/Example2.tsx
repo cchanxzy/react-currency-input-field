@@ -1,63 +1,39 @@
-import React, { PureComponent } from 'react';
+import React, { FC, useState } from 'react';
 import { hot } from 'react-hot-loader';
 import CurrencyInput from '../components/CurrencyInput';
 
-interface IState {
-  errorMessage: string;
-  inputClass: string;
-}
+export const Example2: FC = () => {
+  const [errorMessage, setErrorMessage] = useState();
+  const [className, setClassName] = useState();
 
-export class Example extends PureComponent<{}, IState> {
-  private constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      errorMessage: '',
-      inputClass: '',
-    };
-
-    this.validateValue = this.validateValue.bind(this);
-  }
-
-  private prefix = '$';
-  private suffix = '.00';
-
-  private validateValue(value: number) {
-    if (Number.isNaN(value)) {
-      this.setState({
-        errorMessage: 'Please enter a valid number',
-        inputClass: 'is-invalid',
-      });
-    } else if (value === null) {
-      this.setState({
-        inputClass: '',
-      });
+  const validateValue = (value: number | null) => {
+    if (value === null) {
+      setClassName('');
+    } else if (Number.isNaN(value)) {
+      setErrorMessage('Please enter a valid number');
+      setClassName('is-invalid');
     } else {
-      this.setState({
-        inputClass: 'is-valid',
-      });
+      setClassName('is-valid');
     }
-  }
+  };
 
-  public render() {
-    return (
-      <form className="needs-validation">
-        <div className="form-row">
-          <div className="col-sm-12">
-            <label htmlFor="validationCustom01">Please input a value:</label>
-            <CurrencyInput
-              id="validationCustom01"
-              placeholder="$1999"
-              className={`form-control ${this.state.inputClass}`}
-              onChange={this.validateValue}
-              prefix={this.prefix}
-            />
-            <div className="invalid-feedback">{this.state.errorMessage}</div>
-          </div>
+  return (
+    <form className="needs-validation">
+      <div className="form-row">
+        <div className="col-sm-12">
+          <label htmlFor="validationCustom01">Please input a value:</label>
+          <CurrencyInput
+            id="validationCustom01"
+            placeholder="$1999"
+            className={`form-control ${className}`}
+            onChange={validateValue}
+            prefix={'$'}
+          />
+          <div className="invalid-feedback">{errorMessage}</div>
         </div>
-      </form>
-    );
-  }
-}
+      </div>
+    </form>
+  );
+};
 
-export default hot(module)(Example);
+export default hot(module)(Example2);

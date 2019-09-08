@@ -16,3 +16,5 @@ jobs:
         run: npm run build
       - name: Run tests
         run: npm run test
+      - name: Prepare new release
+        run: npm run release -- --dry-run
