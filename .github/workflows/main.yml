@@ -18,14 +18,20 @@ jobs:
         run: npm run build
       - name: Run tests
         run: npm run test
-      - name: Prepare new release
+      - name: Configure CI Git User
         run: |
+          git remote rm origin
+          git remote add origin "https://$USER_NAME:$GITHUB_PERSONAL_ACCESS_TOKEN@github.com/cchanxzy/React-Currency-Input-Field.git"
+          git fetch origin
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
+        env:
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+      - name: Prepare new release
+        run: |
           npm run release
-          git push --follow-tags origin HEAD
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push --follow-tags origin HEAD:master
   release:
     needs: install-build-and-test
     runs-on: ubuntu-latest
