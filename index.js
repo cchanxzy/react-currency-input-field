@@ -172,29 +172,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var CurrencyInput = function (_a) {
-    var id = _a.id, className = _a.className, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix;
-    var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''), value = _b[0], setValue = _b[1];
+    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix;
+    var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultValue ? Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["formatValue"])(String(defaultValue), prefix) : ''), stateValue = _d[0], setStateValue = _d[1];
+    var onFocus = function () { return (stateValue ? stateValue.length : 0); };
     var processChange = function (event) {
-        var eventVal = event.target.value;
-        var stringValue = eventVal;
-        if (prefix) {
-            stringValue = stringValue.replace(prefix, '');
-        }
-        if (stringValue === '' || stringValue === null) {
+        var value = event.target.value;
+        var valueOnly = Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["cleanValue"])(value, allowDecimals, decimalsLimit, prefix);
+        if (!valueOnly) {
             onChange(null);
-            return setValue('');
+            return setStateValue('');
         }
-        var intValue = parseInt(Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["removeCommas"])(stringValue), 10);
-        if (Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["checkIsValidNumber"])(intValue)) {
-            var newValue = Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["addCommas"])(intValue);
-            if (prefix) {
-                newValue = "" + prefix + newValue;
-            }
-            setValue(newValue);
+        if (Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["checkIsValidNumber"])(valueOnly)) {
+            setStateValue(Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["formatValue"])(valueOnly, prefix));
         }
-        onChange(intValue);
+        onChange(Number(valueOnly));
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", { type: "string", id: id, className: className, onChange: processChange, placeholder: placeholder, value: value }));
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", { type: "string", id: id, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (CurrencyInput);
 
@@ -205,7 +198,7 @@ var CurrencyInput = function (_a) {
 /*!*************************************!*\
   !*** ./src/components/utilities.ts ***!
   \*************************************/
-/*! exports provided: addCommas, removeCommas, checkIsValidNumber */
+/*! exports provided: addCommas, removeCommas, checkIsValidNumber, cleanValue, formatValue */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -213,13 +206,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCommas", function() { return addCommas; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeCommas", function() { return removeCommas; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkIsValidNumber", function() { return checkIsValidNumber; });
-var addCommas = function (value) { return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cleanValue", function() { return cleanValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatValue", function() { return formatValue; });
+var addCommas = function (value) { return value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
 var removeCommas = function (value) { return value.replace(/,/g, ''); };
 var checkIsValidNumber = function (input) {
-    if (input < 0 || isNaN(input)) {
+    if (Number(input) < 0 || isNaN(Number(input))) {
         return false;
     }
     return true;
+};
+/**
+ * Remove prefix, commas and extra decimals from value
+ */
+var cleanValue = function (value, allowDecimals, decimalsLimit, prefix) {
+    var withoutPrefix = prefix ? value.replace(prefix, '') : value;
+    var withoutCommas = removeCommas(withoutPrefix);
+    if (withoutCommas.includes('.')) {
+        var _a = withoutCommas.split('.'), int = _a[0], decimals = _a[1];
+        var includeDecimals = allowDecimals
+            ? "." + (decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals)
+            : '';
+        return "" + int + includeDecimals;
+    }
+    return withoutCommas;
+};
+/**
+ * Format value with commas and prefix
+ */
+var formatValue = function (value, prefix) {
+    var _a = value.split('.'), int = _a[0], decimals = _a[1];
+    var includePrefix = prefix ? prefix : '';
+    var includeDecimals = value.includes('.') ? "." + decimals : '';
+    return "" + includePrefix + addCommas(int) + includeDecimals;
 };
 
 
@@ -290,7 +309,7 @@ var Example1 = function () {
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "form-row" },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "col-sm-12" },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", { htmlFor: "validationCustom01" }, "Please enter a value (max \u00A31,000)"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CurrencyInput__WEBPACK_IMPORTED_MODULE_1__["default"], { id: "validationCustom01", placeholder: "\u00A31,000", className: "form-control " + className, onChange: validateValue, prefix: prefix }),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CurrencyInput__WEBPACK_IMPORTED_MODULE_1__["default"], { id: "validationCustom01", defaultValue: 999.99, className: "form-control " + className, onChange: validateValue, prefix: prefix }),
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "invalid-feedback" }, errorMessage)))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Example1);
@@ -335,7 +354,7 @@ var Example2 = function () {
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "form-row" },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "col-sm-12" },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", { htmlFor: "validationCustom01" }, "Please input a value:"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CurrencyInput__WEBPACK_IMPORTED_MODULE_2__["default"], { id: "validationCustom01", placeholder: "$1999", className: "form-control " + className, onChange: validateValue, prefix: '$' }),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CurrencyInput__WEBPACK_IMPORTED_MODULE_2__["default"], { id: "validationCustom01", placeholder: "$1,234,567", allowDecimals: false, className: "form-control " + className, onChange: validateValue, prefix: '$' }),
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "invalid-feedback" }, errorMessage)))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_hot_loader__WEBPACK_IMPORTED_MODULE_1__["hot"])(module)(Example2));
