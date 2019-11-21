@@ -29,7 +29,7 @@ export const Example1: FC = () => {
           <label htmlFor="validationCustom01">Please enter a value (max £1,000)</label>
           <CurrencyInput
             id="validationCustom01"
-            placeholder="£1,000"
+            defaultValue={999.99}
             className={`form-control ${className}`}
             onChange={validateValue}
             prefix={prefix}

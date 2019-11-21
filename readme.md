@@ -1,13 +1,15 @@
 ## React Currency Input Field Component
 
-![npm](https://img.shields.io/npm/v/react-currency-input-field) ![NPM](https://img.shields.io/npm/l/react-currency-input-field)
+[![npm](https://img.shields.io/npm/v/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field)
 
 Features:
 
 - Only allows numbers
+- Can handle decimals
+- Can add prefix eg. £ or \$
 - Automatically inserts commas
 - Lightweight and simple
-- Works with Bootstrap styling
+- Works well with Bootstrap styling
 
 [Demo](https://cchanxzy.github.io/React-Currency-Input-Field)
 
@@ -29,6 +31,9 @@ import CurrencyInput from 'react-currency-input-field'
 <CurrencyInput
   id="input-example"
   placeholder="£1,000"
+  defaultValue={1000}
+  allowDecimals={true}
+  decimalsLimit={2}
   onChange={() => {}}
 />
 ```

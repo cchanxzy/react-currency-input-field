@@ -1,47 +1,40 @@
 import React, { FC, useState } from 'react';
+import { ICurrencyInput } from './types';
+import { checkIsValidNumber, cleanValue, formatValue } from './utilities';
 
-import { addCommas, checkIsValidNumber, removeCommas } from './utilities';
+export const CurrencyInput: FC<ICurrencyInput> = ({
+  allowDecimals = true,
+  id,
+  className,
+  decimalsLimit = 2,
+  defaultValue,
+  onChange,
+  placeholder,
+  prefix,
+}) => {
+  const [stateValue, setStateValue] = useState(
+    defaultValue ? formatValue(String(defaultValue), prefix) : ''
+  );
 
-interface IProps {
-  id: string;
-  className?: string;
-  onChange: (value: number | null) => void;
-  placeholder?: string;
-  prefix?: string;
-}
-
-export const CurrencyInput: FC<IProps> = ({ id, className, onChange, placeholder, prefix }) => {
-  const [value, setValue] = useState('');
+  const onFocus = () => (stateValue ? stateValue.length : 0);
 
   const processChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value: eventVal },
+      target: { value },
     } = event;
 
-    let stringValue = eventVal;
+    const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
 
-    if (prefix) {
-      stringValue = stringValue.replace(prefix, '');
-    }
-
-    if (stringValue === '' || stringValue === null) {
+    if (!valueOnly) {
       onChange(null);
-      return setValue('');
+      return setStateValue('');
     }
 
-    const intValue = parseInt(removeCommas(stringValue), 10);
-
-    if (checkIsValidNumber(intValue)) {
-      let newValue = addCommas(intValue);
-
-      if (prefix) {
-        newValue = `${prefix}${newValue}`;
-      }
-
-      setValue(newValue);
+    if (checkIsValidNumber(valueOnly)) {
+      setStateValue(formatValue(valueOnly, prefix));
     }
 
-    onChange(intValue);
+    onChange(Number(valueOnly));
   };
 
   return (
@@ -50,8 +43,9 @@ export const CurrencyInput: FC<IProps> = ({ id, className, onChange, placeholder
       id={id}
       className={className}
       onChange={processChange}
+      onFocus={onFocus}
       placeholder={placeholder}
-      value={value}
+      value={stateValue}
     />
   );
 };

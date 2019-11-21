@@ -24,7 +24,8 @@ export const Example2: FC = () => {
           <label htmlFor="validationCustom01">Please input a value:</label>
           <CurrencyInput
             id="validationCustom01"
-            placeholder="$1999"
+            placeholder="$1,234,567"
+            allowDecimals={false}
             className={`form-control ${className}`}
             onChange={validateValue}
             prefix={'$'}
