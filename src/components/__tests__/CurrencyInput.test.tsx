@@ -39,11 +39,26 @@ describe('<CurrencyInput /> component', () => {
     expect(input.prop('className')).toBe(className);
   });
 
+  it('should go to end of string on focus', () => {
+    const view = shallow(<CurrencyInput id={id} defaultValue={123} onChange={jest.fn()} />);
+    view.find(`#${id}`).simulate('focus');
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('123');
+  });
+
+  it('should go to beginning on focus if no value', () => {
+    const view = shallow(<CurrencyInput id={id} onChange={jest.fn()} />);
+    view.find(`#${id}`).simulate('focus');
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+  });
+
   it('should allow value change with number', () => {
     const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
-    const input = view.find(`#${id}`);
-    input.simulate('change', { target: { value: '100' } });
+    view.find(`#${id}`).simulate('change', { target: { value: '100' } });
 
     expect(onChangeSpy).toBeCalledWith(100);
   });
@@ -51,19 +66,21 @@ describe('<CurrencyInput /> component', () => {
   it('should not allow string value change', () => {
     const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
-    const input = view.find(`#${id}`);
-    input.simulate('change', { target: { value: 'aakoa' } });
-
+    view.find(`#${id}`).simulate('change', { target: { value: 'aakoa' } });
     expect(onChangeSpy).toBeCalledWith(NaN);
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
   });
 
   it('should allow empty value', () => {
     const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
-    const input = view.find(`#${id}`);
-    input.simulate('change', { target: { value: '' } });
-
+    view.find(`#${id}`).simulate('change', { target: { value: '' } });
     expect(onChangeSpy).toBeCalledWith(null);
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
   });
 
   describe('decimals', () => {
@@ -72,10 +89,11 @@ describe('<CurrencyInput /> component', () => {
       const view = shallow(
         <CurrencyInput allowDecimals={true} id={id} prefix="£" onChange={onChangeSpy} />
       );
-      const input = view.find(`#${id}`);
-      input.simulate('change', { target: { value: '£1,234.56' } });
-
+      view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56' } });
       expect(onChangeSpy).toBeCalledWith(1234.56);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.56');
     });
 
     it('should disallow value with decimals if allowDecimals is false', () => {
@@ -83,10 +101,11 @@ describe('<CurrencyInput /> component', () => {
       const view = shallow(
         <CurrencyInput allowDecimals={false} id={id} prefix="£" onChange={onChangeSpy} />
       );
-      const input = view.find(`#${id}`);
-      input.simulate('change', { target: { value: '£1,234.56' } });
-
+      view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56' } });
       expect(onChangeSpy).toBeCalledWith(1234);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234');
     });
 
     it('should limit decimals to decimalsLimit length', () => {
@@ -94,10 +113,11 @@ describe('<CurrencyInput /> component', () => {
       const view = shallow(
         <CurrencyInput id={id} decimalsLimit={3} prefix="£" onChange={onChangeSpy} />
       );
-      const input = view.find(`#${id}`);
-      input.simulate('change', { target: { value: '£1,234.56789' } });
-
+      view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56789' } });
       expect(onChangeSpy).toBeCalledWith(1234.567);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.567');
     });
   });
 });
