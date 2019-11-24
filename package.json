@@ -9,9 +9,10 @@
     "start": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "release": "standard-version",
-    "predeploy": "NODE_ENV='dev' webpack --mode=development",
-    "deploy": "gh-pages -d dist"
+    "gh-predeploy": "NODE_ENV='dev' webpack --mode=development",
+    "gh-deploy": "gh-pages -d dist",
+    "ci": "yarn && yarn build",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -24,14 +25,18 @@
   "keywords": [
     "react",
     "component",
+    "currency",
+    "form",
+    "field",
     "number",
     "input"
   ],
-  "author": "cchan.xzy",
+  "author": "cchanxzy",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
+    "@semantic-release/git": "^7.0.18",
     "@types/enzyme": "^3.1.14",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.4.14",
@@ -47,8 +52,8 @@
     "react": "^16.9.0",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
+    "semantic-release": "^15.13.31",
     "source-map-loader": "^0.2.4",
-    "standard-version": "^7.0.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
