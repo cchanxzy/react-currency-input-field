@@ -36,7 +36,7 @@ describe('checkIsValidNumber', () => {
   });
 });
 
-describe('formatValue', () => {
+describe('cleanValue', () => {
   it('should remove commas in string', () => {
     const value = cleanValue('1,000,000', true, 2);
     expect(value).toEqual('1000000');
@@ -57,13 +57,18 @@ describe('formatValue', () => {
     expect(value).toEqual('100');
   });
 
+  it('should include decimals if allowed', () => {
+    const value = cleanValue('100.123', true, 0);
+    expect(value).toEqual('100.123');
+  });
+
   it('should format value', () => {
     const value = cleanValue('£1,234,567.89', true, 2, '£');
     expect(value).toEqual('1234567.89');
   });
 });
 
-describe('postFormat', () => {
+describe('formatValue', () => {
   it('should add commas', () => {
     const value = formatValue('1234567');
     expect(value).toEqual('1,234,567');
