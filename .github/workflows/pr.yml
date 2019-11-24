@@ -25,4 +25,4 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: yarn codecov
       - name: Prepare new release
-        run: yarn semantic-release -- --dry-run
+        run: yarn semantic-release --dry-run
