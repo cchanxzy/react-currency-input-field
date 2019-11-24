@@ -17,11 +17,11 @@ Features:
 
 ### Install
 
-`npm install --save-dev react-currency-input-field`
+`npm install react-currency-input-field`
 
 or
 
-`yarn add -D react-currency-input-field`
+`yarn add react-currency-input-field`
 
 ### Usage
 
