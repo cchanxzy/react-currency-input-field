@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { ICurrencyInput } from './types';
+import { CurrencyInputProps } from './types';
 import { checkIsValidNumber, cleanValue, formatValue } from './utilities';
 
-export const CurrencyInput: FC<ICurrencyInput> = ({
+export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
   id,
   className,
@@ -11,14 +11,14 @@ export const CurrencyInput: FC<ICurrencyInput> = ({
   onChange,
   placeholder,
   prefix,
-}) => {
+}: CurrencyInputProps) => {
   const [stateValue, setStateValue] = useState(
     defaultValue ? formatValue(String(defaultValue), prefix) : ''
   );
 
-  const onFocus = () => (stateValue ? stateValue.length : 0);
+  const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
-  const processChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const processChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { value },
     } = event;

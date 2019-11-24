@@ -1,8 +1,8 @@
-export const addCommas = (value: string) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const addCommas = (value: string): string => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 export const removeCommas = (value: string): string => value.replace(/,/g, '');
 
-export const checkIsValidNumber = (input: string) => {
+export const checkIsValidNumber = (input: string): boolean => {
   if (Number(input) < 0 || isNaN(Number(input))) {
     return false;
   }
@@ -18,7 +18,7 @@ export const cleanValue = (
   allowDecimals: boolean,
   decimalsLimit: number,
   prefix?: string
-) => {
+): string => {
   const withoutPrefix = prefix ? value.replace(prefix, '') : value;
   const withoutCommas = removeCommas(withoutPrefix);
 
@@ -37,7 +37,7 @@ export const cleanValue = (
 /**
  * Format value with commas and prefix
  */
-export const formatValue = (value: string, prefix?: string) => {
+export const formatValue = (value: string, prefix?: string): string => {
   const [int, decimals] = value.split('.');
   const includePrefix = prefix ? prefix : '';
   const includeDecimals = value.includes('.') ? `.${decimals}` : '';

@@ -31,7 +31,7 @@ describe('checkIsValidNumber', () => {
   });
 
   it('should return false if value is not a number', () => {
-    const check = checkIsValidNumber('abc' as any);
+    const check = checkIsValidNumber('abc');
     expect(check).toBe(false);
   });
 });
