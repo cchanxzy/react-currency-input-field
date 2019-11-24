@@ -1,4 +1,4 @@
-export interface ICurrencyInput {
+export interface CurrencyInputProps {
   /**
    * Allow decimals.
    * Default = true

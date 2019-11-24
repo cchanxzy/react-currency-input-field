@@ -8,7 +8,7 @@ export const Example1: FC = () => {
   const [errorMessage, setErrorMessage] = useState();
   const [className, setClassName] = useState();
 
-  const validateValue = (value: number | null) => {
+  const validateValue = (value: number | null): void => {
     if (value === null) {
       setClassName('');
     } else if (Number.isNaN(value)) {
