@@ -6,7 +6,7 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -18,6 +18,12 @@ jobs:
         run: yarn
       - name: Build package
         run: yarn build
+      - name: Run tests
+        run: yarn test
+      - name: Code coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: yarn codecov
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -4,16 +4,23 @@ on: [pull_request]
 
 jobs:
   install-build-and-test:
+    name: Install, build and test PR
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
       - name: Install dependencies
-        run: |
-          yarn
+        run: yarn
       - name: Build package
         run: yarn build
       - name: Run tests
         run: yarn test
+      - name: Code coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: yarn codecov
       - name: Prepare new release
         run: yarn semantic-release -- --dry-run

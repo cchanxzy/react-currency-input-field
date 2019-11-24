@@ -3,7 +3,7 @@
   "version": "0.3.1",
   "description": "React input field component for currency and numbers",
   "main": "dist/index.js",
-  "homepage": "https://cchanxzy.github.io/React-Currency-Input-Field",
+  "homepage": "https://cchanxzy.github.io/react-currency-input-field",
   "scripts": {
     "build": "NODE_ENV='prod' webpack --mode=production",
     "start": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
@@ -12,15 +12,16 @@
     "gh-predeploy": "NODE_ENV='dev' webpack --mode=development",
     "gh-deploy": "gh-pages -d dist",
     "ci": "yarn && yarn build",
+    "codecov": "codecov",
     "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cchanxzy/React-Currency-Input-Field"
+    "url": "https://github.com/cchanxzy/react-currency-input-field"
   },
   "bugs": {
     "email": "cchan.xzy@gmail.com",
-    "url": "https://github.com/cchanxzy/React-Currency-Input-Field/issues"
+    "url": "https://github.com/cchanxzy/react-currency-input-field/issues"
   },
   "keywords": [
     "react",
@@ -42,6 +43,7 @@
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
     "awesome-typescript-loader": "^5.2.1",
+    "codecov": "^3.6.1",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "gh-pages": "^2.1.1",
@@ -71,6 +73,7 @@
   "dependencies": {},
   "jest": {
     "verbose": true,
+    "collectCoverage": true,
     "setupFilesAfterEnv": [
       "./.enzymerc.js"
     ],
