@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/cchanxzy/react-currency-input-field/compare/v0.5.0...v0.5.1) (2019-11-30)
+
+
+### Bug Fixes
+
+* modify typescript config to correctly output types ([#19](https://github.com/cchanxzy/react-currency-input-field/issues/19)) ([392082e](https://github.com/cchanxzy/react-currency-input-field/commit/392082e7f59e202c97345d7e8d2a552adebced16))
+
 # [0.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.4.1...v0.5.0) (2019-11-30)
 
 
