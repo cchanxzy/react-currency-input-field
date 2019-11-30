@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { CurrencyInputProps } from './types';
+import { CurrencyInputProps } from './CurrencyInputProps';
 import { checkIsValidNumber, cleanValue, formatValue } from './utilities';
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({

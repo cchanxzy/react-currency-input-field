@@ -1,4 +1,4 @@
-export interface CurrencyInputProps {
+export type CurrencyInputProps = {
   /**
    * Allow decimals.
    * Default = true
@@ -45,4 +45,4 @@ export interface CurrencyInputProps {
    * Include a prefix eg. £
    */
   prefix?: string;
-}
+};
