@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.4.1...v0.5.0) (2019-11-30)
+
+
+### Features
+
+* allow name to be added to prop and onChange callback ([#17](https://github.com/cchanxzy/react-currency-input-field/issues/17)) ([25ae63c](https://github.com/cchanxzy/react-currency-input-field/commit/25ae63c21ec50d89ece9f9f2318584e2aa5cde70))
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
