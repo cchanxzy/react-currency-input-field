@@ -3,8 +3,8 @@ import { hot } from 'react-hot-loader';
 import CurrencyInput from '../components/CurrencyInput';
 
 export const Example2: FC = () => {
-  const [errorMessage, setErrorMessage] = useState();
-  const [className, setClassName] = useState();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [className, setClassName] = useState('');
 
   const validateValue = (value: number | null): void => {
     if (value === null) {

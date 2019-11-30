@@ -30,11 +30,12 @@ import CurrencyInput from 'react-currency-input-field'
 
 <CurrencyInput
   id="input-example"
+  name="input-name"
   placeholder="£1,000"
   defaultValue={1000}
   allowDecimals={true}
   decimalsLimit={2}
-  onChange={() => {}}
+  onChange={(value, name) => {process(value, name)}}
 />
 ```
 

@@ -11,6 +11,11 @@ export interface CurrencyInputProps {
   id: string;
 
   /**
+   * Component name
+   */
+  name?: string;
+
+  /**
    * Class names
    */
   className?: string;
@@ -29,7 +34,7 @@ export interface CurrencyInputProps {
   /**
    * Handle change in value
    */
-  onChange: (value: number | null) => void;
+  onChange: (value: number | null, name?: string) => void;
 
   /**
    * Placeholder

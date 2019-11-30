@@ -5,6 +5,7 @@ import { checkIsValidNumber, cleanValue, formatValue } from './utilities';
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
   id,
+  name,
   className,
   decimalsLimit = 2,
   defaultValue,
@@ -26,7 +27,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
 
     if (!valueOnly) {
-      onChange(null);
+      onChange(null, name);
       return setStateValue('');
     }
 
@@ -34,18 +35,20 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       setStateValue(formatValue(valueOnly, prefix));
     }
 
-    onChange(Number(valueOnly));
+    onChange(Number(valueOnly), name);
   };
 
   return (
     <input
       type="string"
       id={id}
+      name={name}
       className={className}
       onChange={processChange}
       onFocus={onFocus}
       placeholder={placeholder}
       value={stateValue}
+      pattern="[0-9]*"
     />
   );
 };
