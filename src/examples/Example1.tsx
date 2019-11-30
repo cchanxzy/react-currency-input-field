@@ -5,8 +5,8 @@ export const Example1: FC = () => {
   const limit = 1000;
   const prefix = '£';
 
-  const [errorMessage, setErrorMessage] = useState();
-  const [className, setClassName] = useState();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [className, setClassName] = useState('');
 
   const validateValue = (value: number | null): void => {
     if (value === null) {
@@ -29,6 +29,7 @@ export const Example1: FC = () => {
           <label htmlFor="validationCustom01">Please enter a value (max £1,000)</label>
           <CurrencyInput
             id="validationCustom01"
+            name="input-1"
             defaultValue={999.99}
             className={`form-control ${className}`}
             onChange={validateValue}
