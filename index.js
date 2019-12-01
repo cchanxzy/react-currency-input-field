@@ -189,7 +189,7 @@ exports.CurrencyInput = function (_a) {
         }
         onChange(Number(valueOnly), name);
     };
-    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([\\.,][0-9]+)?" }));
+    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([,\\.][0-9]+)?", step: "any" }));
 };
 exports.default = exports.CurrencyInput;
 
