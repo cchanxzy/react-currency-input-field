@@ -1,3 +1,11 @@
+## [0.5.2](https://github.com/cchanxzy/react-currency-input-field/compare/v0.5.1...v0.5.2) (2019-12-01)
+
+
+### Bug Fixes
+
+* cursor jumping when modifying value ([db449d6](https://github.com/cchanxzy/react-currency-input-field/commit/db449d64dcaf1ba46c40d9cae7607bc229319d21))
+* react is specified as external, and pattern allows float on mobile ([c011361](https://github.com/cchanxzy/react-currency-input-field/commit/c0113616adf83eb4d6edf3b3e9a2250a3ad37fc1))
+
 ## [0.5.1](https://github.com/cchanxzy/react-currency-input-field/compare/v0.5.0...v0.5.1) (2019-11-30)
 
 
