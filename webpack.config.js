@@ -18,7 +18,7 @@ const config = {
     ],
   },
   externals: {
-    react: 'react',
+    react: 'React',
     'react-dom': 'ReactDOM',
   },
   plugins: [

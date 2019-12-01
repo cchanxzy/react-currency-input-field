@@ -48,7 +48,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       onFocus={onFocus}
       placeholder={placeholder}
       value={stateValue}
-      pattern="[0-9]*"
+      pattern="[0-9]+([\.,][0-9]+)?"
     />
   );
 };
