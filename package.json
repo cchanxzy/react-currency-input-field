@@ -80,7 +80,7 @@
   },
   "dependencies": {},
   "jest": {
-    "verbose": true,
+    "verbose": false,
     "collectCoverage": true,
     "setupFilesAfterEnv": [
       "./.enzymerc.js"
