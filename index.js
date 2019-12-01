@@ -121,16 +121,17 @@ if (false) {} else if (false) {} else if (typeof window === 'undefined') {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/harmony-module.js":
-/*!*******************************************!*\
-  !*** (webpack)/buildin/harmony-module.js ***!
-  \*******************************************/
+/***/ "./node_modules/webpack/buildin/module.js":
+/*!***********************************!*\
+  !*** (webpack)/buildin/module.js ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = function(originalModule) {
-	if (!originalModule.webpackPolyfill) {
-		var module = Object.create(originalModule);
+module.exports = function(module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
 		// module.parent = undefined by default
 		if (!module.children) module.children = [];
 		Object.defineProperty(module, "loaded", {
@@ -145,9 +146,6 @@ module.exports = function(originalModule) {
 				return module.i;
 			}
 		});
-		Object.defineProperty(module, "exports", {
-			enumerable: true
-		});
 		module.webpackPolyfill = 1;
 	}
 	return module;
@@ -160,36 +158,40 @@ module.exports = function(originalModule) {
 /*!******************************************!*\
   !*** ./src/components/CurrencyInput.tsx ***!
   \******************************************/
-/*! exports provided: CurrencyInput, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrencyInput", function() { return CurrencyInput; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utilities */ "./src/components/utilities.ts");
 
-
-var CurrencyInput = function (_a) {
-    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix;
-    var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultValue ? Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["formatValue"])(String(defaultValue), prefix) : ''), stateValue = _d[0], setStateValue = _d[1];
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "react"));
+var utilities_1 = __webpack_require__(/*! ./utilities */ "./src/components/utilities.ts");
+exports.CurrencyInput = function (_a) {
+    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, name = _a.name, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix;
+    var _d = react_1.useState(defaultValue ? utilities_1.formatValue(String(defaultValue), prefix) : ''), stateValue = _d[0], setStateValue = _d[1];
     var onFocus = function () { return (stateValue ? stateValue.length : 0); };
     var processChange = function (event) {
         var value = event.target.value;
-        var valueOnly = Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["cleanValue"])(value, allowDecimals, decimalsLimit, prefix);
+        var valueOnly = utilities_1.cleanValue(value, allowDecimals, decimalsLimit, prefix);
         if (!valueOnly) {
-            onChange(null);
+            onChange(null, name);
             return setStateValue('');
         }
-        if (Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["checkIsValidNumber"])(valueOnly)) {
-            setStateValue(Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["formatValue"])(valueOnly, prefix));
+        if (utilities_1.checkIsValidNumber(valueOnly)) {
+            setStateValue(utilities_1.formatValue(valueOnly, prefix));
         }
-        onChange(Number(valueOnly));
+        onChange(Number(valueOnly), name);
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", { type: "string", id: id, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue }));
+    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue, pattern: "[0-9]*" }));
 };
-/* harmony default export */ __webpack_exports__["default"] = (CurrencyInput);
+exports.default = exports.CurrencyInput;
 
 
 /***/ }),
@@ -198,19 +200,15 @@ var CurrencyInput = function (_a) {
 /*!*************************************!*\
   !*** ./src/components/utilities.ts ***!
   \*************************************/
-/*! exports provided: addCommas, removeCommas, checkIsValidNumber, cleanValue, formatValue */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCommas", function() { return addCommas; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeCommas", function() { return removeCommas; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkIsValidNumber", function() { return checkIsValidNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cleanValue", function() { return cleanValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatValue", function() { return formatValue; });
-var addCommas = function (value) { return value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
-var removeCommas = function (value) { return value.replace(/,/g, ''); };
-var checkIsValidNumber = function (input) {
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addCommas = function (value) { return value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+exports.removeCommas = function (value) { return value.replace(/,/g, ''); };
+exports.checkIsValidNumber = function (input) {
     if (Number(input) < 0 || isNaN(Number(input))) {
         return false;
     }
@@ -219,9 +217,9 @@ var checkIsValidNumber = function (input) {
 /**
  * Remove prefix, commas and extra decimals from value
  */
-var cleanValue = function (value, allowDecimals, decimalsLimit, prefix) {
+exports.cleanValue = function (value, allowDecimals, decimalsLimit, prefix) {
     var withoutPrefix = prefix ? value.replace(prefix, '') : value;
-    var withoutCommas = removeCommas(withoutPrefix);
+    var withoutCommas = exports.removeCommas(withoutPrefix);
     if (withoutCommas.includes('.')) {
         var _a = withoutCommas.split('.'), int = _a[0], decimals = _a[1];
         var includeDecimals = allowDecimals
@@ -234,11 +232,11 @@ var cleanValue = function (value, allowDecimals, decimalsLimit, prefix) {
 /**
  * Format value with commas and prefix
  */
-var formatValue = function (value, prefix) {
+exports.formatValue = function (value, prefix) {
     var _a = value.split('.'), int = _a[0], decimals = _a[1];
     var includePrefix = prefix ? prefix : '';
     var includeDecimals = value.includes('.') ? "." + decimals : '';
-    return "" + includePrefix + addCommas(int) + includeDecimals;
+    return "" + includePrefix + exports.addCommas(int) + includeDecimals;
 };
 
 
@@ -248,23 +246,21 @@ var formatValue = function (value, prefix) {
 /*!*************************!*\
   !*** ./src/example.tsx ***!
   \*************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _examples_Example1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./examples/Example1 */ "./src/examples/Example1.tsx");
-/* harmony import */ var _examples_Example2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./examples/Example2 */ "./src/examples/Example2.tsx");
 
-
-
-
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_examples_Example1__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById('example-1'));
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_examples_Example2__WEBPACK_IMPORTED_MODULE_3__["default"], null), document.getElementById('example-2'));
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
+var react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "react-dom"));
+var Example1_1 = __importDefault(__webpack_require__(/*! ./examples/Example1 */ "./src/examples/Example1.tsx"));
+var Example2_1 = __importDefault(__webpack_require__(/*! ./examples/Example2 */ "./src/examples/Example2.tsx"));
+react_dom_1.default.render(react_1.default.createElement(Example1_1.default, null), document.getElementById('example-1'));
+react_dom_1.default.render(react_1.default.createElement(Example2_1.default, null), document.getElementById('example-2'));
 
 
 /***/ }),
@@ -273,22 +269,29 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 /*!***********************************!*\
   !*** ./src/examples/Example1.tsx ***!
   \***********************************/
-/*! exports provided: Example1, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Example1", function() { return Example1; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_CurrencyInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/CurrencyInput */ "./src/components/CurrencyInput.tsx");
 
-
-var Example1 = function () {
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "react"));
+var CurrencyInput_1 = __importDefault(__webpack_require__(/*! ../components/CurrencyInput */ "./src/components/CurrencyInput.tsx"));
+exports.Example1 = function () {
     var limit = 1000;
     var prefix = '£';
-    var _a = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(), errorMessage = _a[0], setErrorMessage = _a[1];
-    var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(), className = _b[0], setClassName = _b[1];
+    var _a = react_1.useState(''), errorMessage = _a[0], setErrorMessage = _a[1];
+    var _b = react_1.useState(''), className = _b[0], setClassName = _b[1];
     var validateValue = function (value) {
         if (value === null) {
             setClassName('');
@@ -305,14 +308,14 @@ var Example1 = function () {
             setClassName('is-valid');
         }
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", { className: "needs-validation" },
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "form-row" },
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "col-sm-12" },
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", { htmlFor: "validationCustom01" }, "Please enter a value (max \u00A31,000)"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CurrencyInput__WEBPACK_IMPORTED_MODULE_1__["default"], { id: "validationCustom01", defaultValue: 999.99, className: "form-control " + className, onChange: validateValue, prefix: prefix }),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "invalid-feedback" }, errorMessage)))));
+    return (react_1.default.createElement("form", { className: "needs-validation" },
+        react_1.default.createElement("div", { className: "form-row" },
+            react_1.default.createElement("div", { className: "col-sm-12" },
+                react_1.default.createElement("label", { htmlFor: "validationCustom01" }, "Please enter a value (max \u00A31,000)"),
+                react_1.default.createElement(CurrencyInput_1.default, { id: "validationCustom01", name: "input-1", defaultValue: 999.99, className: "form-control " + className, onChange: validateValue, prefix: prefix }),
+                react_1.default.createElement("div", { className: "invalid-feedback" }, errorMessage)))));
 };
-/* harmony default export */ __webpack_exports__["default"] = (Example1);
+exports.default = exports.Example1;
 
 
 /***/ }),
@@ -321,23 +324,28 @@ var Example1 = function () {
 /*!***********************************!*\
   !*** ./src/examples/Example2.tsx ***!
   \***********************************/
-/*! exports provided: Example2, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Example2", function() { return Example2; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_hot_loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js");
-/* harmony import */ var react_hot_loader__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_hot_loader__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_CurrencyInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/CurrencyInput */ "./src/components/CurrencyInput.tsx");
-
-
-
-var Example2 = function () {
-    var _a = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(), errorMessage = _a[0], setErrorMessage = _a[1];
-    var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(), className = _b[0], setClassName = _b[1];
+/* WEBPACK VAR INJECTION */(function(module) {
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "react"));
+var react_hot_loader_1 = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js");
+var CurrencyInput_1 = __importDefault(__webpack_require__(/*! ../components/CurrencyInput */ "./src/components/CurrencyInput.tsx"));
+exports.Example2 = function () {
+    var _a = react_1.useState(''), errorMessage = _a[0], setErrorMessage = _a[1];
+    var _b = react_1.useState(''), className = _b[0], setClassName = _b[1];
     var validateValue = function (value) {
         if (value === null) {
             setClassName('');
@@ -350,27 +358,27 @@ var Example2 = function () {
             setClassName('is-valid');
         }
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", { className: "needs-validation" },
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "form-row" },
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "col-sm-12" },
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", { htmlFor: "validationCustom01" }, "Please input a value:"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CurrencyInput__WEBPACK_IMPORTED_MODULE_2__["default"], { id: "validationCustom01", placeholder: "$1,234,567", allowDecimals: false, className: "form-control " + className, onChange: validateValue, prefix: '$' }),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "invalid-feedback" }, errorMessage)))));
+    return (react_1.default.createElement("form", { className: "needs-validation" },
+        react_1.default.createElement("div", { className: "form-row" },
+            react_1.default.createElement("div", { className: "col-sm-12" },
+                react_1.default.createElement("label", { htmlFor: "validationCustom01" }, "Please input a value:"),
+                react_1.default.createElement(CurrencyInput_1.default, { id: "validationCustom01", placeholder: "$1,234,567", allowDecimals: false, className: "form-control " + className, onChange: validateValue, prefix: '$' }),
+                react_1.default.createElement("div", { className: "invalid-feedback" }, errorMessage)))));
 };
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_hot_loader__WEBPACK_IMPORTED_MODULE_1__["hot"])(module)(Example2));
+exports.default = react_hot_loader_1.hot(module)(exports.Example2);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
 /***/ "react":
 /*!************************!*\
-  !*** external "React" ***!
+  !*** external "react" ***!
   \************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = React;
+module.exports = react;
 
 /***/ }),
 
