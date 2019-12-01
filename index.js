@@ -175,21 +175,33 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "react"));
 var utilities_1 = __webpack_require__(/*! ./utilities */ "./src/components/utilities.ts");
 exports.CurrencyInput = function (_a) {
     var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, name = _a.name, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix;
-    var _d = react_1.useState(defaultValue ? utilities_1.formatValue(String(defaultValue), prefix) : ''), stateValue = _d[0], setStateValue = _d[1];
-    var onFocus = function () { return (stateValue ? stateValue.length : 0); };
+    var _defaultValue = defaultValue ? utilities_1.formatValue(String(defaultValue), prefix) : '';
+    var _d = react_1.useState(_defaultValue), stateValue = _d[0], setStateValue = _d[1];
+    var _e = react_1.useState(0), cursor = _e[0], setCursor = _e[1];
+    var inputRef = react_1.useRef(null);
+    react_1.useEffect(function () {
+        if (inputRef && inputRef.current) {
+            inputRef.current.setSelectionRange(cursor, cursor);
+        }
+    }, [cursor, inputRef, stateValue]);
     var processChange = function (event) {
-        var value = event.target.value;
+        var _a = event.target, selectionStart = _a.selectionStart, value = _a.value;
         var valueOnly = utilities_1.cleanValue(value, allowDecimals, decimalsLimit, prefix);
         if (!valueOnly) {
             onChange(null, name);
             return setStateValue('');
         }
         if (utilities_1.checkIsValidNumber(valueOnly)) {
-            setStateValue(utilities_1.formatValue(valueOnly, prefix));
+            var formattedValue = utilities_1.formatValue(valueOnly, prefix);
+            if (selectionStart) {
+                var cursor_1 = selectionStart + (formattedValue.length - value.length);
+                setCursor(cursor_1);
+            }
+            setStateValue(formattedValue);
         }
         onChange(Number(valueOnly), name);
     };
-    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([,\\.][0-9]+)?", step: "any" }));
+    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([\\.,][0-9]+)?", ref: inputRef }));
 };
 exports.default = exports.CurrencyInput;
 
