@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
 import { checkIsValidNumber, cleanValue, formatValue } from './utilities';
 
@@ -13,15 +13,16 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   placeholder,
   prefix,
 }: CurrencyInputProps) => {
-  const [stateValue, setStateValue] = useState(
-    defaultValue ? formatValue(String(defaultValue), prefix) : ''
-  );
+  const _defaultValue = defaultValue ? formatValue(String(defaultValue), prefix) : '';
+  const [stateValue, setStateValue] = useState(_defaultValue);
+  const [cursor, setCursor] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
   const processChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
-      target: { value },
+      target: { selectionStart, value },
     } = event;
 
     const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
@@ -32,11 +33,22 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     }
 
     if (checkIsValidNumber(valueOnly)) {
-      setStateValue(formatValue(valueOnly, prefix));
+      const formattedValue = formatValue(valueOnly, prefix);
+      if (selectionStart) {
+        const cursor = selectionStart + (formattedValue.length - value.length) || 1;
+        setCursor(cursor);
+      }
+      setStateValue(formattedValue);
     }
 
     onChange(Number(valueOnly), name);
   };
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.setSelectionRange(cursor, cursor);
+    }
+  }, [cursor, inputRef, stateValue]);
 
   return (
     <input
@@ -49,6 +61,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       placeholder={placeholder}
       value={stateValue}
       pattern="[0-9]+([\.,][0-9]+)?"
+      ref={inputRef}
     />
   );
 };
