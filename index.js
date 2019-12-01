@@ -373,12 +373,12 @@ exports.default = react_hot_loader_1.hot(module)(exports.Example2);
 
 /***/ "react":
 /*!************************!*\
-  !*** external "react" ***!
+  !*** external "React" ***!
   \************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = react;
+module.exports = React;
 
 /***/ }),
 
