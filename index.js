@@ -116,7 +116,7 @@ if (false) {} else if (false) {} else if (typeof window === 'undefined') {
   module.exports = __webpack_require__(/*! ./dist/react-hot-loader.production.min.js */ "./node_modules/react-hot-loader/dist/react-hot-loader.production.min.js");
   module.exports.AppContainer.warnAboutHMRDisabled = true;
   module.exports.hot.shouldWrapWithAppContainer = true;
-} else { var jsFeaturesPresent, evalAllowed; }
+} else { var jsFeaturesPresent, evalError, evalAllowed; }
 
 
 /***/ }),
@@ -179,11 +179,7 @@ exports.CurrencyInput = function (_a) {
     var _d = react_1.useState(_defaultValue), stateValue = _d[0], setStateValue = _d[1];
     var _e = react_1.useState(0), cursor = _e[0], setCursor = _e[1];
     var inputRef = react_1.useRef(null);
-    react_1.useEffect(function () {
-        if (inputRef && inputRef.current) {
-            inputRef.current.setSelectionRange(cursor, cursor);
-        }
-    }, [cursor, inputRef, stateValue]);
+    var onFocus = function () { return (stateValue ? stateValue.length : 0); };
     var processChange = function (event) {
         var _a = event.target, selectionStart = _a.selectionStart, value = _a.value;
         var valueOnly = utilities_1.cleanValue(value, allowDecimals, decimalsLimit, prefix);
@@ -194,14 +190,19 @@ exports.CurrencyInput = function (_a) {
         if (utilities_1.checkIsValidNumber(valueOnly)) {
             var formattedValue = utilities_1.formatValue(valueOnly, prefix);
             if (selectionStart) {
-                var cursor_1 = selectionStart + (formattedValue.length - value.length);
+                var cursor_1 = selectionStart + (formattedValue.length - value.length) || 1;
                 setCursor(cursor_1);
             }
             setStateValue(formattedValue);
         }
         onChange(Number(valueOnly), name);
     };
-    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([\\.,][0-9]+)?", ref: inputRef }));
+    react_1.useEffect(function () {
+        if (inputRef && inputRef.current) {
+            inputRef.current.setSelectionRange(cursor, cursor);
+        }
+    }, [cursor, inputRef, stateValue]);
+    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([\\.,][0-9]+)?", ref: inputRef }));
 };
 exports.default = exports.CurrencyInput;
 
