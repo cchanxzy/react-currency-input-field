@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.6.0...v0.7.0) (2020-04-10)
+
+
+### Features
+
+* allow input to be disabled ([c6881c2](https://github.com/cchanxzy/react-currency-input-field/commit/c6881c2a81541c10f48f0a1115d9cc22862c29cb))
+
 # [0.6.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.5.3...v0.6.0) (2020-03-08)
 
 
