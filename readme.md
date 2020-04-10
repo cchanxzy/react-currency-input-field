@@ -41,6 +41,21 @@ import CurrencyInput from 'react-currency-input-field'
 
 Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/master/src/examples) for more examples on implementing.
 
+### Props
+
+|               |                                  |
+| ------------- | -------------------------------- |
+| allowDecimals | Allow decimals. Default true     |
+| id            | Component id                     |
+| name          | Component (input) name           |
+| className     | Class names                      |
+| decimalsLimit | Limit length of decimals allowed |
+| defaultValue  | Default value                    |
+| disabled      | Disabled. Default false          |
+| onChange      | Handle change in value           |
+| placeholder   | Placeholder if no input          |
+| prefix        | Include a prefix eg. £ or \$     |
+
 ### Issues
 
 Feel free to message me if you have any questions

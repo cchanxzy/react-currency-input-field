@@ -8,7 +8,7 @@ export type CurrencyInputProps = {
   /**
    * Component id
    */
-  id: string;
+  id?: string;
 
   /**
    * Component name
@@ -21,7 +21,7 @@ export type CurrencyInputProps = {
   className?: string;
 
   /**
-   * Limit length of decimals allowed.
+   * Limit length of decimals allowed
    * Default = 2
    */
   decimalsLimit?: number;
@@ -30,6 +30,12 @@ export type CurrencyInputProps = {
    * Default value
    */
   defaultValue?: number;
+
+  /**
+   * Disabled
+   * Default = false
+   */
+  disabled?: boolean;
 
   /**
    * Handle change in value
