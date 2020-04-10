@@ -134,5 +134,13 @@ describe('<CurrencyInput /> component', () => {
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.567');
     });
+
+    it('should be disabled if disabled prop is true', () => {
+      const onChangeSpy = jest.fn();
+      const view = shallow(
+        <CurrencyInput id={id} decimalsLimit={3} disabled={true} onChange={onChangeSpy} />
+      );
+      expect(view.find(`#${id}`).prop('disabled')).toBe(true);
+    });
   });
 });

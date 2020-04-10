@@ -9,6 +9,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   className,
   decimalsLimit = 2,
   defaultValue,
+  disabled = false,
   onChange,
   placeholder,
   prefix,
@@ -59,6 +60,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       onChange={processChange}
       onFocus={onFocus}
       placeholder={placeholder}
+      disabled={disabled}
       value={stateValue}
       pattern="[0-9]+([\.,][0-9]+)?"
       ref={inputRef}
