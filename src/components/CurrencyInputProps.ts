@@ -51,4 +51,9 @@ export type CurrencyInputProps = {
    * Include a prefix eg. £
    */
   prefix?: string;
+  
+  /**
+   *  Max Length
+   */
+  maxLength?: number;
 };
