@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.7.0...v0.8.0) (2020-04-13)
+
+
+### Features
+
+* adding maxLength prop ([#32](https://github.com/cchanxzy/react-currency-input-field/issues/32)) ([3b1ec54](https://github.com/cchanxzy/react-currency-input-field/commit/3b1ec54d98a278b0a854518ba4d3f3baf66bcbdf))
+
 # [0.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.6.0...v0.7.0) (2020-04-10)
 
 
