@@ -174,10 +174,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "react"));
 var utilities_1 = __webpack_require__(/*! ./utilities */ "./src/components/utilities.ts");
 exports.CurrencyInput = function (_a) {
-    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, name = _a.name, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix;
+    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, name = _a.name, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, _d = _a.disabled, disabled = _d === void 0 ? false : _d, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix, maxLength = _a.maxLength;
     var _defaultValue = defaultValue ? utilities_1.formatValue(String(defaultValue), prefix) : '';
-    var _d = react_1.useState(_defaultValue), stateValue = _d[0], setStateValue = _d[1];
-    var _e = react_1.useState(0), cursor = _e[0], setCursor = _e[1];
+    var _e = react_1.useState(_defaultValue), stateValue = _e[0], setStateValue = _e[1];
+    var _f = react_1.useState(0), cursor = _f[0], setCursor = _f[1];
     var inputRef = react_1.useRef(null);
     var onFocus = function () { return (stateValue ? stateValue.length : 0); };
     var processChange = function (event) {
@@ -202,7 +202,7 @@ exports.CurrencyInput = function (_a) {
             inputRef.current.setSelectionRange(cursor, cursor);
         }
     }, [cursor, inputRef, stateValue]);
-    return (react_1.default.createElement("input", { type: "string", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, value: stateValue, pattern: "[0-9]+([\\.,][0-9]+)?", ref: inputRef }));
+    return (react_1.default.createElement("input", { type: "text", inputMode: "decimal", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, disabled: disabled, value: stateValue, ref: inputRef, maxLength: maxLength }));
 };
 exports.default = exports.CurrencyInput;
 

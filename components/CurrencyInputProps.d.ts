@@ -7,7 +7,7 @@ export declare type CurrencyInputProps = {
     /**
      * Component id
      */
-    id: string;
+    id?: string;
     /**
      * Component name
      */
@@ -17,7 +17,7 @@ export declare type CurrencyInputProps = {
      */
     className?: string;
     /**
-     * Limit length of decimals allowed.
+     * Limit length of decimals allowed
      * Default = 2
      */
     decimalsLimit?: number;
@@ -25,6 +25,11 @@ export declare type CurrencyInputProps = {
      * Default value
      */
     defaultValue?: number;
+    /**
+     * Disabled
+     * Default = false
+     */
+    disabled?: boolean;
     /**
      * Handle change in value
      */
@@ -37,4 +42,8 @@ export declare type CurrencyInputProps = {
      * Include a prefix eg. £
      */
     prefix?: string;
+    /**
+     *  Max Length
+     */
+    maxLength?: number;
 };
