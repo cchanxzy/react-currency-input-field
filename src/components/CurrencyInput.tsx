@@ -54,7 +54,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
   return (
     <input
-      type="string"
+      type="text"
+      inputMode="decimal"
       id={id}
       name={name}
       className={className}
@@ -63,7 +64,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       placeholder={placeholder}
       disabled={disabled}
       value={stateValue}
-      pattern="[0-9]+([\.,][0-9]+)?"
       ref={inputRef}
       maxLength={maxLength}
     />
