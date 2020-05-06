@@ -43,18 +43,19 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 
 ### Props
 
-|               |                                  |
-| ------------- | -------------------------------- |
-| allowDecimals | Allow decimals. Default true     |
-| id            | Component id                     |
-| name          | Component (input) name           |
-| className     | Class names                      |
-| decimalsLimit | Limit length of decimals allowed |
-| defaultValue  | Default value                    |
-| disabled      | Disabled. Default false          |
-| onChange      | Handle change in value           |
-| placeholder   | Placeholder if no input          |
-| prefix        | Include a prefix eg. £ or \$     |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| allowDecimals | `boolean` | `true` | Allow decimals |
+| id | `string` | | Component id |
+| name | `string` | | Component (input) name |
+| className | `string` | | Class names |
+| decimalsLimit | `number` | `2` | Limit length of decimals allowed |
+| defaultValue | `number` | | Default value |
+| disabled | `boolean` | `false` | Disabled |
+| onChange | `function` | | Handle change in value |
+| placeholder | `string` | | Placeholder if no input |
+| prefix | `string` | | Include a prefix eg. £ or \$ |
+| maxLength | `number` | | Maximum number of characters the user can enter |
 
 ### Issues
 
