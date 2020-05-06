@@ -40,7 +40,7 @@ export type CurrencyInputProps = {
   /**
    * Handle change in value
    */
-  onChange: (value: number | null, name?: string) => void;
+  onChange?: (value: number | null, name?: string) => void;
 
   /**
    * Placeholder
