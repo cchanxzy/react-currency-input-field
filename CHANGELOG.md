@@ -1,3 +1,10 @@
+## [0.8.4](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.3...v0.8.4) (2020-05-06)
+
+
+### Bug Fixes
+
+* onChange prop is optional ([#38](https://github.com/cchanxzy/react-currency-input-field/issues/38)) ([09986d5](https://github.com/cchanxzy/react-currency-input-field/commit/09986d53380a8ac6a45b26ae9497acbc4d64232c))
+
 ## [0.8.3](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.2...v0.8.3) (2020-05-06)
 
 
