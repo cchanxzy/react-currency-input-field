@@ -43,7 +43,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 
 ### Props
 
-| | |
+| Name | Description |
 | --- | --- |
 | allowDecimals | Allow decimals. Default true |
 | id | Component id |
