@@ -30,7 +30,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
 
     if (!valueOnly) {
-      onChange(null, name);
+      onChange && onChange(null, name);
       return setStateValue('');
     }
 
@@ -43,7 +43,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       setStateValue(formattedValue);
     }
 
-    onChange(Number(valueOnly), name);
+    onChange && onChange(Number(valueOnly), name);
   };
 
   useEffect(() => {

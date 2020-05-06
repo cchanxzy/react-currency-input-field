@@ -10,13 +10,7 @@ const name = 'inputName';
 describe('<CurrencyInput /> component', () => {
   it('Renders without error', () => {
     const view = shallow(
-      <CurrencyInput
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        className={className}
-        onChange={jest.fn()}
-      />
+      <CurrencyInput id={id} name={name} placeholder={placeholder} className={className} />
     );
     const input = view.find(`#${id}`);
 
@@ -31,13 +25,7 @@ describe('<CurrencyInput /> component', () => {
     const defaultValue = 1234.56;
 
     const view = shallow(
-      <CurrencyInput
-        id={id}
-        defaultValue={defaultValue}
-        className={className}
-        onChange={jest.fn()}
-        prefix="£"
-      />
+      <CurrencyInput id={id} defaultValue={defaultValue} className={className} prefix="£" />
     );
     const input = view.find(`#${id}`);
 
@@ -48,7 +36,7 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should go to end of string on focus', () => {
-    const view = shallow(<CurrencyInput id={id} defaultValue={123} onChange={jest.fn()} />);
+    const view = shallow(<CurrencyInput id={id} defaultValue={123} />);
     view.find(`#${id}`).simulate('focus');
 
     const updatedView = view.update();
@@ -56,7 +44,7 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should go to beginning on focus if no value', () => {
-    const view = shallow(<CurrencyInput id={id} onChange={jest.fn()} />);
+    const view = shallow(<CurrencyInput id={id} />);
     view.find(`#${id}`).simulate('focus');
 
     const updatedView = view.update();
