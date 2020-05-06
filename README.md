@@ -55,6 +55,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | onChange | `function` | | Handle change in value |
 | placeholder | `string` | | Placeholder if no input |
 | prefix | `string` | | Include a prefix eg. £ or \$ |
+| maxLength | `number` | | Maximum number of characters the user can enter |
 
 ### Issues
 
