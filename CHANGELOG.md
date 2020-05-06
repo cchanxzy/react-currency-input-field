@@ -1,3 +1,10 @@
+## [0.8.3](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.2...v0.8.3) (2020-05-06)
+
+
+### Bug Fixes
+
+* improve props table in readme ([#37](https://github.com/cchanxzy/react-currency-input-field/issues/37)) ([737f8fd](https://github.com/cchanxzy/react-currency-input-field/commit/737f8fd49cab74ff6ef0062f3d48e199ddf1e019))
+
 ## [0.8.2](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.1...v0.8.2) (2020-04-23)
 
 
