@@ -14,6 +14,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   placeholder,
   prefix,
   maxLength,
+  ...props
 }: CurrencyInputProps) => {
   const _defaultValue = defaultValue ? formatValue(String(defaultValue), prefix) : '';
   const [stateValue, setStateValue] = useState(_defaultValue);
@@ -66,6 +67,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       value={stateValue}
       ref={inputRef}
       maxLength={maxLength}
+      {...props}
     />
   );
 };

@@ -1,59 +1,64 @@
-export type CurrencyInputProps = {
-  /**
-   * Allow decimals.
-   * Default = true
-   */
-  allowDecimals?: boolean;
+type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
-  /**
-   * Component id
-   */
-  id?: string;
+export type CurrencyInputProps = Overwrite<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  {
+    /**
+     * Allow decimals
+     * Default = true
+     */
+    allowDecimals?: boolean;
 
-  /**
-   * Component name
-   */
-  name?: string;
+    /**
+     * Component id
+     */
+    id?: string;
 
-  /**
-   * Class names
-   */
-  className?: string;
+    /**
+     * Component name
+     */
+    name?: string;
 
-  /**
-   * Limit length of decimals allowed
-   * Default = 2
-   */
-  decimalsLimit?: number;
+    /**
+     * Class names
+     */
+    className?: string;
 
-  /**
-   * Default value
-   */
-  defaultValue?: number;
+    /**
+     * Limit length of decimals allowed
+     * Default = 2
+     */
+    decimalsLimit?: number;
 
-  /**
-   * Disabled
-   * Default = false
-   */
-  disabled?: boolean;
+    /**
+     * Default value
+     */
+    defaultValue?: number;
 
-  /**
-   * Handle change in value
-   */
-  onChange?: (value: number | null, name?: string) => void;
+    /**
+     * Disabled
+     * Default = false
+     */
+    disabled?: boolean;
 
-  /**
-   * Placeholder
-   */
-  placeholder?: string;
+    /**
+     * Handle change in value. Value will be `null` or `number`
+     */
+    onChange?: (value: number | null, name?: string) => void;
 
-  /**
-   * Include a prefix eg. £
-   */
-  prefix?: string;
+    /**
+     * Placeholder
+     */
+    placeholder?: string;
 
-  /**
-   *  Max Length
-   */
-  maxLength?: number;
-};
+    /**
+     * Include a prefix eg. £
+     */
+    prefix?: string;
+
+    /**
+     *  Maximum characters the user can enter
+     */
+    maxLength?: number;
+  }
+>;
