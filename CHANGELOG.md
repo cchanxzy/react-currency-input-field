@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.10.1...v1.0.0) (2020-05-08)
+
+
+### Bug Fixes
+
+* update demo gif ([9477d1b](https://github.com/cchanxzy/react-currency-input-field/commit/9477d1baac30e59dac6cf6e16a1a5c47f623c6d6))
+
+
+### BREAKING CHANGES
+
+* trigger package update manually
+
 ## [0.10.1](https://github.com/cchanxzy/react-currency-input-field/compare/v0.10.0...v0.10.1) (2020-05-08)
 
 
