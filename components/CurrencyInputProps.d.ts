@@ -1,6 +1,8 @@
-export declare type CurrencyInputProps = {
+/// <reference types="react" />
+declare type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+export declare type CurrencyInputProps = Overwrite<React.InputHTMLAttributes<HTMLInputElement>, {
     /**
-     * Allow decimals.
+     * Allow decimals
      * Default = true
      */
     allowDecimals?: boolean;
@@ -31,9 +33,9 @@ export declare type CurrencyInputProps = {
      */
     disabled?: boolean;
     /**
-     * Handle change in value
+     * Handle change in value. Value will be `null` or `number`
      */
-    onChange: (value: number | null, name?: string) => void;
+    onChange?: (value: number | null, name?: string) => void;
     /**
      * Placeholder
      */
@@ -43,7 +45,8 @@ export declare type CurrencyInputProps = {
      */
     prefix?: string;
     /**
-     *  Max Length
+     *  Maximum characters the user can enter
      */
     maxLength?: number;
-};
+}>;
+export {};

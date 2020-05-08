@@ -163,6 +163,28 @@ module.exports = function(module) {
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -174,7 +196,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "react"));
 var utilities_1 = __webpack_require__(/*! ./utilities */ "./src/components/utilities.ts");
 exports.CurrencyInput = function (_a) {
-    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, name = _a.name, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, _d = _a.disabled, disabled = _d === void 0 ? false : _d, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix, maxLength = _a.maxLength;
+    var _b = _a.allowDecimals, allowDecimals = _b === void 0 ? true : _b, id = _a.id, name = _a.name, className = _a.className, _c = _a.decimalsLimit, decimalsLimit = _c === void 0 ? 2 : _c, defaultValue = _a.defaultValue, _d = _a.disabled, disabled = _d === void 0 ? false : _d, onChange = _a.onChange, placeholder = _a.placeholder, prefix = _a.prefix, maxLength = _a.maxLength, props = __rest(_a, ["allowDecimals", "id", "name", "className", "decimalsLimit", "defaultValue", "disabled", "onChange", "placeholder", "prefix", "maxLength"]);
     var _defaultValue = defaultValue ? utilities_1.formatValue(String(defaultValue), prefix) : '';
     var _e = react_1.useState(_defaultValue), stateValue = _e[0], setStateValue = _e[1];
     var _f = react_1.useState(0), cursor = _f[0], setCursor = _f[1];
@@ -184,7 +206,7 @@ exports.CurrencyInput = function (_a) {
         var _a = event.target, selectionStart = _a.selectionStart, value = _a.value;
         var valueOnly = utilities_1.cleanValue(value, allowDecimals, decimalsLimit, prefix);
         if (!valueOnly) {
-            onChange(null, name);
+            onChange && onChange(null, name);
             return setStateValue('');
         }
         if (utilities_1.checkIsValidNumber(valueOnly)) {
@@ -195,16 +217,61 @@ exports.CurrencyInput = function (_a) {
             }
             setStateValue(formattedValue);
         }
-        onChange(Number(valueOnly), name);
+        onChange && onChange(Number(valueOnly), name);
     };
     react_1.useEffect(function () {
         if (inputRef && inputRef.current) {
             inputRef.current.setSelectionRange(cursor, cursor);
         }
     }, [cursor, inputRef, stateValue]);
-    return (react_1.default.createElement("input", { type: "text", inputMode: "decimal", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, disabled: disabled, value: stateValue, ref: inputRef, maxLength: maxLength }));
+    return (react_1.default.createElement("input", __assign({ type: "text", inputMode: "decimal", id: id, name: name, className: className, onChange: processChange, onFocus: onFocus, placeholder: placeholder, disabled: disabled, value: stateValue, ref: inputRef, maxLength: maxLength }, props)));
 };
 exports.default = exports.CurrencyInput;
+
+
+/***/ }),
+
+/***/ "./src/components/parseAbbrValue.ts":
+/*!******************************************!*\
+  !*** ./src/components/parseAbbrValue.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Abbreviate number eg. 1000 = 1k
+ *
+ * Source: https://stackoverflow.com/a/9345181
+ */
+exports.abbrValue = function (value, _decimalPlaces) {
+    if (_decimalPlaces === void 0) { _decimalPlaces = 10; }
+    if (value > 999) {
+        var valueLength = ('' + value).length;
+        var p = Math.pow;
+        var d = p(10, _decimalPlaces);
+        valueLength -= valueLength % 3;
+        return Math.round((value * d) / p(10, valueLength)) / d + ' kMGTPE'[valueLength / 3];
+    }
+    return String(value);
+};
+var abbrMap = { k: 1000, m: 1000000, b: 1000000000 };
+/**
+ * Parse a value with abbreviation e.g 1k = 1000
+ */
+exports.parseAbbrValue = function (value) {
+    var match = value.match(/(\d+(.\d+)?)([kmb])$/i);
+    if (match) {
+        var digits = match[1], abbr = match[3];
+        var multiplier = abbr ? abbrMap[abbr.toLowerCase()] : null;
+        if (digits && multiplier) {
+            return Number(digits) * multiplier;
+        }
+    }
+    return undefined;
+};
 
 
 /***/ }),
@@ -219,6 +286,7 @@ exports.default = exports.CurrencyInput;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var parseAbbrValue_1 = __webpack_require__(/*! ./parseAbbrValue */ "./src/components/parseAbbrValue.ts");
 exports.addCommas = function (value) { return value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
 exports.removeCommas = function (value) { return value.replace(/,/g, ''); };
 exports.checkIsValidNumber = function (input) {
@@ -233,14 +301,15 @@ exports.checkIsValidNumber = function (input) {
 exports.cleanValue = function (value, allowDecimals, decimalsLimit, prefix) {
     var withoutPrefix = prefix ? value.replace(prefix, '') : value;
     var withoutCommas = exports.removeCommas(withoutPrefix);
-    if (withoutCommas.includes('.')) {
+    var parsed = parseAbbrValue_1.parseAbbrValue(withoutCommas) || withoutCommas;
+    if (String(parsed).includes('.')) {
         var _a = withoutCommas.split('.'), int = _a[0], decimals = _a[1];
         var includeDecimals = allowDecimals
             ? "." + (decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals)
             : '';
         return "" + int + includeDecimals;
     }
-    return withoutCommas;
+    return String(parsed);
 };
 /**
  * Format value with commas and prefix
@@ -305,6 +374,9 @@ exports.Example1 = function () {
     var prefix = '£';
     var _a = react_1.useState(''), errorMessage = _a[0], setErrorMessage = _a[1];
     var _b = react_1.useState(''), className = _b[0], setClassName = _b[1];
+    /**
+     * Handle validation
+     */
     var validateValue = function (value) {
         if (value === null) {
             setClassName('');
