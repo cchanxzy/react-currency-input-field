@@ -4,11 +4,14 @@
 
 ## Features
 
+- Allows abbreviations eg. 1k = 1,000 2.5m = 2,500,000
 - Prefix option eg. £ or \$
 - Can allow/disallow decimals
 - Automatically inserts comma separator
-- Only allows numbers
+- Only allows valid numbers
 - Lightweight and simple
+
+## Demo
 
 [Live Demo](https://cchanxzy.github.io/react-currency-input-field)
 
@@ -38,7 +41,17 @@ import CurrencyInput from 'react-currency-input-field';
 />;
 ```
 
-Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/master/src/examples) for more examples on implementing.
+Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/master/src/examples) for more examples on implementing and validation.
+
+## Abbreviations
+
+It can parse values with abbreviations `k`, `m` and `b`
+
+Examples:
+
+- 1k = 1,000
+- 2.5m = 2,500,000
+- 3.456B = 3,456,000,000
 
 ## Props
 

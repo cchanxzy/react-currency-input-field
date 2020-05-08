@@ -8,6 +8,9 @@ export const Example1: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
 
+  /**
+   * Handle validation
+   */
   const validateValue = (value: number | null): void => {
     if (value === null) {
       setClassName('');
