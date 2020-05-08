@@ -1,3 +1,11 @@
+# [0.10.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.9.0...v0.10.0) (2020-05-08)
+
+
+### Features
+
+* can parse abbreviated values k, m, b ([f588dcf](https://github.com/cchanxzy/react-currency-input-field/commit/f588dcfdb09e15eb4cf08bd8b777e162f65010f7))
+* updated examples ([6a2db92](https://github.com/cchanxzy/react-currency-input-field/commit/6a2db9215098ec4a6a3fc8207998576d46e915ce))
+
 # [0.9.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.4...v0.9.0) (2020-05-08)
 
 
