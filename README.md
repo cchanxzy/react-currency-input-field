@@ -25,7 +25,7 @@ or
 ## Usage
 
 ```js
-import CurrencyInput from 'react-currency-input-field'
+import CurrencyInput from 'react-currency-input-field';
 
 <CurrencyInput
   id="input-example"
@@ -34,27 +34,27 @@ import CurrencyInput from 'react-currency-input-field'
   defaultValue={1000}
   allowDecimals={true}
   decimalsLimit={2}
-  onChange={(value, name) => {process(value, name)}}
-/>
+  onChange={(value, name) => console.log(value, name)}
+/>;
 ```
 
 Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/master/src/examples) for more examples on implementing.
 
 ## Props
 
-| Name          | Type       | Default | Description                                     |
-| ------------- | ---------- | ------- | ----------------------------------------------- |
-| allowDecimals | `boolean`  | `true`  | Allow decimals                                  |
-| id            | `string`   |         | Component id                                    |
-| name          | `string`   |         | Component (input) name                          |
-| className     | `string`   |         | Class names                                     |
-| decimalsLimit | `number`   | `2`     | Limit length of decimals allowed                |
-| defaultValue  | `number`   |         | Default value                                   |
-| disabled      | `boolean`  | `false` | Disabled                                        |
-| onChange      | `function` |         | Handle change in value                          |
-| placeholder   | `string`   |         | Placeholder if no input                         |
-| prefix        | `string`   |         | Include a prefix eg. £ or \$                    |
-| maxLength     | `number`   |         | Maximum number of characters the user can enter |
+| Name          | Type       | Default | Description                                              |
+| ------------- | ---------- | ------- | -------------------------------------------------------- |
+| allowDecimals | `boolean`  | `true`  | Allow decimals                                           |
+| id            | `string`   |         | Component id                                             |
+| name          | `string`   |         | Component (input) name                                   |
+| className     | `string`   |         | Class names                                              |
+| decimalsLimit | `number`   | `2`     | Limit length of decimals allowed                         |
+| defaultValue  | `number`   |         | Default value                                            |
+| disabled      | `boolean`  | `false` | Disabled                                                 |
+| onChange      | `function` |         | Handle change in value. Value will be `null` or `number` |
+| placeholder   | `string`   |         | Placeholder if no value                                  |
+| prefix        | `string`   |         | Include a prefix eg. £ or \$                             |
+| maxLength     | `number`   |         | Maximum characters the user can enter                    |
 
 ## Issues
 
