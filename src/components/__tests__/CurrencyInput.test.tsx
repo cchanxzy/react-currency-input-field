@@ -8,6 +8,12 @@ const placeholder = '£1,000';
 const name = 'inputName';
 
 describe('<CurrencyInput /> component', () => {
+  const onChangeSpy = jest.fn();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Renders without error', () => {
     const view = shallow(
       <CurrencyInput id={id} name={name} placeholder={placeholder} className={className} />
@@ -52,7 +58,6 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should allow value change with number', () => {
-    const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '100' } });
 
@@ -60,7 +65,6 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should not allow string value change', () => {
-    const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: 'aakoa' } });
     expect(onChangeSpy).toBeCalledWith(NaN, undefined);
@@ -70,7 +74,6 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should allow empty value', () => {
-    const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '' } });
     expect(onChangeSpy).toBeCalledWith(null, name);
@@ -80,15 +83,51 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should callback name as second parameter if name prop provided', () => {
-    const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '£123' } });
     expect(onChangeSpy).toBeCalledWith(123, name);
   });
 
   describe('decimals', () => {
+    it('should allow abbreviated values with k', () => {
+      const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
+      view.find(`#${id}`).simulate('change', { target: { value: '£1.5k' } });
+      expect(onChangeSpy).toBeCalledWith(1500, undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,500');
+    });
+
+    it('should allow abbreviated values with m', () => {
+      const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
+      view.find(`#${id}`).simulate('change', { target: { value: '£2.123M' } });
+      expect(onChangeSpy).toBeCalledWith(2123000, undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£2,123,000');
+    });
+
+    it('should allow abbreviated values with b', () => {
+      const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
+      view.find(`#${id}`).simulate('change', { target: { value: '£1.599B' } });
+      expect(onChangeSpy).toBeCalledWith(1599000000, undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,599,000,000');
+    });
+
+    it('should not allow any other letters', () => {
+      const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
+      view.find(`#${id}`).simulate('change', { target: { value: '£1.5e' } });
+      expect(onChangeSpy).toBeCalledWith(NaN, undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    });
+  });
+
+  describe('decimals', () => {
     it('should allow value with decimals if allowDecimals is true', () => {
-      const onChangeSpy = jest.fn();
       const view = shallow(
         <CurrencyInput allowDecimals={true} id={id} prefix="£" onChange={onChangeSpy} />
       );
@@ -100,7 +139,6 @@ describe('<CurrencyInput /> component', () => {
     });
 
     it('should disallow value with decimals if allowDecimals is false', () => {
-      const onChangeSpy = jest.fn();
       const view = shallow(
         <CurrencyInput allowDecimals={false} id={id} prefix="£" onChange={onChangeSpy} />
       );
@@ -112,7 +150,6 @@ describe('<CurrencyInput /> component', () => {
     });
 
     it('should limit decimals to decimalsLimit length', () => {
-      const onChangeSpy = jest.fn();
       const view = shallow(
         <CurrencyInput id={id} decimalsLimit={3} prefix="£" onChange={onChangeSpy} />
       );
@@ -124,7 +161,6 @@ describe('<CurrencyInput /> component', () => {
     });
 
     it('should be disabled if disabled prop is true', () => {
-      const onChangeSpy = jest.fn();
       const view = shallow(
         <CurrencyInput id={id} decimalsLimit={3} disabled={true} onChange={onChangeSpy} />
       );
