@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.4...v0.9.0) (2020-05-08)
+
+
+### Features
+
+* allow props for input to be passed ([998c3ae](https://github.com/cchanxzy/react-currency-input-field/commit/998c3ae6a0379290d80846f89236d566cd4a9757))
+
 ## [0.8.4](https://github.com/cchanxzy/react-currency-input-field/compare/v0.8.3...v0.8.4) (2020-05-06)
 
 
