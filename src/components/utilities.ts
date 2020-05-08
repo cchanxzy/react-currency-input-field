@@ -1,3 +1,5 @@
+import { parseAbbrValue } from './parseAbbrValue';
+
 export const addCommas = (value: string): string => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 export const removeCommas = (value: string): string => value.replace(/,/g, '');
@@ -21,8 +23,9 @@ export const cleanValue = (
 ): string => {
   const withoutPrefix = prefix ? value.replace(prefix, '') : value;
   const withoutCommas = removeCommas(withoutPrefix);
+  const parsed = parseAbbrValue(withoutCommas) || withoutCommas;
 
-  if (withoutCommas.includes('.')) {
+  if (String(parsed).includes('.')) {
     const [int, decimals] = withoutCommas.split('.');
     const includeDecimals = allowDecimals
       ? `.${decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals}`
@@ -31,7 +34,7 @@ export const cleanValue = (
     return `${int}${includeDecimals}`;
   }
 
-  return withoutCommas;
+  return String(parsed);
 };
 
 /**
