@@ -55,19 +55,20 @@ Examples:
 
 ## Props
 
-| Name          | Type       | Default | Description                                              |
-| ------------- | ---------- | ------- | -------------------------------------------------------- |
-| allowDecimals | `boolean`  | `true`  | Allow decimals                                           |
-| id            | `string`   |         | Component id                                             |
-| name          | `string`   |         | Component (input) name                                   |
-| className     | `string`   |         | Class names                                              |
-| decimalsLimit | `number`   | `2`     | Limit length of decimals allowed                         |
-| defaultValue  | `number`   |         | Default value                                            |
-| disabled      | `boolean`  | `false` | Disabled                                                 |
-| onChange      | `function` |         | Handle change in value. Value will be `null` or `number` |
-| placeholder   | `string`   |         | Placeholder if no value                                  |
-| prefix        | `string`   |         | Include a prefix eg. £ or \$                             |
-| maxLength     | `number`   |         | Maximum characters the user can enter                    |
+| Name          | Type       | Default | Description                                    |
+| ------------- | ---------- | ------- | ---------------------------------------------- |
+| allowDecimals | `boolean`  | `true`  | Allow decimals                                 |
+| id            | `string`   |         | Component id                                   |
+| name          | `string`   |         | Component (input) name                         |
+| className     | `string`   |         | Class names                                    |
+| decimalsLimit | `number`   | `2`     | Limit length of decimals allowed               |
+| defaultValue  | `number`   |         | Default value                                  |
+| disabled      | `boolean`  | `false` | Disabled                                       |
+| onChange      | `function` |         | Handle change in value                         |
+| placeholder   | `string`   |         | Placeholder if no value                        |
+| precision     | `number`   |         | Specify decimal precision for padding/trimming |
+| prefix        | `string`   |         | Include a prefix eg. £ or \$                   |
+| maxLength     | `number`   |         | Maximum characters the user can enter          |
 
 ## Issues
 

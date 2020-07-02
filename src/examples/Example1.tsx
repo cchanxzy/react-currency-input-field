@@ -7,17 +7,20 @@ export const Example1: FC = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
+  const [value, setValue] = useState<string | number>(999.99);
 
   /**
    * Handle validation
    */
-  const validateValue = (value: number | null): void => {
-    if (value === null) {
+  const validateValue = (value: string | undefined): void => {
+    setValue(value || '');
+
+    if (!value) {
       setClassName('');
-    } else if (Number.isNaN(value)) {
+    } else if (Number.isNaN(Number(value))) {
       setErrorMessage('Please enter a valid number');
       setClassName('is-invalid');
-    } else if (value > limit) {
+    } else if (Number(value) > limit) {
       setErrorMessage(`Max: ${prefix}${limit}`);
       setClassName('is-invalid');
     } else {
@@ -35,8 +38,10 @@ export const Example1: FC = () => {
             name="input-1"
             defaultValue={999.99}
             className={`form-control ${className}`}
+            value={value}
             onChange={validateValue}
             prefix={prefix}
+            precision={2}
           />
           <div className="invalid-feedback">{errorMessage}</div>
         </div>

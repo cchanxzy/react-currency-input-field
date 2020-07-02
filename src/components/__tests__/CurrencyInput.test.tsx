@@ -41,6 +41,15 @@ describe('<CurrencyInput /> component', () => {
     expect(input.prop('className')).toBe(className);
   });
 
+  it('Renders with value prop', () => {
+    const value = 49.99;
+
+    const view = shallow(<CurrencyInput id={id} value={value} className={className} prefix="£" />);
+    const input = view.find(`#${id}`);
+
+    expect(input.prop('value')).toBe('£49.99');
+  });
+
   it('should go to end of string on focus', () => {
     const view = shallow(<CurrencyInput id={id} defaultValue={123} />);
     view.find(`#${id}`).simulate('focus');
@@ -61,22 +70,13 @@ describe('<CurrencyInput /> component', () => {
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '100' } });
 
-    expect(onChangeSpy).toBeCalledWith(100, undefined);
-  });
-
-  it('should not allow string value change', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: 'aakoa' } });
-    expect(onChangeSpy).toBeCalledWith(NaN, undefined);
-
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    expect(onChangeSpy).toBeCalledWith('100', undefined);
   });
 
   it('should allow empty value', () => {
     const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '' } });
-    expect(onChangeSpy).toBeCalledWith(null, name);
+    expect(onChangeSpy).toBeCalledWith(undefined, name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('');
@@ -85,14 +85,14 @@ describe('<CurrencyInput /> component', () => {
   it('should callback name as second parameter if name prop provided', () => {
     const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '£123' } });
-    expect(onChangeSpy).toBeCalledWith(123, name);
+    expect(onChangeSpy).toBeCalledWith('123', name);
   });
 
   describe('decimals', () => {
     it('should allow abbreviated values with k', () => {
       const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
       view.find(`#${id}`).simulate('change', { target: { value: '£1.5k' } });
-      expect(onChangeSpy).toBeCalledWith(1500, undefined);
+      expect(onChangeSpy).toBeCalledWith('1500', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,500');
@@ -101,7 +101,7 @@ describe('<CurrencyInput /> component', () => {
     it('should allow abbreviated values with m', () => {
       const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
       view.find(`#${id}`).simulate('change', { target: { value: '£2.123M' } });
-      expect(onChangeSpy).toBeCalledWith(2123000, undefined);
+      expect(onChangeSpy).toBeCalledWith('2123000', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£2,123,000');
@@ -110,7 +110,7 @@ describe('<CurrencyInput /> component', () => {
     it('should allow abbreviated values with b', () => {
       const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
       view.find(`#${id}`).simulate('change', { target: { value: '£1.599B' } });
-      expect(onChangeSpy).toBeCalledWith(1599000000, undefined);
+      expect(onChangeSpy).toBeCalledWith('1599000000', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,599,000,000');
@@ -119,7 +119,7 @@ describe('<CurrencyInput /> component', () => {
     it('should not allow any other letters', () => {
       const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
       view.find(`#${id}`).simulate('change', { target: { value: '£1.5e' } });
-      expect(onChangeSpy).toBeCalledWith(NaN, undefined);
+      expect(onChangeSpy).toBeCalledWith('1.5e', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('');
@@ -132,7 +132,7 @@ describe('<CurrencyInput /> component', () => {
         <CurrencyInput allowDecimals={true} id={id} prefix="£" onChange={onChangeSpy} />
       );
       view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56' } });
-      expect(onChangeSpy).toBeCalledWith(1234.56, undefined);
+      expect(onChangeSpy).toBeCalledWith('1234.56', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.56');
@@ -143,7 +143,7 @@ describe('<CurrencyInput /> component', () => {
         <CurrencyInput allowDecimals={false} id={id} prefix="£" onChange={onChangeSpy} />
       );
       view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56' } });
-      expect(onChangeSpy).toBeCalledWith(1234, undefined);
+      expect(onChangeSpy).toBeCalledWith('1234', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234');
@@ -154,7 +154,7 @@ describe('<CurrencyInput /> component', () => {
         <CurrencyInput id={id} decimalsLimit={3} prefix="£" onChange={onChangeSpy} />
       );
       view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56789' } });
-      expect(onChangeSpy).toBeCalledWith(1234.567, undefined);
+      expect(onChangeSpy).toBeCalledWith('1234.567', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.567');
@@ -165,6 +165,19 @@ describe('<CurrencyInput /> component', () => {
         <CurrencyInput id={id} decimalsLimit={3} disabled={true} onChange={onChangeSpy} />
       );
       expect(view.find(`#${id}`).prop('disabled')).toBe(true);
+    });
+  });
+
+  describe('precision', () => {
+    it('should pad to precision', () => {
+      const view = shallow(
+        <CurrencyInput id={id} prefix="£" onChange={onChangeSpy} precision={5} />
+      );
+      view.find(`#${id}`).simulate('change', { target: { value: '£1.50' } });
+      expect(onChangeSpy).toBeCalledWith('1.50', undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.50');
     });
   });
 });

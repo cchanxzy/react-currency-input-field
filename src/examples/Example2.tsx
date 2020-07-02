@@ -6,10 +6,10 @@ export const Example2: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
 
-  const validateValue = (value: number | null): void => {
+  const validateValue = (value: string | undefined): void => {
     if (value === null) {
       setClassName('');
-    } else if (Number.isNaN(value)) {
+    } else if (Number.isNaN(Number(value))) {
       setErrorMessage('Please enter a valid number');
       setClassName('is-invalid');
     } else {
