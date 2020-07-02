@@ -42,7 +42,7 @@ export type CurrencyInputProps = Overwrite<
     disabled?: boolean;
 
     /**
-     * Handle change in value. Value will be `null` if empty
+     * Handle change in value
      */
     onChange?: (value: string | undefined, name?: string) => void;
 
