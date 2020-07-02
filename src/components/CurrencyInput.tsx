@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
-import { checkIsValidNumber, cleanValue, formatValue } from './utilities';
+import { checkIsValidNumber, cleanValue, formatValue, padTrimValue } from './utilities';
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
@@ -10,8 +10,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   decimalsLimit = 2,
   defaultValue,
   disabled = false,
+  value,
   onChange,
   placeholder,
+  precision,
   prefix,
   maxLength,
   ...props
@@ -23,15 +25,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
   const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
-  const processChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const {
-      target: { selectionStart, value },
-    } = event;
-
+  const processChange = ({
+    target: { selectionStart, value },
+  }: React.ChangeEvent<HTMLInputElement>): void => {
     const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
 
     if (!valueOnly) {
-      onChange && onChange(null, name);
+      onChange && onChange(undefined, name);
       return setStateValue('');
     }
 
@@ -44,7 +44,15 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       setStateValue(formattedValue);
     }
 
-    onChange && onChange(Number(valueOnly), name);
+    onChange && onChange(valueOnly, name);
+  };
+
+  const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
+    const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
+    const newValue = padTrimValue(valueOnly, precision);
+    const formattedValue = formatValue(newValue, prefix);
+    setStateValue(formattedValue);
+    onChange && onChange(newValue, name);
   };
 
   useEffect(() => {
@@ -52,6 +60,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       inputRef.current.setSelectionRange(cursor, cursor);
     }
   }, [cursor, inputRef, stateValue]);
+
+  const formattedPropsValue = value ? formatValue(String(value), prefix) : undefined;
 
   return (
     <input
@@ -61,10 +71,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       name={name}
       className={className}
       onChange={processChange}
+      onBlur={handleOnBlur}
       onFocus={onFocus}
       placeholder={placeholder}
       disabled={disabled}
-      value={stateValue}
+      value={formattedPropsValue || stateValue}
       ref={inputRef}
       maxLength={maxLength}
       {...props}

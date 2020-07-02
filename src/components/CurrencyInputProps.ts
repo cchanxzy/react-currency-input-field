@@ -42,14 +42,19 @@ export type CurrencyInputProps = Overwrite<
     disabled?: boolean;
 
     /**
-     * Handle change in value. Value will be `null` or `number`
+     * Handle change in value. Value will be `null` if empty
      */
-    onChange?: (value: number | null, name?: string) => void;
+    onChange?: (value: string | undefined, name?: string) => void;
 
     /**
      * Placeholder
      */
     placeholder?: string;
+
+    /**
+     * Specify decimal precision for padding/trimming
+     */
+    precision?: number;
 
     /**
      * Include a prefix eg. £
