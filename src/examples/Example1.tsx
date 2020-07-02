@@ -41,7 +41,7 @@ export const Example1: FC = () => {
             value={value}
             onChange={validateValue}
             prefix={prefix}
-            precision={5}
+            precision={2}
           />
           <div className="invalid-feedback">{errorMessage}</div>
         </div>
