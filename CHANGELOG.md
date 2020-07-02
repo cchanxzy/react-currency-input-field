@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/cchanxzy/react-currency-input-field/compare/v1.0.1...v2.0.0) (2020-07-02)
+
+
+### Features
+
+* allow value and precision props ([#46](https://github.com/cchanxzy/react-currency-input-field/issues/46)) ([912d6d9](https://github.com/cchanxzy/react-currency-input-field/commit/912d6d9422c38ba7039bba9572e9786f27f2ce4a))
+
+
+### BREAKING CHANGES
+
+* onChange will return string or undefined rather than number or null
+
 ## [1.0.1](https://github.com/cchanxzy/react-currency-input-field/compare/v1.0.0...v1.0.1) (2020-05-08)
 
 
