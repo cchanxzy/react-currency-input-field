@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.0.0...v2.1.0) (2020-08-13)
+
+
+### Features
+
+* add prop to turn off separators ([#54](https://github.com/cchanxzy/react-currency-input-field/issues/54)) ([396f567](https://github.com/cchanxzy/react-currency-input-field/commit/396f56719e92353b1e45d419a32fd7c0a916cd7a))
+
 # [2.0.0](https://github.com/cchanxzy/react-currency-input-field/compare/v1.0.1...v2.0.0) (2020-07-02)
 
 
