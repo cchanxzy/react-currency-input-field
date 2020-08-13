@@ -10,12 +10,21 @@ describe('abbrValue', () => {
     expect(abbrValue(1500)).toEqual('1.5k');
     expect(abbrValue(10000)).toEqual('10k');
   });
+
+  it('should work with comma as decimal separator', () => {
+    expect(abbrValue(1500, ',')).toEqual('1,5k');
+  });
 });
 
 describe('parseAbbrValue', () => {
   it('should return undefined if cannot parse', () => {
     expect(parseAbbrValue('1km')).toEqual(undefined);
     expect(parseAbbrValue('2mb')).toEqual(undefined);
+  });
+
+  it('should return undefined if no abbreviation', () => {
+    expect(parseAbbrValue('100')).toEqual(undefined);
+    expect(parseAbbrValue('20000')).toEqual(undefined);
   });
 
   it('should parse k', () => {
@@ -39,5 +48,10 @@ describe('parseAbbrValue', () => {
     expect(parseAbbrValue('1.5b')).toEqual(1500000000);
     expect(parseAbbrValue('65.5513b')).toEqual(65551300000);
     expect(parseAbbrValue('100B')).toEqual(100000000000);
+  });
+
+  it('should work with comma as decimal separator', () => {
+    expect(parseAbbrValue('1,2k', ',')).toEqual(1200);
+    expect(parseAbbrValue('2,3m', ',')).toEqual(2300000);
   });
 });

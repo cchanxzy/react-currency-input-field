@@ -109,6 +109,54 @@ describe('<CurrencyInput /> component', () => {
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£123456');
     });
+
+    it('should throw error if decimalSeparator and groupSeparator are the same', () => {
+      expect(() =>
+        shallow(
+          <CurrencyInput
+            id={id}
+            name={name}
+            prefix="£"
+            decimalSeparator=","
+            groupSeparator=","
+            onChange={onChangeSpy}
+            defaultValue={10000}
+          />
+        )
+      ).toThrow('decimalSeparator cannot be the same as groupSeparator');
+    });
+
+    it('should throw error if decimalSeparator is not comma or period', () => {
+      expect(() =>
+        shallow(
+          <CurrencyInput
+            id={id}
+            name={name}
+            prefix="£"
+            decimalSeparator={'a' as any} //eslint-disable-line
+            groupSeparator=","
+            onChange={onChangeSpy}
+            defaultValue={10000}
+          />
+        )
+      ).toThrow('decimalSeparator must be "." or ","');
+    });
+
+    it('should throw error if groupSeparator is not comma or period', () => {
+      expect(() =>
+        shallow(
+          <CurrencyInput
+            id={id}
+            name={name}
+            prefix="£"
+            decimalSeparator="."
+            groupSeparator={'a' as any} //eslint-disable-line
+            onChange={onChangeSpy}
+            defaultValue={10000}
+          />
+        )
+      ).toThrow('groupSeparator must be "." or ","');
+    });
   });
 
   describe('abbreviated', () => {
@@ -192,15 +240,26 @@ describe('<CurrencyInput /> component', () => {
   });
 
   describe('precision', () => {
-    it('should pad to precision', () => {
+    it('should pad to precision of 5 on blur', () => {
       const view = shallow(
         <CurrencyInput id={id} prefix="£" onChange={onChangeSpy} precision={5} />
       );
-      view.find(`#${id}`).simulate('change', { target: { value: '£1.50' } });
-      expect(onChangeSpy).toBeCalledWith('1.50', undefined);
+      view.find(`#${id}`).simulate('blur', { target: { value: '£1.5' } });
+      expect(onChangeSpy).toBeCalledWith('1.50000', undefined);
 
       const updatedView = view.update();
-      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.50');
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.50000');
+    });
+
+    it('should pad to precision of 2 on blur', () => {
+      const view = shallow(
+        <CurrencyInput id={id} prefix="£" onChange={onChangeSpy} precision={2} />
+      );
+      view.find(`#${id}`).simulate('blur', { target: { value: '£1' } });
+      expect(onChangeSpy).toBeCalledWith('1.00', undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.00');
     });
   });
 });
