@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
-import { checkIsValidNumber, cleanValue, formatValue, padTrimValue } from './utilities';
+import { checkIsValidNumber, cleanValue, formatValue, padTrimValue } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
