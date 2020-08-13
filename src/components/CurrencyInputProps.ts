@@ -65,6 +65,20 @@ export type CurrencyInputProps = Overwrite<
     prefix?: string;
 
     /**
+     * Separator between integer part and fractional part of value
+     *
+     * Default = "."
+     */
+    decimalSeparator?: boolean;
+
+    /**
+     * Separator between thousand, million and billion
+     *
+     * Default = ","
+     */
+    groupSeparator?: boolean;
+
+    /**
      * Disable auto adding separator between values eg. 1000 > 1,000
      *
      * Default = false

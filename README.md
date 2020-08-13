@@ -68,6 +68,8 @@ Examples:
 | placeholder       | `string`   |         | Placeholder if no value                                       |
 | precision         | `number`   |         | Specify decimal precision for padding/trimming                |
 | prefix            | `string`   |         | Include a prefix eg. £ or \$                                  |
+| decimalSeparator  | `string`   | `.`     | Separator between integer part and fractional part of value   |
+| groupSeparator    | `string`   | `,`     | Separator between thousand, million and billion               |
 | turnOffSeparators | `boolean`  | `false` | Disable auto adding separator between values eg. 1000 > 1,000 |
 
 ## Issues
