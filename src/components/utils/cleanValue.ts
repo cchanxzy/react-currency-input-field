@@ -1,24 +1,35 @@
+import { Separator } from '../CurrencyInputProps';
 import { parseAbbrValue } from './parseAbbrValue';
-import { removeCommas } from './removeCommas';
+import { removeSeparators } from './removeSeparators';
+
+type Props = {
+  value: string;
+  decimalSeparator: Separator;
+  groupSeparator: Separator;
+  allowDecimals: boolean;
+  decimalsLimit: number;
+  prefix?: string;
+};
 
 /**
- * Remove prefix, commas and extra decimals from value
+ * Remove prefix, separators and extra decimals from value
  */
-export const cleanValue = (
-  value: string,
-  allowDecimals: boolean,
-  decimalsLimit: number,
-  prefix?: string
-): string => {
+export const cleanValue = ({
+  value,
+  decimalSeparator,
+  groupSeparator,
+  allowDecimals,
+  decimalsLimit,
+  prefix,
+}: Props): string => {
   const withoutPrefix = prefix ? value.replace(prefix, '') : value;
-  const withoutCommas = removeCommas(withoutPrefix);
-  const parsed = parseAbbrValue(withoutCommas) || withoutCommas;
+  const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
+  const parsed = parseAbbrValue(withoutSeparators, decimalSeparator) || withoutSeparators;
 
-  if (String(parsed).includes('.')) {
-    const [int, decimals] = withoutCommas.split('.');
-    const includeDecimals = allowDecimals
-      ? `.${decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals}`
-      : '';
+  if (String(parsed).includes(decimalSeparator)) {
+    const [int, decimals] = withoutSeparators.split(decimalSeparator);
+    const trimmedDecimals = decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals;
+    const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
 
     return `${int}${includeDecimals}`;
   }

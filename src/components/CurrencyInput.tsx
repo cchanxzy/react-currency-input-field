@@ -16,11 +16,31 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   placeholder,
   precision,
   prefix,
+  decimalSeparator = '.',
+  groupSeparator = ',',
   turnOffSeparators = false,
   ...props
 }: CurrencyInputProps) => {
+  if (decimalSeparator === groupSeparator) {
+    throw new Error('decimalSeparator cannot be the same as groupSeparator');
+  }
+
+  if (decimalSeparator !== ',' && decimalSeparator !== '.') {
+    throw new Error('decimalSeparator must be "." or ","');
+  }
+
+  if (groupSeparator !== ',' && groupSeparator !== '.') {
+    throw new Error('groupSeparator must be "." or ","');
+  }
+
   const _defaultValue = defaultValue
-    ? formatValue(String(defaultValue), turnOffSeparators, prefix)
+    ? formatValue({
+        value: String(defaultValue),
+        decimalSeparator,
+        groupSeparator,
+        turnOffSeparators,
+        prefix,
+      })
     : '';
   const [stateValue, setStateValue] = useState(_defaultValue);
   const [cursor, setCursor] = useState(0);
@@ -31,7 +51,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   const processChange = ({
     target: { selectionStart, value },
   }: React.ChangeEvent<HTMLInputElement>): void => {
-    const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
+    const valueOnly = cleanValue({
+      value,
+      decimalSeparator,
+      groupSeparator,
+      allowDecimals,
+      decimalsLimit,
+      prefix,
+    });
 
     if (!valueOnly) {
       onChange && onChange(undefined, name);
@@ -39,11 +66,19 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     }
 
     if (checkIsValidNumber(valueOnly)) {
-      const formattedValue = formatValue(valueOnly, turnOffSeparators, prefix);
+      const formattedValue = formatValue({
+        value: valueOnly,
+        decimalSeparator,
+        groupSeparator,
+        turnOffSeparators,
+        prefix,
+      });
+
       if (selectionStart) {
         const cursor = selectionStart + (formattedValue.length - value.length) || 1;
         setCursor(cursor);
       }
+
       setStateValue(formattedValue);
     }
 
@@ -51,9 +86,25 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   };
 
   const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
-    const valueOnly = cleanValue(value, allowDecimals, decimalsLimit, prefix);
+    const valueOnly = cleanValue({
+      value,
+      decimalSeparator,
+      groupSeparator,
+      allowDecimals,
+      decimalsLimit,
+      prefix,
+    });
+
     const newValue = padTrimValue(valueOnly, precision);
-    const formattedValue = formatValue(newValue, turnOffSeparators, prefix);
+
+    const formattedValue = formatValue({
+      value: newValue,
+      decimalSeparator,
+      groupSeparator,
+      turnOffSeparators,
+      prefix,
+    });
+
     setStateValue(formattedValue);
     onChange && onChange(newValue, name);
   };
@@ -65,7 +116,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   }, [cursor, inputRef, stateValue]);
 
   const formattedPropsValue = value
-    ? formatValue(String(value), turnOffSeparators, prefix)
+    ? formatValue({
+        value: String(value),
+        decimalSeparator,
+        groupSeparator,
+        turnOffSeparators,
+        prefix,
+      })
     : undefined;
 
   return (

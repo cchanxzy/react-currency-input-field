@@ -1,12 +1,27 @@
-import { addCommas } from './addCommas';
+import { Separator } from '../CurrencyInputProps';
+import { addSeparators } from './addSeparators';
+
+type Props = {
+  value: string;
+  decimalSeparator: Separator;
+  groupSeparator: Separator;
+  turnOffSeparators: boolean;
+  prefix?: string;
+};
 
 /**
  * Format value with commas and prefix
  */
-export const formatValue = (value: string, turnOffSeparators: boolean, prefix?: string): string => {
-  const [int, decimals] = value.split('.');
+export const formatValue = ({
+  value,
+  decimalSeparator,
+  groupSeparator,
+  turnOffSeparators,
+  prefix,
+}: Props): string => {
+  const [int, decimals] = value.split(decimalSeparator);
   const includePrefix = prefix ? prefix : '';
-  const includeDecimals = value.includes('.') ? `.${decimals}` : '';
-  const formattedInt = turnOffSeparators ? int : addCommas(int);
+  const includeDecimals = value.includes(decimalSeparator) ? `${decimalSeparator}${decimals}` : '';
+  const formattedInt = turnOffSeparators ? int : addSeparators(int, groupSeparator);
   return `${includePrefix}${formattedInt}${includeDecimals}`;
 };

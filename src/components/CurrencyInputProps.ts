@@ -1,5 +1,7 @@
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
+export type Separator = ',' | '.';
+
 export type CurrencyInputProps = Overwrite<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
@@ -65,18 +67,18 @@ export type CurrencyInputProps = Overwrite<
     prefix?: string;
 
     /**
-     * Separator between integer part and fractional part of value
+     * Separator between integer part and fractional part of value. Can only be "," or "."
      *
      * Default = "."
      */
-    decimalSeparator?: boolean;
+    decimalSeparator?: Separator;
 
     /**
-     * Separator between thousand, million and billion
+     * Separator between thousand, million and billion. Can only be "," or "."
      *
      * Default = ","
      */
-    groupSeparator?: boolean;
+    groupSeparator?: Separator;
 
     /**
      * Disable auto adding separator between values eg. 1000 > 1,000
