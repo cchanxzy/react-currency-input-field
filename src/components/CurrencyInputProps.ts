@@ -5,6 +5,7 @@ export type CurrencyInputProps = Overwrite<
   {
     /**
      * Allow decimals
+     *
      * Default = true
      */
     allowDecimals?: boolean;
@@ -15,9 +16,9 @@ export type CurrencyInputProps = Overwrite<
     id?: string;
 
     /**
-     * Component name
+     *  Maximum characters the user can enter
      */
-    name?: string;
+    maxLength?: number;
 
     /**
      * Class names
@@ -26,6 +27,7 @@ export type CurrencyInputProps = Overwrite<
 
     /**
      * Limit length of decimals allowed
+     *
      * Default = 2
      */
     decimalsLimit?: number;
@@ -37,6 +39,7 @@ export type CurrencyInputProps = Overwrite<
 
     /**
      * Disabled
+     *
      * Default = false
      */
     disabled?: boolean;
@@ -62,8 +65,10 @@ export type CurrencyInputProps = Overwrite<
     prefix?: string;
 
     /**
-     *  Maximum characters the user can enter
+     * Disable auto adding separator between values eg. 1000 > 1,000
+     *
+     * Default = false
      */
-    maxLength?: number;
+    turnOffSeparators?: boolean;
   }
 >;

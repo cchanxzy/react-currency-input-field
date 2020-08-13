@@ -88,7 +88,30 @@ describe('<CurrencyInput /> component', () => {
     expect(onChangeSpy).toBeCalledWith('123', name);
   });
 
-  describe('decimals', () => {
+  describe('separator', () => {
+    it('should not include separator if turned off', () => {
+      const view = shallow(
+        <CurrencyInput
+          id={id}
+          name={name}
+          prefix="£"
+          turnOffSeparators={true}
+          onChange={onChangeSpy}
+          defaultValue={10000}
+        />
+      );
+
+      const input = view.find(`#${id}`);
+      expect(input.prop('value')).toBe('£10000');
+
+      input.simulate('change', { target: { value: '£123456' } });
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£123456');
+    });
+  });
+
+  describe('abbreviated', () => {
     it('should allow abbreviated values with k', () => {
       const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
       view.find(`#${id}`).simulate('change', { target: { value: '£1.5k' } });
