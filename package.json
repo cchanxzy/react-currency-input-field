@@ -7,7 +7,7 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index",
-  "homepage": "https://cchanxzy.github.io/react-currency-input-field",
+  "homepage": "https://github.com/cchanxzy/react-currency-input-field",
   "scripts": {
     "build": "rm -rf dist && tsc && NODE_ENV='prod' webpack --mode=production",
     "start": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
