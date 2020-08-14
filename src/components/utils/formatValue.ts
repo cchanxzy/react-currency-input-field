@@ -1,10 +1,9 @@
-import { Separator } from '../CurrencyInputProps';
 import { addSeparators } from './addSeparators';
 
 type Props = {
   value: string;
-  decimalSeparator: Separator;
-  groupSeparator: Separator;
+  decimalSeparator: string;
+  groupSeparator: string;
   turnOffSeparators: boolean;
   prefix?: string;
 };

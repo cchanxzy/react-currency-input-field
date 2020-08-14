@@ -37,7 +37,7 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Default value
      */
-    defaultValue?: number;
+    defaultValue?: number | string;
 
     /**
      * Disabled
@@ -71,14 +71,14 @@ export type CurrencyInputProps = Overwrite<
      *
      * Default = "."
      */
-    decimalSeparator?: Separator;
+    decimalSeparator?: string;
 
     /**
      * Separator between thousand, million and billion. Can only be "," or "."
      *
      * Default = ","
      */
-    groupSeparator?: Separator;
+    groupSeparator?: string;
 
     /**
      * Disable auto adding separator between values eg. 1000 > 1,000

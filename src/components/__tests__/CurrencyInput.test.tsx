@@ -105,44 +105,53 @@ describe('<CurrencyInput /> component', () => {
       expect(input.prop('value')).toBe('£10000');
 
       input.simulate('change', { target: { value: '£123456' } });
+      expect(onChangeSpy).toBeCalledWith('123456', name);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£123456');
     });
 
+    it('should handle decimal and group separators passed in', () => {
+      const view = shallow(
+        <CurrencyInput
+          id={id}
+          name={name}
+          prefix="£"
+          decimalSeparator=","
+          groupSeparator="."
+          onChange={onChangeSpy}
+        />
+      );
+      view.find(`#${id}`).simulate('change', { target: { value: '£123.456,33' } });
+      expect(onChangeSpy).toBeCalledWith('123456,33', name);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£123.456,33');
+    });
+
     it('should throw error if decimalSeparator and groupSeparator are the same', () => {
       expect(() =>
         shallow(
-          <CurrencyInput
-            id={id}
-            name={name}
-            prefix="£"
-            decimalSeparator=","
-            groupSeparator=","
-            onChange={onChangeSpy}
-            defaultValue={10000}
-          />
+          <CurrencyInput id={id} name={name} prefix="£" decimalSeparator="," groupSeparator="," />
         )
       ).toThrow('decimalSeparator cannot be the same as groupSeparator');
     });
 
-    it('should throw error if decimalSeparator is not comma or period', () => {
+    it('should throw error if decimalSeparator is a number', () => {
       expect(() =>
         shallow(
           <CurrencyInput
             id={id}
             name={name}
             prefix="£"
-            decimalSeparator={'a' as any} //eslint-disable-line
+            decimalSeparator={'1' as any} //eslint-disable-line
             groupSeparator=","
-            onChange={onChangeSpy}
-            defaultValue={10000}
           />
         )
-      ).toThrow('decimalSeparator must be "." or ","');
+      ).toThrow('decimalSeparator cannot be a number');
     });
 
-    it('should throw error if groupSeparator is not comma or period', () => {
+    it('should throw error if groupSeparator is a number', () => {
       expect(() =>
         shallow(
           <CurrencyInput
@@ -150,12 +159,12 @@ describe('<CurrencyInput /> component', () => {
             name={name}
             prefix="£"
             decimalSeparator="."
-            groupSeparator={'a' as any} //eslint-disable-line
+            groupSeparator={'2' as any} //eslint-disable-line
             onChange={onChangeSpy}
             defaultValue={10000}
           />
         )
-      ).toThrow('groupSeparator must be "." or ","');
+      ).toThrow('groupSeparator cannot be a number');
     });
   });
 
@@ -187,13 +196,13 @@ describe('<CurrencyInput /> component', () => {
       expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,599,000,000');
     });
 
-    it('should not allow any other letters', () => {
+    it('should abbreviate any other letters', () => {
       const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
       view.find(`#${id}`).simulate('change', { target: { value: '£1.5e' } });
       expect(onChangeSpy).toBeCalledWith('1.5e', undefined);
 
       const updatedView = view.update();
-      expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.5e');
     });
   });
 
