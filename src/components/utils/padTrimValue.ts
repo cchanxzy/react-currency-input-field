@@ -1,9 +1,9 @@
-export const padTrimValue = (value: string, precision?: number): string => {
+export const padTrimValue = (value: string, decimalSeparator = '.', precision?: number): string => {
   if (!precision) {
     return value;
   }
 
-  const [int, decimals] = value.split('.');
+  const [int, decimals] = value.split(decimalSeparator);
   let newValue = decimals || '';
 
   if (newValue.length < precision) {
@@ -14,5 +14,5 @@ export const padTrimValue = (value: string, precision?: number): string => {
     newValue = newValue.slice(0, precision);
   }
 
-  return `${int}.${newValue}`;
+  return `${int}${decimalSeparator}${newValue}`;
 };
