@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
 import { checkIsValidNumber, cleanValue, formatValue, padTrimValue } from './utils';
 
@@ -25,60 +25,45 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     throw new Error('decimalSeparator cannot be the same as groupSeparator');
   }
 
-  if (decimalSeparator !== ',' && decimalSeparator !== '.') {
-    throw new Error('decimalSeparator must be "." or ","');
+  if (checkIsValidNumber(decimalSeparator)) {
+    throw new Error('decimalSeparator cannot be a number');
   }
 
-  if (groupSeparator !== ',' && groupSeparator !== '.') {
-    throw new Error('groupSeparator must be "." or ","');
+  if (checkIsValidNumber(groupSeparator)) {
+    throw new Error('groupSeparator cannot be a number');
   }
+
+  const formatValueOptions = {
+    decimalSeparator,
+    groupSeparator,
+    turnOffSeparators,
+    prefix,
+  };
+
+  const cleanValueOptions = {
+    decimalSeparator,
+    groupSeparator,
+    allowDecimals,
+    decimalsLimit,
+    prefix,
+  };
 
   const _defaultValue = defaultValue
-    ? formatValue({
-        value: String(defaultValue),
-        decimalSeparator,
-        groupSeparator,
-        turnOffSeparators,
-        prefix,
-      })
+    ? formatValue({ value: String(defaultValue), ...formatValueOptions })
     : '';
   const [stateValue, setStateValue] = useState(_defaultValue);
-  const [cursor, setCursor] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
-  const processChange = ({
-    target: { selectionStart, value },
-  }: React.ChangeEvent<HTMLInputElement>): void => {
-    const valueOnly = cleanValue({
-      value,
-      decimalSeparator,
-      groupSeparator,
-      allowDecimals,
-      decimalsLimit,
-      prefix,
-    });
+  const processChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
+    const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
     if (!valueOnly) {
       onChange && onChange(undefined, name);
       return setStateValue('');
-    }
-
-    if (checkIsValidNumber(valueOnly)) {
-      const formattedValue = formatValue({
-        value: valueOnly,
-        decimalSeparator,
-        groupSeparator,
-        turnOffSeparators,
-        prefix,
-      });
-
-      if (selectionStart) {
-        const cursor = selectionStart + (formattedValue.length - value.length) || 1;
-        setCursor(cursor);
-      }
-
+    } else {
+      const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
       setStateValue(formattedValue);
     }
 
@@ -86,43 +71,18 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   };
 
   const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
-    const valueOnly = cleanValue({
-      value,
-      decimalSeparator,
-      groupSeparator,
-      allowDecimals,
-      decimalsLimit,
-      prefix,
-    });
+    const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-    const newValue = padTrimValue(valueOnly, precision);
+    const newValue = padTrimValue(valueOnly, decimalSeparator, precision);
 
-    const formattedValue = formatValue({
-      value: newValue,
-      decimalSeparator,
-      groupSeparator,
-      turnOffSeparators,
-      prefix,
-    });
+    const formattedValue = formatValue({ value: newValue, ...formatValueOptions });
 
     setStateValue(formattedValue);
     onChange && onChange(newValue, name);
   };
 
-  useEffect(() => {
-    if (inputRef && inputRef.current) {
-      inputRef.current.setSelectionRange(cursor, cursor);
-    }
-  }, [cursor, inputRef, stateValue]);
-
   const formattedPropsValue = value
-    ? formatValue({
-        value: String(value),
-        decimalSeparator,
-        groupSeparator,
-        turnOffSeparators,
-        prefix,
-      })
+    ? formatValue({ value: String(value), ...formatValueOptions })
     : undefined;
 
   return (

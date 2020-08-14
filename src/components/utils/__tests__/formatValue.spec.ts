@@ -21,6 +21,16 @@ describe('formatValue', () => {
     expect(value).toEqual('1.234.567');
   });
 
+  it('should handle comma separator for decimals', () => {
+    const value = formatValue({
+      value: '1234567,89',
+      decimalSeparator: '.',
+      groupSeparator: '.',
+      turnOffSeparators: false,
+    });
+    expect(value).toEqual('1.234.567,89');
+  });
+
   it('should NOT add separator if "turnOffSeparators" is true', () => {
     const value = formatValue({
       value: '1234567',

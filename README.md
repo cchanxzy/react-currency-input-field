@@ -53,24 +53,45 @@ Examples:
 - 2.5m = 2,500,000
 - 3.456B = 3,456,000,000
 
+## Separators
+
+You can change the decimal and group separators by passing in `decimalSeparator` and `groupSeparator`.
+
+Example:
+
+```js
+import CurrencyInput from 'react-currency-input-field';
+
+<CurrencyInput
+  id="input-example"
+  defaultValue="123.456,89"
+  decimalSeparator=","
+  groupSeparator="."
+/>;
+```
+
+Note: the separators cannot be a number, and `decimalSeparator` must be different to `groupSeparator`.
+
+To turn off auto adding the group separator, add `turnOffSeparators={true}`.
+
 ## Props
 
-| Name              | Type       | Default | Description                                                   |
-| ----------------- | ---------- | ------- | ------------------------------------------------------------- |
-| allowDecimals     | `boolean`  | `true`  | Allow decimals                                                |
-| className         | `string`   |         | Class names                                                   |
-| decimalsLimit     | `number`   | `2`     | Limit length of decimals allowed                              |
-| defaultValue      | `number`   |         | Default value                                                 |
-| disabled          | `boolean`  | `false` | Disabled                                                      |
-| id                | `string`   |         | Component id                                                  |
-| maxLength         | `number`   |         | Maximum characters the user can enter                         |
-| onChange          | `function` |         | Handle change in value                                        |
-| placeholder       | `string`   |         | Placeholder if no value                                       |
-| precision         | `number`   |         | Specify decimal precision for padding/trimming                |
-| prefix            | `string`   |         | Include a prefix eg. £ or \$                                  |
-| decimalSeparator  | `string`   | `.`     | Separator between integer part and fractional part of value   |
-| groupSeparator    | `string`   | `,`     | Separator between thousand, million and billion               |
-| turnOffSeparators | `boolean`  | `false` | Disable auto adding separator between values eg. 1000 > 1,000 |
+| Name              | Type       | Default | Description                                                              |
+| ----------------- | ---------- | ------- | ------------------------------------------------------------------------ |
+| allowDecimals     | `boolean`  | `true`  | Allow decimals                                                           |
+| className         | `string`   |         | Class names                                                              |
+| decimalsLimit     | `number`   | `2`     | Limit length of decimals allowed                                         |
+| defaultValue      | `number`   |         | Default value                                                            |
+| disabled          | `boolean`  | `false` | Disabled                                                                 |
+| id                | `string`   |         | Component id                                                             |
+| maxLength         | `number`   |         | Maximum characters the user can enter                                    |
+| onChange          | `function` |         | Handle change in value                                                   |
+| placeholder       | `string`   |         | Placeholder if no value                                                  |
+| precision         | `number`   |         | Specify decimal precision for padding/trimming                           |
+| prefix            | `string`   |         | Include a prefix eg. £ or \$                                             |
+| decimalSeparator  | `string`   | `.`     | Separator between integer part and fractional part of value              |
+| groupSeparator    | `string`   | `,`     | Separator between thousand, million and billion                          |
+| turnOffSeparators | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
 
 ## Issues
 
