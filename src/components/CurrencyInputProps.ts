@@ -47,6 +47,11 @@ export type CurrencyInputProps = Overwrite<
     disabled?: boolean;
 
     /**
+     * Value will always have the specified length of decimals
+     */
+    fixedDecimalLength?: number;
+
+    /**
      * Handle change in value
      */
     onChange?: (value: string | undefined, name?: string) => void;
@@ -67,14 +72,14 @@ export type CurrencyInputProps = Overwrite<
     prefix?: string;
 
     /**
-     * Separator between integer part and fractional part of value. Can only be "," or "."
+     * Separator between integer part and fractional part of value. Cannot be a number
      *
      * Default = "."
      */
     decimalSeparator?: string;
 
     /**
-     * Separator between thousand, million and billion. Can only be "," or "."
+     * Separator between thousand, million and billion. Cannot be a number
      *
      * Default = ","
      */

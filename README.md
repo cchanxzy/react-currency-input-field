@@ -74,24 +74,38 @@ Note: the separators cannot be a number, and `decimalSeparator` must be differen
 
 To turn off auto adding the group separator, add `turnOffSeparators={true}`.
 
+## Fixed Decimal Length
+
+Use `fixedDecimalLength` so that the value will always have the specified length of decimals.
+
+Example if `fixedDecimalLength` was 2:
+
+```md
+- 1 -> 1.00
+- 123 -> 1.23
+- 12.3 -> 12.30
+- 12.34 -> 12.34
+```
+
 ## Props
 
-| Name              | Type       | Default | Description                                                              |
-| ----------------- | ---------- | ------- | ------------------------------------------------------------------------ |
-| allowDecimals     | `boolean`  | `true`  | Allow decimals                                                           |
-| className         | `string`   |         | Class names                                                              |
-| decimalsLimit     | `number`   | `2`     | Limit length of decimals allowed                                         |
-| defaultValue      | `number`   |         | Default value                                                            |
-| disabled          | `boolean`  | `false` | Disabled                                                                 |
-| id                | `string`   |         | Component id                                                             |
-| maxLength         | `number`   |         | Maximum characters the user can enter                                    |
-| onChange          | `function` |         | Handle change in value                                                   |
-| placeholder       | `string`   |         | Placeholder if no value                                                  |
-| precision         | `number`   |         | Specify decimal precision for padding/trimming                           |
-| prefix            | `string`   |         | Include a prefix eg. £ or \$                                             |
-| decimalSeparator  | `string`   | `.`     | Separator between integer part and fractional part of value              |
-| groupSeparator    | `string`   | `,`     | Separator between thousand, million and billion                          |
-| turnOffSeparators | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
+| Name               | Type       | Default | Description                                                              |
+| ------------------ | ---------- | ------- | ------------------------------------------------------------------------ |
+| allowDecimals      | `boolean`  | `true`  | Allow decimals                                                           |
+| className          | `string`   |         | Class names                                                              |
+| decimalsLimit      | `number`   | `2`     | Limit length of decimals allowed                                         |
+| defaultValue       | `number`   |         | Default value                                                            |
+| disabled           | `boolean`  | `false` | Disabled                                                                 |
+| fixedDecimalLength | `number`   |         | Value will always have the specified length of decimals                  |
+| id                 | `string`   |         | Component id                                                             |
+| maxLength          | `number`   |         | Maximum characters the user can enter                                    |
+| onChange           | `function` |         | Handle change in value                                                   |
+| placeholder        | `string`   |         | Placeholder if no value                                                  |
+| precision          | `number`   |         | Specify decimal precision for padding/trimming                           |
+| prefix             | `string`   |         | Include a prefix eg. £ or \$                                             |
+| decimalSeparator   | `string`   | `.`     | Separator between integer part and fractional part of value              |
+| groupSeparator     | `string`   | `,`     | Separator between thousand, million and billion                          |
+| turnOffSeparators  | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
 
 ## Issues
 
