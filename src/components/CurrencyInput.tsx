@@ -1,18 +1,25 @@
 import React, { FC, useState, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
-import { checkIsValidNumber, cleanValue, formatValue, padTrimValue } from './utils';
+import {
+  checkIsValidNumber,
+  cleanValue,
+  fixedDecimalValue,
+  formatValue,
+  padTrimValue,
+} from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
   id,
   name,
   className,
-  decimalsLimit = 2,
+  decimalsLimit,
   defaultValue,
   disabled = false,
-  maxLength,
+  maxLength: userMaxLength,
   value,
   onChange,
+  fixedDecimalLength,
   placeholder,
   precision,
   prefix,
@@ -44,7 +51,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     decimalSeparator,
     groupSeparator,
     allowDecimals,
-    decimalsLimit,
+    decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
     prefix,
   };
 
@@ -62,18 +69,24 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     if (!valueOnly) {
       onChange && onChange(undefined, name);
       return setStateValue('');
+    }
+
+    if (userMaxLength && valueOnly.length > userMaxLength) {
+      return;
     } else {
       const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
       setStateValue(formattedValue);
-    }
 
-    onChange && onChange(valueOnly, name);
+      onChange && onChange(valueOnly, name);
+    }
   };
 
   const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-    const newValue = padTrimValue(valueOnly, decimalSeparator, precision);
+    const fixedDecimals = fixedDecimalValue(valueOnly, decimalSeparator, fixedDecimalLength);
+
+    const newValue = padTrimValue(fixedDecimals, decimalSeparator, precision || fixedDecimalLength);
 
     const formattedValue = formatValue({ value: newValue, ...formatValueOptions });
 
@@ -99,7 +112,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       disabled={disabled}
       value={formattedPropsValue || stateValue}
       ref={inputRef}
-      maxLength={maxLength}
       {...props}
     />
   );

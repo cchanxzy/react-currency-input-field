@@ -42,8 +42,6 @@ export const Example1: FC = () => {
             onChange={validateValue}
             prefix={prefix}
             precision={2}
-            decimalSeparator=","
-            groupSeparator="."
           />
           <div className="invalid-feedback">{errorMessage}</div>
         </div>
