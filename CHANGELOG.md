@@ -1,3 +1,10 @@
+# [2.2.0-beta.2](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0-beta.1...v2.2.0-beta.2) (2020-08-20)
+
+
+### Features
+
+* fixed decimal length prop ([7089248](https://github.com/cchanxzy/react-currency-input-field/commit/70892489f5f62a914e5b26e2cb461e25076a1441))
+
 # [2.2.0-beta.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.1.0...v2.2.0-beta.1) (2020-08-14)
 
 
