@@ -11,6 +11,12 @@ export type CurrencyInputProps = Overwrite<
     allowDecimals?: boolean;
 
     /**
+     * Component to render. Can either be a string e.g. 'input', or a component.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    as?: string | React.ComponentType<any> | React.ForwardRefExoticComponent<any>;
+
+    /**
      * Component id
      */
     id?: string;

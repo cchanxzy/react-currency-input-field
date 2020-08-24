@@ -4,6 +4,7 @@ import { checkIsValidNumber, cleanValue, formatValue, padTrimValue } from './uti
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
+  as: is, // 'as' is a keyword in typescript
   id,
   name,
   className,
@@ -68,8 +69,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     ? formatValue(String(value), turnOffSeparators, prefix)
     : undefined;
 
+  const AsElement = is || 'input';
+
   return (
-    <input
+    <AsElement
       type="text"
       inputMode="decimal"
       id={id}
