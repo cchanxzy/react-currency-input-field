@@ -6,6 +6,16 @@ describe('padTrimValue', () => {
     expect(value).toEqual('1000000');
   });
 
+  it('should return blank value if no value', () => {
+    const value = padTrimValue('', '.', 2);
+    expect(value).toEqual('');
+  });
+
+  it('should return blank value if no only negative', () => {
+    const value = padTrimValue('-', '.', 2);
+    expect(value).toEqual('');
+  });
+
   it('should pad with 0 if no decimals', () => {
     const value = padTrimValue('99', '.', 3);
     expect(value).toEqual('99.000');

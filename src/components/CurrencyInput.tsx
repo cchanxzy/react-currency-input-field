@@ -68,24 +68,37 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
     if (!valueOnly) {
       onChange && onChange(undefined, name);
-      return setStateValue('');
+      setStateValue('');
+      return;
     }
 
     if (userMaxLength && valueOnly.length > userMaxLength) {
       return;
-    } else {
-      const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
-      setStateValue(formattedValue);
-
-      onChange && onChange(valueOnly, name);
     }
+
+    if (valueOnly === '-') {
+      setStateValue(value);
+      onChange && onChange(valueOnly, name);
+      return;
+    }
+
+    const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
+
+    setStateValue(formattedValue);
+    onChange && onChange(valueOnly, name);
   };
 
   const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
+    if (valueOnly === '-') {
+      setStateValue('');
+      return;
+    }
+
     const fixedDecimals = fixedDecimalValue(valueOnly, decimalSeparator, fixedDecimalLength);
 
+    // Add padding or trim value to precision
     const newValue = padTrimValue(fixedDecimals, decimalSeparator, precision || fixedDecimalLength);
 
     const formattedValue = formatValue({ value: newValue, ...formatValueOptions });
