@@ -1,3 +1,10 @@
+# [2.2.0-beta.3](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0-beta.2...v2.2.0-beta.3) (2020-08-25)
+
+
+### Features
+
+* handle negative values ([b581e17](https://github.com/cchanxzy/react-currency-input-field/commit/b581e177510e2016051a4b611f86cea9ad7e34c9))
+
 # [2.2.0-beta.2](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0-beta.1...v2.2.0-beta.2) (2020-08-20)
 
 
