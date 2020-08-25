@@ -21,17 +21,21 @@ export const cleanValue = ({
   decimalsLimit,
   prefix,
 }: Props): string => {
-  const withoutPrefix = prefix ? value.replace(prefix, '') : value;
+  const isNegative = value.includes('-');
+  const withoutNegative = isNegative ? value.replace('-', '') : value;
+  const withoutPrefix = prefix ? withoutNegative.replace(prefix, '') : withoutNegative;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
+
   const parsed = parseAbbrValue(withoutSeparators, decimalSeparator) || withoutSeparators;
+  const includeNegative = isNegative ? '-' : '';
 
   if (String(parsed).includes(decimalSeparator)) {
     const [int, decimals] = withoutSeparators.split(decimalSeparator);
     const trimmedDecimals = decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals;
     const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
 
-    return `${int}${includeDecimals}`;
+    return `${includeNegative}${int}${includeDecimals}`;
   }
 
-  return String(parsed);
+  return `${includeNegative}${parsed}`;
 };

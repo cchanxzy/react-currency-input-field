@@ -76,7 +76,7 @@ To turn off auto adding the group separator, add `turnOffSeparators={true}`.
 
 ## Fixed Decimal Length
 
-Use `fixedDecimalLength` so that the value will always have the specified length of decimals.
+Use `fixedDecimalLength` so that the value will always have the specified length of decimals. This formatting happens onBlur.
 
 Example if `fixedDecimalLength` was 2:
 

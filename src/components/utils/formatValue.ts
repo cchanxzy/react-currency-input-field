@@ -4,7 +4,7 @@ type Props = {
   value: string;
   decimalSeparator: string;
   groupSeparator: string;
-  turnOffSeparators: boolean;
+  turnOffSeparators?: boolean;
   prefix?: string;
 };
 
@@ -15,12 +15,28 @@ export const formatValue = ({
   value,
   decimalSeparator,
   groupSeparator,
-  turnOffSeparators,
+  turnOffSeparators = false,
   prefix,
 }: Props): string => {
+  if (value === '' || value === undefined) {
+    return '';
+  }
+
+  if (value === '-') {
+    return '-';
+  }
+
+  const isNegative = value.includes('-');
   const [int, decimals] = value.split(decimalSeparator);
+  const valueOnlyInt = isNegative ? int.replace('-', '') : int;
+
+  const formattedInt = turnOffSeparators
+    ? valueOnlyInt
+    : addSeparators(valueOnlyInt, groupSeparator);
+
   const includePrefix = prefix ? prefix : '';
+  const includeNegative = isNegative ? '-' : '';
   const includeDecimals = value.includes(decimalSeparator) ? `${decimalSeparator}${decimals}` : '';
-  const formattedInt = turnOffSeparators ? int : addSeparators(int, groupSeparator);
-  return `${includePrefix}${formattedInt}${includeDecimals}`;
+
+  return `${includeNegative}${includePrefix}${formattedInt}${includeDecimals}`;
 };

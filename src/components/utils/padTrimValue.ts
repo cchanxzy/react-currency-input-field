@@ -1,6 +1,10 @@
 export const padTrimValue = (value: string, decimalSeparator = '.', precision?: number): string => {
-  if (!precision) {
+  if (!precision || value === '' || value === undefined) {
     return value;
+  }
+
+  if (!value.match(/\d/g)) {
+    return '';
   }
 
   const [int, decimals] = value.split(decimalSeparator);
