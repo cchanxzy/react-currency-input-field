@@ -79,4 +79,30 @@ describe('cleanValue', () => {
     });
     expect(value).toEqual('1234567.89');
   });
+
+  describe('negative values', () => {
+    it('should handle negative value', () => {
+      const value = cleanValue({
+        value: '-£1,000',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        allowDecimals: true,
+        decimalsLimit: 2,
+        prefix: '£',
+      });
+      expect(value).toEqual('-1000');
+    });
+
+    it('should handle negative value with decimal', () => {
+      const value = cleanValue({
+        value: '-£99,999.99',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        allowDecimals: true,
+        decimalsLimit: 2,
+        prefix: '£',
+      });
+      expect(value).toEqual('-99999.99');
+    });
+  });
 });

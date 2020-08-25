@@ -26,7 +26,7 @@ const abbrMap: AbbrMap = { k: 1000, m: 1000000, b: 1000000000 };
 /**
  * Parse a value with abbreviation e.g 1k = 1000
  */
-export const parseAbbrValue = (value: string, decimalSeparator = '.'): undefined | number => {
+export const parseAbbrValue = (value: string, decimalSeparator = '.'): number | undefined => {
   const reg = new RegExp(`(\\d+(${escapeRegExp(decimalSeparator)}\\d+)?)([kmb])$`, 'i');
   const match = value.match(reg);
 
