@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0...v2.3.0) (2020-09-20)
+
+
+### Features
+
+* add prop to disallow negative value ([b9ef02c](https://github.com/cchanxzy/react-currency-input-field/commit/b9ef02ca489833fcc95a25148cee1e7b7ade132d))
+
 # [2.2.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.1.0...v2.2.0) (2020-08-25)
 
 
