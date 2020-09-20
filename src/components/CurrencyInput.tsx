@@ -10,6 +10,7 @@ import {
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
+  allowNegativeValue = true,
   id,
   name,
   className,
@@ -52,6 +53,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     groupSeparator,
     allowDecimals,
     decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
+    allowNegativeValue,
     prefix,
   };
 

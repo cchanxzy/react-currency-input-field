@@ -13,6 +13,13 @@ export type CurrencyInputProps = Overwrite<
     allowDecimals?: boolean;
 
     /**
+     * Allow user to enter negative value
+     *
+     * Default = true
+     */
+    allowNegativeValue?: boolean;
+
+    /**
      * Component id
      */
     id?: string;

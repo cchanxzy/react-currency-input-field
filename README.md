@@ -92,6 +92,7 @@ Example if `fixedDecimalLength` was 2:
 | Name               | Type       | Default | Description                                                              |
 | ------------------ | ---------- | ------- | ------------------------------------------------------------------------ |
 | allowDecimals      | `boolean`  | `true`  | Allow decimals                                                           |
+| allowNegativeValue | `boolean`  | `true`  | Allow user to enter negative value                                       |
 | className          | `string`   |         | Class names                                                              |
 | decimalsLimit      | `number`   | `2`     | Limit length of decimals allowed                                         |
 | defaultValue       | `number`   |         | Default value                                                            |

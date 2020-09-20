@@ -388,5 +388,26 @@ describe('<CurrencyInput /> component', () => {
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('');
     });
+
+    it('should not allow negative value if allowNegativeValue is false', () => {
+      const view = shallow(
+        <CurrencyInput
+          id={id}
+          prefix="$"
+          onChange={onChangeSpy}
+          allowNegativeValue={false}
+          defaultValue={123}
+        />
+      );
+
+      const input = view.find(`#${id}`);
+      expect(input.prop('value')).toBe('$123');
+
+      input.simulate('change', { target: { value: '-$1234' } });
+      expect(onChangeSpy).toBeCalledWith('1234', undefined);
+
+      const updatedView = view.update();
+      expect(updatedView.find(`#${id}`).prop('value')).toBe('$1,234');
+    });
   });
 });
