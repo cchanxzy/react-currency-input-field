@@ -7,6 +7,7 @@ type Props = {
   groupSeparator: string;
   allowDecimals: boolean;
   decimalsLimit: number;
+  allowNegativeValue?: boolean;
   prefix?: string;
 };
 
@@ -19,6 +20,7 @@ export const cleanValue = ({
   groupSeparator,
   allowDecimals,
   decimalsLimit,
+  allowNegativeValue = true,
   prefix,
 }: Props): string => {
   const isNegative = value.includes('-');
@@ -27,7 +29,7 @@ export const cleanValue = ({
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
 
   const parsed = parseAbbrValue(withoutSeparators, decimalSeparator) || withoutSeparators;
-  const includeNegative = isNegative ? '-' : '';
+  const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
   if (String(parsed).includes(decimalSeparator)) {
     const [int, decimals] = withoutSeparators.split(decimalSeparator);

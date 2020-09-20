@@ -104,5 +104,18 @@ describe('cleanValue', () => {
       });
       expect(value).toEqual('-99999.99');
     });
+
+    it('should handle not allow negative value if allowNegativeValue is false', () => {
+      const value = cleanValue({
+        value: '-£1,000',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        allowDecimals: true,
+        decimalsLimit: 2,
+        allowNegativeValue: false,
+        prefix: '£',
+      });
+      expect(value).toEqual('1000');
+    });
   });
 });
