@@ -111,7 +111,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
   const formattedPropsValue = value
     ? formatValue({ value: String(value), ...formatValueOptions })
-    : undefined;
+    : value;
 
   return (
     <input
@@ -125,7 +125,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       onFocus={onFocus}
       placeholder={placeholder}
       disabled={disabled}
-      value={formattedPropsValue || stateValue}
+      value={formattedPropsValue !== undefined ? formattedPropsValue : stateValue}
       ref={inputRef}
       {...props}
     />
