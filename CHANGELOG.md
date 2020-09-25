@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.0...v2.3.1) (2020-09-25)
+
+
+### Bug Fixes
+
+* can clear field programmatically ([2598c16](https://github.com/cchanxzy/react-currency-input-field/commit/2598c16dc1ea499110740c6b63deb48d40c597e6))
+
 # [2.3.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0...v2.3.0) (2020-09-20)
 
 
