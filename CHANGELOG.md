@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.1...v2.3.2) (2020-09-27)
+
+
+### Bug Fixes
+
+* prefix 0 value ([d7fa074](https://github.com/cchanxzy/react-currency-input-field/commit/d7fa0747f09da9a33bb46146172563277a1b5fc3))
+
 ## [2.3.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.0...v2.3.1) (2020-09-25)
 
 
