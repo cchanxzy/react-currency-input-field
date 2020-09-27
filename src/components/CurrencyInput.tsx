@@ -66,7 +66,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
   const processChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
-    const valueOnly = cleanValue({ value, ...cleanValueOptions });
+    const valueOnly = cleanValue({ value: String(value), ...cleanValueOptions });
 
     if (!valueOnly) {
       onChange && onChange(undefined, name);
@@ -109,9 +109,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     onChange && onChange(newValue, name);
   };
 
-  const formattedPropsValue = value
-    ? formatValue({ value: String(value), ...formatValueOptions })
-    : value;
+  const formattedPropsValue =
+    value !== undefined ? formatValue({ value: String(value), ...formatValueOptions }) : undefined;
 
   return (
     <input
