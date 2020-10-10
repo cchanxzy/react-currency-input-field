@@ -1,9 +1,9 @@
 import { addSeparators } from './addSeparators';
 
 type Props = {
-  value: string;
-  decimalSeparator: string;
-  groupSeparator: string;
+  value: number | string | undefined;
+  decimalSeparator?: string;
+  groupSeparator?: string;
   turnOffSeparators?: boolean;
   prefix?: string;
 };
@@ -12,15 +12,17 @@ type Props = {
  * Format value with commas and prefix
  */
 export const formatValue = ({
-  value,
-  decimalSeparator,
-  groupSeparator,
+  value: _value,
+  decimalSeparator = '.',
+  groupSeparator = ',',
   turnOffSeparators = false,
   prefix,
 }: Props): string => {
-  if (value === '' || value === undefined) {
+  if (_value === '' || _value === undefined) {
     return '';
   }
+
+  const value = String(_value);
 
   if (value === '-') {
     return '-';

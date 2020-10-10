@@ -4,8 +4,6 @@ describe('formatValue', () => {
   it('should return empty if blank value', () => {
     const value = formatValue({
       value: '',
-      decimalSeparator: '.',
-      groupSeparator: ',',
     });
     expect(value).toEqual('');
   });
@@ -13,8 +11,6 @@ describe('formatValue', () => {
   it('should add separator', () => {
     const value = formatValue({
       value: '1234567',
-      decimalSeparator: '.',
-      groupSeparator: ',',
     });
     expect(value).toEqual('1,234,567');
   });
@@ -40,8 +36,6 @@ describe('formatValue', () => {
   it('should NOT add separator if "turnOffSeparators" is true', () => {
     const value = formatValue({
       value: '1234567',
-      decimalSeparator: '.',
-      groupSeparator: ',',
       turnOffSeparators: true,
     });
     expect(value).toEqual('1234567');
@@ -50,8 +44,6 @@ describe('formatValue', () => {
   it('should add prefix', () => {
     const value = formatValue({
       value: '123',
-      decimalSeparator: '.',
-      groupSeparator: ',',
       prefix: '£',
     });
     expect(value).toEqual('£123');
@@ -60,8 +52,6 @@ describe('formatValue', () => {
   it('should include "."', () => {
     const value = formatValue({
       value: '1234567.',
-      decimalSeparator: '.',
-      groupSeparator: ',',
     });
     expect(value).toEqual('1,234,567.');
   });
@@ -69,8 +59,6 @@ describe('formatValue', () => {
   it('should include decimals', () => {
     const value = formatValue({
       value: '1234.567',
-      decimalSeparator: '.',
-      groupSeparator: ',',
     });
     expect(value).toEqual('1,234.567');
   });
@@ -78,8 +66,6 @@ describe('formatValue', () => {
   it('should format value', () => {
     const value = formatValue({
       value: '1234567.89',
-      decimalSeparator: '.',
-      groupSeparator: ',',
       prefix: '£',
     });
     expect(value).toEqual('£1,234,567.89');
@@ -88,8 +74,6 @@ describe('formatValue', () => {
   it('should handle negative values', () => {
     const value = formatValue({
       value: '-1234',
-      decimalSeparator: '.',
-      groupSeparator: ',',
       prefix: '£',
     });
     expect(value).toEqual('-£1,234');
@@ -98,8 +82,6 @@ describe('formatValue', () => {
   it('should return negative sign if only negative sign', () => {
     const value = formatValue({
       value: '-',
-      decimalSeparator: '.',
-      groupSeparator: ',',
       prefix: '£',
     });
     expect(value).toEqual('-');

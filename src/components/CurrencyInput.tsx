@@ -85,8 +85,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     }
 
     const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
-
     setStateValue(formattedValue);
+
     onChange && onChange(valueOnly, name);
   };
 
