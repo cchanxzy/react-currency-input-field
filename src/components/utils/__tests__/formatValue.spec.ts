@@ -71,6 +71,14 @@ describe('formatValue', () => {
     expect(value).toEqual('£1,234,567.89');
   });
 
+  it('should handle 0 value', () => {
+    const value = formatValue({
+      value: '0',
+      prefix: '£',
+    });
+    expect(value).toEqual('£0');
+  });
+
   it('should handle negative values', () => {
     const value = formatValue({
       value: '-1234',

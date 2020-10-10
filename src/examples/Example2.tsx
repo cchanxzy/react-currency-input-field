@@ -43,6 +43,7 @@ export const Example2: FC = () => {
                 allowDecimals={true}
                 className={`form-control ${className}`}
                 onChange={validateValue}
+                defaultValue={0}
                 prefix={'$'}
               />
               <div className="invalid-feedback">{errorMessage}</div>

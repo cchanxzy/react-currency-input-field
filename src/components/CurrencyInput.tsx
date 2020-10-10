@@ -57,9 +57,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     prefix,
   };
 
-  const _defaultValue = defaultValue
-    ? formatValue({ value: String(defaultValue), ...formatValueOptions })
-    : '';
+  const _defaultValue =
+    defaultValue !== undefined
+      ? formatValue({ value: String(defaultValue), ...formatValueOptions })
+      : '';
   const [stateValue, setStateValue] = useState(_defaultValue);
   const inputRef = useRef<HTMLInputElement>(null);
 
