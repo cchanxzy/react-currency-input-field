@@ -26,7 +26,7 @@ describe('<CurrencyInput /> component > negative value', () => {
     expect(updatedView.find(`#${id}`).prop('value')).toBe('-$1,234');
   });
 
-  it('should call onChange with only negative sign and keeps sign as value', () => {
+  it('should call onChange with undefined and keep "-" sign as state value', () => {
     const view = shallow(
       <CurrencyInput id={id} prefix="$" onChange={onChangeSpy} precision={2} defaultValue={123} />
     );
@@ -35,7 +35,7 @@ describe('<CurrencyInput /> component > negative value', () => {
     expect(input.prop('value')).toBe('$123');
 
     input.simulate('change', { target: { value: '-' } });
-    expect(onChangeSpy).toBeCalledWith('-', undefined);
+    expect(onChangeSpy).toBeCalledWith(undefined, undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('-');

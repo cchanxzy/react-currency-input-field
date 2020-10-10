@@ -41,7 +41,7 @@ export const Example3: FC = () => {
   const prefix = '£';
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const validateValue = (_value: string | undefined, fieldName: string | undefined): void => {
+  const handleOnChange = (_value: string | undefined, fieldName: string | undefined): void => {
     if (!fieldName) {
       return;
     }
@@ -59,13 +59,13 @@ export const Example3: FC = () => {
 
     const value = Number(_value);
 
-    if (Number.isNaN(value)) {
+    if (!Number.isNaN(value)) {
       dispatch({
         fieldName,
         value: {
           value,
-          validationClass: 'is-invalid',
-          errorMessage: 'Please enter a valid number',
+          validationClass: 'is-valid',
+          errorMessage: '',
         },
       });
     } else {
@@ -73,8 +73,8 @@ export const Example3: FC = () => {
         fieldName,
         value: {
           value,
-          validationClass: 'is-valid',
-          errorMessage: '',
+          validationClass: 'is-invalid',
+          errorMessage: 'Please enter a valid number',
         },
       });
     }
@@ -102,7 +102,7 @@ export const Example3: FC = () => {
                 name="field1"
                 className={`form-control ${state.field1.validationClass}`}
                 value={state.field1.value}
-                onChange={validateValue}
+                onChange={handleOnChange}
                 prefix={prefix}
               />
               <div className="invalid-feedback">{state.field1.errorMessage}</div>
@@ -115,7 +115,7 @@ export const Example3: FC = () => {
                 name="field2"
                 className={`form-control ${state.field2.validationClass}`}
                 value={state.field2.value}
-                onChange={validateValue}
+                onChange={handleOnChange}
                 prefix={prefix}
               />
               <div className="invalid-feedback">{state.field1.errorMessage}</div>
