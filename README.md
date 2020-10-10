@@ -11,9 +11,10 @@
 - Only allows valid numbers
 - Lightweight and simple
 
-## Demo
+## Examples
 
-[Live Demo](https://cchanxzy.github.io/react-currency-input-field)
+- [Play with examples](https://cchanxzy.github.io/react-currency-input-field)
+- [View examples code](https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples)
 
 ![React Currency Input Demo](demo/demo.gif)
 
