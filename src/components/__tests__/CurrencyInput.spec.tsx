@@ -110,6 +110,24 @@ describe('<CurrencyInput /> component', () => {
     expect(onChangeSpy).toBeCalledWith('123', name);
   });
 
+  it('should not allow invalid characters', () => {
+    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    view.find(`#${id}`).simulate('change', { target: { value: 'hello' } });
+    expect(onChangeSpy).toBeCalledWith(undefined, name);
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+  });
+
+  it('should ignore invalid characters', () => {
+    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    view.find(`#${id}`).simulate('change', { target: { value: '£123hello' } });
+    expect(onChangeSpy).toBeCalledWith('123', name);
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
+  });
+
   describe('maxLength', () => {
     it('should not allow more values than max length', () => {
       const view = shallow(
