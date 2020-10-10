@@ -1,9 +1,8 @@
-name: Release
+name: Examples
 on:
   push:
     branches:
       - master
-      - beta
 jobs:
   release:
     name: Release
@@ -22,16 +21,12 @@ jobs:
           key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: yarn
-      - name: Build package
-        run: yarn build
-      - name: Run tests
-        run: yarn test
-      - name: Code coverage
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: yarn codecov
-      - name: Release
-        env:
+      - name: Build examples
+        run: yarn gh-predeploy
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn semantic-release
+          BRANCH: gh-pages
+          FOLDER: dist
+          CLEAN: true
