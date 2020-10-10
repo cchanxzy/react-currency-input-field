@@ -1,3 +1,12 @@
+## [2.3.3](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.2...v2.3.3) (2020-10-10)
+
+
+### Bug Fixes
+
+* allows default 0 value ([4189b80](https://github.com/cchanxzy/react-currency-input-field/commit/4189b80b5949dfe662add54e8953301e1b7c9912))
+* disallow invalid chars and updated examples ([134d36a](https://github.com/cchanxzy/react-currency-input-field/commit/134d36a098a4f3fcb87429ee55c32543cabfcc46))
+* don't call onChange with only - ([ef4101b](https://github.com/cchanxzy/react-currency-input-field/commit/ef4101bca97b629f6e412b728456642fa0ebf231))
+
 ## [2.3.2](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.1...v2.3.2) (2020-09-27)
 
 
