@@ -28,10 +28,8 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('Renders with default value', () => {
-    const defaultValue = 1234.56;
-
     const view = shallow(
-      <CurrencyInput id={id} defaultValue={defaultValue} className={className} prefix="£" />
+      <CurrencyInput id={id} defaultValue={1234.56} className={className} prefix="£" />
     );
     const input = view.find(`#${id}`);
 
@@ -39,6 +37,14 @@ describe('<CurrencyInput /> component', () => {
     expect(input.prop('id')).toBe(id);
     expect(input.prop('value')).toBe('£1,234.56');
     expect(input.prop('className')).toBe(className);
+  });
+
+  it('Renders with default value 0', () => {
+    const view = shallow(
+      <CurrencyInput id={id} defaultValue={0} className={className} prefix="£" />
+    );
+    const input = view.find(`#${id}`);
+    expect(input.prop('value')).toBe('£0');
   });
 
   it('Renders with value prop', () => {
