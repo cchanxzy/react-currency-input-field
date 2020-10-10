@@ -96,6 +96,7 @@ Example if `fixedDecimalLength` was 2:
 | className          | `string`   |         | Class names                                                              |
 | decimalsLimit      | `number`   | `2`     | Limit length of decimals allowed                                         |
 | defaultValue       | `number`   |         | Default value                                                            |
+| value              | `number`   |         | Programmatically set the value                                           |
 | disabled           | `boolean`  | `false` | Disabled                                                                 |
 | fixedDecimalLength | `number`   |         | Value will always have the specified length of decimals                  |
 | id                 | `string`   |         | Component id                                                             |

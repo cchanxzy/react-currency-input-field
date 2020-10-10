@@ -1,12 +1,13 @@
 import { parseAbbrValue } from './parseAbbrValue';
 import { removeSeparators } from './removeSeparators';
+import { removeInvalidChars } from './removeInvalidChars';
 
 type Props = {
   value: string;
-  decimalSeparator: string;
-  groupSeparator: string;
-  allowDecimals: boolean;
-  decimalsLimit: number;
+  decimalSeparator?: string;
+  groupSeparator?: string;
+  allowDecimals?: boolean;
+  decimalsLimit?: number;
   allowNegativeValue?: boolean;
   prefix?: string;
 };
@@ -16,23 +17,31 @@ type Props = {
  */
 export const cleanValue = ({
   value,
-  decimalSeparator,
-  groupSeparator,
-  allowDecimals,
-  decimalsLimit,
+  groupSeparator = ',',
+  decimalSeparator = '.',
+  allowDecimals = true,
+  decimalsLimit = 2,
   allowNegativeValue = true,
   prefix,
 }: Props): string => {
   const isNegative = value.includes('-');
+
   const withoutNegative = isNegative ? value.replace('-', '') : value;
   const withoutPrefix = prefix ? withoutNegative.replace(prefix, '') : withoutNegative;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
+  const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
+    groupSeparator,
+    decimalSeparator,
+    'k',
+    'm',
+    'b',
+  ]);
 
-  const parsed = parseAbbrValue(withoutSeparators, decimalSeparator) || withoutSeparators;
+  const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator) || withoutInvalidChars;
   const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
   if (String(parsed).includes(decimalSeparator)) {
-    const [int, decimals] = withoutSeparators.split(decimalSeparator);
+    const [int, decimals] = withoutInvalidChars.split(decimalSeparator);
     const trimmedDecimals = decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals;
     const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
 
