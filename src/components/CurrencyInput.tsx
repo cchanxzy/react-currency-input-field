@@ -79,8 +79,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     }
 
     if (valueOnly === '-') {
+      onChange && onChange(undefined, name);
       setStateValue(value);
-      onChange && onChange(valueOnly, name);
       return;
     }
 
@@ -124,7 +124,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       onFocus={onFocus}
       placeholder={placeholder}
       disabled={disabled}
-      value={formattedPropsValue !== undefined ? formattedPropsValue : stateValue}
+      value={
+        formattedPropsValue !== undefined && stateValue !== '-' ? formattedPropsValue : stateValue
+      }
       ref={inputRef}
       {...props}
     />

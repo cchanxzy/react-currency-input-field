@@ -23,12 +23,6 @@ export const Example1: FC = () => {
       return;
     }
 
-    if (value === '-') {
-      setClassName('');
-      setValue('-');
-      return;
-    }
-
     if (Number.isNaN(Number(value))) {
       setErrorMessage('Please enter a valid number');
       setClassName('is-invalid');
