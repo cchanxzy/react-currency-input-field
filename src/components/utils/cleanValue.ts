@@ -10,10 +10,11 @@ type Props = {
   decimalsLimit?: number;
   allowNegativeValue?: boolean;
   prefix?: string;
+  suffix?: string;
 };
 
 /**
- * Remove prefix, separators and extra decimals from value
+ * Remove prefix, suffix, separators and extra decimals from value
  */
 export const cleanValue = ({
   value,
@@ -23,12 +24,14 @@ export const cleanValue = ({
   decimalsLimit = 2,
   allowNegativeValue = true,
   prefix,
+  suffix,
 }: Props): string => {
   const isNegative = value.includes('-');
 
   const withoutNegative = isNegative ? value.replace('-', '') : value;
   const withoutPrefix = prefix ? withoutNegative.replace(prefix, '') : withoutNegative;
-  const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
+  const withoutSuffix = suffix ? withoutNegative.replace(suffix, '') : withoutPrefix;
+  const withoutSeparators = removeSeparators(withoutSuffix, groupSeparator);
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
     groupSeparator,
     decimalSeparator,

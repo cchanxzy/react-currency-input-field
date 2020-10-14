@@ -25,6 +25,23 @@ describe('cleanValue', () => {
     expect(value).toEqual('1000000');
   });
 
+  it('should remove suffix', () => {
+    const value = cleanValue({
+      value: '1000000€',
+      suffix: '€',
+    });
+    expect(value).toEqual('1000000');
+  });
+
+  it('should remove prefix and suffix', () => {
+    const value = cleanValue({
+      value: '+1000000€',
+      suffix: '€',
+      prefix: '+'
+    });
+    expect(value).toEqual('1000000');
+  });
+
   it('should remove extra decimals', () => {
     const value = cleanValue({
       value: '100.0000',

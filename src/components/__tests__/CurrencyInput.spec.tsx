@@ -86,6 +86,20 @@ describe('<CurrencyInput /> component', () => {
     expect(view.find(`#${id}`).prop('value')).toBe('£0');
   });
 
+  it('should suffix 0 value', () => {
+    const view = shallow(
+      <CurrencyInput id={id} name={name} suffix="€" value={0} onChange={onChangeSpy} />
+    );
+    expect(view.find(`#${id}`).prop('value')).toBe('0€');
+  });
+
+  it('should suffix and prefix 0 value', () => {
+    const view = shallow(
+      <CurrencyInput id={id} name={name} prefix="+" suffix="€" value={0} onChange={onChangeSpy} />
+    );
+    expect(view.find(`#${id}`).prop('value')).toBe('+0€');
+  });
+
   it('should allow 0 value on change', () => {
     const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: 0 } });
