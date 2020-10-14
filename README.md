@@ -5,7 +5,7 @@
 ## Features
 
 - Allows abbreviations eg. 1k = 1,000 2.5m = 2,500,000
-- Prefix option eg. £ or \$
+- Prefix and suffix options eg. £, \$ or €
 - Can allow/disallow decimals
 - Automatically inserts comma separator
 - Only allows valid numbers
@@ -106,6 +106,7 @@ Example if `fixedDecimalLength` was 2:
 | placeholder        | `string`   |         | Placeholder if no value                                                  |
 | precision          | `number`   |         | Specify decimal precision for padding/trimming                           |
 | prefix             | `string`   |         | Include a prefix eg. £ or \$                                             |
+| suffix             | `string`   |         | Include a suffix eg. €                                                   |
 | decimalSeparator   | `string`   | `.`     | Separator between integer part and fractional part of value              |
 | groupSeparator     | `string`   | `,`     | Separator between thousand, million and billion                          |
 | turnOffSeparators  | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |

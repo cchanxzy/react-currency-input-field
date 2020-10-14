@@ -79,6 +79,11 @@ export type CurrencyInputProps = Overwrite<
     prefix?: string;
 
     /**
+     * Include a suffix eg. €
+     */
+    suffix?: string;
+
+    /**
      * Separator between integer part and fractional part of value. Cannot be a number
      *
      * Default = "."

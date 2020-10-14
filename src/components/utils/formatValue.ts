@@ -6,10 +6,11 @@ type Props = {
   groupSeparator?: string;
   turnOffSeparators?: boolean;
   prefix?: string;
+  suffix?: string;
 };
 
 /**
- * Format value with commas and prefix
+ * Format value with commas, prefix and suffix
  */
 export const formatValue = ({
   value: _value,
@@ -17,6 +18,7 @@ export const formatValue = ({
   groupSeparator = ',',
   turnOffSeparators = false,
   prefix,
+  suffix,
 }: Props): string => {
   if (_value === '' || _value === undefined) {
     return '';
@@ -37,8 +39,9 @@ export const formatValue = ({
     : addSeparators(valueOnlyInt, groupSeparator);
 
   const includePrefix = prefix ? prefix : '';
+  const includeSuffix = suffix ? suffix : '';
   const includeNegative = isNegative ? '-' : '';
   const includeDecimals = value.includes(decimalSeparator) ? `${decimalSeparator}${decimals}` : '';
 
-  return `${includeNegative}${includePrefix}${formattedInt}${includeDecimals}`;
+  return `${includeNegative}${includePrefix}${formattedInt}${includeDecimals}${includeSuffix}`;
 };

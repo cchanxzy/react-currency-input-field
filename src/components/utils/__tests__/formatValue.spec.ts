@@ -49,6 +49,23 @@ describe('formatValue', () => {
     expect(value).toEqual('£123');
   });
 
+  it('should add suffix', () => {
+    const value = formatValue({
+      value: '123',
+      suffix: '€',
+    });
+    expect(value).toEqual('123€');
+  });
+
+  it('should add prefix and suffix', () => {
+    const value = formatValue({
+      value: '123',
+      prefix: '+',
+      suffix: '€',
+    });
+    expect(value).toEqual('+123€');
+  });
+
   it('should include "."', () => {
     const value = formatValue({
       value: '1234567.',

@@ -24,6 +24,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   placeholder,
   precision,
   prefix,
+  suffix,
   decimalSeparator = '.',
   groupSeparator = ',',
   turnOffSeparators = false,
@@ -46,6 +47,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     groupSeparator,
     turnOffSeparators,
     prefix,
+    suffix,
   };
 
   const cleanValueOptions = {
@@ -55,6 +57,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
     allowNegativeValue,
     prefix,
+    suffix,
   };
 
   const _defaultValue =
