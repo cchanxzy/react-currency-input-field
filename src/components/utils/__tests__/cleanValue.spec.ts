@@ -37,7 +37,7 @@ describe('cleanValue', () => {
     const value = cleanValue({
       value: '+1000000€',
       suffix: '€',
-      prefix: '+'
+      prefix: '+',
     });
     expect(value).toEqual('1000000');
   });
