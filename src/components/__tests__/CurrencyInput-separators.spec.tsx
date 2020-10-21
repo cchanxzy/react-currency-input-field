@@ -89,4 +89,21 @@ describe('<CurrencyInput /> component > separators', () => {
       )
     ).toThrow('groupSeparator cannot be a number');
   });
+
+  it('whitespaces should not be considered a number when used as separator', () => {
+    const view = shallow(
+      <CurrencyInput
+        id={id}
+        name={name}
+        prefix="£"
+        decimalSeparator="."
+        groupSeparator={' '}
+        onChange={onChangeSpy}
+        defaultValue={10000}
+      />
+    );
+
+    const input = view.find(`#${id}`);
+    expect(input.prop('value')).toBe('£10 000');
+  });
 });
