@@ -63,13 +63,7 @@ describe('<CurrencyInput /> component > separators', () => {
   it('should throw error if decimalSeparator is a number', () => {
     expect(() =>
       shallow(
-        <CurrencyInput
-          id={id}
-          name={name}
-          prefix="£"
-          decimalSeparator={'1' as any} //eslint-disable-line
-          groupSeparator=","
-        />
+        <CurrencyInput id={id} name={name} prefix="£" decimalSeparator={'1'} groupSeparator="," />
       )
     ).toThrow('decimalSeparator cannot be a number');
   });
@@ -82,7 +76,7 @@ describe('<CurrencyInput /> component > separators', () => {
           name={name}
           prefix="£"
           decimalSeparator="."
-          groupSeparator={'2' as any} //eslint-disable-line
+          groupSeparator={'2'}
           onChange={onChangeSpy}
           defaultValue={10000}
         />

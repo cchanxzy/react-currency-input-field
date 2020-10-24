@@ -1,12 +1,6 @@
 import React, { FC, useState, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
-import {
-  checkIsValidNumber,
-  cleanValue,
-  fixedDecimalValue,
-  formatValue,
-  padTrimValue,
-} from './utils';
+import { isNumber, cleanValue, fixedDecimalValue, formatValue, padTrimValue } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
@@ -33,11 +27,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     throw new Error('decimalSeparator cannot be the same as groupSeparator');
   }
 
-  if (checkIsValidNumber(decimalSeparator)) {
+  if (isNumber(decimalSeparator)) {
     throw new Error('decimalSeparator cannot be a number');
   }
 
-  if (checkIsValidNumber(groupSeparator)) {
+  if (isNumber(groupSeparator)) {
     throw new Error('groupSeparator cannot be a number');
   }
 
