@@ -1,3 +1,10 @@
+## [2.3.4](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.3...v2.3.4) (2020-10-24)
+
+
+### Bug Fixes
+
+* refactored isNumber function ([68640ff](https://github.com/cchanxzy/react-currency-input-field/commit/68640fffa8ef0b36c3f3a9d2bb93d6abfa4814f1))
+
 ## [2.3.3](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.2...v2.3.3) (2020-10-10)
 
 
