@@ -26,8 +26,8 @@ export const cleanValue = ({
 }: Props): string => {
   const isNegative = value.includes('-');
 
-  const withoutNegative = isNegative ? value.replace('-', '') : value;
-  const withoutPrefix = prefix ? withoutNegative.replace(prefix, '') : withoutNegative;
+  const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${prefix}`).exec(value) || [];
+  const withoutPrefix = prefix ? value.replace(prefixWithValue, '').concat(preValue) : value;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
     groupSeparator,
