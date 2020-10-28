@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
 import { isNumber, cleanValue, fixedDecimalValue, formatValue, padTrimValue } from './utils';
 
@@ -56,11 +56,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       ? formatValue({ value: String(defaultValue), ...formatValueOptions })
       : '';
   const [stateValue, setStateValue] = useState(_defaultValue);
+  const [cursor, setCursor] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
-  const processChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
+  const processChange = ({
+    target: { value, selectionStart },
+  }: React.ChangeEvent<HTMLInputElement>): void => {
     const valueOnly = cleanValue({ value: String(value), ...cleanValueOptions });
 
     if (!valueOnly) {
@@ -80,6 +83,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     }
 
     const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
+
+    /* istanbul ignore next */
+    if (selectionStart) {
+      const cursor = selectionStart + (formattedValue.length - value.length) || 1;
+      setCursor(cursor);
+    }
+
     setStateValue(formattedValue);
 
     onChange && onChange(valueOnly, name);
@@ -103,6 +113,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     setStateValue(formattedValue);
     onChange && onChange(newValue, name);
   };
+
+  /* istanbul ignore next */
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.setSelectionRange(cursor, cursor);
+    }
+  }, [cursor, inputRef]);
 
   const formattedPropsValue =
     value !== undefined ? formatValue({ value: String(value), ...formatValueOptions }) : undefined;
