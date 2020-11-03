@@ -64,6 +64,12 @@ export type CurrencyInputProps = Overwrite<
     onChange?: (value: string | undefined, name?: string) => void;
 
     /**
+     * Handle value onBlur
+     *
+     */
+    onBlurValue?: (value: string | undefined, name?: string) => void;
+
+    /**
      * Placeholder
      */
     placeholder?: string;

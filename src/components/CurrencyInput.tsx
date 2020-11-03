@@ -14,6 +14,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   maxLength: userMaxLength,
   value,
   onChange,
+  onBlurValue,
   fixedDecimalLength,
   placeholder,
   precision,
@@ -98,7 +99,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-    if (valueOnly === '-') {
+    if (valueOnly === '-' || !valueOnly) {
+      onBlurValue && onBlurValue(undefined, name);
       setStateValue('');
       return;
     }
@@ -107,11 +109,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
     // Add padding or trim value to precision
     const newValue = padTrimValue(fixedDecimals, decimalSeparator, precision || fixedDecimalLength);
+    onBlurValue && onBlurValue(newValue, name);
 
     const formattedValue = formatValue({ value: newValue, ...formatValueOptions });
-
     setStateValue(formattedValue);
-    onChange && onChange(newValue, name);
   };
 
   /* istanbul ignore next */

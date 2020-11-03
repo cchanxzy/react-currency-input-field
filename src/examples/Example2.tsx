@@ -6,6 +6,7 @@ export const Example2: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
+  const [rawBlurValue, setRawBlurValue] = useState<string | undefined>(' ');
 
   const validateValue = (value: string | undefined): void => {
     const rawValue = value === undefined ? 'undefined' : value;
@@ -19,6 +20,11 @@ export const Example2: FC = () => {
     } else {
       setClassName('is-valid');
     }
+  };
+
+  const handleOnBlurValue = (value: string | undefined) => {
+    const rawBlurValue = value === undefined ? 'undefined' : value;
+    setRawBlurValue(rawBlurValue || ' ');
   };
 
   return (
@@ -40,18 +46,26 @@ export const Example2: FC = () => {
               <CurrencyInput
                 id="validation-example-2-field"
                 placeholder="$1,234,567"
-                allowDecimals={true}
+                allowDecimals={false}
                 className={`form-control ${className}`}
                 onChange={validateValue}
-                defaultValue={0}
+                onBlurValue={handleOnBlurValue}
                 prefix={'$'}
               />
               <div className="invalid-feedback">{errorMessage}</div>
             </div>
             <div className="form-group col">
               <pre className="h-100 p-3 bg-dark text-white">
-                <div className="text-muted mr-3">onChange value:</div>
-                {rawValue}
+                <div className="row">
+                  <div className="col-6">
+                    <div className="text-muted mr-3">onChange:</div>
+                    {rawValue}
+                  </div>
+                  <div className="col-6">
+                    <div className="text-muted mr-3">onBlurValue:</div>
+                    {rawBlurValue}
+                  </div>
+                </div>
               </pre>
             </div>
           </div>
