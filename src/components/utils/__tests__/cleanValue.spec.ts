@@ -26,6 +26,13 @@ describe('cleanValue', () => {
         prefix: '£',
       })
     ).toEqual('1000000');
+
+    expect(
+      cleanValue({
+        value: '$5.5',
+        prefix: '$',
+      })
+    ).toEqual('5.5');
   });
 
   it('should remove extra decimals', () => {

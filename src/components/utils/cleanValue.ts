@@ -1,6 +1,7 @@
 import { parseAbbrValue } from './parseAbbrValue';
 import { removeSeparators } from './removeSeparators';
 import { removeInvalidChars } from './removeInvalidChars';
+import { escapeRegExp } from './escapeRegExp';
 
 type Props = {
   value: string;
@@ -22,11 +23,11 @@ export const cleanValue = ({
   allowDecimals = true,
   decimalsLimit = 2,
   allowNegativeValue = true,
-  prefix,
+  prefix = '',
 }: Props): string => {
   const isNegative = value.includes('-');
 
-  const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${prefix}`).exec(value) || [];
+  const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
   const withoutPrefix = prefix ? value.replace(prefixWithValue, '').concat(preValue) : value;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
