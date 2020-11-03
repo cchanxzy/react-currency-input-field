@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.6...v2.4.0) (2020-11-03)
+
+
+### Features
+
+* add prop onBlurValue ([7ea46af](https://github.com/cchanxzy/react-currency-input-field/commit/7ea46af02310e45d0df9ee2b4810958f22c30f98))
+
 ## [2.3.6](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.5...v2.3.6) (2020-11-03)
 
 
