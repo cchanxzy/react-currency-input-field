@@ -1,3 +1,10 @@
+## [2.3.6](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.5...v2.3.6) (2020-11-03)
+
+
+### Bug Fixes
+
+* escape prefix regex ([8e0dff5](https://github.com/cchanxzy/react-currency-input-field/commit/8e0dff5cf7314099c5bb15e0ac63c5e6c4da106b))
+
 ## [2.3.5](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.4...v2.3.5) (2020-10-28)
 
 
