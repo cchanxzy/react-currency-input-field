@@ -7,9 +7,29 @@ const name = 'inputName';
 
 describe('<CurrencyInput /> component > onBlurValue', () => {
   const onBlurValueSpy = jest.fn();
+  const onChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should call onBlurValue and onChange', () => {
+    const view = shallow(
+      <CurrencyInput
+        id={id}
+        name={name}
+        prefix="$"
+        onBlurValue={onBlurValueSpy}
+        onChange={onChangeSpy}
+        precision={2}
+      />
+    );
+    view.find(`#${id}`).simulate('blur', { target: { value: '123' } });
+    expect(onBlurValueSpy).toBeCalledWith('123.00', name);
+    expect(onChangeSpy).toBeCalledWith('123.00', name);
+
+    const updatedView = view.update();
+    expect(updatedView.find(`#${id}`).prop('value')).toBe('$123.00');
   });
 
   it('should call onBlurValue for 0', () => {
