@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.4.0...v2.4.1) (2020-11-04)
+
+
+### Bug Fixes
+
+* add onChange to onBlur test ([4195ef6](https://github.com/cchanxzy/react-currency-input-field/commit/4195ef68c5e2eeaedd573813b252dacf4b8b2e92))
+
 # [2.4.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.6...v2.4.0) (2020-11-03)
 
 
