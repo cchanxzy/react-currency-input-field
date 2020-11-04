@@ -109,6 +109,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
     // Add padding or trim value to precision
     const newValue = padTrimValue(fixedDecimals, decimalSeparator, precision || fixedDecimalLength);
+    onChange && onChange(newValue, name);
     onBlurValue && onBlurValue(newValue, name);
 
     const formattedValue = formatValue({ value: newValue, ...formatValueOptions });

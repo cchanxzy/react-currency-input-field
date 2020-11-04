@@ -9,13 +9,13 @@
   "types": "dist/index",
   "homepage": "https://github.com/cchanxzy/react-currency-input-field",
   "scripts": {
-    "build": "rm -rf dist && tsc && NODE_ENV='prod' webpack --mode=production",
-    "start": "NODE_ENV='dev' webpack-dev-server --mode=development --hot",
+    "build": "rm -rf dist && tsc && NODE_ENV='production' webpack --config-name=prod --mode=production",
+    "start": "NODE_ENV='development' webpack-dev-server --config-name=dev --mode=development --hot",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "lint": "tsc && eslint 'src/**/*.{js,ts,tsx}' --max-warnings=0",
-    "gh-predeploy": "NODE_ENV='dev' webpack --mode=development",
-    "gh-deploy": "yarn gh-predeploy && gh-pages -d dist",
+    "gh-predeploy": "NODE_ENV='production' webpack --config-name=dev --mode=production",
+    "gh-deploy": "yarn gh-predeploy && gh-pages -d demo/examples",
     "ci": "yarn && yarn build",
     "codecov": "codecov",
     "semantic-release": "semantic-release"
