@@ -13,10 +13,9 @@
 
 ## Examples
 
-- [Play with examples](https://cchanxzy.github.io/react-currency-input-field)
-- [View examples code](https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples)
+[Play with demo](https://cchanxzy.github.io/react-currency-input-field) or view [examples code](https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples)
 
-![React Currency Input Demo](demo/demo.gif)
+[![React Currency Input Demo](demo/demo.gif)](https://cchanxzy.github.io/react-currency-input-field)
 
 ## Install
 
@@ -110,6 +109,22 @@ Example if `fixedDecimalLength` was 2:
 | groupSeparator     | `string`   | `,`     | Separator between thousand, million and billion                          |
 | turnOffSeparators  | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
 
+## Format values for display
+
+Use the `formatValue` function to format the values to a more user friendly string. This is useful if you are displaying the value somewhere else ie. the total of multiple inputs.
+
+```javascript
+import { formatValue } from 'react-currency-input-field';
+
+const formattedValue = formatValue({
+  value = 123456,
+  groupSeparator = ',',
+  decimalSeparator = '.',
+  turnOffSeparators = false,
+  prefix = '$',
+});
+```
+
 ## Issues
 
-Feel free to message me if you have any questions
+Feel free to raise an issue on Github if you find a bug or have a feature request
