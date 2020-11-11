@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.4.1...v2.5.0) (2020-11-11)
+
+
+### Features
+
+* export format value function and add to readme ([cad0b95](https://github.com/cchanxzy/react-currency-input-field/commit/cad0b958e5494160d0a65f065516496a72a9e8ad))
+
 ## [2.4.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.4.0...v2.4.1) (2020-11-04)
 
 
