@@ -2,96 +2,171 @@ import { formatValue } from '../formatValue';
 
 describe('formatValue', () => {
   it('should return empty if blank value', () => {
-    const value = formatValue({
-      value: '',
-    });
-    expect(value).toEqual('');
+    expect(
+      formatValue({
+        value: '',
+      })
+    ).toEqual('');
   });
 
   it('should add separator', () => {
-    const value = formatValue({
-      value: '1234567',
-    });
-    expect(value).toEqual('1,234,567');
+    expect(
+      formatValue({
+        value: '1234567',
+      })
+    ).toEqual('1,234,567');
   });
 
   it('should handle period separator', () => {
-    const value = formatValue({
-      value: '1234567',
-      decimalSeparator: '.',
-      groupSeparator: '.',
-    });
-    expect(value).toEqual('1.234.567');
+    expect(
+      formatValue({
+        value: '1234567',
+        decimalSeparator: '.',
+        groupSeparator: '.',
+      })
+    ).toEqual('1.234.567');
   });
 
   it('should handle comma separator for decimals', () => {
-    const value = formatValue({
-      value: '1234567,89',
-      decimalSeparator: '.',
-      groupSeparator: '.',
-    });
-    expect(value).toEqual('1.234.567,89');
+    expect(
+      formatValue({
+        value: '1234567,89',
+        decimalSeparator: '.',
+        groupSeparator: '.',
+      })
+    ).toEqual('1.234.567,89');
+  });
+
+  it('should handle - as separator for decimals', () => {
+    expect(
+      formatValue({
+        value: '1234567-89',
+        decimalSeparator: '-',
+        groupSeparator: '.',
+      })
+    ).toEqual('1.234.567-89');
+  });
+
+  it('should handle empty decimal separator', () => {
+    expect(
+      formatValue({
+        value: '1234567-89',
+        decimalSeparator: '',
+        groupSeparator: '.',
+      })
+    ).toEqual('1.234.567-89');
   });
 
   it('should NOT add separator if "turnOffSeparators" is true', () => {
-    const value = formatValue({
-      value: '1234567',
-      turnOffSeparators: true,
-    });
-    expect(value).toEqual('1234567');
+    expect(
+      formatValue({
+        value: '1234567',
+        turnOffSeparators: true,
+      })
+    ).toEqual('1234567');
+  });
+
+  it('should NOT add separator if "turnOffSeparators" is true even if decimal and group separators specified', () => {
+    expect(
+      formatValue({
+        value: '1234567',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        turnOffSeparators: true,
+      })
+    ).toEqual('1234567');
   });
 
   it('should add prefix', () => {
-    const value = formatValue({
-      value: '123',
-      prefix: '£',
-    });
-    expect(value).toEqual('£123');
+    expect(
+      formatValue({
+        value: '123',
+        prefix: '£',
+      })
+    ).toEqual('£123');
   });
 
   it('should include "."', () => {
-    const value = formatValue({
-      value: '1234567.',
-    });
-    expect(value).toEqual('1,234,567.');
+    expect(
+      formatValue({
+        value: '1234567.',
+      })
+    ).toEqual('1,234,567.');
   });
 
   it('should include decimals', () => {
-    const value = formatValue({
-      value: '1234.567',
-    });
-    expect(value).toEqual('1,234.567');
+    expect(
+      formatValue({
+        value: '1234.567',
+      })
+    ).toEqual('1,234.567');
   });
 
   it('should format value', () => {
-    const value = formatValue({
-      value: '1234567.89',
-      prefix: '£',
-    });
-    expect(value).toEqual('£1,234,567.89');
+    expect(
+      formatValue({
+        value: '1234567.89',
+        prefix: '£',
+      })
+    ).toEqual('£1,234,567.89');
   });
 
   it('should handle 0 value', () => {
-    const value = formatValue({
-      value: '0',
-      prefix: '£',
-    });
-    expect(value).toEqual('£0');
+    expect(
+      formatValue({
+        value: '0',
+        prefix: '£',
+      })
+    ).toEqual('£0');
   });
 
-  it('should handle negative values', () => {
-    const value = formatValue({
-      value: '-1234',
-      prefix: '£',
+  describe('negative values', () => {
+    it('should handle negative values', () => {
+      expect(
+        formatValue({
+          value: '-1234',
+          prefix: '£',
+        })
+      ).toEqual('-£1,234');
     });
-    expect(value).toEqual('-£1,234');
+
+    it('should return negative sign if only negative sign', () => {
+      expect(
+        formatValue({
+          value: '-',
+          prefix: '£',
+        })
+      ).toEqual('-');
+    });
   });
 
-  it('should return negative sign if only negative sign', () => {
-    const value = formatValue({
-      value: '-',
-      prefix: '£',
-    });
-    expect(value).toEqual('-');
+  it('should handle negative value and "-" as groupSeparator', () => {
+    expect(
+      formatValue({
+        value: '-1234',
+        groupSeparator: '-',
+        prefix: '£',
+      })
+    ).toEqual('-£1-234');
+  });
+
+  it('should handle negative value and "-" as decimalSeparator', () => {
+    expect(
+      formatValue({
+        value: '-12-34',
+        decimalSeparator: '-',
+        prefix: '£',
+      })
+    ).toEqual('-£12-34');
+  });
+
+  it('should handle negative value and "-" as groupSeparator', () => {
+    expect(
+      formatValue({
+        value: '-123456',
+        groupSeparator: '-',
+        prefix: '£',
+      })
+    ).toEqual('-£123-456');
   });
 });

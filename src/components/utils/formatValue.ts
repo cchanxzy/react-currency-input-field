@@ -1,23 +1,52 @@
 import { addSeparators } from './addSeparators';
 
 type Props = {
+  /**
+   * Value to format
+   */
   value: number | string | undefined;
+
+  /**
+   * Decimal separator
+   *
+   * Default = '.'
+   */
   decimalSeparator?: string;
+
+  /**
+   * Group separator
+   *
+   * Default = ','
+   */
   groupSeparator?: string;
+
+  /**
+   * Turn off separators
+   *
+   * This will override Group separators
+   *
+   * Default = false
+   */
   turnOffSeparators?: boolean;
+
+  /**
+   * Prefix
+   */
   prefix?: string;
 };
 
 /**
- * Format value with commas and prefix
+ * Format value with decimal separator, group separator and prefix
  */
-export const formatValue = ({
-  value: _value,
-  decimalSeparator = '.',
-  groupSeparator = ',',
-  turnOffSeparators = false,
-  prefix,
-}: Props): string => {
+export const formatValue = (props: Props): string => {
+  const {
+    value: _value,
+    groupSeparator = ',',
+    decimalSeparator = '.',
+    turnOffSeparators = false,
+    prefix,
+  } = props;
+
   if (_value === '' || _value === undefined) {
     return '';
   }
@@ -28,17 +57,22 @@ export const formatValue = ({
     return '-';
   }
 
-  const isNegative = value.includes('-');
-  const [int, decimals] = value.split(decimalSeparator);
-  const valueOnlyInt = isNegative ? int.replace('-', '') : int;
+  const isNegative = RegExp('^-\\d+').test(value);
+  const hasDecimalSeparator = decimalSeparator && value.includes(decimalSeparator);
 
-  const formattedInt = turnOffSeparators
-    ? valueOnlyInt
-    : addSeparators(valueOnlyInt, groupSeparator);
+  const valueOnly = isNegative ? value.replace('-', '') : value;
+  const [int, decimals] = hasDecimalSeparator ? valueOnly.split(decimalSeparator) : [valueOnly];
+
+  const formattedInt = turnOffSeparators ? int : addSeparators(int, groupSeparator);
 
   const includePrefix = prefix ? prefix : '';
   const includeNegative = isNegative ? '-' : '';
-  const includeDecimals = value.includes(decimalSeparator) ? `${decimalSeparator}${decimals}` : '';
+  const includeDecimals =
+    hasDecimalSeparator && decimals
+      ? `${decimalSeparator}${decimals}`
+      : hasDecimalSeparator
+      ? `${decimalSeparator}`
+      : '';
 
   return `${includeNegative}${includePrefix}${formattedInt}${includeDecimals}`;
 };
