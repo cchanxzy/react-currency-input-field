@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.5.0...v2.6.0) (2020-11-15)
+
+
+### Features
+
+* handle arrow down and arrow up step changes ([31e6156](https://github.com/cchanxzy/react-currency-input-field/commit/31e61561087bd95bdfb4763d3caa7b91df28ae23))
+
 # [2.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.4.1...v2.5.0) (2020-11-11)
 
 
