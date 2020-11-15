@@ -48,12 +48,17 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('Renders with value prop', () => {
-    const value = 49.99;
-
-    const view = shallow(<CurrencyInput id={id} value={value} className={className} prefix="£" />);
+    const view = shallow(<CurrencyInput id={id} value={49.99} className={className} prefix="£" />);
     const input = view.find(`#${id}`);
 
     expect(input.prop('value')).toBe('£49.99');
+  });
+
+  it('Renders with value 0', () => {
+    const view = shallow(<CurrencyInput id={id} value={0} className={className} prefix="£" />);
+    const input = view.find(`#${id}`);
+
+    expect(input.prop('value')).toBe('£0');
   });
 
   it('should go to end of string on focus', () => {
@@ -88,7 +93,7 @@ describe('<CurrencyInput /> component', () => {
 
   it('should allow 0 value on change', () => {
     const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: 0 } });
+    view.find(`#${id}`).simulate('change', { target: { value: '0' } });
     expect(onChangeSpy).toBeCalledWith('0', name);
 
     const updatedView = view.update();
@@ -126,29 +131,5 @@ describe('<CurrencyInput /> component', () => {
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
-  });
-
-  describe('maxLength', () => {
-    it('should not allow more values than max length', () => {
-      const view = shallow(
-        <CurrencyInput
-          id={id}
-          name={name}
-          prefix="£"
-          onChange={onChangeSpy}
-          maxLength={3}
-          defaultValue={123}
-        />
-      );
-
-      const input = view.find(`#${id}`);
-      expect(input.prop('value')).toBe('£123');
-
-      input.simulate('change', { target: { value: '£1234' } });
-      expect(onChangeSpy).not.toBeCalled();
-
-      const updatedView = view.update();
-      expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
-    });
   });
 });

@@ -85,6 +85,11 @@ export type CurrencyInputProps = Overwrite<
     prefix?: string;
 
     /**
+     * Incremental value change on arrow down and arrow up key press
+     */
+    step?: number;
+
+    /**
      * Separator between integer part and fractional part of value. Cannot be a number
      *
      * Default = "."

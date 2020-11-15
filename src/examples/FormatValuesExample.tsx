@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { formatValue } from '../components/utils';
 
 const FormatValuesExample: FC = () => {
-  const [value, setValue] = useState('123456789.999999');
+  const [value, setValue] = useState('123456789.999');
   const [prefix, setPrefix] = useState('$');
   const [groupSeparator, setGroupSeparator] = useState(',');
   const [decimalSeparator, setDecimalSeparator] = useState('.');
@@ -115,7 +115,7 @@ const FormatValuesExample: FC = () => {
           </div>
           <div className="mt-5">
             Formatted value:
-            <div className="display-2">
+            <div className="display-4">
               {formatValue({
                 value,
                 groupSeparator,
