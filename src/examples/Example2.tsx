@@ -51,6 +51,7 @@ export const Example2: FC = () => {
                 onChange={validateValue}
                 onBlurValue={handleOnBlurValue}
                 prefix={'$'}
+                step={10}
               />
               <div className="invalid-feedback">{errorMessage}</div>
             </div>

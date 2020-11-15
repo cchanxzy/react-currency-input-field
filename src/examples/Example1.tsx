@@ -73,6 +73,7 @@ export const Example1: FC = () => {
                 onBlurValue={handleOnBlurValue}
                 prefix={prefix}
                 precision={2}
+                step={1}
               />
               <div className="invalid-feedback">{errorMessage}</div>
             </div>

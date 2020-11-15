@@ -12,13 +12,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   defaultValue,
   disabled = false,
   maxLength: userMaxLength,
-  value,
+  value: userValue,
   onChange,
   onBlurValue,
   fixedDecimalLength,
   placeholder,
   precision,
   prefix,
+  step,
   decimalSeparator = '.',
   groupSeparator = ',',
   turnOffSeparators = false,
@@ -62,10 +63,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
   const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
-  const processChange = ({
-    target: { value, selectionStart },
-  }: React.ChangeEvent<HTMLInputElement>): void => {
-    const valueOnly = cleanValue({ value: String(value), ...cleanValueOptions });
+  const processChange = (value: string, selectionStart?: number | null): void => {
+    const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
     if (!valueOnly) {
       onChange && onChange(undefined, name);
@@ -73,7 +72,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       return;
     }
 
-    if (userMaxLength && valueOnly.length > userMaxLength) {
+    if (userMaxLength && valueOnly.replace(/-/g, '').length > userMaxLength) {
       return;
     }
 
@@ -86,7 +85,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
 
     /* istanbul ignore next */
-    if (selectionStart) {
+    if (selectionStart !== undefined && selectionStart !== null) {
       const cursor = selectionStart + (formattedValue.length - value.length) || 1;
       setCursor(cursor);
     }
@@ -94,6 +93,12 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     setStateValue(formattedValue);
 
     onChange && onChange(valueOnly, name);
+  };
+
+  const handleOnChange = ({
+    target: { value, selectionStart },
+  }: React.ChangeEvent<HTMLInputElement>): void => {
+    processChange(value, selectionStart);
   };
 
   const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
@@ -116,6 +121,23 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     setStateValue(formattedValue);
   };
 
+  const handleOnKeyDown = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
+    if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
+      const currentValue =
+        Number(
+          userValue !== undefined
+            ? userValue
+            : cleanValue({ value: stateValue, ...cleanValueOptions })
+        ) || 0;
+      const newValue =
+        key === 'ArrowUp'
+          ? String(currentValue + Number(step))
+          : String(currentValue - Number(step));
+
+      processChange(newValue);
+    }
+  };
+
   /* istanbul ignore next */
   useEffect(() => {
     if (inputRef && inputRef.current) {
@@ -124,7 +146,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   }, [cursor, inputRef]);
 
   const formattedPropsValue =
-    value !== undefined ? formatValue({ value: String(value), ...formatValueOptions }) : undefined;
+    userValue !== undefined
+      ? formatValue({ value: String(userValue), ...formatValueOptions })
+      : undefined;
 
   return (
     <input
@@ -133,9 +157,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
       id={id}
       name={name}
       className={className}
-      onChange={processChange}
+      onChange={handleOnChange}
       onBlur={handleOnBlur}
       onFocus={onFocus}
+      onKeyDown={handleOnKeyDown}
       placeholder={placeholder}
       disabled={disabled}
       value={
