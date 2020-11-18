@@ -1,6 +1,13 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
-import { isNumber, cleanValue, fixedDecimalValue, formatValue, padTrimValue } from './utils';
+import {
+  isNumber,
+  cleanValue,
+  fixedDecimalValue,
+  formatValue,
+  padTrimValue,
+  CleanValueOptions,
+} from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = ({
   allowDecimals = true,
@@ -23,6 +30,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   decimalSeparator = '.',
   groupSeparator = ',',
   turnOffSeparators = false,
+  turnOffAbbreviations = false,
   ...props
 }: CurrencyInputProps) => {
   if (decimalSeparator === groupSeparator) {
@@ -44,12 +52,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     prefix,
   };
 
-  const cleanValueOptions = {
+  const cleanValueOptions: Partial<CleanValueOptions> = {
     decimalSeparator,
     groupSeparator,
     allowDecimals,
     decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
     allowNegativeValue,
+    turnOffAbbreviations,
     prefix,
   };
 
