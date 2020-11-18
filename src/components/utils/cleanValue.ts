@@ -3,13 +3,14 @@ import { removeSeparators } from './removeSeparators';
 import { removeInvalidChars } from './removeInvalidChars';
 import { escapeRegExp } from './escapeRegExp';
 
-type Props = {
+export type CleanValueOptions = {
   value: string;
   decimalSeparator?: string;
   groupSeparator?: string;
   allowDecimals?: boolean;
   decimalsLimit?: number;
   allowNegativeValue?: boolean;
+  turnOffAbbreviations?: boolean;
   prefix?: string;
 };
 
@@ -23,8 +24,10 @@ export const cleanValue = ({
   allowDecimals = true,
   decimalsLimit = 2,
   allowNegativeValue = true,
+  turnOffAbbreviations = false,
   prefix = '',
-}: Props): string => {
+}: CleanValueOptions): string => {
+  const abbreviations = turnOffAbbreviations ? [] : ['k', 'm', 'b'];
   const isNegative = value.includes('-');
 
   const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
@@ -33,15 +36,25 @@ export const cleanValue = ({
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
     groupSeparator,
     decimalSeparator,
-    'k',
-    'm',
-    'b',
+    ...abbreviations,
   ]);
 
-  const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator) || withoutInvalidChars;
+  let valueOnly = withoutInvalidChars;
+
+  if (!turnOffAbbreviations) {
+    // disallow letter without number
+    if (abbreviations.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
+      return '';
+    }
+    const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator);
+    if (parsed) {
+      valueOnly = String(parsed);
+    }
+  }
+
   const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
-  if (String(parsed).includes(decimalSeparator)) {
+  if (String(valueOnly).includes(decimalSeparator)) {
     const [int, decimals] = withoutInvalidChars.split(decimalSeparator);
     const trimmedDecimals = decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals;
     const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
@@ -49,5 +62,5 @@ export const cleanValue = ({
     return `${includeNegative}${int}${includeDecimals}`;
   }
 
-  return `${includeNegative}${parsed}`;
+  return `${includeNegative}${valueOnly}`;
 };

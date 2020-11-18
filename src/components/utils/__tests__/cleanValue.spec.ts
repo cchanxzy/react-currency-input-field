@@ -144,4 +144,77 @@ describe('cleanValue', () => {
       })
     ).toEqual('-1.992');
   });
+
+  describe('abbreviations', () => {
+    it('should return empty string if abbreviation only', () => {
+      expect(
+        cleanValue({
+          value: 'k',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('');
+
+      expect(
+        cleanValue({
+          value: 'm',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('');
+
+      expect(
+        cleanValue({
+          value: 'b',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('');
+    });
+
+    it('should return empty string if prefix and abbreviation only', () => {
+      expect(
+        cleanValue({
+          value: '$k',
+          prefix: '$',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('');
+
+      expect(
+        cleanValue({
+          value: '£m',
+          prefix: '£',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('');
+    });
+
+    it('should ignore abbreviations if turnOffAbbreviations is true', () => {
+      expect(
+        cleanValue({
+          value: '1k',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('1');
+
+      expect(
+        cleanValue({
+          value: '-2k',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('-2');
+
+      expect(
+        cleanValue({
+          value: '25.6m',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('25.6');
+
+      expect(
+        cleanValue({
+          value: '9b',
+          turnOffAbbreviations: true,
+        })
+      ).toEqual('9');
+    });
+  });
 });

@@ -109,5 +109,12 @@ export type CurrencyInputProps = Overwrite<
      * Default = false
      */
     turnOffSeparators?: boolean;
+
+    /**
+     * Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000
+     *
+     * Default = false
+     */
+    turnOffAbbreviations?: boolean;
   }
 >;
