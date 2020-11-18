@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.6.0...v2.7.0) (2020-11-18)
+
+
+### Features
+
+* can turn off abbreviations ([67a54c1](https://github.com/cchanxzy/react-currency-input-field/commit/67a54c1288d0fded0fed1f4ef751073eb44a73cb))
+
 # [2.6.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.5.0...v2.6.0) (2020-11-15)
 
 
