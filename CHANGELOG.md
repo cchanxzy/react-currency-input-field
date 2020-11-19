@@ -1,3 +1,15 @@
+# [3.0.0-beta.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.7.0...v3.0.0-beta.1) (2020-11-19)
+
+
+### Features
+
+* wrap component in forwardRef ([3a1f5bc](https://github.com/cchanxzy/react-currency-input-field/commit/3a1f5bcd6422c49ea85ad9980109cd183ceec2f1))
+
+
+### BREAKING CHANGES
+
+* can pass in component ref
+
 # [2.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.6.0...v2.7.0) (2020-11-18)
 
 
