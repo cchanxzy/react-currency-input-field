@@ -1,3 +1,13 @@
+# [2.8.0-beta.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.7.0...v2.8.0-beta.1) (2020-11-19)
+
+
+### Features
+
+* add props decimalSeparator and groupSeparator ([344e3b0](https://github.com/cchanxzy/react-currency-input-field/commit/344e3b03e0f3386fc0b9d713f174dcb16dea05ae))
+* can use any string as a separator ([ae5755a](https://github.com/cchanxzy/react-currency-input-field/commit/ae5755a639909fe297e6da47f13568748f705a1e))
+* fixed decimal length prop ([7089248](https://github.com/cchanxzy/react-currency-input-field/commit/70892489f5f62a914e5b26e2cb461e25076a1441))
+* handle negative values ([b581e17](https://github.com/cchanxzy/react-currency-input-field/commit/b581e177510e2016051a4b611f86cea9ad7e34c9))
+
 # [2.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.6.0...v2.7.0) (2020-11-18)
 
 
