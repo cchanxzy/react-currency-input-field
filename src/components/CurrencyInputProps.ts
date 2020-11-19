@@ -1,3 +1,5 @@
+import { Ref } from 'react';
+
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
 export type Separator = ',' | '.';
@@ -116,5 +118,10 @@ export type CurrencyInputProps = Overwrite<
      * Default = false
      */
     turnOffAbbreviations?: boolean;
+
+    /**
+     * Ref property
+     */
+    ref?: Ref<HTMLInputElement>;
   }
 >;
