@@ -1,3 +1,99 @@
+# [2.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.6.0...v2.7.0) (2020-11-18)
+
+
+### Features
+
+* can turn off abbreviations ([67a54c1](https://github.com/cchanxzy/react-currency-input-field/commit/67a54c1288d0fded0fed1f4ef751073eb44a73cb))
+
+# [2.6.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.5.0...v2.6.0) (2020-11-15)
+
+
+### Features
+
+* handle arrow down and arrow up step changes ([31e6156](https://github.com/cchanxzy/react-currency-input-field/commit/31e61561087bd95bdfb4763d3caa7b91df28ae23))
+
+# [2.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.4.1...v2.5.0) (2020-11-11)
+
+
+### Features
+
+* export format value function and add to readme ([cad0b95](https://github.com/cchanxzy/react-currency-input-field/commit/cad0b958e5494160d0a65f065516496a72a9e8ad))
+
+## [2.4.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.4.0...v2.4.1) (2020-11-04)
+
+
+### Bug Fixes
+
+* add onChange to onBlur test ([4195ef6](https://github.com/cchanxzy/react-currency-input-field/commit/4195ef68c5e2eeaedd573813b252dacf4b8b2e92))
+
+# [2.4.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.6...v2.4.0) (2020-11-03)
+
+
+### Features
+
+* add prop onBlurValue ([7ea46af](https://github.com/cchanxzy/react-currency-input-field/commit/7ea46af02310e45d0df9ee2b4810958f22c30f98))
+
+## [2.3.6](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.5...v2.3.6) (2020-11-03)
+
+
+### Bug Fixes
+
+* escape prefix regex ([8e0dff5](https://github.com/cchanxzy/react-currency-input-field/commit/8e0dff5cf7314099c5bb15e0ac63c5e6c4da106b))
+
+## [2.3.5](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.4...v2.3.5) (2020-10-28)
+
+
+### Bug Fixes
+
+* handle values before prefix ([942a613](https://github.com/cchanxzy/react-currency-input-field/commit/942a613a3b98890cbef9ed62eb7df2f1c62c91e9))
+
+## [2.3.4](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.3...v2.3.4) (2020-10-24)
+
+
+### Bug Fixes
+
+* refactored isNumber function ([68640ff](https://github.com/cchanxzy/react-currency-input-field/commit/68640fffa8ef0b36c3f3a9d2bb93d6abfa4814f1))
+
+## [2.3.3](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.2...v2.3.3) (2020-10-10)
+
+
+### Bug Fixes
+
+* allows default 0 value ([4189b80](https://github.com/cchanxzy/react-currency-input-field/commit/4189b80b5949dfe662add54e8953301e1b7c9912))
+* disallow invalid chars and updated examples ([134d36a](https://github.com/cchanxzy/react-currency-input-field/commit/134d36a098a4f3fcb87429ee55c32543cabfcc46))
+* don't call onChange with only - ([ef4101b](https://github.com/cchanxzy/react-currency-input-field/commit/ef4101bca97b629f6e412b728456642fa0ebf231))
+
+## [2.3.2](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.1...v2.3.2) (2020-09-27)
+
+
+### Bug Fixes
+
+* prefix 0 value ([d7fa074](https://github.com/cchanxzy/react-currency-input-field/commit/d7fa0747f09da9a33bb46146172563277a1b5fc3))
+
+## [2.3.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.3.0...v2.3.1) (2020-09-25)
+
+
+### Bug Fixes
+
+* can clear field programmatically ([2598c16](https://github.com/cchanxzy/react-currency-input-field/commit/2598c16dc1ea499110740c6b63deb48d40c597e6))
+
+# [2.3.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0...v2.3.0) (2020-09-20)
+
+
+### Features
+
+* add prop to disallow negative value ([b9ef02c](https://github.com/cchanxzy/react-currency-input-field/commit/b9ef02ca489833fcc95a25148cee1e7b7ade132d))
+
+# [2.2.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.1.0...v2.2.0) (2020-08-25)
+
+
+### Features
+
+* add props decimalSeparator and groupSeparator ([bb4459b](https://github.com/cchanxzy/react-currency-input-field/commit/bb4459b87835aa91ca834a4bc566608232d3c545))
+* can use any string as a separator ([c84b1cd](https://github.com/cchanxzy/react-currency-input-field/commit/c84b1cd5fbcfd3cd5f13afddee8ed8de95b4d2db))
+* fixed decimal length prop ([f3f50a1](https://github.com/cchanxzy/react-currency-input-field/commit/f3f50a171a8083cf2daa41bc1f544293abd3436b))
+* handle negative values ([b505e4c](https://github.com/cchanxzy/react-currency-input-field/commit/b505e4c606a215866fa4449f1973add03c8469e7))
+
 # [2.2.0-beta.3](https://github.com/cchanxzy/react-currency-input-field/compare/v2.2.0-beta.2...v2.2.0-beta.3) (2020-08-25)
 
 

@@ -14,21 +14,41 @@ describe('abbrValue', () => {
   it('should work with comma as decimal separator', () => {
     expect(abbrValue(1500, ',')).toEqual('1,5k');
   });
+
+  it('should work with decimal places option', () => {
+    expect(abbrValue(123456, '.')).toEqual('0.123456M');
+    expect(abbrValue(123456, '.', 2)).toEqual('0.12M');
+  });
 });
 
 describe('parseAbbrValue', () => {
   it('should return undefined if cannot parse', () => {
     expect(parseAbbrValue('1km')).toEqual(undefined);
     expect(parseAbbrValue('2mb')).toEqual(undefined);
+    expect(parseAbbrValue('3a')).toEqual(undefined);
   });
 
   it('should return undefined if no abbreviation', () => {
+    expect(parseAbbrValue('1.23')).toEqual(undefined);
     expect(parseAbbrValue('100')).toEqual(undefined);
     expect(parseAbbrValue('20000')).toEqual(undefined);
   });
 
+  it('should return undefined for only letter', () => {
+    expect(parseAbbrValue('k')).toBeUndefined();
+    expect(parseAbbrValue('m')).toBeUndefined();
+    expect(parseAbbrValue('b')).toBeUndefined();
+  });
+
+  it('should return 0 for 0', () => {
+    expect(parseAbbrValue('0k')).toEqual(0);
+    expect(parseAbbrValue('0m')).toEqual(0);
+    expect(parseAbbrValue('0b')).toEqual(0);
+  });
+
   it('should parse k', () => {
     expect(parseAbbrValue('1k')).toEqual(1000);
+    expect(parseAbbrValue('2K')).toEqual(2000);
     expect(parseAbbrValue('1.1239999k')).toEqual(1123.9999);
     expect(parseAbbrValue('1.5k')).toEqual(1500);
     expect(parseAbbrValue('50.12K')).toEqual(50120);
