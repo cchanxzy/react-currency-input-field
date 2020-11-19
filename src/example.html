@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React Currency Input Field: Examples</title>
     <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
   </head>
   <body>
     <div class="container mt-5">
       <div class="row">
-        <div class="col-12">
+        <div class="col mb-3">
           <h1>React Currency Input Field</h1>
-          Features:
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="h3">
+            Features:
+          </div>
           <ul>
             <li>Allows abbreviations eg. 1k = 1,000 2.5m = 2,500,000</li>
             <li>Prefix option eg. £ or $</li>
@@ -26,35 +32,33 @@
             <li>Lightweight and simple</li>
           </ul>
           <p>
-            Please visit:
-            <a href="https://github.com/cchanxzy/react-currency-input-field">Github</a>
+            Please visit the
+            <a
+              href="https://github.com/cchanxzy/react-currency-input-field/tree/master/src/examples"
+              >Github repository</a
+            >
+            to see the source code from examples.
           </p>
-          <p>Here are some examples:</p>
         </div>
       </div>
       <hr />
-      <div class="row">
-        <div class="col-sm-6 mb-4">
-          <h3>Example 1</h3>
-          <ul>
-            <li>'£' prefix</li>
-            <li>Allows decimals (up to 2 decimal places)</li>
-            <li>Has default value</li>
-          </ul>
-          <div id="example-1">Example 1</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6 mb-4">
-          <h3>Example 2</h3>
-          <ul>
-            <li>'$' prefix</li>
-            <li>Has placeholder</li>
-            <li>Does not allow decimals</li>
-          </ul>
-          <div id="example-2">Example 2</div>
-        </div>
-      </div>
+      <div id="example-1"></div>
+
+      <hr />
+
+      <div id="example-2"></div>
+
+      <hr />
+
+      <div id="example-3"></div>
+
+      <hr />
+
+      <div id="format-values-example"></div>
+
+      <hr />
+
+      <footer class="mb-5"></footer>
     </div>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
     <script

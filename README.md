@@ -11,11 +11,11 @@
 - Only allows valid numbers
 - Lightweight and simple
 
-## Demo
+## Examples
 
-[Live Demo](https://cchanxzy.github.io/react-currency-input-field)
+[Play with demo](https://cchanxzy.github.io/react-currency-input-field) or view [examples code](https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples)
 
-![React Currency Input Demo](demo/demo.gif)
+[![React Currency Input Demo](demo/demo.gif)](https://cchanxzy.github.io/react-currency-input-field)
 
 ## Install
 
@@ -89,24 +89,45 @@ Example if `fixedDecimalLength` was 2:
 
 ## Props
 
-| Name               | Type       | Default | Description                                                              |
-| ------------------ | ---------- | ------- | ------------------------------------------------------------------------ |
-| allowDecimals      | `boolean`  | `true`  | Allow decimals                                                           |
-| className          | `string`   |         | Class names                                                              |
-| decimalsLimit      | `number`   | `2`     | Limit length of decimals allowed                                         |
-| defaultValue       | `number`   |         | Default value                                                            |
-| disabled           | `boolean`  | `false` | Disabled                                                                 |
-| fixedDecimalLength | `number`   |         | Value will always have the specified length of decimals                  |
-| id                 | `string`   |         | Component id                                                             |
-| maxLength          | `number`   |         | Maximum characters the user can enter                                    |
-| onChange           | `function` |         | Handle change in value                                                   |
-| placeholder        | `string`   |         | Placeholder if no value                                                  |
-| precision          | `number`   |         | Specify decimal precision for padding/trimming                           |
-| prefix             | `string`   |         | Include a prefix eg. £ or \$                                             |
-| decimalSeparator   | `string`   | `.`     | Separator between integer part and fractional part of value              |
-| groupSeparator     | `string`   | `,`     | Separator between thousand, million and billion                          |
-| turnOffSeparators  | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
+| Name                 | Type       | Default | Description                                                              |
+| -------------------- | ---------- | ------- | ------------------------------------------------------------------------ |
+| allowDecimals        | `boolean`  | `true`  | Allow decimals                                                           |
+| allowNegativeValue   | `boolean`  | `true`  | Allow user to enter negative value                                       |
+| className            | `string`   |         | Class names                                                              |
+| decimalsLimit        | `number`   | `2`     | Limit length of decimals allowed                                         |
+| defaultValue         | `number`   |         | Default value                                                            |
+| value                | `number`   |         | Programmatically set the value                                           |
+| disabled             | `boolean`  | `false` | Disabled                                                                 |
+| fixedDecimalLength   | `number`   |         | Value will always have the specified length of decimals                  |
+| id                   | `string`   |         | Component id                                                             |
+| maxLength            | `number`   |         | Maximum characters the user can enter                                    |
+| onChange             | `function` |         | Handle change in value                                                   |
+| onBlurValue          | `function` |         | Handle value onBlur                                                      |
+| placeholder          | `string`   |         | Placeholder if no value                                                  |
+| precision            | `number`   |         | Specify decimal precision for padding/trimming                           |
+| prefix               | `string`   |         | Include a prefix eg. £ or \$                                             |
+| step                 | `number`   |         | Incremental value change on arrow down and arrow up key press            |
+| decimalSeparator     | `string`   | `.`     | Separator between integer part and fractional part of value              |
+| groupSeparator       | `string`   | `,`     | Separator between thousand, million and billion                          |
+| turnOffAbbreviations | `boolean`  | `false` | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
+| turnOffSeparators    | `boolean`  | `false` | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
+
+## Format values for display
+
+Use the `formatValue` function to format the values to a more user friendly string. This is useful if you are displaying the value somewhere else ie. the total of multiple inputs.
+
+```javascript
+import { formatValue } from 'react-currency-input-field';
+
+const formattedValue = formatValue({
+  value = 123456,
+  groupSeparator = ',',
+  decimalSeparator = '.',
+  turnOffSeparators = false,
+  prefix = '$',
+});
+```
 
 ## Issues
 
-Feel free to message me if you have any questions
+Feel free to raise an issue on Github if you find a bug or have a feature request

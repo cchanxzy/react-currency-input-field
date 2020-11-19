@@ -13,6 +13,13 @@ export type CurrencyInputProps = Overwrite<
     allowDecimals?: boolean;
 
     /**
+     * Allow user to enter negative value
+     *
+     * Default = true
+     */
+    allowNegativeValue?: boolean;
+
+    /**
      * Component id
      */
     id?: string;
@@ -57,6 +64,12 @@ export type CurrencyInputProps = Overwrite<
     onChange?: (value: string | undefined, name?: string) => void;
 
     /**
+     * Handle value onBlur
+     *
+     */
+    onBlurValue?: (value: string | undefined, name?: string) => void;
+
+    /**
      * Placeholder
      */
     placeholder?: string;
@@ -70,6 +83,11 @@ export type CurrencyInputProps = Overwrite<
      * Include a prefix eg. £
      */
     prefix?: string;
+
+    /**
+     * Incremental value change on arrow down and arrow up key press
+     */
+    step?: number;
 
     /**
      * Separator between integer part and fractional part of value. Cannot be a number
@@ -91,5 +109,12 @@ export type CurrencyInputProps = Overwrite<
      * Default = false
      */
     turnOffSeparators?: boolean;
+
+    /**
+     * Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000
+     *
+     * Default = false
+     */
+    turnOffAbbreviations?: boolean;
   }
 >;
