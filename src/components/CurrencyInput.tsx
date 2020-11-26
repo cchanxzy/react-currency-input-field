@@ -31,6 +31,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   groupSeparator = ',',
   turnOffSeparators = false,
   turnOffAbbreviations = false,
+  isIndianNumberSystem = false,
   ...props
 }: CurrencyInputProps) => {
   if (decimalSeparator === groupSeparator) {
@@ -50,6 +51,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
     groupSeparator,
     turnOffSeparators,
     prefix,
+    isIndianNumberSystem,
   };
 
   const cleanValueOptions: Partial<CleanValueOptions> = {

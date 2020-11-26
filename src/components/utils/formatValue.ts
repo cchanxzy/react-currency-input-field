@@ -33,6 +33,12 @@ type Props = {
    * Prefix
    */
   prefix?: string;
+  /**
+   * Allows to get formatted by indian numbering system
+   *
+   * Default = false
+   */
+  isIndianNumberSystem?: boolean;
 };
 
 /**
@@ -45,6 +51,7 @@ export const formatValue = (props: Props): string => {
     decimalSeparator = '.',
     turnOffSeparators = false,
     prefix,
+    isIndianNumberSystem = false,
   } = props;
 
   if (_value === '' || _value === undefined) {
@@ -63,7 +70,9 @@ export const formatValue = (props: Props): string => {
   const valueOnly = isNegative ? value.replace('-', '') : value;
   const [int, decimals] = hasDecimalSeparator ? valueOnly.split(decimalSeparator) : [valueOnly];
 
-  const formattedInt = turnOffSeparators ? int : addSeparators(int, groupSeparator);
+  const formattedInt = turnOffSeparators
+    ? int
+    : addSeparators({ value: int, separator: groupSeparator, isIndianNumberSystem });
 
   const includePrefix = prefix ? prefix : '';
   const includeNegative = isNegative ? '-' : '';

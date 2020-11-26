@@ -116,5 +116,12 @@ export type CurrencyInputProps = Overwrite<
      * Default = false
      */
     turnOffAbbreviations?: boolean;
+
+    /**
+     * Allows separation by lakhs and crores instead of millions and billions eg. 10,00,000
+     *
+     * Default = false
+     */
+    isIndianNumberSystem?: boolean;
   }
 >;
