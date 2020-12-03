@@ -27,8 +27,12 @@ export const cleanValue = ({
   turnOffAbbreviations = false,
   prefix = '',
 }: CleanValueOptions): string => {
+  if (value === '-') {
+    return value;
+  }
+
   const abbreviations = turnOffAbbreviations ? [] : ['k', 'm', 'b'];
-  const isNegative = value.includes('-');
+  const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(value);
 
   const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
   const withoutPrefix = prefix ? value.replace(prefixWithValue, '').concat(preValue) : value;

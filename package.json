@@ -12,7 +12,7 @@
     "build": "rm -rf dist && tsc && NODE_ENV='production' webpack --config-name=prod --mode=production",
     "start": "NODE_ENV='development' webpack-dev-server --config-name=dev --mode=development --hot",
     "test": "jest --coverage",
-    "test:watch": "jest --coverage --watch",
+    "test-ci": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --coverage",
     "lint": "tsc && eslint 'src/**/*.{js,ts,tsx}' --max-warnings=0",
     "gh-predeploy": "NODE_ENV='production' webpack --config-name=dev --mode=production",
     "gh-deploy": "yarn gh-predeploy && gh-pages -d demo/examples",
@@ -35,7 +35,9 @@
     "form",
     "field",
     "number",
-    "input"
+    "input",
+    "intl",
+    "locale"
   ],
   "author": "cchanxzy",
   "license": "MIT",

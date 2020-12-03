@@ -2,7 +2,10 @@ import { Ref } from 'react';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
-export type Separator = ',' | '.';
+export type IntlConfig = {
+  locale: string;
+  currency: string;
+};
 
 export type CurrencyInputProps = Overwrite<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -44,7 +47,7 @@ export type CurrencyInputProps = Overwrite<
     decimalsLimit?: number;
 
     /**
-     * Default value
+     * Default value if not passing in value
      */
     defaultValue?: number | string;
 
@@ -118,6 +121,15 @@ export type CurrencyInputProps = Overwrite<
      * Default = false
      */
     turnOffAbbreviations?: boolean;
+
+    /**
+     * International locale config, examples:
+     *   { locale: 'ja-JP', currency: 'JPY' }
+     *   { locale: 'en-IN', currency: 'INR' }
+     *
+     * Any prefix, groupSeparator or decimalSeparator options passed in will override locale defaults
+     */
+    intlConfig?: IntlConfig;
 
     /**
      * Ref property

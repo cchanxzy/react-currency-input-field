@@ -9,29 +9,20 @@ describe('formatValue', () => {
     ).toEqual('');
   });
 
-  it('should add separator', () => {
+  it('should add group separator', () => {
     expect(
       formatValue({
         value: '1234567',
+        groupSeparator: '/',
       })
-    ).toEqual('1,234,567');
-  });
-
-  it('should handle period separator', () => {
-    expect(
-      formatValue({
-        value: '1234567',
-        decimalSeparator: '.',
-        groupSeparator: '.',
-      })
-    ).toEqual('1.234.567');
+    ).toEqual('1/234/567');
   });
 
   it('should handle comma separator for decimals', () => {
     expect(
       formatValue({
         value: '1234567,89',
-        decimalSeparator: '.',
+        decimalSeparator: ',',
         groupSeparator: '.',
       })
     ).toEqual('1.234.567,89');
@@ -50,11 +41,11 @@ describe('formatValue', () => {
   it('should handle empty decimal separator', () => {
     expect(
       formatValue({
-        value: '1234567-89',
+        value: '123456789',
         decimalSeparator: '',
-        groupSeparator: '.',
+        groupSeparator: '',
       })
-    ).toEqual('1.234.567-89');
+    ).toEqual('123456789');
   });
 
   it('should NOT add separator if "turnOffSeparators" is true', () => {
@@ -90,6 +81,8 @@ describe('formatValue', () => {
     expect(
       formatValue({
         value: '1234567.',
+        groupSeparator: ',',
+        decimalSeparator: '.',
       })
     ).toEqual('1,234,567.');
   });
@@ -98,6 +91,8 @@ describe('formatValue', () => {
     expect(
       formatValue({
         value: '1234.567',
+        groupSeparator: ',',
+        decimalSeparator: '.',
       })
     ).toEqual('1,234.567');
   });
@@ -106,6 +101,8 @@ describe('formatValue', () => {
     expect(
       formatValue({
         value: '1234567.89',
+        groupSeparator: ',',
+        decimalSeparator: '.',
         prefix: '£',
       })
     ).toEqual('£1,234,567.89');
@@ -125,6 +122,8 @@ describe('formatValue', () => {
       expect(
         formatValue({
           value: '-1234',
+          groupSeparator: ',',
+          decimalSeparator: '.',
           prefix: '£',
         })
       ).toEqual('-£1,234');
@@ -168,5 +167,65 @@ describe('formatValue', () => {
         prefix: '£',
       })
     ).toEqual('-£123-456');
+  });
+
+  describe('intlConfig', () => {
+    it('should handle intlConfig passed in', () => {
+      expect(
+        formatValue({
+          value: '-500000',
+          intlConfig: { locale: 'en-IN', currency: 'INR' },
+        })
+      ).toEqual('-₹5,00,000');
+
+      expect(
+        formatValue({
+          value: '123456.79',
+          intlConfig: { locale: 'zh-CN', currency: 'CNY' },
+        })
+      ).toEqual('¥123,456.79');
+    });
+
+    it('should override locale if prefix passed in', () => {
+      expect(
+        formatValue({
+          value: '345',
+          intlConfig: { locale: 'en-US', currency: 'USD' },
+          prefix: '₹',
+        })
+      ).toEqual('₹345');
+    });
+
+    it('should override locale if groupSeparator passed in', () => {
+      expect(
+        formatValue({
+          value: '-123456',
+          intlConfig: { locale: 'en-IN', currency: 'INR' },
+          groupSeparator: '-',
+        })
+      ).toEqual('-₹1-23-456');
+    });
+
+    it('should override locale if decimalSeparator passed in', () => {
+      expect(
+        formatValue({
+          value: '654321-00',
+          intlConfig: { locale: 'zh-CN', currency: 'CNY' },
+          decimalSeparator: '-',
+        })
+      ).toEqual('¥654,321-00');
+    });
+
+    it('should override locale if turnOffSeparators passed in', () => {
+      expect(
+        formatValue({
+          value: '987654321',
+          intlConfig: { locale: 'zh-CN', currency: 'CNY' },
+          decimalSeparator: '.',
+          groupSeparator: ',',
+          turnOffSeparators: true,
+        })
+      ).toEqual('¥987654321');
+    });
   });
 });

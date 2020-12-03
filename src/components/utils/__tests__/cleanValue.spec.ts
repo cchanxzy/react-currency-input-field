@@ -99,6 +99,19 @@ describe('cleanValue', () => {
       ).toEqual('-99999.99');
     });
 
+    it('should handle negative value with group separator', () => {
+      expect(
+        cleanValue({
+          value: '-£99-999.99',
+          decimalSeparator: '.',
+          groupSeparator: '-',
+          allowDecimals: true,
+          decimalsLimit: 2,
+          prefix: '£',
+        })
+      ).toEqual('-99999.99');
+    });
+
     it('should handle not allow negative value if allowNegativeValue is false', () => {
       expect(
         cleanValue({
