@@ -19,10 +19,6 @@ jobs:
           key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: yarn
-      - name: Install full-icu
-        run: yarn add full-icu
-      - name: Install full-icu
-        run: yarn add cross-env
       - name: Build package
         run: yarn build
       - name: Run linting
