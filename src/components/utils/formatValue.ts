@@ -1,6 +1,7 @@
-import { addSeparators } from './addSeparators';
+import { IntlConfig } from '../CurrencyInputProps';
+import { escapeRegExp } from './escapeRegExp';
 
-type Props = {
+type FormatValueOptions = {
   /**
    * Value to format
    */
@@ -30,6 +31,11 @@ type Props = {
   turnOffSeparators?: boolean;
 
   /**
+   * Intl locale currency config
+   */
+  intlConfig?: IntlConfig;
+
+  /**
    * Prefix
    */
   prefix?: string;
@@ -38,41 +44,114 @@ type Props = {
 /**
  * Format value with decimal separator, group separator and prefix
  */
-export const formatValue = (props: Props): string => {
-  const {
-    value: _value,
-    groupSeparator = ',',
-    decimalSeparator = '.',
-    turnOffSeparators = false,
-    prefix,
-  } = props;
+export const formatValue = (options: FormatValueOptions): string => {
+  const { value: _value, decimalSeparator, intlConfig, prefix = '' } = options;
 
   if (_value === '' || _value === undefined) {
     return '';
   }
 
-  const value = String(_value);
-
-  if (value === '-') {
+  if (_value === '-') {
     return '-';
   }
 
-  const isNegative = RegExp('^-\\d+').test(value);
-  const hasDecimalSeparator = decimalSeparator && value.includes(decimalSeparator);
+  const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(
+    String(_value)
+  );
+  const value =
+    decimalSeparator !== '.'
+      ? replaceDecimalSeparator(String(_value), decimalSeparator, isNegative)
+      : String(_value);
 
-  const valueOnly = isNegative ? value.replace('-', '') : value;
-  const [int, decimals] = hasDecimalSeparator ? valueOnly.split(decimalSeparator) : [valueOnly];
+  const numberFormatter = intlConfig
+    ? new Intl.NumberFormat(intlConfig.locale, {
+        style: 'currency',
+        currency: intlConfig.currency,
+        minimumFractionDigits: 0,
+      })
+    : new Intl.NumberFormat();
 
-  const formattedInt = turnOffSeparators ? int : addSeparators(int, groupSeparator);
+  const parts = numberFormatter.formatToParts(Number(value));
 
-  const includePrefix = prefix ? prefix : '';
-  const includeNegative = isNegative ? '-' : '';
-  const includeDecimals =
-    hasDecimalSeparator && decimals
-      ? `${decimalSeparator}${decimals}`
-      : hasDecimalSeparator
-      ? `${decimalSeparator}`
-      : '';
+  let formatted = replaceParts(parts, options);
 
-  return `${includeNegative}${includePrefix}${formattedInt}${includeDecimals}`;
+  // Without intl config, number formatter won't include currency symbol ie. prefix
+  if (!intlConfig) {
+    formatted = isNegative ? formatted.replace(/^-/g, `-${prefix}`) : `${prefix}${formatted}`;
+  }
+
+  // Include decimal separator if user input ends with decimal separator
+  const includeDecimalSeparator = value.slice(-1) === decimalSeparator ? decimalSeparator : '';
+
+  const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
+
+  // Keep original decimal padding
+  if (decimals && decimalSeparator) {
+    if (formatted.includes(decimalSeparator)) {
+      formatted = formatted.replace(
+        RegExp(`(\\d+)(${escapeRegExp(decimalSeparator)})(\\d+)`, 'g'),
+        `$1$2${decimals}`
+      );
+    } else {
+      formatted = `${formatted}${decimalSeparator}${decimals}`;
+    }
+  }
+
+  return [formatted, includeDecimalSeparator].join('');
+};
+
+/**
+ * Before converting to Number, decimal separator has to be .
+ */
+const replaceDecimalSeparator = (
+  value: string,
+  decimalSeparator: FormatValueOptions['decimalSeparator'],
+  isNegative: boolean
+): string => {
+  let newValue = value;
+  if (decimalSeparator && decimalSeparator !== '.') {
+    newValue = newValue.replace(RegExp(escapeRegExp(decimalSeparator), 'g'), '.');
+    if (isNegative && decimalSeparator === '-') {
+      newValue = `-${newValue.slice(1)}`;
+    }
+  }
+  return newValue;
+};
+
+const replaceParts = (
+  parts: Intl.NumberFormatPart[],
+  {
+    prefix,
+    groupSeparator,
+    decimalSeparator,
+    turnOffSeparators = false,
+  }: Pick<
+    FormatValueOptions,
+    'prefix' | 'groupSeparator' | 'decimalSeparator' | 'turnOffSeparators'
+  >
+): string => {
+  return parts
+    .reduce(
+      (prev, { type, value }) => {
+        if (type === 'currency' && prefix) {
+          return [...prev, prefix];
+        }
+
+        if (type === 'group') {
+          return !turnOffSeparators
+            ? [...prev, groupSeparator !== undefined ? groupSeparator : value]
+            : prev;
+        }
+
+        if (type === 'decimal') {
+          return !turnOffSeparators
+            ? [...prev, decimalSeparator !== undefined ? decimalSeparator : value]
+            : prev;
+        }
+
+        return [...prev, value];
+      },
+      ['']
+    )
+    .join('');
 };

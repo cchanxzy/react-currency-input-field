@@ -1,10 +1,11 @@
-import React, { FC, useState, useEffect, useRef, forwardRef } from 'react';
+import React, { FC, useState, useEffect, useRef, forwardRef, useMemo } from 'react';
 import { CurrencyInputProps } from './CurrencyInputProps';
 import {
   isNumber,
   cleanValue,
   fixedDecimalValue,
   formatValue,
+  getLocaleConfig,
   padTrimValue,
   CleanValueOptions,
 } from './utils';
@@ -31,31 +32,39 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       placeholder,
       precision,
       prefix,
+      intlConfig,
       step,
-      decimalSeparator = '.',
-      groupSeparator = ',',
       turnOffSeparators = false,
       turnOffAbbreviations = false,
       ...props
     }: CurrencyInputProps,
     ref
   ) => {
-    if (decimalSeparator === groupSeparator) {
+    if (
+      props.decimalSeparator &&
+      props.groupSeparator &&
+      props.decimalSeparator === props.groupSeparator
+    ) {
       throw new Error('decimalSeparator cannot be the same as groupSeparator');
     }
 
-    if (isNumber(decimalSeparator)) {
+    if (props.decimalSeparator && isNumber(props.decimalSeparator)) {
       throw new Error('decimalSeparator cannot be a number');
     }
 
-    if (isNumber(groupSeparator)) {
+    if (props.groupSeparator && isNumber(props.groupSeparator)) {
       throw new Error('groupSeparator cannot be a number');
     }
+
+    const localeConfig = useMemo(() => getLocaleConfig(intlConfig), [intlConfig]);
+    const decimalSeparator = props.decimalSeparator || localeConfig.decimalSeparator || '';
+    const groupSeparator = props.groupSeparator || localeConfig.groupSeparator || '';
 
     const formatValueOptions = {
       decimalSeparator,
       groupSeparator,
       turnOffSeparators,
+      intlConfig,
       prefix,
     };
 
@@ -137,7 +146,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onChange && onChange(newValue, name);
       onBlurValue && onBlurValue(newValue, name);
 
-      const formattedValue = formatValue({ value: newValue, ...formatValueOptions });
+      const formattedValue = formatValue({
+        ...formatValueOptions,
+        value: newValue,
+      });
       setStateValue(formattedValue);
     };
 
@@ -167,7 +179,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     const formattedPropsValue =
       userValue !== undefined
-        ? formatValue({ value: String(userValue), ...formatValueOptions })
+        ? formatValue({
+            ...formatValueOptions,
+            value: String(userValue),
+          })
         : undefined;
 
     return (

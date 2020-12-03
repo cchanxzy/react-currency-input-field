@@ -66,7 +66,6 @@ export const Example1: FC = () => {
               <CurrencyInput
                 id="validationCustom01"
                 name="input-1"
-                defaultValue={999.99}
                 className={`form-control ${className}`}
                 value={value}
                 onChange={validateValue}
