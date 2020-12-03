@@ -1,3 +1,15 @@
+# [3.0.0-beta.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2020-12-03)
+
+
+### Features
+
+* add intl locale config option ([e119352](https://github.com/cchanxzy/react-currency-input-field/commit/e119352212b1aaa8bafdb02dfd312de7a7302cfc))
+
+
+### BREAKING CHANGES
+
+* Using Intl.NumberFormat to format value
+
 # [3.0.0-beta.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.7.0...v3.0.0-beta.1) (2020-11-19)
 
 
