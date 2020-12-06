@@ -68,7 +68,9 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Value will always have the specified length of decimals
      *
-     * This formatting happens onBlur
+     * Eg. 123 -> 1.23
+     *
+     * Note: This formatting only happens onBlur
      */
     fixedDecimalLength?: number;
 
@@ -124,7 +126,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * Default = false
      */
-    turnOffAbbreviations?: boolean;
+    disableAbbreviations?: boolean;
 
     /**
      * International locale config, examples:

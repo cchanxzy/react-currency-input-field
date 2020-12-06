@@ -54,7 +54,7 @@ Examples:
 - 2.5m = 2,500,000
 - 3.456B = 3,456,000,000
 
-This can be turned off by passing in `turnOffAbbreviations`.
+This can be turned off by passing in `disableAbbreviations`.
 
 ## Separators
 
@@ -130,7 +130,7 @@ Example if `fixedDecimalLength` was 2:
 | decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value              |
 | groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                          |
 | intlConfig             | `object`   |                | International locale config                                              |
-| turnOffAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
+| disableAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
 | disableGroupSeparators | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
 
 ## Format values for display
