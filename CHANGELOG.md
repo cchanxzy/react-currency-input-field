@@ -1,3 +1,19 @@
+# [3.0.0-beta.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2020-12-06)
+
+
+### Features
+
+* renamed precision to decimalScale ([c545b78](https://github.com/cchanxzy/react-currency-input-field/commit/c545b780815bff7c98c66e527f3f3f4a1cc8ee67))
+* renamed turnOffAbbreviations to disableAbbreviations ([7751a43](https://github.com/cchanxzy/react-currency-input-field/commit/7751a4386baee5554aa030839d1cdc0f3750f360))
+* renamed turnOffSeparators to disableGroupSeparators ([b16f577](https://github.com/cchanxzy/react-currency-input-field/commit/b16f577e29646e2fba9db370fb4eda2c73ae632e))
+
+
+### BREAKING CHANGES
+
+* Renamed "turnOffAbbreviations" to "disableAbbreviations"
+* Renamed "turnOffSeparators" to "disableGroupSeparators"
+* renamed precision to decimalScale
+
 # [3.0.0-beta.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2020-12-03)
 
 
