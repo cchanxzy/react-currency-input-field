@@ -13,7 +13,13 @@ describe('<CurrencyInput /> component > negative value', () => {
 
   it('should handle negative value input', () => {
     const view = shallow(
-      <CurrencyInput id={id} prefix="$" onChange={onChangeSpy} precision={2} defaultValue={123} />
+      <CurrencyInput
+        id={id}
+        prefix="$"
+        onChange={onChangeSpy}
+        decimalScale={2}
+        defaultValue={123}
+      />
     );
 
     const input = view.find(`#${id}`);
@@ -28,7 +34,13 @@ describe('<CurrencyInput /> component > negative value', () => {
 
   it('should call onChange with undefined and keep "-" sign as state value', () => {
     const view = shallow(
-      <CurrencyInput id={id} prefix="$" onChange={onChangeSpy} precision={2} defaultValue={123} />
+      <CurrencyInput
+        id={id}
+        prefix="$"
+        onChange={onChangeSpy}
+        decimalScale={2}
+        defaultValue={123}
+      />
     );
 
     const input = view.find(`#${id}`);
@@ -43,7 +55,13 @@ describe('<CurrencyInput /> component > negative value', () => {
 
   it('should not call onBlur if only negative sign and clears value', () => {
     const view = shallow(
-      <CurrencyInput id={id} prefix="$" onChange={onChangeSpy} precision={2} defaultValue={123} />
+      <CurrencyInput
+        id={id}
+        prefix="$"
+        onChange={onChangeSpy}
+        decimalScale={2}
+        defaultValue={123}
+      />
     );
 
     const input = view.find(`#${id}`);

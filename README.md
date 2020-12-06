@@ -124,7 +124,7 @@ Example if `fixedDecimalLength` was 2:
 | onChange             | `function` |                | Handle change in value                                                   |
 | onBlurValue          | `function` |                | Handle value onBlur                                                      |
 | placeholder          | `string`   |                | Placeholder if no value                                                  |
-| precision            | `number`   |                | Specify decimal precision for padding/trimming                           |
+| decimalScale         | `number`   |                | Specify decimal scale for padding/trimming                               |
 | prefix               | `string`   |                | Include a prefix eg. £ or \$                                             |
 | step                 | `number`   |                | Incremental value change on arrow down and arrow up key press            |
 | decimalSeparator     | `string`   | locale default | Separator between integer part and fractional part of value              |

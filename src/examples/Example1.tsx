@@ -71,7 +71,7 @@ export const Example1: FC = () => {
                 onChange={validateValue}
                 onBlurValue={handleOnBlurValue}
                 prefix={prefix}
-                precision={2}
+                decimalScale={2}
                 step={1}
               />
               <div className="invalid-feedback">{errorMessage}</div>

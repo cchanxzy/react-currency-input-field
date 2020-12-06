@@ -30,7 +30,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onBlurValue,
       fixedDecimalLength,
       placeholder,
-      precision,
+      decimalScale,
       prefix,
       intlConfig,
       step,
@@ -137,11 +137,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const fixedDecimals = fixedDecimalValue(valueOnly, decimalSeparator, fixedDecimalLength);
 
-      // Add padding or trim value to precision
+      // Add padding or trim value to decimalScale
       const newValue = padTrimValue(
         fixedDecimals,
         decimalSeparator,
-        precision || fixedDecimalLength
+        decimalScale || fixedDecimalLength
       );
       onChange && onChange(newValue, name);
       onBlurValue && onBlurValue(newValue, name);

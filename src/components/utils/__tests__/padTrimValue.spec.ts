@@ -1,7 +1,7 @@
 import { padTrimValue } from '../padTrimValue';
 
 describe('padTrimValue', () => {
-  it('should return original value if no precision', () => {
+  it('should return original value if no decimalScale', () => {
     const value = padTrimValue('1000000');
     expect(value).toEqual('1000000');
   });
@@ -21,12 +21,12 @@ describe('padTrimValue', () => {
     expect(value).toEqual('99.000');
   });
 
-  it('should pad with 0 if decimal length is less than precision', () => {
+  it('should pad with 0 if decimal length is less than decimalScale', () => {
     const value = padTrimValue('10.5', '.', 5);
     expect(value).toEqual('10.50000');
   });
 
-  it('should trim if decimal length is larger than precision', () => {
+  it('should trim if decimal length is larger than decimalScale', () => {
     const value = padTrimValue('10.599', '.', 2);
     expect(value).toEqual('10.59');
   });
