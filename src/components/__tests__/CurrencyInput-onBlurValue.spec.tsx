@@ -21,7 +21,7 @@ describe('<CurrencyInput /> component > onBlurValue', () => {
         prefix="$"
         onBlurValue={onBlurValueSpy}
         onChange={onChangeSpy}
-        precision={2}
+        decimalScale={2}
       />
     );
     view.find(`#${id}`).simulate('blur', { target: { value: '123' } });

@@ -47,7 +47,14 @@ export type CurrencyInputProps = Overwrite<
     decimalsLimit?: number;
 
     /**
-     * Default value if not passing in value
+     * Specify decimal scale for padding/trimming
+     *
+     * Eg. 1 -> 1.99 or 1.234 -> 1.23
+     */
+    decimalScale?: number;
+
+    /**
+     * Default value if not passing in value via props
      */
     defaultValue?: number | string;
 
@@ -60,6 +67,8 @@ export type CurrencyInputProps = Overwrite<
 
     /**
      * Value will always have the specified length of decimals
+     *
+     * This formatting happens onBlur
      */
     fixedDecimalLength?: number;
 
@@ -75,14 +84,9 @@ export type CurrencyInputProps = Overwrite<
     onBlurValue?: (value: string | undefined, name?: string) => void;
 
     /**
-     * Placeholder
+     * Placeholder if there is no value
      */
     placeholder?: string;
-
-    /**
-     * Specify decimal precision for padding/trimming
-     */
-    precision?: number;
 
     /**
      * Include a prefix eg. £
@@ -95,16 +99,16 @@ export type CurrencyInputProps = Overwrite<
     step?: number;
 
     /**
-     * Separator between integer part and fractional part of value. Cannot be a number
+     * Separator between integer part and fractional part of value.
      *
-     * Default = "."
+     * This cannot be a number
      */
     decimalSeparator?: string;
 
     /**
-     * Separator between thousand, million and billion. Cannot be a number
+     * Separator between thousand, million and billion
      *
-     * Default = ","
+     * This cannot be a number
      */
     groupSeparator?: string;
 
@@ -127,7 +131,8 @@ export type CurrencyInputProps = Overwrite<
      *   { locale: 'ja-JP', currency: 'JPY' }
      *   { locale: 'en-IN', currency: 'INR' }
      *
-     * Any prefix, groupSeparator or decimalSeparator options passed in will override locale defaults
+     * Any prefix, groupSeparator or decimalSeparator options passed in
+     * will override Intl Locale config
      */
     intlConfig?: IntlConfig;
 

@@ -33,7 +33,7 @@ describe('<CurrencyInput /> component > fixedDecimalLength', () => {
       expect(updatedView.find(`#${id}`).prop('value')).toBe('$1.230');
     });
 
-    it('should work with precision and decimalSeparator', () => {
+    it('should work with decimalScale and decimalSeparator', () => {
       const view = shallow(
         <CurrencyInput
           id={id}
@@ -42,7 +42,7 @@ describe('<CurrencyInput /> component > fixedDecimalLength', () => {
           fixedDecimalLength={3}
           groupSeparator="."
           decimalSeparator=","
-          precision={2}
+          decimalScale={2}
           defaultValue={123}
         />
       );

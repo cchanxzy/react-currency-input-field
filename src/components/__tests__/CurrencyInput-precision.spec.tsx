@@ -4,16 +4,16 @@ import CurrencyInput from '../CurrencyInput';
 
 const id = 'validationCustom01';
 
-describe('<CurrencyInput /> component > precision', () => {
+describe('<CurrencyInput /> component > decimalScale', () => {
   const onBlurValueSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should pad to precision of 5 on blur', () => {
+  it('should pad to decimalScale of 5 on blur', () => {
     const view = shallow(
-      <CurrencyInput id={id} prefix="£" onBlurValue={onBlurValueSpy} precision={5} />
+      <CurrencyInput id={id} prefix="£" onBlurValue={onBlurValueSpy} decimalScale={5} />
     );
     view.find(`#${id}`).simulate('blur', { target: { value: '£1.5' } });
     expect(onBlurValueSpy).toBeCalledWith('1.50000', undefined);
@@ -22,9 +22,9 @@ describe('<CurrencyInput /> component > precision', () => {
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.50000');
   });
 
-  it('should pad to precision of 2 on blur', () => {
+  it('should pad to decimalScale of 2 on blur', () => {
     const view = shallow(
-      <CurrencyInput id={id} prefix="£" onBlurValue={onBlurValueSpy} precision={2} />
+      <CurrencyInput id={id} prefix="£" onBlurValue={onBlurValueSpy} decimalScale={2} />
     );
     view.find(`#${id}`).simulate('blur', { target: { value: '£1' } });
     expect(onBlurValueSpy).toBeCalledWith('1.00', undefined);
