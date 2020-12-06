@@ -28,7 +28,7 @@ type FormatValueOptions = {
    *
    * Default = false
    */
-  turnOffSeparators?: boolean;
+  disableGroupSeparators?: boolean;
 
   /**
    * Intl locale currency config
@@ -124,10 +124,10 @@ const replaceParts = (
     prefix,
     groupSeparator,
     decimalSeparator,
-    turnOffSeparators = false,
+    disableGroupSeparators = false,
   }: Pick<
     FormatValueOptions,
-    'prefix' | 'groupSeparator' | 'decimalSeparator' | 'turnOffSeparators'
+    'prefix' | 'groupSeparator' | 'decimalSeparator' | 'disableGroupSeparators'
   >
 ): string => {
   return parts
@@ -138,13 +138,13 @@ const replaceParts = (
         }
 
         if (type === 'group') {
-          return !turnOffSeparators
+          return !disableGroupSeparators
             ? [...prev, groupSeparator !== undefined ? groupSeparator : value]
             : prev;
         }
 
         if (type === 'decimal') {
-          return !turnOffSeparators
+          return !disableGroupSeparators
             ? [...prev, decimalSeparator !== undefined ? decimalSeparator : value]
             : prev;
         }
