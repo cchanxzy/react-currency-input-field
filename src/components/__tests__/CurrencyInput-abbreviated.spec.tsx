@@ -54,9 +54,9 @@ describe('<CurrencyInput /> component > abbreviated', () => {
     expect(view.update().find(`#${id}`).prop('value')).toBe('');
   });
 
-  describe('turnOffAbbreviations', () => {
-    it('should not allow abbreviations if turnOffAbbreviations is true', () => {
-      const view = shallow(<CurrencyInput id={id} onChange={onChangeSpy} turnOffAbbreviations />);
+  describe('disableAbbreviations', () => {
+    it('should not allow abbreviations if disableAbbreviations is true', () => {
+      const view = shallow(<CurrencyInput id={id} onChange={onChangeSpy} disableAbbreviations />);
       view.find(`#${id}`).simulate('change', { target: { value: '1k' } });
       expect(view.update().find(`#${id}`).prop('value')).toBe('1');
 

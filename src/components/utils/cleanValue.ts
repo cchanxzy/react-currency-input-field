@@ -10,7 +10,7 @@ export type CleanValueOptions = {
   allowDecimals?: boolean;
   decimalsLimit?: number;
   allowNegativeValue?: boolean;
-  turnOffAbbreviations?: boolean;
+  disableAbbreviations?: boolean;
   prefix?: string;
 };
 
@@ -24,14 +24,14 @@ export const cleanValue = ({
   allowDecimals = true,
   decimalsLimit = 2,
   allowNegativeValue = true,
-  turnOffAbbreviations = false,
+  disableAbbreviations = false,
   prefix = '',
 }: CleanValueOptions): string => {
   if (value === '-') {
     return value;
   }
 
-  const abbreviations = turnOffAbbreviations ? [] : ['k', 'm', 'b'];
+  const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
   const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(value);
 
   const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
@@ -45,7 +45,7 @@ export const cleanValue = ({
 
   let valueOnly = withoutInvalidChars;
 
-  if (!turnOffAbbreviations) {
+  if (!disableAbbreviations) {
     // disallow letter without number
     if (abbreviations.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
       return '';
