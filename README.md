@@ -70,7 +70,7 @@ import CurrencyInput from 'react-currency-input-field';
 
 Note: the separators cannot be a number, and `decimalSeparator` must be different to `groupSeparator`.
 
-To turn off auto adding the group separator, add `turnOffSeparators={true}`.
+To turn off auto adding the group separator, add `disableGroupSeparators={true}`.
 
 ## Intl Locale Config
 
@@ -109,29 +109,29 @@ Example if `fixedDecimalLength` was 2:
 
 ## Props
 
-| Name                 | Type       | Default        | Description                                                              |
-| -------------------- | ---------- | -------------- | ------------------------------------------------------------------------ |
-| allowDecimals        | `boolean`  | `true`         | Allow decimals                                                           |
-| allowNegativeValue   | `boolean`  | `true`         | Allow user to enter negative value                                       |
-| className            | `string`   |                | Class names                                                              |
-| decimalsLimit        | `number`   | `2`            | Limit length of decimals allowed                                         |
-| defaultValue         | `number`   |                | Default value                                                            |
-| value                | `number`   |                | Programmatically set the value                                           |
-| disabled             | `boolean`  | `false`        | Disabled                                                                 |
-| fixedDecimalLength   | `number`   |                | Value will always have the specified length of decimals                  |
-| id                   | `string`   |                | Component id                                                             |
-| maxLength            | `number`   |                | Maximum characters the user can enter                                    |
-| onChange             | `function` |                | Handle change in value                                                   |
-| onBlurValue          | `function` |                | Handle value onBlur                                                      |
-| placeholder          | `string`   |                | Placeholder if no value                                                  |
-| decimalScale         | `number`   |                | Specify decimal scale for padding/trimming                               |
-| prefix               | `string`   |                | Include a prefix eg. £ or \$                                             |
-| step                 | `number`   |                | Incremental value change on arrow down and arrow up key press            |
-| decimalSeparator     | `string`   | locale default | Separator between integer part and fractional part of value              |
-| groupSeparator       | `string`   | locale default | Separator between thousand, million and billion                          |
-| intlConfig           | `object`   |                | International locale config                                              |
-| turnOffAbbreviations | `boolean`  | `false`        | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
-| turnOffSeparators    | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
+| Name                   | Type       | Default        | Description                                                              |
+| ---------------------- | ---------- | -------------- | ------------------------------------------------------------------------ |
+| allowDecimals          | `boolean`  | `true`         | Allow decimals                                                           |
+| allowNegativeValue     | `boolean`  | `true`         | Allow user to enter negative value                                       |
+| className              | `string`   |                | Class names                                                              |
+| decimalsLimit          | `number`   | `2`            | Limit length of decimals allowed                                         |
+| defaultValue           | `number`   |                | Default value                                                            |
+| value                  | `number`   |                | Programmatically set the value                                           |
+| disabled               | `boolean`  | `false`        | Disabled                                                                 |
+| fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                  |
+| id                     | `string`   |                | Component id                                                             |
+| maxLength              | `number`   |                | Maximum characters the user can enter                                    |
+| onChange               | `function` |                | Handle change in value                                                   |
+| onBlurValue            | `function` |                | Handle value onBlur                                                      |
+| placeholder            | `string`   |                | Placeholder if no value                                                  |
+| decimalScale           | `number`   |                | Specify decimal scale for padding/trimming                               |
+| prefix                 | `string`   |                | Include a prefix eg. £ or \$                                             |
+| step                   | `number`   |                | Incremental value change on arrow down and arrow up key press            |
+| decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value              |
+| groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                          |
+| intlConfig             | `object`   |                | International locale config                                              |
+| turnOffAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
+| disableGroupSeparators | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
 
 ## Format values for display
 
@@ -144,7 +144,7 @@ const formattedValue = formatValue({
   value = 123456,
   groupSeparator = ',',
   decimalSeparator = '.',
-  turnOffSeparators = false,
+  disableGroupSeparators = false,
   prefix = '$',
 });
 ```

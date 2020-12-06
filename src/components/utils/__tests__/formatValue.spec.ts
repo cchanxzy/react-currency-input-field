@@ -48,22 +48,22 @@ describe('formatValue', () => {
     ).toEqual('123456789');
   });
 
-  it('should NOT add separator if "turnOffSeparators" is true', () => {
+  it('should NOT add separator if "disableGroupSeparators" is true', () => {
     expect(
       formatValue({
         value: '1234567',
-        turnOffSeparators: true,
+        disableGroupSeparators: true,
       })
     ).toEqual('1234567');
   });
 
-  it('should NOT add separator if "turnOffSeparators" is true even if decimal and group separators specified', () => {
+  it('should NOT add separator if "disableGroupSeparators" is true even if decimal and group separators specified', () => {
     expect(
       formatValue({
         value: '1234567',
         decimalSeparator: '.',
         groupSeparator: ',',
-        turnOffSeparators: true,
+        disableGroupSeparators: true,
       })
     ).toEqual('1234567');
   });
@@ -216,14 +216,14 @@ describe('formatValue', () => {
       ).toEqual('¥654,321-00');
     });
 
-    it('should override locale if turnOffSeparators passed in', () => {
+    it('should override locale if disableGroupSeparators passed in', () => {
       expect(
         formatValue({
           value: '987654321',
           intlConfig: { locale: 'zh-CN', currency: 'CNY' },
           decimalSeparator: '.',
           groupSeparator: ',',
-          turnOffSeparators: true,
+          disableGroupSeparators: true,
         })
       ).toEqual('¥987654321');
     });

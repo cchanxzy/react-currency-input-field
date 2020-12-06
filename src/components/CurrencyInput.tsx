@@ -34,7 +34,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       prefix,
       intlConfig,
       step,
-      turnOffSeparators = false,
+      disableGroupSeparators = false,
       turnOffAbbreviations = false,
       ...props
     }: CurrencyInputProps,
@@ -63,7 +63,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const formatValueOptions = {
       decimalSeparator,
       groupSeparator,
-      turnOffSeparators,
+      disableGroupSeparators,
       intlConfig,
       prefix,
     };

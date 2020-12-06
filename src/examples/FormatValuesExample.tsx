@@ -6,7 +6,7 @@ const FormatValuesExample: FC = () => {
   const [prefix, setPrefix] = useState('$');
   const [groupSeparator, setGroupSeparator] = useState(',');
   const [decimalSeparator, setDecimalSeparator] = useState('.');
-  const [turnOffSeparators, setTurnOffSeparators] = useState(false);
+  const [disableGroupSeparators, setdisableGroupSeparators] = useState(false);
 
   const handleValueChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     setValue(value);
@@ -31,7 +31,7 @@ const FormatValuesExample: FC = () => {
   const handleTurnOffSeparatorChange = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    setTurnOffSeparators(value === 'true' ? true : false);
+    setdisableGroupSeparators(value === 'true' ? true : false);
   };
 
   return (
@@ -88,26 +88,26 @@ const FormatValuesExample: FC = () => {
               <div className="ml-3 custom-control custom-radio custom-control-inline">
                 <input
                   type="radio"
-                  id="turnOffSeparatorsTrue"
+                  id="disableGroupSeparatorsTrue"
                   className="custom-control-input"
                   value="true"
                   onChange={handleTurnOffSeparatorChange}
-                  checked={turnOffSeparators}
+                  checked={disableGroupSeparators}
                 />
-                <label className="custom-control-label" htmlFor="turnOffSeparatorsTrue">
+                <label className="custom-control-label" htmlFor="disableGroupSeparatorsTrue">
                   True
                 </label>
               </div>
               <div className="custom-control custom-radio custom-control-inline">
                 <input
                   type="radio"
-                  id="turnOffSeparatorsFalse"
+                  id="disableGroupSeparatorsFalse"
                   className="custom-control-input"
                   value="false"
                   onChange={handleTurnOffSeparatorChange}
-                  checked={turnOffSeparators === false}
+                  checked={disableGroupSeparators === false}
                 />
-                <label className="custom-control-label" htmlFor="turnOffSeparatorsFalse">
+                <label className="custom-control-label" htmlFor="disableGroupSeparatorsFalse">
                   False
                 </label>
               </div>
@@ -120,7 +120,7 @@ const FormatValuesExample: FC = () => {
                 value,
                 groupSeparator,
                 decimalSeparator,
-                turnOffSeparators,
+                disableGroupSeparators,
                 prefix,
               })}
             </div>

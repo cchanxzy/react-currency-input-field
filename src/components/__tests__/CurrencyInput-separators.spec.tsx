@@ -18,7 +18,7 @@ describe('<CurrencyInput /> component > separators', () => {
         id={id}
         name={name}
         prefix="£"
-        turnOffSeparators={true}
+        disableGroupSeparators={true}
         onChange={onChangeSpy}
         defaultValue={10000}
       />
