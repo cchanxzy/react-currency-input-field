@@ -1,3 +1,15 @@
+# [3.0.0-beta.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2020-12-09)
+
+
+### Features
+
+* renamed onChange prop to onValueChange ([83d3806](https://github.com/cchanxzy/react-currency-input-field/commit/83d380660597797bfc38e609599c103f8176fd28))
+
+
+### BREAKING CHANGES
+
+* Renamed "onChange" to "onValueChange"
+
 # [3.0.0-beta.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2020-12-06)
 
 
