@@ -144,9 +144,7 @@ const replaceParts = (
         }
 
         if (type === 'decimal') {
-          return !disableGroupSeparators
-            ? [...prev, decimalSeparator !== undefined ? decimalSeparator : value]
-            : prev;
+          return [...prev, decimalSeparator !== undefined ? decimalSeparator : value];
         }
 
         return [...prev, value];
