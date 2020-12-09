@@ -5,7 +5,7 @@ import CurrencyInput from '../CurrencyInput';
 const id = 'validationCustom01';
 
 describe('<CurrencyInput /> component > fixedDecimalLength', () => {
-  const onBlurValueSpy = jest.fn();
+  const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -17,7 +17,7 @@ describe('<CurrencyInput /> component > fixedDecimalLength', () => {
         <CurrencyInput
           id={id}
           prefix="$"
-          onBlurValue={onBlurValueSpy}
+          onValueChange={onValueChangeSpy}
           fixedDecimalLength={3}
           defaultValue={123}
         />
@@ -27,7 +27,7 @@ describe('<CurrencyInput /> component > fixedDecimalLength', () => {
       expect(input.prop('value')).toBe('$123');
 
       view.find(`#${id}`).simulate('blur', { target: { value: '$123' } });
-      expect(onBlurValueSpy).toBeCalledWith('1.230', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('1.230', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('$1.230');
@@ -38,7 +38,7 @@ describe('<CurrencyInput /> component > fixedDecimalLength', () => {
         <CurrencyInput
           id={id}
           prefix="$"
-          onBlurValue={onBlurValueSpy}
+          onValueChange={onValueChangeSpy}
           fixedDecimalLength={3}
           groupSeparator="."
           decimalSeparator=","
@@ -51,7 +51,7 @@ describe('<CurrencyInput /> component > fixedDecimalLength', () => {
       expect(input.prop('value')).toBe('$123');
 
       view.find(`#${id}`).simulate('blur', { target: { value: '$123' } });
-      expect(onBlurValueSpy).toBeCalledWith('1,23', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('1,23', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('$1,23');

@@ -143,7 +143,7 @@ describe('<CurrencyInput /> component', () => {
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
   });
 
-  it('should call onChange with raw event', () => {
+  it('should call onChange with raw onChange event', () => {
     const onChangeSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
     const event = { target: { value: '£123' } };
@@ -151,7 +151,7 @@ describe('<CurrencyInput /> component', () => {
     expect(onChangeSpy).toBeCalledWith(event);
   });
 
-  it('should call onBlur with raw event', () => {
+  it('should call onBlur with raw onBlur event', () => {
     const onBlurSpy = jest.fn();
     const view = shallow(<CurrencyInput id={id} prefix="£" onBlur={onBlurSpy} />);
     const event = { target: { value: '£123' } };

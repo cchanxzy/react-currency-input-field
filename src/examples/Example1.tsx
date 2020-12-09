@@ -9,7 +9,6 @@ export const Example1: FC = () => {
   const [className, setClassName] = useState('');
   const [value, setValue] = useState<string | number>(999.99);
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
-  const [rawBlurValue, setRawBlurValue] = useState<string | undefined>(' ');
 
   /**
    * Handle validation
@@ -41,11 +40,6 @@ export const Example1: FC = () => {
     setValue(value);
   };
 
-  const handleOnBlurValue = (value: string | undefined) => {
-    const rawBlurValue = value === undefined ? 'undefined' : value;
-    setRawBlurValue(rawBlurValue || ' ');
-  };
-
   return (
     <div className="row">
       <div className="col-12 mb-4">
@@ -69,7 +63,6 @@ export const Example1: FC = () => {
                 className={`form-control ${className}`}
                 value={value}
                 onValueChange={validateValue}
-                onBlurValue={handleOnBlurValue}
                 prefix={prefix}
                 decimalScale={2}
                 step={1}
@@ -82,10 +75,6 @@ export const Example1: FC = () => {
                   <div className="col-6">
                     <div className="text-muted mr-3">onValueChange:</div>
                     {rawValue}
-                  </div>
-                  <div className="col-6">
-                    <div className="text-muted mr-3">onBlurValue:</div>
-                    {rawBlurValue}
                   </div>
                 </div>
               </pre>
