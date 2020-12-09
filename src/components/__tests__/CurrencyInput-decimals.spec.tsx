@@ -5,7 +5,7 @@ import CurrencyInput from '../CurrencyInput';
 const id = 'validationCustom01';
 
 describe('<CurrencyInput /> component > decimals', () => {
-  const onChangeSpy = jest.fn();
+  const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -13,10 +13,10 @@ describe('<CurrencyInput /> component > decimals', () => {
 
   it('should allow value with decimals if allowDecimals is true', () => {
     const view = shallow(
-      <CurrencyInput allowDecimals={true} id={id} prefix="£" onChange={onChangeSpy} />
+      <CurrencyInput allowDecimals={true} id={id} prefix="£" onValueChange={onValueChangeSpy} />
     );
     view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56' } });
-    expect(onChangeSpy).toBeCalledWith('1234.56', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('1234.56', undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.56');
@@ -24,10 +24,10 @@ describe('<CurrencyInput /> component > decimals', () => {
 
   it('should disallow value with decimals if allowDecimals is false', () => {
     const view = shallow(
-      <CurrencyInput allowDecimals={false} id={id} prefix="£" onChange={onChangeSpy} />
+      <CurrencyInput allowDecimals={false} id={id} prefix="£" onValueChange={onValueChangeSpy} />
     );
     view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56' } });
-    expect(onChangeSpy).toBeCalledWith('1234', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('1234', undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234');
@@ -35,10 +35,10 @@ describe('<CurrencyInput /> component > decimals', () => {
 
   it('should limit decimals to decimalsLimit length', () => {
     const view = shallow(
-      <CurrencyInput id={id} decimalsLimit={3} prefix="£" onChange={onChangeSpy} />
+      <CurrencyInput id={id} decimalsLimit={3} prefix="£" onValueChange={onValueChangeSpy} />
     );
     view.find(`#${id}`).simulate('change', { target: { value: '£1,234.56789' } });
-    expect(onChangeSpy).toBeCalledWith('1234.567', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('1234.567', undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£1,234.567');
@@ -46,7 +46,7 @@ describe('<CurrencyInput /> component > decimals', () => {
 
   it('should be disabled if disabled prop is true', () => {
     const view = shallow(
-      <CurrencyInput id={id} decimalsLimit={3} disabled={true} onChange={onChangeSpy} />
+      <CurrencyInput id={id} decimalsLimit={3} disabled={true} onValueChange={onValueChangeSpy} />
     );
     expect(view.find(`#${id}`).prop('disabled')).toBe(true);
   });

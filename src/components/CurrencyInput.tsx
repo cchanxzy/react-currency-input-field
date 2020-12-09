@@ -26,7 +26,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       disabled = false,
       maxLength: userMaxLength,
       value: userValue,
-      onChange,
+      onValueChange,
       onBlurValue,
       fixedDecimalLength,
       placeholder,
@@ -36,6 +36,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       step,
       disableGroupSeparators = false,
       disableAbbreviations = false,
+      onChange,
+      onBlur,
       ...props
     }: CurrencyInputProps,
     ref
@@ -91,8 +93,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const processChange = (value: string, selectionStart?: number | null): void => {
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-      if (!valueOnly) {
-        onChange && onChange(undefined, name);
+      if (valueOnly === '') {
+        onValueChange && onValueChange(undefined, name);
         setStateValue('');
         return;
       }
@@ -102,7 +104,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
 
       if (valueOnly === '-') {
-        onChange && onChange(undefined, name);
+        onValueChange && onValueChange(undefined, name);
         setStateValue(value);
         return;
       }
@@ -117,16 +119,24 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       setStateValue(formattedValue);
 
-      onChange && onChange(valueOnly, name);
+      onValueChange && onValueChange(valueOnly, name);
     };
 
-    const handleOnChange = ({
-      target: { value, selectionStart },
-    }: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const {
+        target: { value, selectionStart },
+      } = event;
+
       processChange(value, selectionStart);
+
+      onChange && onChange(event);
     };
 
-    const handleOnBlur = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
+      const {
+        target: { value },
+      } = event;
+
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
       if (valueOnly === '-' || !valueOnly) {
@@ -143,14 +153,18 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         decimalSeparator,
         decimalScale || fixedDecimalLength
       );
-      onChange && onChange(newValue, name);
+
+      onValueChange && onValueChange(newValue, name);
       onBlurValue && onBlurValue(newValue, name);
 
       const formattedValue = formatValue({
         ...formatValueOptions,
         value: newValue,
       });
+
       setStateValue(formattedValue);
+
+      onBlur && onBlur(event);
     };
 
     const handleOnKeyDown = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {

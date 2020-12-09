@@ -8,7 +8,7 @@ const placeholder = '£1,000';
 const name = 'inputName';
 
 describe('<CurrencyInput /> component', () => {
-  const onChangeSpy = jest.fn();
+  const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -78,58 +78,84 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('should allow value change with number', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
+    const view = shallow(<CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} />);
     view.find(`#${id}`).simulate('change', { target: { value: '100' } });
 
-    expect(onChangeSpy).toBeCalledWith('100', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('100', undefined);
   });
 
   it('should prefix 0 value', () => {
     const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" value={0} onChange={onChangeSpy} />
+      <CurrencyInput id={id} name={name} prefix="£" value={0} onValueChange={onValueChangeSpy} />
     );
     expect(view.find(`#${id}`).prop('value')).toBe('£0');
   });
 
   it('should allow 0 value on change', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    const view = shallow(
+      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
+    );
     view.find(`#${id}`).simulate('change', { target: { value: '0' } });
-    expect(onChangeSpy).toBeCalledWith('0', name);
+    expect(onValueChangeSpy).toBeCalledWith('0', name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£0');
   });
 
   it('should allow empty value', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    const view = shallow(
+      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
+    );
     view.find(`#${id}`).simulate('change', { target: { value: '' } });
-    expect(onChangeSpy).toBeCalledWith(undefined, name);
+    expect(onValueChangeSpy).toBeCalledWith(undefined, name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('');
   });
 
   it('should callback name as second parameter if name prop provided', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    const view = shallow(
+      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
+    );
     view.find(`#${id}`).simulate('change', { target: { value: '£123' } });
-    expect(onChangeSpy).toBeCalledWith('123', name);
+    expect(onValueChangeSpy).toBeCalledWith('123', name);
   });
 
   it('should not allow invalid characters', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    const view = shallow(
+      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
+    );
     view.find(`#${id}`).simulate('change', { target: { value: 'hello' } });
-    expect(onChangeSpy).toBeCalledWith(undefined, name);
+    expect(onValueChangeSpy).toBeCalledWith(undefined, name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('');
   });
 
   it('should ignore invalid characters', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="£" onChange={onChangeSpy} />);
+    const view = shallow(
+      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
+    );
     view.find(`#${id}`).simulate('change', { target: { value: '£123hello' } });
-    expect(onChangeSpy).toBeCalledWith('123', name);
+    expect(onValueChangeSpy).toBeCalledWith('123', name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
+  });
+
+  it('should call onChange with raw event', () => {
+    const onChangeSpy = jest.fn();
+    const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
+    const event = { target: { value: '£123' } };
+    view.find(`#${id}`).simulate('change', event);
+    expect(onChangeSpy).toBeCalledWith(event);
+  });
+
+  it('should call onBlur with raw event', () => {
+    const onBlurSpy = jest.fn();
+    const view = shallow(<CurrencyInput id={id} prefix="£" onBlur={onBlurSpy} />);
+    const event = { target: { value: '£123' } };
+    view.find(`#${id}`).simulate('blur', event);
+    expect(onBlurSpy).toBeCalledWith(event);
   });
 });

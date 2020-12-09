@@ -41,7 +41,7 @@ export const Example3: FC = () => {
   const prefix = '£';
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleOnChange = (_value: string | undefined, fieldName: string | undefined): void => {
+  const handleonValueChange = (_value: string | undefined, fieldName: string | undefined): void => {
     if (!fieldName) {
       return;
     }
@@ -102,7 +102,7 @@ export const Example3: FC = () => {
                 name="field1"
                 className={`form-control ${state.field1.validationClass}`}
                 value={state.field1.value}
-                onChange={handleOnChange}
+                onValueChange={handleonValueChange}
                 prefix={prefix}
               />
               <div className="invalid-feedback">{state.field1.errorMessage}</div>
@@ -115,7 +115,7 @@ export const Example3: FC = () => {
                 name="field2"
                 className={`form-control ${state.field2.validationClass}`}
                 value={state.field2.value}
-                onChange={handleOnChange}
+                onValueChange={handleonValueChange}
                 prefix={prefix}
               />
               <div className="invalid-feedback">{state.field1.errorMessage}</div>

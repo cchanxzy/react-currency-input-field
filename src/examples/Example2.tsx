@@ -48,7 +48,7 @@ export const Example2: FC = () => {
                 placeholder="$1,234,567"
                 allowDecimals={false}
                 className={`form-control ${className}`}
-                onChange={validateValue}
+                onValueChange={validateValue}
                 onBlurValue={handleOnBlurValue}
                 prefix={'$'}
                 step={10}
@@ -59,7 +59,7 @@ export const Example2: FC = () => {
               <pre className="h-100 p-3 bg-dark text-white">
                 <div className="row">
                   <div className="col-6">
-                    <div className="text-muted mr-3">onChange:</div>
+                    <div className="text-muted mr-3">onValueChange:</div>
                     {rawValue}
                   </div>
                   <div className="col-6">

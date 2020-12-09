@@ -38,7 +38,7 @@ import CurrencyInput from 'react-currency-input-field';
   defaultValue={1000}
   allowDecimals={true}
   decimalsLimit={2}
-  onChange={(value, name) => console.log(value, name)}
+  onValueChange={(value, name) => console.log(value, name)}
 />;
 ```
 
@@ -121,7 +121,7 @@ Example if `fixedDecimalLength` was 2:
 | fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                  |
 | id                     | `string`   |                | Component id                                                             |
 | maxLength              | `number`   |                | Maximum characters the user can enter                                    |
-| onChange               | `function` |                | Handle change in value                                                   |
+| onValueChange          | `function` |                | Handle change in value                                                   |
 | onBlurValue            | `function` |                | Handle value onBlur                                                      |
 | placeholder            | `string`   |                | Placeholder if no value                                                  |
 | decimalScale           | `number`   |                | Specify decimal scale for padding/trimming                               |

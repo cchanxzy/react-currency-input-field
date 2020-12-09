@@ -68,7 +68,7 @@ export const Example1: FC = () => {
                 name="input-1"
                 className={`form-control ${className}`}
                 value={value}
-                onChange={validateValue}
+                onValueChange={validateValue}
                 onBlurValue={handleOnBlurValue}
                 prefix={prefix}
                 decimalScale={2}
@@ -80,7 +80,7 @@ export const Example1: FC = () => {
               <pre className="h-100 p-3 bg-dark text-white">
                 <div className="row">
                   <div className="col-6">
-                    <div className="text-muted mr-3">onChange:</div>
+                    <div className="text-muted mr-3">onValueChange:</div>
                     {rawValue}
                   </div>
                   <div className="col-6">
