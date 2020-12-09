@@ -5,7 +5,7 @@ import CurrencyInput from '../CurrencyInput';
 const id = 'validationCustom01';
 
 describe('<CurrencyInput /> component > negative value', () => {
-  const onChangeSpy = jest.fn();
+  const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -16,7 +16,7 @@ describe('<CurrencyInput /> component > negative value', () => {
       <CurrencyInput
         id={id}
         prefix="$"
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
         decimalScale={2}
         defaultValue={123}
       />
@@ -26,18 +26,18 @@ describe('<CurrencyInput /> component > negative value', () => {
     expect(input.prop('value')).toBe('$123');
 
     input.simulate('change', { target: { value: '-$1234' } });
-    expect(onChangeSpy).toBeCalledWith('-1234', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('-1234', undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('-$1,234');
   });
 
-  it('should call onChange with undefined and keep "-" sign as state value', () => {
+  it('should call onValueChange with undefined and keep "-" sign as state value', () => {
     const view = shallow(
       <CurrencyInput
         id={id}
         prefix="$"
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
         decimalScale={2}
         defaultValue={123}
       />
@@ -47,7 +47,7 @@ describe('<CurrencyInput /> component > negative value', () => {
     expect(input.prop('value')).toBe('$123');
 
     input.simulate('change', { target: { value: '-' } });
-    expect(onChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('-');
@@ -58,7 +58,7 @@ describe('<CurrencyInput /> component > negative value', () => {
       <CurrencyInput
         id={id}
         prefix="$"
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
         decimalScale={2}
         defaultValue={123}
       />
@@ -68,7 +68,7 @@ describe('<CurrencyInput /> component > negative value', () => {
     expect(input.prop('value')).toBe('$123');
 
     input.simulate('blur', { target: { value: '-' } });
-    expect(onChangeSpy).not.toBeCalled();
+    expect(onValueChangeSpy).not.toBeCalled();
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('');
@@ -79,7 +79,7 @@ describe('<CurrencyInput /> component > negative value', () => {
       <CurrencyInput
         id={id}
         prefix="$"
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
         allowNegativeValue={false}
         defaultValue={123}
       />
@@ -89,7 +89,7 @@ describe('<CurrencyInput /> component > negative value', () => {
     expect(input.prop('value')).toBe('$123');
 
     input.simulate('change', { target: { value: '-$1234' } });
-    expect(onChangeSpy).toBeCalledWith('1234', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('1234', undefined);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('$1,234');

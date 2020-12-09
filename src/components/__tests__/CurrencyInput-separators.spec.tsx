@@ -6,7 +6,7 @@ const id = 'validationCustom01';
 const name = 'inputName';
 
 describe('<CurrencyInput /> component > separators', () => {
-  const onChangeSpy = jest.fn();
+  const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19,7 +19,7 @@ describe('<CurrencyInput /> component > separators', () => {
         name={name}
         prefix="£"
         disableGroupSeparators={true}
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
         defaultValue={10000}
       />
     );
@@ -28,7 +28,7 @@ describe('<CurrencyInput /> component > separators', () => {
     expect(input.prop('value')).toBe('£10000');
 
     input.simulate('change', { target: { value: '£123456' } });
-    expect(onChangeSpy).toBeCalledWith('123456', name);
+    expect(onValueChangeSpy).toBeCalledWith('123456', name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£123456');
@@ -42,11 +42,11 @@ describe('<CurrencyInput /> component > separators', () => {
         prefix="£"
         decimalSeparator=","
         groupSeparator="."
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
       />
     );
     view.find(`#${id}`).simulate('change', { target: { value: '£123.456,33' } });
-    expect(onChangeSpy).toBeCalledWith('123456,33', name);
+    expect(onValueChangeSpy).toBeCalledWith('123456,33', name);
 
     const updatedView = view.update();
     expect(updatedView.find(`#${id}`).prop('value')).toBe('£123.456,33');
@@ -77,7 +77,7 @@ describe('<CurrencyInput /> component > separators', () => {
           prefix="£"
           decimalSeparator="."
           groupSeparator={'2'}
-          onChange={onChangeSpy}
+          onValueChange={onValueChangeSpy}
           defaultValue={10000}
         />
       )

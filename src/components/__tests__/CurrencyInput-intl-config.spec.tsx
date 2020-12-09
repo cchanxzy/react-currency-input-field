@@ -62,25 +62,25 @@ describe('<CurrencyInput /> component > intlConfig', () => {
     expect(view.find(`#${id}`).prop('value')).toBe('$123,456-789');
   });
 
-  describe('onChange', () => {
-    const onChangeSpy = jest.fn();
+  describe('onValueChange', () => {
+    const onValueChangeSpy = jest.fn();
 
     beforeEach(() => {
       jest.clearAllMocks();
     });
 
-    it('should handle onChange with intl config settings (en-IN, INR)', () => {
+    it('should handle onValueChange with intl config settings (en-IN, INR)', () => {
       const view = shallow(
         <CurrencyInput
           id={id}
           intlConfig={{ locale: 'en-IN', currency: 'INR' }}
-          onChange={onChangeSpy}
+          onValueChange={onValueChangeSpy}
         />
       );
       expect(view.find(`#${id}`).prop('value')).toBe('');
 
       view.find(`#${id}`).simulate('change', { target: { value: '₹12,34,567' } });
-      expect(onChangeSpy).toBeCalledWith('1234567', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('1234567', undefined);
 
       const updatedView = view.update();
       expect(updatedView.find(`#${id}`).prop('value')).toBe('₹12,34,567');
