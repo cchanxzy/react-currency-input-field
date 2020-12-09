@@ -1,3 +1,15 @@
+# [3.0.0-beta.5](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2020-12-09)
+
+
+### Features
+
+* depreciate onBlurValue prop ([8651e76](https://github.com/cchanxzy/react-currency-input-field/commit/8651e76c201b029787490efcf37d307a1b5d8d97))
+
+
+### BREAKING CHANGES
+
+* "onBlurValue" no longer supported
+
 # [3.0.0-beta.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2020-12-09)
 
 
