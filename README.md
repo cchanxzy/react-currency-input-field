@@ -122,7 +122,6 @@ Example if `fixedDecimalLength` was 2:
 | id                     | `string`   |                | Component id                                                             |
 | maxLength              | `number`   |                | Maximum characters the user can enter                                    |
 | onValueChange          | `function` |                | Handle change in value                                                   |
-| onBlurValue            | `function` |                | Handle value onBlur                                                      |
 | placeholder            | `string`   |                | Placeholder if no value                                                  |
 | decimalScale           | `number`   |                | Specify decimal scale for padding/trimming                               |
 | prefix                 | `string`   |                | Include a prefix eg. £ or \$                                             |

@@ -27,7 +27,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       maxLength: userMaxLength,
       value: userValue,
       onValueChange,
-      onBlurValue,
       fixedDecimalLength,
       placeholder,
       decimalScale,
@@ -140,8 +139,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
       if (valueOnly === '-' || !valueOnly) {
-        onBlurValue && onBlurValue(undefined, name);
         setStateValue('');
+        onBlur && onBlur(event);
         return;
       }
 
@@ -155,7 +154,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       );
 
       onValueChange && onValueChange(newValue, name);
-      onBlurValue && onBlurValue(newValue, name);
 
       const formattedValue = formatValue({
         ...formatValueOptions,
