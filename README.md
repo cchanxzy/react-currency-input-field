@@ -22,16 +22,19 @@
 
 ## Migrating to v3.0.0
 
-There are a number of breaking changes in v3.0.0, please the [release notes](#v3-pre-release-notes) before migrating from v2 to v3. Most important change is `onChange` has been renamed to `onValueChange` :warning:
+There are a number of breaking changes in v3.0.0, please read the [release notes](#v300-release-notes) if migrating from v2 to v3.
+
+:warning: Most important change is: `onChange` has been renamed to `onValueChange`
 
 ## Features
 
-- Allows abbreviations eg. 1k = 1,000 2.5m = 2,500,000
+- Allows [abbreviations](#abbreviations) eg. 1k = 1,000 2.5m = 2,500,000
 - Prefix option eg. £ or \$
-- Automatically inserts group separator
-- Accepts Intl locale config
+- Automatically inserts [group separator](#separators)
+- Accepts [Intl locale config](#intl-locale-config)
+- Can use arrow down/up to step
 - Can allow/disallow decimals
-- Written in TypeScript
+- Written in TypeScript and has type support
 - Does not use any third party packages
 
 ## Examples
@@ -76,20 +79,20 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | decimalsLimit          | `number`   | `2`            | Limit length of decimals allowed                                         |
 | defaultValue           | `number`   |                | Default value                                                            |
 | value                  | `number`   |                | Programmatically set the value                                           |
-| disabled               | `boolean`  | `false`        | Disabled                                                                 |
-| fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                  |
-| id                     | `string`   |                | Component id                                                             |
-| maxLength              | `number`   |                | Maximum characters the user can enter                                    |
 | onValueChange          | `function` |                | Handle change in value                                                   |
 | placeholder            | `string`   |                | Placeholder if no value                                                  |
+| id                     | `string`   |                | Component id                                                             |
 | decimalScale           | `number`   |                | Specify decimal scale for padding/trimming                               |
+| fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                  |
 | prefix                 | `string`   |                | Include a prefix eg. £ or \$                                             |
-| step                   | `number`   |                | Incremental value change on arrow down and arrow up key press            |
 | decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value              |
 | groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                          |
 | intlConfig             | `object`   |                | International locale config                                              |
+| disabled               | `boolean`  | `false`        | Disabled                                                                 |
 | disableAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
 | disableGroupSeparators | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
+| maxLength              | `number`   |                | Maximum characters the user can enter                                    |
+| step                   | `number`   |                | Incremental value change on arrow down and arrow up key press            |
 
 ### Abbreviations
 
