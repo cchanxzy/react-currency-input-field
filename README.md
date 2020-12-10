@@ -2,6 +2,12 @@
 
 [![npm](https://img.shields.io/npm/v/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![Codecov Coverage](https://img.shields.io/codecov/c/github/cchanxzy/react-currency-input-field)](https://codecov.io/gh/cchanxzy/react-currency-input-field/) [![Release build](https://github.com/cchanxzy/react-currency-input-field/workflows/Release/badge.svg)](https://github.com/cchanxzy/react-currency-input-field/actions?query=workflow%3ARelease)
 
+## V3 Pre-release
+
+There will be a couple of breaking changes in v3.0.0, so I recommend taking a look at the [v3.0.0 beta](https://www.npmjs.com/package/react-currency-input-field/v/3.0.0-beta.7) which is available now for testing.
+
+Any early feedback will be very much welcomed.
+
 ## Features
 
 - Allows abbreviations eg. 1k = 1,000 2.5m = 2,500,000
