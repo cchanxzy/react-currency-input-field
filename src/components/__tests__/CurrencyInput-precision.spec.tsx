@@ -1,10 +1,10 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
-const id = 'validationCustom01';
-
-describe('<CurrencyInput /> component > decimalScale', () => {
+describe('<CurrencyInput/> decimalScale', () => {
   const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
@@ -12,34 +12,32 @@ describe('<CurrencyInput /> component > decimalScale', () => {
   });
 
   it('should pad to decimalScale of 5 on blur', () => {
-    const view = shallow(
-      <CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} decimalScale={5} />
-    );
-    view.find(`#${id}`).simulate('blur', { target: { value: '£1.5' } });
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalScale={5} />);
+
+    userEvent.type(screen.getByRole('textbox'), '1.5');
+    userEvent.tab();
     expect(onValueChangeSpy).toBeCalledWith('1.50000', undefined);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.50000');
+    expect(screen.getByRole('textbox')).toHaveValue('£1.50000');
   });
 
   it('should pad to decimalScale of 2 on blur', () => {
     const onBlurSpy = jest.fn();
-    const view = shallow(
+    render(
       <CurrencyInput
-        id={id}
         prefix="£"
         onValueChange={onValueChangeSpy}
         onBlur={onBlurSpy}
         decimalScale={2}
       />
     );
-    const event = { target: { value: '£1' } };
 
-    view.find(`#${id}`).simulate('blur', event);
-    expect(onBlurSpy).toBeCalledWith(event);
+    userEvent.type(screen.getByRole('textbox'), '1');
+    userEvent.tab();
+    expect(onBlurSpy).toBeCalled();
+
     expect(onValueChangeSpy).toBeCalledWith('1.00', undefined);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('£1.00');
+    expect(screen.getByRole('textbox')).toHaveValue('£1.00');
   });
 });

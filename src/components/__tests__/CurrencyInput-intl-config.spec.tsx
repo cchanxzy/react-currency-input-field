@@ -1,33 +1,39 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import CurrencyInput from '../CurrencyInput';
 
 const id = 'validationCustom01';
 
-describe('<CurrencyInput /> component > intlConfig', () => {
+describe('<CurrencyInput/> intlConfig', () => {
   it('should use intl config settings (en-US, USD)', () => {
-    const view = shallow(
+    render(
       <CurrencyInput id={id} intlConfig={{ locale: 'en-US', currency: 'USD' }} value="123456789" />
     );
-    expect(view.find(`#${id}`).prop('value')).toBe('$123,456,789');
+
+    expect(screen.getByRole('textbox')).toHaveValue('$123,456,789');
   });
 
   it('should use intl config settings (en-IN, INR)', () => {
-    const view = shallow(
+    render(
       <CurrencyInput id={id} intlConfig={{ locale: 'en-IN', currency: 'INR' }} value="500000" />
     );
-    expect(view.find(`#${id}`).prop('value')).toBe('₹5,00,000');
+
+    expect(screen.getByRole('textbox')).toHaveValue('₹5,00,000');
   });
 
   it('should use intl config settings (ja-JP, JPY)', () => {
-    const view = shallow(
+    render(
       <CurrencyInput id={id} intlConfig={{ locale: 'ja-JP', currency: 'JPY' }} value="123.456" />
     );
-    expect(view.find(`#${id}`).prop('value')).toBe('￥123');
+
+    expect(screen.getByRole('textbox')).toHaveValue('￥123');
   });
 
   it('should override locale currency symbol if prefix passed in', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         intlConfig={{ locale: 'en-US', currency: 'USD' }}
@@ -35,11 +41,12 @@ describe('<CurrencyInput /> component > intlConfig', () => {
         prefix="£"
       />
     );
-    expect(view.find(`#${id}`).prop('value')).toBe('£100');
+
+    expect(screen.getByRole('textbox')).toHaveValue('£100');
   });
 
   it('should override locale group separator if groupSeparator passed in', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         intlConfig={{ locale: 'en-US', currency: 'USD' }}
@@ -47,11 +54,12 @@ describe('<CurrencyInput /> component > intlConfig', () => {
         groupSeparator="/"
       />
     );
-    expect(view.find(`#${id}`).prop('value')).toBe('$123/456/789.99');
+
+    expect(screen.getByRole('textbox')).toHaveValue('$123/456/789.99');
   });
 
   it('should override locale decimal separator if decimalSeparator passed in', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         intlConfig={{ locale: 'en-US', currency: 'USD' }}
@@ -59,7 +67,8 @@ describe('<CurrencyInput /> component > intlConfig', () => {
         decimalSeparator="-"
       />
     );
-    expect(view.find(`#${id}`).prop('value')).toBe('$123,456-789');
+
+    expect(screen.getByRole('textbox')).toHaveValue('$123,456-789');
   });
 
   describe('onValueChange', () => {
@@ -70,20 +79,21 @@ describe('<CurrencyInput /> component > intlConfig', () => {
     });
 
     it('should handle onValueChange with intl config settings (en-IN, INR)', () => {
-      const view = shallow(
+      render(
         <CurrencyInput
           id={id}
           intlConfig={{ locale: 'en-IN', currency: 'INR' }}
           onValueChange={onValueChangeSpy}
         />
       );
-      expect(view.find(`#${id}`).prop('value')).toBe('');
 
-      view.find(`#${id}`).simulate('change', { target: { value: '₹12,34,567' } });
+      expect(screen.getByRole('textbox')).toHaveValue('');
+
+      userEvent.type(screen.getByRole('textbox'), '₹12,34,567');
+
       expect(onValueChangeSpy).toBeCalledWith('1234567', undefined);
 
-      const updatedView = view.update();
-      expect(updatedView.find(`#${id}`).prop('value')).toBe('₹12,34,567');
+      expect(screen.getByRole('textbox')).toHaveValue('₹12,34,567');
     });
   });
 });

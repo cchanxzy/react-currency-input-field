@@ -1,13 +1,10 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
-const id = 'validationCustom01';
-const className = 'form-control';
-const placeholder = '£1,000';
-const name = 'inputName';
-
-describe('<CurrencyInput /> component', () => {
+describe('<CurrencyInput/>', () => {
   const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
@@ -15,147 +12,128 @@ describe('<CurrencyInput /> component', () => {
   });
 
   it('Renders without error', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} placeholder={placeholder} className={className} />
+    render(
+      <CurrencyInput
+        id="validationCustom01"
+        name="inputName"
+        placeholder="£1,000"
+        className="form-control"
+      />
     );
-    const input = view.find(`#${id}`);
+    const input = screen.getByRole('textbox');
 
     expect(input).toMatchSnapshot();
-    expect(input.prop('id')).toBe(id);
-    expect(input.prop('name')).toBe(name);
-    expect(input.prop('placeholder')).toBe(placeholder);
-    expect(input.prop('className')).toBe(className);
+
+    expect(input).toHaveValue('');
   });
 
   it('Renders with default value', () => {
-    const view = shallow(
-      <CurrencyInput id={id} defaultValue={1234.56} className={className} prefix="£" />
-    );
-    const input = view.find(`#${id}`);
+    render(<CurrencyInput defaultValue={1234.56} prefix="£" />);
+    const input = screen.getByRole('textbox');
 
-    expect(view.html()).toMatchSnapshot();
-    expect(input.prop('id')).toBe(id);
-    expect(input.prop('value')).toBe('£1,234.56');
-    expect(input.prop('className')).toBe(className);
+    expect(input).toMatchSnapshot();
+
+    expect(input).toHaveValue('£1,234.56');
   });
 
   it('Renders with default value 0', () => {
-    const view = shallow(
-      <CurrencyInput id={id} defaultValue={0} className={className} prefix="£" />
-    );
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('£0');
+    render(<CurrencyInput defaultValue={0} prefix="£" />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
   it('Renders with value prop', () => {
-    const view = shallow(<CurrencyInput id={id} value={49.99} className={className} prefix="£" />);
-    const input = view.find(`#${id}`);
+    render(<CurrencyInput value={49.99} prefix="£" />);
 
-    expect(input.prop('value')).toBe('£49.99');
+    expect(screen.getByRole('textbox')).toHaveValue('£49.99');
   });
 
   it('Renders with value 0', () => {
-    const view = shallow(<CurrencyInput id={id} value={0} className={className} prefix="£" />);
-    const input = view.find(`#${id}`);
+    render(<CurrencyInput value={0} prefix="£" />);
 
-    expect(input.prop('value')).toBe('£0');
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
   it('should go to end of string on focus', () => {
-    const view = shallow(<CurrencyInput id={id} defaultValue={123} />);
-    view.find(`#${id}`).simulate('focus');
+    render(<CurrencyInput defaultValue={123} />);
+    userEvent.type(screen.getByRole('textbox'), '{arrowleft}4{arrowright}6');
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('123');
-  });
-
-  it('should go to beginning on focus if no value', () => {
-    const view = shallow(<CurrencyInput id={id} />);
-    view.find(`#${id}`).simulate('focus');
-
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    expect(screen.getByRole('textbox')).toHaveValue('12,436');
   });
 
   it('should allow value change with number', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: '100' } });
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '100');
 
     expect(onValueChangeSpy).toBeCalledWith('100', undefined);
   });
 
   it('should prefix 0 value', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" value={0} onValueChange={onValueChangeSpy} />
-    );
-    expect(view.find(`#${id}`).prop('value')).toBe('£0');
+    render(<CurrencyInput prefix="£" value={0} onValueChange={onValueChangeSpy} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
   it('should allow 0 value on change', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
-    );
-    view.find(`#${id}`).simulate('change', { target: { value: '0' } });
-    expect(onValueChangeSpy).toBeCalledWith('0', name);
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '0');
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('£0');
+    expect(onValueChangeSpy).toBeCalledWith('0', undefined);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
   it('should allow empty value', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
-    );
-    view.find(`#${id}`).simulate('change', { target: { value: '' } });
-    expect(onValueChangeSpy).toBeCalledWith(undefined, name);
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} defaultValue={1} />);
+    userEvent.clear(screen.getByRole('textbox'));
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   it('should callback name as second parameter if name prop provided', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
-    );
-    view.find(`#${id}`).simulate('change', { target: { value: '£123' } });
+    const name = 'inputName';
+    render(<CurrencyInput name={name} prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '123');
+
     expect(onValueChangeSpy).toBeCalledWith('123', name);
   });
 
   it('should not allow invalid characters', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
-    );
-    view.find(`#${id}`).simulate('change', { target: { value: 'hello' } });
-    expect(onValueChangeSpy).toBeCalledWith(undefined, name);
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), 'hello');
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   it('should ignore invalid characters', () => {
-    const view = shallow(
-      <CurrencyInput id={id} name={name} prefix="£" onValueChange={onValueChangeSpy} />
-    );
-    view.find(`#${id}`).simulate('change', { target: { value: '£123hello' } });
-    expect(onValueChangeSpy).toBeCalledWith('123', name);
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '£123hello');
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
+    expect(onValueChangeSpy).toBeCalledWith('123', undefined);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
-  it('should call onChange with raw onChange event', () => {
+  it('should call onChange', () => {
     const onChangeSpy = jest.fn();
-    const view = shallow(<CurrencyInput id={id} prefix="£" onChange={onChangeSpy} />);
-    const event = { target: { value: '£123' } };
-    view.find(`#${id}`).simulate('change', event);
-    expect(onChangeSpy).toBeCalledWith(event);
+    render(<CurrencyInput prefix="£" onChange={onChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '123');
+
+    expect(onChangeSpy).toBeCalledTimes(3);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
-  it('should call onBlur with raw onBlur event', () => {
+  it('should call onBlur', () => {
     const onBlurSpy = jest.fn();
-    const view = shallow(<CurrencyInput id={id} prefix="£" onBlur={onBlurSpy} />);
-    const event = { target: { value: '£123' } };
-    view.find(`#${id}`).simulate('blur', event);
-    expect(onBlurSpy).toBeCalledWith(event);
+    render(<CurrencyInput prefix="£" onBlur={onBlurSpy} />);
+    userEvent.click(screen.getByRole('textbox'));
+    userEvent.tab();
+
+    expect(onBlurSpy).toBeCalledTimes(1);
   });
 });

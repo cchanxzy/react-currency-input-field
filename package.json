@@ -46,7 +46,10 @@
     "@commitlint/config-conventional": "^9.1.1",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@types/enzyme": "^3.10.5",
+    "@testing-library/dom": "^7.29.0",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
     "@types/jest": "^26.0.9",
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
@@ -55,8 +58,6 @@
     "awesome-typescript-loader": "^5.2.1",
     "codecov": "^3.7.2",
     "cross-env": "^7.0.3",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.3",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -86,9 +87,6 @@
   "jest": {
     "verbose": false,
     "collectCoverage": true,
-    "setupFilesAfterEnv": [
-      "./.enzymerc.js"
-    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },

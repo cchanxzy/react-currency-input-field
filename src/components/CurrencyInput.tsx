@@ -35,31 +35,29 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       step,
       disableGroupSeparators = false,
       disableAbbreviations = false,
+      decimalSeparator: _decimalSeparator,
+      groupSeparator: _groupSeparator,
       onChange,
       onBlur,
       ...props
     }: CurrencyInputProps,
     ref
   ) => {
-    if (
-      props.decimalSeparator &&
-      props.groupSeparator &&
-      props.decimalSeparator === props.groupSeparator
-    ) {
+    if (_decimalSeparator && _groupSeparator && _decimalSeparator === _groupSeparator) {
       throw new Error('decimalSeparator cannot be the same as groupSeparator');
     }
 
-    if (props.decimalSeparator && isNumber(props.decimalSeparator)) {
+    if (_decimalSeparator && isNumber(_decimalSeparator)) {
       throw new Error('decimalSeparator cannot be a number');
     }
 
-    if (props.groupSeparator && isNumber(props.groupSeparator)) {
+    if (_groupSeparator && isNumber(_groupSeparator)) {
       throw new Error('groupSeparator cannot be a number');
     }
 
     const localeConfig = useMemo(() => getLocaleConfig(intlConfig), [intlConfig]);
-    const decimalSeparator = props.decimalSeparator || localeConfig.decimalSeparator || '';
-    const groupSeparator = props.groupSeparator || localeConfig.groupSeparator || '';
+    const decimalSeparator = _decimalSeparator || localeConfig.decimalSeparator || '';
+    const groupSeparator = _groupSeparator || localeConfig.groupSeparator || '';
 
     const formatValueOptions = {
       decimalSeparator,

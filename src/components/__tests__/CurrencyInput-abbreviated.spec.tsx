@@ -1,10 +1,10 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
-const id = 'validationCustom01';
-
-describe('<CurrencyInput /> component > abbreviated', () => {
+describe('<CurrencyInput/> abbreviated', () => {
   const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
@@ -12,63 +12,77 @@ describe('<CurrencyInput /> component > abbreviated', () => {
   });
 
   it('should allow abbreviated values with k', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: '£1.5k' } });
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '1.5k');
+
     expect(onValueChangeSpy).toBeCalledWith('1500', undefined);
 
-    expect(view.update().find(`#${id}`).prop('value')).toBe('£1,500');
+    expect(screen.getByRole('textbox')).toHaveValue('£1,500');
   });
 
   it('should allow abbreviated values with m', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: '£2.123M' } });
-    expect(onValueChangeSpy).toBeCalledWith('2123000', undefined);
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalsLimit={3} />);
+    userEvent.type(screen.getByRole('textbox'), '2.123M');
+    userEvent.tab();
 
-    expect(view.update().find(`#${id}`).prop('value')).toBe('£2,123,000');
+    expect(screen.getByRole('textbox')).toHaveValue('£2,123,000');
+
+    expect(onValueChangeSpy).toBeCalledWith('2123000', undefined);
   });
 
   it('should allow abbreviated values with b', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: '£1.599B' } });
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalsLimit={3} />);
+    userEvent.type(screen.getByRole('textbox'), '1.599B');
+
     expect(onValueChangeSpy).toBeCalledWith('1599000000', undefined);
 
-    expect(view.update().find(`#${id}`).prop('value')).toBe('£1,599,000,000');
+    expect(screen.getByRole('textbox')).toHaveValue('£1,599,000,000');
   });
 
   it('should not abbreviate any other letters', () => {
-    const view = shallow(<CurrencyInput id={id} prefix="£" onValueChange={onValueChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: '£1.5e' } });
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '1.5e');
+
     expect(onValueChangeSpy).toBeCalledWith('1.5', undefined);
 
-    expect(view.update().find(`#${id}`).prop('value')).toBe('£1.5');
+    expect(screen.getByRole('textbox')).toHaveValue('£1.5');
   });
 
   it('should not allow abbreviation without number', () => {
-    const view = shallow(<CurrencyInput id={id} onValueChange={onValueChangeSpy} />);
-    view.find(`#${id}`).simulate('change', { target: { value: 'k' } });
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
-    expect(view.update().find(`#${id}`).prop('value')).toBe('');
+    render(<CurrencyInput onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), 'k');
 
-    view.find(`#${id}`).simulate('change', { target: { value: 'M' } });
     expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
-    expect(view.update().find(`#${id}`).prop('value')).toBe('');
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    userEvent.type(screen.getByRole('textbox'), 'M');
+
+    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   describe('disableAbbreviations', () => {
     it('should not allow abbreviations if disableAbbreviations is true', () => {
-      const view = shallow(
-        <CurrencyInput id={id} onValueChange={onValueChangeSpy} disableAbbreviations />
-      );
-      view.find(`#${id}`).simulate('change', { target: { value: '1k' } });
-      expect(view.update().find(`#${id}`).prop('value')).toBe('1');
+      render(<CurrencyInput onValueChange={onValueChangeSpy} disableAbbreviations />);
+      userEvent.type(screen.getByRole('textbox'), '1k');
 
-      view.find(`#${id}`).simulate('change', { target: { value: '23m' } });
+      expect(screen.getByRole('textbox')).toHaveValue('1');
+
+      userEvent.clear(screen.getByRole('textbox'));
+      userEvent.type(screen.getByRole('textbox'), '23m');
+
       expect(onValueChangeSpy).toBeCalledWith('23', undefined);
-      expect(view.update().find(`#${id}`).prop('value')).toBe('23');
 
-      view.find(`#${id}`).simulate('change', { target: { value: '55b' } });
+      expect(screen.getByRole('textbox')).toHaveValue('23');
+
+      userEvent.clear(screen.getByRole('textbox'));
+      userEvent.type(screen.getByRole('textbox'), '55b');
+
       expect(onValueChangeSpy).toBeCalledWith('55', undefined);
-      expect(view.update().find(`#${id}`).prop('value')).toBe('55');
+
+      expect(screen.getByRole('textbox')).toHaveValue('55');
     });
   });
 });

@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CurrencyInput /> component Renders with default value 1`] = `"<input type=\\"text\\" inputMode=\\"decimal\\" id=\\"validationCustom01\\" class=\\"form-control\\" value=\\"£1,234.56\\"/>"`;
+exports[`<CurrencyInput/> Renders with default value 1`] = `
+<input
+  inputmode="decimal"
+  type="text"
+  value="£1,234.56"
+/>
+`;
 
-exports[`<CurrencyInput /> component Renders without error 1`] = `ShallowWrapper {}`;
+exports[`<CurrencyInput/> Renders without error 1`] = `
+<input
+  class="form-control"
+  id="validationCustom01"
+  inputmode="decimal"
+  name="inputName"
+  placeholder="£1,000"
+  type="text"
+  value=""
+/>
+`;

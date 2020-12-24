@@ -1,11 +1,13 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import CurrencyInput from '../CurrencyInput';
 
-const id = 'validationCustom01';
 const name = 'inputName';
 
-describe('<CurrencyInput /> component > onBlur', () => {
+describe('<CurrencyInput/> onBlur', () => {
   const onBlurSpy = jest.fn();
   const onValueChangeSpy = jest.fn();
 
@@ -14,9 +16,8 @@ describe('<CurrencyInput /> component > onBlur', () => {
   });
 
   it('should call onBlur and onValueChange', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
-        id={id}
         name={name}
         prefix="$"
         onBlur={onBlurSpy}
@@ -24,42 +25,47 @@ describe('<CurrencyInput /> component > onBlur', () => {
         decimalScale={2}
       />
     );
-    const event = { target: { value: '123' } };
-    view.find(`#${id}`).simulate('blur', event);
-    expect(onBlurSpy).toBeCalledWith(event);
+
+    userEvent.type(screen.getByRole('textbox'), '123');
+    userEvent.tab();
+
+    expect(onBlurSpy).toBeCalled();
+
     expect(onValueChangeSpy).toBeCalledWith('123.00', name);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('$123.00');
+    expect(screen.getByRole('textbox')).toHaveValue('$123.00');
   });
 
   it('should call onBlur for 0', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="$" onBlur={onBlurSpy} />);
-    const event = { target: { value: '0' } };
-    view.find(`#${id}`).simulate('blur', event);
-    expect(onBlurSpy).toBeCalledWith(event);
+    render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('$0');
+    userEvent.type(screen.getByRole('textbox'), '0');
+    userEvent.tab();
+
+    expect(onBlurSpy).toBeCalled();
+
+    expect(screen.getByRole('textbox')).toHaveValue('$0');
   });
 
   it('should call onBlur for empty value', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="$" onBlur={onBlurSpy} />);
-    const event = { target: { value: '' } };
-    view.find(`#${id}`).simulate('blur', event);
-    expect(onBlurSpy).toBeCalledWith(event);
+    render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    userEvent.type(screen.getByRole('textbox'), '');
+    userEvent.tab();
+
+    expect(onBlurSpy).toBeCalled();
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   it('should call onBlur for "-" char', () => {
-    const view = shallow(<CurrencyInput id={id} name={name} prefix="$" onBlur={onBlurSpy} />);
-    const event = { target: { value: '-' } };
-    view.find(`#${id}`).simulate('blur', event);
-    expect(onBlurSpy).toBeCalledWith(event);
+    render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    userEvent.type(screen.getByRole('textbox'), '-');
+    userEvent.tab();
+
+    expect(onBlurSpy).toBeCalled();
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 });
