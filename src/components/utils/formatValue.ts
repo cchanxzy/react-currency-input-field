@@ -81,7 +81,8 @@ export const formatValue = (options: FormatValueOptions): string => {
   }
 
   // Include decimal separator if user input ends with decimal separator
-  const includeDecimalSeparator = value.slice(-1) === decimalSeparator ? decimalSeparator : '';
+  const includeDecimalSeparator =
+    String(_value).slice(-1) === decimalSeparator ? decimalSeparator : '';
 
   const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
 

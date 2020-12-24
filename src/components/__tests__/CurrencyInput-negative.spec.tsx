@@ -1,10 +1,12 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
 const id = 'validationCustom01';
 
-describe('<CurrencyInput /> component > negative value', () => {
+describe('<CurrencyInput/> negative value', () => {
   const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
@@ -12,7 +14,7 @@ describe('<CurrencyInput /> component > negative value', () => {
   });
 
   it('should handle negative value input', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         prefix="$"
@@ -22,18 +24,17 @@ describe('<CurrencyInput /> component > negative value', () => {
       />
     );
 
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123');
 
-    input.simulate('change', { target: { value: '-$1234' } });
+    userEvent.clear(screen.getByRole('textbox'));
+    userEvent.type(screen.getByRole('textbox'), '-1234');
     expect(onValueChangeSpy).toBeCalledWith('-1234', undefined);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('-$1,234');
+    expect(screen.getByRole('textbox')).toHaveValue('-$1,234');
   });
 
   it('should call onValueChange with undefined and keep "-" sign as state value', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         prefix="$"
@@ -43,18 +44,17 @@ describe('<CurrencyInput /> component > negative value', () => {
       />
     );
 
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123');
 
-    input.simulate('change', { target: { value: '-' } });
+    userEvent.clear(screen.getByRole('textbox'));
+    userEvent.type(screen.getByRole('textbox'), '-');
     expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('-');
+    expect(screen.getByRole('textbox')).toHaveValue('-');
   });
 
   it('should not call onBlur if only negative sign and clears value', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         prefix="$"
@@ -64,18 +64,19 @@ describe('<CurrencyInput /> component > negative value', () => {
       />
     );
 
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123');
 
-    input.simulate('blur', { target: { value: '-' } });
-    expect(onValueChangeSpy).not.toBeCalled();
+    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}{backspace}-');
+    expect(screen.getByRole('textbox')).toHaveValue('-');
+    expect(onValueChangeSpy).toBeCalledTimes(4);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('');
+    userEvent.tab();
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   it('should not allow negative value if allowNegativeValue is false', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
         id={id}
         prefix="$"
@@ -85,13 +86,12 @@ describe('<CurrencyInput /> component > negative value', () => {
       />
     );
 
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123');
 
-    input.simulate('change', { target: { value: '-$1234' } });
+    userEvent.clear(screen.getByRole('textbox'));
+    userEvent.type(screen.getByRole('textbox'), '-1234');
     expect(onValueChangeSpy).toBeCalledWith('1234', undefined);
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('$1,234');
+    expect(screen.getByRole('textbox')).toHaveValue('$1,234');
   });
 });

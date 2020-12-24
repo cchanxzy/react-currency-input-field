@@ -77,7 +77,7 @@ describe('formatValue', () => {
     ).toEqual('£123');
   });
 
-  it('should include "."', () => {
+  it('should include decimal separator if last char', () => {
     expect(
       formatValue({
         value: '1234567.',
@@ -85,6 +85,14 @@ describe('formatValue', () => {
         decimalSeparator: '.',
       })
     ).toEqual('1,234,567.');
+
+    expect(
+      formatValue({
+        value: '1234567,',
+        groupSeparator: '.',
+        decimalSeparator: ',',
+      })
+    ).toEqual('1.234.567,');
   });
 
   it('should include decimals', () => {
