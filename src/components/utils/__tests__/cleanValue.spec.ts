@@ -35,6 +35,22 @@ describe('cleanValue', () => {
     ).toEqual('5.5');
   });
 
+  it('should remove suffix', () => {
+    expect(
+      cleanValue({
+        value: '123 €',
+      })
+    ).toEqual('123');
+
+    expect(
+      cleanValue({
+        groupSeparator: '.',
+        decimalSeparator: ',',
+        value: '123.456,99 €',
+      })
+    ).toEqual('123456,99');
+  });
+
   it('should remove extra decimals', () => {
     expect(
       cleanValue({

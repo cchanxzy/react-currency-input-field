@@ -1,11 +1,12 @@
 import { IntlConfig } from '../CurrencyInputProps';
 import { escapeRegExp } from './escapeRegExp';
+import { getSuffix } from './getSuffix';
 
 type FormatValueOptions = {
   /**
    * Value to format
    */
-  value: number | string | undefined;
+  value: string | undefined;
 
   /**
    * Decimal separator
@@ -56,12 +57,12 @@ export const formatValue = (options: FormatValueOptions): string => {
   }
 
   const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(
-    String(_value)
+    _value
   );
   const value =
     decimalSeparator !== '.'
-      ? replaceDecimalSeparator(String(_value), decimalSeparator, isNegative)
-      : String(_value);
+      ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
+      : _value;
 
   const numberFormatter = intlConfig
     ? new Intl.NumberFormat(intlConfig.locale, {
@@ -80,13 +81,14 @@ export const formatValue = (options: FormatValueOptions): string => {
     formatted = isNegative ? formatted.replace(/^-/g, `-${prefix}`) : `${prefix}${formatted}`;
   }
 
-  // Include decimal separator if user input ends with decimal separator
-  const includeDecimalSeparator =
-    String(_value).slice(-1) === decimalSeparator ? decimalSeparator : '';
+  // Does intl formatting add a suffix?
+  const suffix = getSuffix(formatted, { ...options });
 
-  const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
+  // Include decimal separator if user input ends with decimal separator
+  const includeDecimalSeparator = _value.slice(-1) === decimalSeparator ? decimalSeparator : '';
 
   // Keep original decimal padding
+  const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
   if (decimals && decimalSeparator) {
     if (formatted.includes(decimalSeparator)) {
       formatted = formatted.replace(
@@ -94,8 +96,16 @@ export const formatValue = (options: FormatValueOptions): string => {
         `$1$2${decimals}`
       );
     } else {
-      formatted = `${formatted}${decimalSeparator}${decimals}`;
+      if (suffix) {
+        formatted = formatted.replace(suffix, `${decimalSeparator}${decimals}${suffix}`);
+      } else {
+        formatted = `${formatted}${decimalSeparator}${decimals}`;
+      }
     }
+  }
+
+  if (suffix && includeDecimalSeparator) {
+    return formatted.replace(suffix, `${includeDecimalSeparator}${suffix}`);
   }
 
   return [formatted, includeDecimalSeparator].join('');

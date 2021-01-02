@@ -7,15 +7,14 @@ export const Example1: FC = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
-  const [value, setValue] = useState<string | number>(999.99);
+  const [value, setValue] = useState<string | number>(123.45);
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
 
   /**
    * Handle validation
    */
-  const validateValue = (value: string | undefined): void => {
-    const rawValue = value === undefined ? 'undefined' : value;
-    setRawValue(rawValue || ' ');
+  const handleOnValueChange = (value: string | undefined): void => {
+    setRawValue(value === undefined ? 'undefined' : value || ' ');
 
     if (!value) {
       setClassName('');
@@ -49,7 +48,6 @@ export const Example1: FC = () => {
         <ul>
           <li>{`'£'`} prefix</li>
           <li>Allows decimals (up to 2 decimal places)</li>
-          <li>Has default value (999.99)</li>
           <li>Value is set programmatically (passed in via props)</li>
         </ul>
 
@@ -62,9 +60,8 @@ export const Example1: FC = () => {
                 name="input-1"
                 className={`form-control ${className}`}
                 value={value}
-                onValueChange={validateValue}
+                onValueChange={handleOnValueChange}
                 prefix={prefix}
-                decimalScale={2}
                 step={1}
               />
               <div className="invalid-feedback">{errorMessage}</div>

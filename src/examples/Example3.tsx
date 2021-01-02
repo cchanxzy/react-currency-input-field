@@ -124,7 +124,7 @@ export const Example3: FC = () => {
             <div className="col">
               <div className="">
                 <label>Total:</label>
-                <div className="h3">{formatValue({ prefix, value: total })}</div>
+                <div className="h3">{formatValue({ prefix, value: String(total) })}</div>
               </div>
             </div>
           </div>
