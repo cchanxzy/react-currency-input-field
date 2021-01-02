@@ -1,3 +1,10 @@
+# [3.0.0-beta.10](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-01-02)
+
+
+### Features
+
+* allow customInput prop ([f372201](https://github.com/cchanxzy/react-currency-input-field/commit/f3722015650c24efd522f93dfb8a482bc4ba87a4))
+
 # [3.0.0-beta.9](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.8...v3.0.0-beta.9) (2021-01-02)
 
 
