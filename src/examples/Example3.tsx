@@ -4,16 +4,16 @@ import { CurrencyInputProps } from '../components/CurrencyInputProps';
 
 const options: ReadonlyArray<CurrencyInputProps['intlConfig']> = [
   {
+    locale: 'de-DE',
+    currency: 'EUR',
+  },
+  {
     locale: 'en-US',
     currency: 'USD',
   },
   {
     locale: 'en-GB',
     currency: 'GBP',
-  },
-  {
-    locale: 'de-DE',
-    currency: 'EUR',
   },
   {
     locale: 'ja-JP',
@@ -26,7 +26,7 @@ const options: ReadonlyArray<CurrencyInputProps['intlConfig']> = [
 ];
 
 export const Example3: FC = () => {
-  const [intlConfig, setIntlConfig] = useState<CurrencyInputProps['intlConfig']>(options[2]);
+  const [intlConfig, setIntlConfig] = useState<CurrencyInputProps['intlConfig']>(options[0]);
   const [value, setValue] = useState<string | undefined>('123');
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
 
