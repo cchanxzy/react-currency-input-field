@@ -1,86 +1,46 @@
-import React, { FC, useReducer } from 'react';
-import CurrencyInput, { formatValue } from '../';
+import React, { FC, useState } from 'react';
+import CurrencyInput from '../components/CurrencyInput';
+import { CurrencyInputProps } from '../components/CurrencyInputProps';
 
-type Field = {
-  value: number | undefined;
-  validationClass: string;
-  errorMessage: string;
-};
-
-type ExampleState = {
-  field1: Field;
-  field2: Field;
-};
-
-type Action = {
-  fieldName: string;
-  value: Field;
-};
-
-function reducer(state: ExampleState, { fieldName, value }: Action): ExampleState {
-  return {
-    ...state,
-    [fieldName]: value,
-  };
-}
-
-const initialState: ExampleState = {
-  field1: {
-    value: 100,
-    validationClass: '',
-    errorMessage: '',
+const options: ReadonlyArray<CurrencyInputProps['intlConfig']> = [
+  {
+    locale: 'en-US',
+    currency: 'USD',
   },
-  field2: {
-    value: 200,
-    validationClass: '',
-    errorMessage: '',
+  {
+    locale: 'en-GB',
+    currency: 'GBP',
   },
-};
+  {
+    locale: 'de-DE',
+    currency: 'EUR',
+  },
+  {
+    locale: 'ja-JP',
+    currency: 'JPY',
+  },
+  {
+    locale: 'en-IN',
+    currency: 'INR',
+  },
+];
 
 export const Example3: FC = () => {
-  const prefix = '£';
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [intlConfig, setIntlConfig] = useState<CurrencyInputProps['intlConfig']>(options[2]);
+  const [value, setValue] = useState<string | undefined>('123');
+  const [rawValue, setRawValue] = useState<string | undefined>(' ');
 
-  const handleonValueChange = (_value: string | undefined, fieldName: string | undefined): void => {
-    if (!fieldName) {
-      return;
-    }
-
-    if (!_value) {
-      return dispatch({
-        fieldName,
-        value: {
-          value: undefined,
-          validationClass: '',
-          errorMessage: '',
-        },
-      });
-    }
-
-    const value = Number(_value);
-
-    if (!Number.isNaN(value)) {
-      dispatch({
-        fieldName,
-        value: {
-          value,
-          validationClass: 'is-valid',
-          errorMessage: '',
-        },
-      });
-    } else {
-      dispatch({
-        fieldName,
-        value: {
-          value,
-          validationClass: 'is-invalid',
-          errorMessage: 'Please enter a valid number',
-        },
-      });
-    }
+  const handleOnValueChange = (value: string | undefined): void => {
+    setRawValue(value === undefined ? 'undefined' : value || ' ');
+    setValue(value);
   };
 
-  const total = (state.field1.value || 0) + (state.field2.value || 0);
+  const handleIntlSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const config = options[Number(event.target.value)];
+    if (config) {
+      setIntlConfig(config);
+    }
+  };
 
   return (
     <div className="row">
@@ -89,46 +49,56 @@ export const Example3: FC = () => {
           <h2>Example 3</h2>
         </a>
         <ul>
-          <li>Add two values together</li>
-          <li>Format the total value</li>
+          <li>Intl config</li>
         </ul>
 
-        <form className="needs-validation">
-          <div className="row">
-            <div className="col">
-              <label htmlFor="validation-example-3-field1">Value 1</label>
-              <CurrencyInput
-                id="validation-example-3-field1"
-                name="field1"
-                className={`form-control ${state.field1.validationClass}`}
-                value={state.field1.value}
-                onValueChange={handleonValueChange}
-                prefix={prefix}
-              />
-              <div className="invalid-feedback">{state.field1.errorMessage}</div>
-            </div>
+        <div className="row"></div>
 
-            <div className="col">
-              <label htmlFor="validation-example-3-field2">Value 2</label>
-              <CurrencyInput
-                id="validation-example-3-field2"
-                name="field2"
-                className={`form-control ${state.field2.validationClass}`}
-                value={state.field2.value}
-                onValueChange={handleonValueChange}
-                prefix={prefix}
-              />
-              <div className="invalid-feedback">{state.field1.errorMessage}</div>
-            </div>
-
-            <div className="col">
-              <div className="">
-                <label>Total:</label>
-                <div className="h3">{formatValue({ prefix, value: String(total) })}</div>
+        <div className="row">
+          <div className="form-group col">
+            <div className="row">
+              <div className="col-12">
+                <CurrencyInput
+                  id="validationCustom04"
+                  name="input-1"
+                  intlConfig={intlConfig}
+                  className={`form-control`}
+                  onValueChange={handleOnValueChange}
+                  decimalsLimit={6}
+                  value={value}
+                  step={1}
+                />
+              </div>
+              <div className="col-12 mt-3">
+                <label htmlFor="intlConfigSelect">Intl option</label>
+                <select className="form-control" id="intlConfigSelect" onChange={handleIntlSelect}>
+                  {options.map((config, i) => {
+                    if (config) {
+                      const { locale, currency } = config;
+                      return (
+                        <option key={`${locale}${currency}`} value={i}>
+                          {locale}
+                        </option>
+                      );
+                    }
+                  })}
+                </select>
               </div>
             </div>
           </div>
-        </form>
+          <div className="form-group col">
+            <pre className="h-100 p-3 bg-dark text-white">
+              <div className="row">
+                <div className="col-12">
+                  <div className="text-muted mr-3">onValueChange:</div>
+                  {rawValue}
+                  <div className="text-muted mr-3 mt-3">intlConfig:</div>
+                  {JSON.stringify(intlConfig)}
+                </div>
+              </div>
+            </pre>
+          </div>
+        </div>
       </div>
     </div>
   );

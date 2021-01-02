@@ -8,8 +8,8 @@ import {
   getLocaleConfig,
   padTrimValue,
   CleanValueOptions,
+  getSuffix,
 } from './utils';
-import { getSuffix } from './utils/getSuffix';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
   HTMLInputElement,
@@ -42,6 +42,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onFocus,
       onBlur,
       onKeyDown,
+      onKeyUp,
       ...props
     }: CurrencyInputProps,
     ref
@@ -113,6 +114,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       /* istanbul ignore next */
       if (selectionStart !== undefined && selectionStart !== null) {
+        // Prevent cursor jumping
         const cursor = selectionStart + (formattedValue.length - value.length) || 1;
         setCursor(cursor);
       }
@@ -172,10 +174,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     };
 
     const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const {
-        key,
-        currentTarget: { selectionStart },
-      } = event;
+      const { key } = event;
 
       if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
         event.preventDefault();
@@ -187,19 +186,25 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
           ) || 0;
         const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
         processChange(String(newValue));
-      } else if (selectionStart && key === 'Backspace') {
-        const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
-
-        if (suffix && selectionStart > stateValue.length - suffix.length) {
-          if (inputRef && typeof inputRef === 'object' && inputRef.current) {
-            event.preventDefault();
-            const newCursor = stateValue.length - suffix.length;
-            inputRef.current.setSelectionRange(newCursor, newCursor);
-          }
-        }
       }
 
       onKeyDown && onKeyDown(event);
+    };
+
+    const handleOnKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const {
+        currentTarget: { selectionStart },
+      } = event;
+      const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
+
+      if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
+        if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+          const newCursor = stateValue.length - suffix.length;
+          inputRef.current.setSelectionRange(newCursor, newCursor);
+        }
+      }
+
+      onKeyUp && onKeyUp(event);
     };
 
     /* istanbul ignore next */
@@ -228,6 +233,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         onBlur={handleOnBlur}
         onFocus={handleOnFocus}
         onKeyDown={handleOnKeyDown}
+        onKeyUp={handleOnKeyUp}
         placeholder={placeholder}
         disabled={disabled}
         value={

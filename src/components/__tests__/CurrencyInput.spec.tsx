@@ -152,4 +152,12 @@ describe('<CurrencyInput/>', () => {
 
     expect(onKeyDownSpy).toBeCalledTimes(1);
   });
+
+  it('should call onKeyUp', () => {
+    const onKeyUpSpy = jest.fn();
+    render(<CurrencyInput onKeyUp={onKeyUpSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '1');
+
+    expect(onKeyUpSpy).toBeCalledTimes(1);
+  });
 });
