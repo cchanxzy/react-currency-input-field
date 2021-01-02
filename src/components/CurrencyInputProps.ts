@@ -1,4 +1,4 @@
-import { Ref } from 'react';
+import { Ref, ElementType } from 'react';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
@@ -38,6 +38,13 @@ export type CurrencyInputProps = Overwrite<
      * Class names
      */
     className?: string;
+
+    /**
+     * Custom component
+     *
+     * Default = <input/>
+     */
+    customInput?: ElementType;
 
     /**
      * Limit length of decimals allowed

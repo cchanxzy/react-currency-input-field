@@ -22,6 +22,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       id,
       name,
       className,
+      customInput,
       decimalsLimit,
       defaultValue,
       disabled = false,
@@ -222,27 +223,31 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
           })
         : undefined;
 
-    return (
-      <input
-        type="text"
-        inputMode="decimal"
-        id={id}
-        name={name}
-        className={className}
-        onChange={handleOnChange}
-        onBlur={handleOnBlur}
-        onFocus={handleOnFocus}
-        onKeyDown={handleOnKeyDown}
-        onKeyUp={handleOnKeyUp}
-        placeholder={placeholder}
-        disabled={disabled}
-        value={
-          formattedPropsValue !== undefined && stateValue !== '-' ? formattedPropsValue : stateValue
-        }
-        ref={inputRef}
-        {...props}
-      />
-    );
+    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+      type: 'text',
+      inputMode: 'decimal',
+      id,
+      name,
+      className,
+      onChange: handleOnChange,
+      onBlur: handleOnBlur,
+      onFocus: handleOnFocus,
+      onKeyDown: handleOnKeyDown,
+      onKeyUp: handleOnKeyUp,
+      placeholder,
+      disabled,
+      value:
+        formattedPropsValue !== undefined && stateValue !== '-' ? formattedPropsValue : stateValue,
+      ref: inputRef,
+      ...props,
+    };
+
+    if (customInput) {
+      const CustomInput = customInput;
+      return <CustomInput {...inputProps} />;
+    }
+
+    return <input {...inputProps} />;
   }
 );
 
