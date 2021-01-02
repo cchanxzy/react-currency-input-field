@@ -58,9 +58,9 @@ export const cleanValue = ({
 
   const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
-  if (String(valueOnly).includes(decimalSeparator)) {
+  if (decimalSeparator && valueOnly.includes(decimalSeparator)) {
     const [int, decimals] = withoutInvalidChars.split(decimalSeparator);
-    const trimmedDecimals = decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals;
+    const trimmedDecimals = decimalsLimit && decimals ? decimals.slice(0, decimalsLimit) : decimals;
     const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
 
     return `${includeNegative}${int}${includeDecimals}`;

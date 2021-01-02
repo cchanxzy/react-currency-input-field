@@ -29,6 +29,6 @@ describe('<CurrencyInput/> backspace', () => {
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}');
 
-    expect(screen.getByRole('textbox')).toHaveValue('12,34\xa0€');
+    expect(screen.getByRole('textbox')).toHaveValue('12,3\xa0€');
   });
 });

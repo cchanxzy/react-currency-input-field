@@ -69,8 +69,12 @@ export const formatValue = (options: FormatValueOptions): string => {
         style: 'currency',
         currency: intlConfig.currency,
         minimumFractionDigits: 0,
+        maximumFractionDigits: 20,
       })
-    : new Intl.NumberFormat();
+    : new Intl.NumberFormat(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 20,
+      });
 
   const parts = numberFormatter.formatToParts(Number(value));
 
@@ -89,6 +93,7 @@ export const formatValue = (options: FormatValueOptions): string => {
 
   // Keep original decimal padding
   const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
+
   if (decimals && decimalSeparator) {
     if (formatted.includes(decimalSeparator)) {
       formatted = formatted.replace(

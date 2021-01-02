@@ -116,6 +116,21 @@ describe('formatValue', () => {
     ).toEqual('£1,234,567.89');
   });
 
+  it('should handle decimals 999999', () => {
+    expect(
+      formatValue({
+        value: '1.99999',
+        intlConfig: { locale: 'en-GB', currency: 'GBP' },
+      })
+    ).toEqual('£1.99999');
+
+    expect(
+      formatValue({
+        value: '1.99999',
+      })
+    ).toEqual('1.99999');
+  });
+
   it('should handle 0 value', () => {
     expect(
       formatValue({

@@ -26,10 +26,22 @@ describe('<CurrencyInput/> intlConfig', () => {
 
   it('should use intl config settings (ja-JP, JPY)', () => {
     render(
-      <CurrencyInput id={id} intlConfig={{ locale: 'ja-JP', currency: 'JPY' }} value="123.456" />
+      <CurrencyInput
+        id={id}
+        intlConfig={{ locale: 'ja-JP', currency: 'JPY' }}
+        defaultValue="123.456"
+      />
     );
 
+    expect(screen.getByRole('textbox')).toHaveValue('￥123456');
+
+    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}');
+
     expect(screen.getByRole('textbox')).toHaveValue('￥123');
+
+    userEvent.type(screen.getByRole('textbox'), '.99');
+
+    expect(screen.getByRole('textbox')).toHaveValue('￥12,399');
   });
 
   it('should override locale currency symbol if prefix passed in', () => {
