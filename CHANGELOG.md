@@ -1,3 +1,10 @@
+# [3.0.0-beta.8](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2021-01-02)
+
+
+### Features
+
+* handle backspace with suffix ([fc84301](https://github.com/cchanxzy/react-currency-input-field/commit/fc8430162d2c51cc374b0b7f4ed221a1329972b5))
+
 # [3.0.0-beta.7](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2020-12-10)
 
 # [3.0.0-beta.6](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2020-12-10)
