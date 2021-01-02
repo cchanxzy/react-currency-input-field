@@ -109,14 +109,14 @@ export type CurrencyInputProps = Overwrite<
     groupSeparator?: string;
 
     /**
-     * Disable auto adding separator between values eg. 1000 > 1,000
+     * Disable auto adding separator between values eg. 1000 -> 1,000
      *
      * Default = false
      */
     disableGroupSeparators?: boolean;
 
     /**
-     * Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000
+     * Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000
      *
      * Default = false
      */

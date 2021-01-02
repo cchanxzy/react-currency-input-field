@@ -136,4 +136,20 @@ describe('<CurrencyInput/>', () => {
 
     expect(onBlurSpy).toBeCalledTimes(1);
   });
+
+  it('should call onFocus', () => {
+    const onFocusSpy = jest.fn();
+    render(<CurrencyInput onFocus={onFocusSpy} />);
+    userEvent.click(screen.getByRole('textbox'));
+
+    expect(onFocusSpy).toBeCalledTimes(1);
+  });
+
+  it('should call onKeyDown', () => {
+    const onKeyDownSpy = jest.fn();
+    render(<CurrencyInput onKeyDown={onKeyDownSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '1');
+
+    expect(onKeyDownSpy).toBeCalledTimes(1);
+  });
 });

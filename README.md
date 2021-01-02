@@ -13,6 +13,7 @@
     - [Separators](#separators)
     - [Intl Locale Config](#intl-locale-config)
     - [Fixed Decimal Length](#fixed-decimal-length)
+  - [Decimal Scale and Decimals Limit](#decimal-scale-and-decimals-limit)
   - [Format values for display](#format-values-for-display)
   - [v3.0.0 Release Notes](#v300-release-notes)
     - [Breaking Changes](#breaking-changes)
@@ -71,28 +72,28 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 
 ## Props
 
-| Name                   | Type       | Default        | Description                                                              |
-| ---------------------- | ---------- | -------------- | ------------------------------------------------------------------------ |
-| allowDecimals          | `boolean`  | `true`         | Allow decimals                                                           |
-| allowNegativeValue     | `boolean`  | `true`         | Allow user to enter negative value                                       |
-| className              | `string`   |                | Class names                                                              |
-| decimalsLimit          | `number`   | `2`            | Limit length of decimals allowed                                         |
-| defaultValue           | `number`   |                | Default value                                                            |
-| value                  | `number`   |                | Programmatically set the value                                           |
-| onValueChange          | `function` |                | Handle change in value                                                   |
-| placeholder            | `string`   |                | Placeholder if no value                                                  |
-| id                     | `string`   |                | Component id                                                             |
-| decimalScale           | `number`   |                | Specify decimal scale for padding/trimming                               |
-| fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                  |
-| prefix                 | `string`   |                | Include a prefix eg. £ or \$                                             |
-| decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value              |
-| groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                          |
-| intlConfig             | `object`   |                | International locale config                                              |
-| disabled               | `boolean`  | `false`        | Disabled                                                                 |
-| disableAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000                     |
-| disableGroupSeparators | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 > 1,000 |
-| maxLength              | `number`   |                | Maximum characters the user can enter                                    |
-| step                   | `number`   |                | Incremental value change on arrow down and arrow up key press            |
+| Name                   | Type       | Default        | Description                                                                                  |
+| ---------------------- | ---------- | -------------- | -------------------------------------------------------------------------------------------- |
+| allowDecimals          | `boolean`  | `true`         | Allow decimals                                                                               |
+| allowNegativeValue     | `boolean`  | `true`         | Allow user to enter negative value                                                           |
+| className              | `string`   |                | Class names                                                                                  |
+| defaultValue           | `number`   |                | Default value                                                                                |
+| value                  | `number`   |                | Programmatically set the value                                                               |
+| onValueChange          | `function` |                | Handle change in value                                                                       |
+| placeholder            | `string`   |                | Placeholder if no value                                                                      |
+| id                     | `string`   |                | Component id                                                                                 |
+| decimalsLimit          | `number`   | `2`            | Limit length of decimals allowed                                                             |
+| decimalScale           | `number`   |                | Specify decimal scale for padding/trimming eg. 1 -> 1.99 or 1.234 -> 1.23 if decimal scale 2 |
+| fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                                      |
+| prefix                 | `string`   |                | Include a prefix eg. £ or \$                                                                 |
+| decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value                                  |
+| groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                                              |
+| intlConfig             | `object`   |                | International locale config                                                                  |
+| disabled               | `boolean`  | `false`        | Disabled                                                                                     |
+| disableAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000                                       |
+| disableGroupSeparators | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 -> 1,000                    |
+| maxLength              | `number`   |                | Maximum characters the user can enter                                                        |
+| step                   | `number`   |                | Incremental value change on arrow down and arrow up key press                                |
 
 ### Abbreviations
 
@@ -146,7 +147,9 @@ Any prefix, group separator and decimal separator options passed in will overrid
 
 ### Fixed Decimal Length
 
-Use `fixedDecimalLength` so that the value will always have the specified length of decimals. This formatting happens onBlur.
+Use `fixedDecimalLength` so that the value will always have the specified length of decimals.
+
+This formatting happens onBlur.
 
 Example if `fixedDecimalLength` was 2:
 
@@ -156,6 +159,10 @@ Example if `fixedDecimalLength` was 2:
 - 12.3 -> 12.30
 - 12.34 -> 12.34
 ```
+
+## Decimal Scale and Decimals Limit
+
+`decimalsLimit` and `decimalScale` are similar, the difference is `decimalsLimit` prevents the user from typing more than the limit, and `decimalScale` will format decimals `onBlur` to the specified length.
 
 ## Format values for display
 
@@ -197,7 +204,7 @@ console.log(formattedValue2);
 
 ### Improvements in v3
 
-- [Intl locale config](#intl-locale-config) can be passed in. _Please note: formatting where the currency symbol is placed after the value eg. (1 234,56 €) will cause problems, this is still in development._
+- [Intl locale config](#intl-locale-config) can be passed in. _Please note: formatting where the currency symbol is placed after the value like a suffix eg. (1 234,56 €) might cause problems, this is still in development._
 - Group separator will default to browser locale if not specified.
 - Can pass `ref` to the component.
 - `onChange` and `onBlur` functions can be passed in and will be called with original event.

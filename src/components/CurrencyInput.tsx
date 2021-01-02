@@ -9,6 +9,7 @@ import {
   padTrimValue,
   CleanValueOptions,
 } from './utils';
+import { getSuffix } from './utils/getSuffix';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
   HTMLInputElement,
@@ -38,7 +39,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       decimalSeparator: _decimalSeparator,
       groupSeparator: _groupSeparator,
       onChange,
+      onFocus,
       onBlur,
+      onKeyDown,
       ...props
     }: CurrencyInputProps,
     ref
@@ -80,12 +83,12 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const _defaultValue =
       defaultValue !== undefined
         ? formatValue({ value: String(defaultValue), ...formatValueOptions })
+        : userValue !== undefined
+        ? formatValue({ value: String(userValue), ...formatValueOptions })
         : '';
     const [stateValue, setStateValue] = useState(_defaultValue);
     const [cursor, setCursor] = useState(0);
     const inputRef = ref || useRef<HTMLInputElement>(null);
-
-    const onFocus = (): number => (stateValue ? stateValue.length : 0);
 
     const processChange = (value: string, selectionStart?: number | null): void => {
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
@@ -129,6 +132,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onChange && onChange(event);
     };
 
+    const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>): number => {
+      onFocus && onFocus(event);
+      return stateValue ? stateValue.length : 0;
+    };
+
     const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
       const {
         target: { value },
@@ -163,21 +171,35 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onBlur && onBlur(event);
     };
 
-    const handleOnKeyDown = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const {
+        key,
+        currentTarget: { selectionStart },
+      } = event;
+
       if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
+        event.preventDefault();
         const currentValue =
           Number(
             userValue !== undefined
               ? userValue
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0;
-        const newValue =
-          key === 'ArrowUp'
-            ? String(currentValue + Number(step))
-            : String(currentValue - Number(step));
+        const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
+        processChange(String(newValue));
+      } else if (selectionStart && key === 'Backspace') {
+        const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
 
-        processChange(newValue);
+        if (suffix && selectionStart > stateValue.length - suffix.length) {
+          if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+            event.preventDefault();
+            const newCursor = stateValue.length - suffix.length;
+            inputRef.current.setSelectionRange(newCursor, newCursor);
+          }
+        }
       }
+
+      onKeyDown && onKeyDown(event);
     };
 
     /* istanbul ignore next */
@@ -204,7 +226,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         className={className}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
-        onFocus={onFocus}
+        onFocus={handleOnFocus}
         onKeyDown={handleOnKeyDown}
         placeholder={placeholder}
         disabled={disabled}

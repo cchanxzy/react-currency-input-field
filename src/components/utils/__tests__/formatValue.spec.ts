@@ -194,6 +194,44 @@ describe('formatValue', () => {
       ).toEqual('¥123,456.79');
     });
 
+    it('should handle suffix', () => {
+      expect(
+        formatValue({
+          value: '1',
+          decimalSeparator: ',',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`1\xa0€`);
+    });
+
+    it('should handle suffix ending with decimal separator', () => {
+      expect(
+        formatValue({
+          value: '1,',
+          decimalSeparator: ',',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`1,\xa0€`);
+    });
+
+    it('should handle suffix ending with decimal separator and decimals', () => {
+      expect(
+        formatValue({
+          value: '123,00',
+          decimalSeparator: ',',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`123,00\xa0€`);
+
+      expect(
+        formatValue({
+          value: '123,98',
+          decimalSeparator: ',',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`123,98\xa0€`);
+    });
+
     it('should override locale if prefix passed in', () => {
       expect(
         formatValue({
