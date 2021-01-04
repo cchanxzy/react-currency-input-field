@@ -46,9 +46,9 @@ const FormatValuesExample: FC = () => {
         <div className="col-10">
           <div className="row mt-3">
             <div className="col">
-              <label>Value</label>
+              <label>Value (Number only)</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 value={value}
                 onChange={handleValueChange}

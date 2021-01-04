@@ -61,6 +61,7 @@ export const Example1: FC = () => {
                 className={`form-control ${className}`}
                 value={value}
                 onValueChange={handleOnValueChange}
+                placeholder="Please enter a number"
                 prefix={prefix}
                 step={1}
               />

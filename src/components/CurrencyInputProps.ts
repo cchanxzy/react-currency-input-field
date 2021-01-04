@@ -56,7 +56,7 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Specify decimal scale for padding/trimming
      *
-     * Eg. 1 -> 1.99 or 1.234 -> 1.23
+     * Eg. 1.5 -> 1.50 or 1.234 -> 1.23
      */
     decimalScale?: number;
 
