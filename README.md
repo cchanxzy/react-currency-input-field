@@ -1,6 +1,6 @@
 # React Currency Input Field Component
 
-[![npm](https://img.shields.io/npm/v/react-currency-input-field/beta)](https://www.npmjs.com/package/react-currency-input-field) [![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![Codecov Coverage](https://img.shields.io/codecov/c/github/cchanxzy/react-currency-input-field)](https://codecov.io/gh/cchanxzy/react-currency-input-field/) [![Release build](https://github.com/cchanxzy/react-currency-input-field/workflows/Release/badge.svg)](https://github.com/cchanxzy/react-currency-input-field/actions?query=workflow%3ARelease)
+[![npm](https://img.shields.io/npm/v/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![Codecov Coverage](https://img.shields.io/codecov/c/github/cchanxzy/react-currency-input-field)](https://codecov.io/gh/cchanxzy/react-currency-input-field/) [![Release build](https://github.com/cchanxzy/react-currency-input-field/workflows/Release/badge.svg)](https://github.com/cchanxzy/react-currency-input-field/actions?query=workflow%3ARelease)
 
 - [React Currency Input Field Component](#react-currency-input-field-component)
   - [Migrating to v3.0.0](#migrating-to-v300)
@@ -26,12 +26,6 @@
 There are a number of breaking changes in v3.0.0, please read the [release notes](#v300-release-notes) if migrating from v2 to v3.
 
 :warning: Most important change is: `onChange` has been renamed to `onValueChange`
-
-## V3 Pre-release
-
-There will be a couple of breaking changes in v3.0.0, so I recommend taking a look at the [v3.0.0 beta](https://www.npmjs.com/package/react-currency-input-field/v/3.0.0-beta.7) which is available now for testing.
-
-Any early feedback will be very much welcomed.
 
 ## Features
 
