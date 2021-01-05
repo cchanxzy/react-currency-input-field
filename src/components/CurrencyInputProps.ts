@@ -1,6 +1,11 @@
+import { Ref, ElementType } from 'react';
+
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
-export type Separator = ',' | '.';
+export type IntlConfig = {
+  locale: string;
+  currency: string;
+};
 
 export type CurrencyInputProps = Overwrite<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -35,6 +40,13 @@ export type CurrencyInputProps = Overwrite<
     className?: string;
 
     /**
+     * Custom component
+     *
+     * Default = <input/>
+     */
+    customInput?: ElementType;
+
+    /**
      * Limit length of decimals allowed
      *
      * Default = 2
@@ -42,7 +54,14 @@ export type CurrencyInputProps = Overwrite<
     decimalsLimit?: number;
 
     /**
-     * Default value
+     * Specify decimal scale for padding/trimming
+     *
+     * Eg. 1.5 -> 1.50 or 1.234 -> 1.23
+     */
+    decimalScale?: number;
+
+    /**
+     * Default value if not passing in value via props
      */
     defaultValue?: number | string;
 
@@ -55,29 +74,22 @@ export type CurrencyInputProps = Overwrite<
 
     /**
      * Value will always have the specified length of decimals
+     *
+     * Eg. 123 -> 1.23
+     *
+     * Note: This formatting only happens onBlur
      */
     fixedDecimalLength?: number;
 
     /**
      * Handle change in value
      */
-    onChange?: (value: string | undefined, name?: string) => void;
+    onValueChange?: (value: string | undefined, name?: string) => void;
 
     /**
-     * Handle value onBlur
-     *
-     */
-    onBlurValue?: (value: string | undefined, name?: string) => void;
-
-    /**
-     * Placeholder
+     * Placeholder if there is no value
      */
     placeholder?: string;
-
-    /**
-     * Specify decimal precision for padding/trimming
-     */
-    precision?: number;
 
     /**
      * Include a prefix eg. £
@@ -90,31 +102,46 @@ export type CurrencyInputProps = Overwrite<
     step?: number;
 
     /**
-     * Separator between integer part and fractional part of value. Cannot be a number
+     * Separator between integer part and fractional part of value.
      *
-     * Default = "."
+     * This cannot be a number
      */
     decimalSeparator?: string;
 
     /**
-     * Separator between thousand, million and billion. Cannot be a number
+     * Separator between thousand, million and billion
      *
-     * Default = ","
+     * This cannot be a number
      */
     groupSeparator?: string;
 
     /**
-     * Disable auto adding separator between values eg. 1000 > 1,000
+     * Disable auto adding separator between values eg. 1000 -> 1,000
      *
      * Default = false
      */
-    turnOffSeparators?: boolean;
+    disableGroupSeparators?: boolean;
 
     /**
-     * Disable abbreviations eg. 1k > 1,000, 2m > 2,000,000
+     * Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000
      *
      * Default = false
      */
-    turnOffAbbreviations?: boolean;
+    disableAbbreviations?: boolean;
+
+    /**
+     * International locale config, examples:
+     *   { locale: 'ja-JP', currency: 'JPY' }
+     *   { locale: 'en-IN', currency: 'INR' }
+     *
+     * Any prefix, groupSeparator or decimalSeparator options passed in
+     * will override Intl Locale config
+     */
+    intlConfig?: IntlConfig;
+
+    /**
+     * Ref property
+     */
+    ref?: Ref<HTMLInputElement>;
   }
 >;

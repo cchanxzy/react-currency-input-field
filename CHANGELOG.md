@@ -1,3 +1,93 @@
+# [3.0.0-beta.11](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.10...v3.0.0-beta.11) (2021-01-04)
+
+# [3.0.0-beta.10](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-01-02)
+
+
+### Features
+
+* allow customInput prop ([f372201](https://github.com/cchanxzy/react-currency-input-field/commit/f3722015650c24efd522f93dfb8a482bc4ba87a4))
+
+# [3.0.0-beta.9](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.8...v3.0.0-beta.9) (2021-01-02)
+
+
+### Bug Fixes
+
+* fixed a few inconsistencies and added intl config to examples ([796e623](https://github.com/cchanxzy/react-currency-input-field/commit/796e623ef679ca047140d6ee421961877bdaa181))
+
+# [3.0.0-beta.8](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2021-01-02)
+
+
+### Features
+
+* handle backspace with suffix ([fc84301](https://github.com/cchanxzy/react-currency-input-field/commit/fc8430162d2c51cc374b0b7f4ed221a1329972b5))
+
+# [3.0.0-beta.7](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2020-12-10)
+
+# [3.0.0-beta.6](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2020-12-10)
+
+# [3.0.0-beta.5](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2020-12-09)
+
+
+### Features
+
+* depreciate onBlurValue prop ([8651e76](https://github.com/cchanxzy/react-currency-input-field/commit/8651e76c201b029787490efcf37d307a1b5d8d97))
+
+
+### BREAKING CHANGES
+
+* "onBlurValue" no longer supported
+
+# [3.0.0-beta.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2020-12-09)
+
+
+### Features
+
+* renamed onChange prop to onValueChange ([83d3806](https://github.com/cchanxzy/react-currency-input-field/commit/83d380660597797bfc38e609599c103f8176fd28))
+
+
+### BREAKING CHANGES
+
+* Renamed "onChange" to "onValueChange"
+
+# [3.0.0-beta.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2020-12-06)
+
+
+### Features
+
+* renamed precision to decimalScale ([c545b78](https://github.com/cchanxzy/react-currency-input-field/commit/c545b780815bff7c98c66e527f3f3f4a1cc8ee67))
+* renamed turnOffAbbreviations to disableAbbreviations ([7751a43](https://github.com/cchanxzy/react-currency-input-field/commit/7751a4386baee5554aa030839d1cdc0f3750f360))
+* renamed turnOffSeparators to disableGroupSeparators ([b16f577](https://github.com/cchanxzy/react-currency-input-field/commit/b16f577e29646e2fba9db370fb4eda2c73ae632e))
+
+
+### BREAKING CHANGES
+
+* Renamed "turnOffAbbreviations" to "disableAbbreviations"
+* Renamed "turnOffSeparators" to "disableGroupSeparators"
+* renamed precision to decimalScale
+
+# [3.0.0-beta.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2020-12-03)
+
+
+### Features
+
+* add intl locale config option ([e119352](https://github.com/cchanxzy/react-currency-input-field/commit/e119352212b1aaa8bafdb02dfd312de7a7302cfc))
+
+
+### BREAKING CHANGES
+
+* Using Intl.NumberFormat to format value
+
+# [3.0.0-beta.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.7.0...v3.0.0-beta.1) (2020-11-19)
+
+
+### Features
+
+* wrap component in forwardRef ([3a1f5bc](https://github.com/cchanxzy/react-currency-input-field/commit/3a1f5bcd6422c49ea85ad9980109cd183ceec2f1))
+
+
+### BREAKING CHANGES
+
+* can pass in component ref
 ## [2.7.1](https://github.com/cchanxzy/react-currency-input-field/compare/v2.7.0...v2.7.1) (2020-12-10)
 
 # [2.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.6.0...v2.7.0) (2020-11-18)

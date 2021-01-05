@@ -25,7 +25,7 @@ jobs:
       - name: Build package
         run: yarn build
       - name: Run tests
-        run: yarn test
+        run: yarn test-ci
       - name: Code coverage
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

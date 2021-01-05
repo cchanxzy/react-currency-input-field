@@ -35,6 +35,22 @@ describe('cleanValue', () => {
     ).toEqual('5.5');
   });
 
+  it('should remove suffix', () => {
+    expect(
+      cleanValue({
+        value: '123 €',
+      })
+    ).toEqual('123');
+
+    expect(
+      cleanValue({
+        groupSeparator: '.',
+        decimalSeparator: ',',
+        value: '123.456,99 €',
+      })
+    ).toEqual('123456,99');
+  });
+
   it('should remove extra decimals', () => {
     expect(
       cleanValue({
@@ -99,6 +115,19 @@ describe('cleanValue', () => {
       ).toEqual('-99999.99');
     });
 
+    it('should handle negative value with group separator', () => {
+      expect(
+        cleanValue({
+          value: '-£99-999.99',
+          decimalSeparator: '.',
+          groupSeparator: '-',
+          allowDecimals: true,
+          decimalsLimit: 2,
+          prefix: '£',
+        })
+      ).toEqual('-99999.99');
+    });
+
     it('should handle not allow negative value if allowNegativeValue is false', () => {
       expect(
         cleanValue({
@@ -150,21 +179,21 @@ describe('cleanValue', () => {
       expect(
         cleanValue({
           value: 'k',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('');
 
       expect(
         cleanValue({
           value: 'm',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('');
 
       expect(
         cleanValue({
           value: 'b',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('');
     });
@@ -174,7 +203,7 @@ describe('cleanValue', () => {
         cleanValue({
           value: '$k',
           prefix: '$',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('');
 
@@ -182,37 +211,37 @@ describe('cleanValue', () => {
         cleanValue({
           value: '£m',
           prefix: '£',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('');
     });
 
-    it('should ignore abbreviations if turnOffAbbreviations is true', () => {
+    it('should ignore abbreviations if disableAbbreviations is true', () => {
       expect(
         cleanValue({
           value: '1k',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('1');
 
       expect(
         cleanValue({
           value: '-2k',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('-2');
 
       expect(
         cleanValue({
           value: '25.6m',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('25.6');
 
       expect(
         cleanValue({
           value: '9b',
-          turnOffAbbreviations: true,
+          disableAbbreviations: true,
         })
       ).toEqual('9');
     });
