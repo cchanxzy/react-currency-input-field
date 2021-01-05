@@ -33,9 +33,8 @@ export const parseAbbrValue = (value: string, decimalSeparator = '.'): number | 
   if (match) {
     const [, digits, , abbr] = match;
     const multiplier = abbrMap[abbr.toLowerCase()];
-    if (digits && multiplier) {
-      return Number(digits.replace(decimalSeparator, '.')) * multiplier;
-    }
+
+    return Number(digits.replace(decimalSeparator, '.')) * multiplier;
   }
 
   return undefined;

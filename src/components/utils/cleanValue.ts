@@ -10,7 +10,7 @@ export type CleanValueOptions = {
   allowDecimals?: boolean;
   decimalsLimit?: number;
   allowNegativeValue?: boolean;
-  turnOffAbbreviations?: boolean;
+  disableAbbreviations?: boolean;
   prefix?: string;
 };
 
@@ -24,11 +24,15 @@ export const cleanValue = ({
   allowDecimals = true,
   decimalsLimit = 2,
   allowNegativeValue = true,
-  turnOffAbbreviations = false,
+  disableAbbreviations = false,
   prefix = '',
 }: CleanValueOptions): string => {
-  const abbreviations = turnOffAbbreviations ? [] : ['k', 'm', 'b'];
-  const isNegative = value.includes('-');
+  if (value === '-') {
+    return value;
+  }
+
+  const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
+  const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(value);
 
   const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
   const withoutPrefix = prefix ? value.replace(prefixWithValue, '').concat(preValue) : value;
@@ -41,7 +45,7 @@ export const cleanValue = ({
 
   let valueOnly = withoutInvalidChars;
 
-  if (!turnOffAbbreviations) {
+  if (!disableAbbreviations) {
     // disallow letter without number
     if (abbreviations.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
       return '';
@@ -54,9 +58,9 @@ export const cleanValue = ({
 
   const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
-  if (String(valueOnly).includes(decimalSeparator)) {
+  if (decimalSeparator && valueOnly.includes(decimalSeparator)) {
     const [int, decimals] = withoutInvalidChars.split(decimalSeparator);
-    const trimmedDecimals = decimalsLimit ? decimals.slice(0, decimalsLimit) : decimals;
+    const trimmedDecimals = decimalsLimit && decimals ? decimals.slice(0, decimalsLimit) : decimals;
     const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
 
     return `${includeNegative}${int}${includeDecimals}`;

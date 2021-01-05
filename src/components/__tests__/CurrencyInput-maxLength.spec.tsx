@@ -1,59 +1,47 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
-const id = 'validationCustom01';
-
-describe('<CurrencyInput /> component > maxLength', () => {
-  const onChangeSpy = jest.fn();
+describe('<CurrencyInput/> maxLength', () => {
+  const onValueChangeSpy = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should not allow more values than max length', () => {
-    const view = shallow(
-      <CurrencyInput
-        id={id}
-        name={name}
-        prefix="£"
-        onChange={onChangeSpy}
-        maxLength={3}
-        defaultValue={123}
-      />
+    render(
+      <CurrencyInput prefix="£" onValueChange={onValueChangeSpy} maxLength={3} defaultValue={123} />
     );
 
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('£123');
+    expect(screen.getByRole('textbox')).toHaveValue('£123');
 
-    input.simulate('change', { target: { value: '£1234' } });
-    expect(onChangeSpy).not.toBeCalled();
+    userEvent.type(screen.getByRole('textbox'), '4');
+    expect(onValueChangeSpy).not.toBeCalled();
 
-    const updatedView = view.update();
-    expect(updatedView.find(`#${id}`).prop('value')).toBe('£123');
+    expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
   it('should apply max length rule to negative value', () => {
-    const view = shallow(
+    render(
       <CurrencyInput
-        id={id}
-        name={name}
         prefix="£"
-        onChange={onChangeSpy}
+        onValueChange={onValueChangeSpy}
         maxLength={3}
         defaultValue={-123}
       />
     );
 
-    const input = view.find(`#${id}`);
-    expect(input.prop('value')).toBe('-£123');
+    expect(screen.getByRole('textbox')).toHaveValue('-£123');
 
-    input.simulate('change', { target: { value: '-£1234' } });
-    expect(onChangeSpy).not.toBeCalled();
-    expect(view.update().find(`#${id}`).prop('value')).toBe('-£123');
+    userEvent.type(screen.getByRole('textbox'), '4');
+    expect(onValueChangeSpy).not.toBeCalled();
+    expect(screen.getByRole('textbox')).toHaveValue('-£123');
 
-    input.simulate('change', { target: { value: '-£125' } });
-    expect(onChangeSpy).toHaveBeenCalledWith('-125', '');
-    expect(view.update().find(`#${id}`).prop('value')).toBe('-£125');
+    userEvent.type(screen.getByRole('textbox'), '{backspace}5');
+    expect(onValueChangeSpy).toHaveBeenCalledWith('-125', undefined);
+    expect(screen.getByRole('textbox')).toHaveValue('-£125');
   });
 });
