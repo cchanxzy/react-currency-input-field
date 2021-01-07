@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.0...v3.0.1) (2021-01-07)
+
+
+### Bug Fixes
+
+* default value with decimal scale renders correctly ([c225306](https://github.com/cchanxzy/react-currency-input-field/commit/c2253069afcf2019db9b245bfd92b598ecc39cef))
+
 # [3.0.0](https://github.com/cchanxzy/react-currency-input-field/compare/v2.7.1...v3.0.0) (2021-01-05)
 
 
