@@ -138,6 +138,17 @@ describe('formatValue', () => {
         prefix: '£',
       })
     ).toEqual('£0');
+
+    expect(
+      formatValue({
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        disableGroupSeparators: false,
+        decimalScale: 2,
+        prefix: '£',
+        value: '0',
+      })
+    ).toEqual('£0.00');
   });
 
   describe('negative values', () => {

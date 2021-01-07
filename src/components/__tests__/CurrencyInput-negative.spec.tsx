@@ -24,7 +24,7 @@ describe('<CurrencyInput/> negative value', () => {
       />
     );
 
-    expect(screen.getByRole('textbox')).toHaveValue('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123.00');
 
     userEvent.clear(screen.getByRole('textbox'));
     userEvent.type(screen.getByRole('textbox'), '-1234');
@@ -44,7 +44,7 @@ describe('<CurrencyInput/> negative value', () => {
       />
     );
 
-    expect(screen.getByRole('textbox')).toHaveValue('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123.00');
 
     userEvent.clear(screen.getByRole('textbox'));
     userEvent.type(screen.getByRole('textbox'), '-');
@@ -64,11 +64,14 @@ describe('<CurrencyInput/> negative value', () => {
       />
     );
 
-    expect(screen.getByRole('textbox')).toHaveValue('$123');
+    expect(screen.getByRole('textbox')).toHaveValue('$123.00');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}{backspace}-');
+    userEvent.type(
+      screen.getByRole('textbox'),
+      '{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}-'
+    );
     expect(screen.getByRole('textbox')).toHaveValue('-');
-    expect(onValueChangeSpy).toBeCalledTimes(4);
+    expect(onValueChangeSpy).toBeCalledTimes(7);
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined);
 
     userEvent.tab();
