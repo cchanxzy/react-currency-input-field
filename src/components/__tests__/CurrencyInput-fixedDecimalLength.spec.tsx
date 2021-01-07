@@ -18,13 +18,16 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
           prefix="$"
           onValueChange={onValueChangeSpy}
           fixedDecimalLength={3}
+          decimalScale={3}
           defaultValue={123}
         />
       );
 
-      expect(screen.getByRole('textbox')).toHaveValue('$123');
+      expect(screen.getByRole('textbox')).toHaveValue('$123.000');
 
-      screen.getByRole('textbox').focus();
+      // delete .000
+      userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}{backspace}');
+
       userEvent.tab();
 
       expect(onValueChangeSpy).toBeCalledWith('1.230', undefined);
@@ -44,9 +47,10 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
         />
       );
 
-      expect(screen.getByRole('textbox')).toHaveValue('$123');
+      expect(screen.getByRole('textbox')).toHaveValue('$123,00');
 
-      screen.getByRole('textbox').focus();
+      // delete ,00
+      userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
       userEvent.tab();
 
       expect(onValueChangeSpy).toBeCalledWith('1,23', undefined);

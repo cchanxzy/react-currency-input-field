@@ -42,6 +42,12 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
+  it('Renders with default value 0 with decimalScale 2', () => {
+    render(<CurrencyInput defaultValue={0} decimalScale={2} prefix="£" />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0.00');
+  });
+
   it('Renders with value prop', () => {
     render(<CurrencyInput value={49.99} prefix="£" />);
 
@@ -52,6 +58,12 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput value={0} prefix="£" />);
 
     expect(screen.getByRole('textbox')).toHaveValue('£0');
+  });
+
+  it('Renders with value 0 with decimalScale 2', () => {
+    render(<CurrencyInput value={0} prefix="£" decimalScale={2} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0.00');
   });
 
   it('should go to end of string on focus', () => {

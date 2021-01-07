@@ -2,7 +2,7 @@ import { IntlConfig } from '../CurrencyInputProps';
 import { escapeRegExp } from './escapeRegExp';
 import { getSuffix } from './getSuffix';
 
-type FormatValueOptions = {
+export type FormatValueOptions = {
   /**
    * Value to format
    */
@@ -37,6 +37,13 @@ type FormatValueOptions = {
   intlConfig?: IntlConfig;
 
   /**
+   * Specify decimal scale for padding/trimming
+   *
+   * Eg. 1.5 -> 1.50 or 1.234 -> 1.23
+   */
+  decimalScale?: number;
+
+  /**
    * Prefix
    */
   prefix?: string;
@@ -46,7 +53,7 @@ type FormatValueOptions = {
  * Format value with decimal separator, group separator and prefix
  */
 export const formatValue = (options: FormatValueOptions): string => {
-  const { value: _value, decimalSeparator, intlConfig, prefix = '' } = options;
+  const { value: _value, decimalSeparator, intlConfig, decimalScale = 0, prefix = '' } = options;
 
   if (_value === '' || _value === undefined) {
     return '';
@@ -68,11 +75,11 @@ export const formatValue = (options: FormatValueOptions): string => {
     ? new Intl.NumberFormat(intlConfig.locale, {
         style: 'currency',
         currency: intlConfig.currency,
-        minimumFractionDigits: 0,
+        minimumFractionDigits: decimalScale,
         maximumFractionDigits: 20,
       })
     : new Intl.NumberFormat(undefined, {
-        minimumFractionDigits: 0,
+        minimumFractionDigits: decimalScale,
         maximumFractionDigits: 20,
       });
 

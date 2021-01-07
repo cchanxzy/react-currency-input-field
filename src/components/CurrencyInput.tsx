@@ -82,17 +82,20 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       prefix,
     };
 
-    const _defaultValue =
+    const formattedStateValue =
       defaultValue !== undefined
-        ? formatValue({ value: String(defaultValue), ...formatValueOptions })
+        ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
         : userValue !== undefined
-        ? formatValue({ value: String(userValue), ...formatValueOptions })
+        ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
         : '';
-    const [stateValue, setStateValue] = useState(_defaultValue);
+
+    const [stateValue, setStateValue] = useState(formattedStateValue);
+    const [dirty, setDirty] = useState(false);
     const [cursor, setCursor] = useState(0);
     const inputRef = ref || useRef<HTMLInputElement>(null);
 
     const processChange = (value: string, selectionStart?: number | null): void => {
+      setDirty(true);
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
       if (valueOnly === '') {
@@ -219,6 +222,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       userValue !== undefined
         ? formatValue({
             ...formatValueOptions,
+            decimalScale: dirty ? 0 : decimalScale,
             value: String(userValue),
           })
         : undefined;
