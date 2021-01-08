@@ -151,6 +151,30 @@ describe('formatValue', () => {
     ).toEqual('£0.00');
   });
 
+  it('should handle decimal values with decimalScale', () => {
+    expect(
+      formatValue({
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        disableGroupSeparators: false,
+        decimalScale: 2,
+        prefix: '£',
+        value: '0.1',
+      })
+    ).toEqual('£0.10');
+
+    expect(
+      formatValue({
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        disableGroupSeparators: false,
+        decimalScale: 4,
+        prefix: '£',
+        value: '0.01',
+      })
+    ).toEqual('£0.0100');
+  });
+
   describe('negative values', () => {
     it('should handle negative values', () => {
       expect(

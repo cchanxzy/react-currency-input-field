@@ -66,6 +66,16 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£0.00');
   });
 
+  it('Renders with value 0.1 with decimalScale 2', () => {
+    render(<CurrencyInput value={0.1} prefix="£" decimalScale={2} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0.10');
+
+    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(screen.getByRole('textbox')).toHaveValue('£0.1');
+  });
+
   it('should go to end of string on focus', () => {
     render(<CurrencyInput defaultValue={123} />);
     userEvent.type(screen.getByRole('textbox'), '{arrowleft}4{arrowright}6');
