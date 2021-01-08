@@ -98,10 +98,10 @@ export const formatValue = (options: FormatValueOptions): string => {
   // Include decimal separator if user input ends with decimal separator
   const includeDecimalSeparator = _value.slice(-1) === decimalSeparator ? decimalSeparator : '';
 
-  // Keep original decimal padding
+  // Keep original decimal padding if no decimalScale
   const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
 
-  if (decimals && decimalSeparator) {
+  if (!decimalScale && decimals && decimalSeparator) {
     if (formatted.includes(decimalSeparator)) {
       formatted = formatted.replace(
         RegExp(`(\\d+)(${escapeRegExp(decimalSeparator)})(\\d+)`, 'g'),
