@@ -151,7 +151,7 @@ describe('formatValue', () => {
     ).toEqual('£0.00');
   });
 
-  it('should handle decimal values with decimalScale', () => {
+  it('should pad decimal values with decimalScale', () => {
     expect(
       formatValue({
         decimalSeparator: '.',
@@ -173,6 +173,34 @@ describe('formatValue', () => {
         value: '0.01',
       })
     ).toEqual('£0.0100');
+  });
+
+  it('should trim decimal values with decimalScale', () => {
+    const value = String(9.99 / 0.33);
+
+    expect(
+      formatValue({
+        value,
+        decimalScale: 2,
+        intlConfig: { locale: 'en-AU', currency: 'AUD' },
+      })
+    ).toEqual('$30.27');
+
+    expect(
+      formatValue({
+        value,
+        decimalScale: 1,
+        intlConfig: { locale: 'en-AU', currency: 'AUD' },
+      })
+    ).toEqual('$30.2');
+
+    expect(
+      formatValue({
+        value,
+        decimalScale: 0,
+        intlConfig: { locale: 'en-AU', currency: 'AUD' },
+      })
+    ).toEqual('$30');
   });
 
   describe('negative values', () => {
