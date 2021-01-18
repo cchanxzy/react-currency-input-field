@@ -53,7 +53,7 @@ export type FormatValueOptions = {
  * Format value with decimal separator, group separator and prefix
  */
 export const formatValue = (options: FormatValueOptions): string => {
-  const { value: _value, decimalSeparator, intlConfig, decimalScale = 0, prefix = '' } = options;
+  const { value: _value, decimalSeparator, intlConfig, decimalScale, prefix = '' } = options;
 
   if (_value === '' || _value === undefined) {
     return '';
@@ -75,11 +75,11 @@ export const formatValue = (options: FormatValueOptions): string => {
     ? new Intl.NumberFormat(intlConfig.locale, {
         style: 'currency',
         currency: intlConfig.currency,
-        minimumFractionDigits: decimalScale,
+        minimumFractionDigits: decimalScale || 0,
         maximumFractionDigits: 20,
       })
     : new Intl.NumberFormat(undefined, {
-        minimumFractionDigits: decimalScale,
+        minimumFractionDigits: decimalScale || 0,
         maximumFractionDigits: 20,
       });
 
@@ -101,7 +101,7 @@ export const formatValue = (options: FormatValueOptions): string => {
   // Keep original decimal padding if no decimalScale
   const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
 
-  if (!decimalScale && decimals && decimalSeparator) {
+  if (decimalScale === undefined && decimals && decimalSeparator) {
     if (formatted.includes(decimalSeparator)) {
       formatted = formatted.replace(
         RegExp(`(\\d+)(${escapeRegExp(decimalSeparator)})(\\d+)`, 'g'),
@@ -147,10 +147,11 @@ const replaceParts = (
     prefix,
     groupSeparator,
     decimalSeparator,
+    decimalScale,
     disableGroupSeparators = false,
   }: Pick<
     FormatValueOptions,
-    'prefix' | 'groupSeparator' | 'decimalSeparator' | 'disableGroupSeparators'
+    'prefix' | 'groupSeparator' | 'decimalSeparator' | 'decimalScale' | 'disableGroupSeparators'
   >
 ): string => {
   return parts
@@ -167,7 +168,15 @@ const replaceParts = (
         }
 
         if (type === 'decimal') {
+          if (decimalScale !== undefined && decimalScale === 0) {
+            return prev;
+          }
+
           return [...prev, decimalSeparator !== undefined ? decimalSeparator : value];
+        }
+
+        if (type === 'fraction') {
+          return [...prev, decimalScale !== undefined ? value.slice(0, decimalScale) : value];
         }
 
         return [...prev, value];

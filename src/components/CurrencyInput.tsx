@@ -162,7 +162,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       const newValue = padTrimValue(
         fixedDecimals,
         decimalSeparator,
-        decimalScale || fixedDecimalLength
+        decimalScale !== undefined ? decimalScale : fixedDecimalLength
       );
 
       onValueChange && onValueChange(newValue, name);
@@ -222,7 +222,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       userValue !== undefined
         ? formatValue({
             ...formatValueOptions,
-            decimalScale: dirty ? 0 : decimalScale,
+            decimalScale: dirty ? undefined : decimalScale,
             value: String(userValue),
           })
         : undefined;
