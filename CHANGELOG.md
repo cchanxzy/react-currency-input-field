@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.2...v3.0.3) (2021-01-18)
+
+
+### Bug Fixes
+
+* formatValue trim decimalScale ([012d4c2](https://github.com/cchanxzy/react-currency-input-field/commit/012d4c27b4d0e7a7be9635cbf787f22875674933))
+
 ## [3.0.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.1...v3.0.2) (2021-01-08)
 
 
