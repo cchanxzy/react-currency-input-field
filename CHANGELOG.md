@@ -1,3 +1,10 @@
+## [3.0.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.3...v3.0.4) (2021-01-24)
+
+
+### Bug Fixes
+
+* prevent autofocusing on load ([da10c81](https://github.com/cchanxzy/react-currency-input-field/commit/da10c81044052a8d75d5189f13a2b27f18fc464f))
+
 ## [3.0.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.2...v3.0.3) (2021-01-18)
 
 
