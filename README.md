@@ -3,8 +3,8 @@
 [![npm](https://img.shields.io/npm/v/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![Codecov Coverage](https://img.shields.io/codecov/c/github/cchanxzy/react-currency-input-field)](https://codecov.io/gh/cchanxzy/react-currency-input-field/) [![Release build](https://github.com/cchanxzy/react-currency-input-field/workflows/Release/badge.svg)](https://github.com/cchanxzy/react-currency-input-field/actions?query=workflow%3ARelease)
 
 - [React Currency Input Field Component](#react-currency-input-field-component)
-  - [Migrating to v3.0.0](#migrating-to-v300)
   - [Features](#features)
+  - [Migrating to v3.0.0](#migrating-to-v300)
   - [Examples](#examples)
   - [Install](#install)
   - [Usage](#usage)
@@ -22,12 +22,6 @@
     - [Reasoning](#reasoning)
   - [Issues](#issues)
 
-## Migrating to v3.0.0
-
-There are a number of breaking changes in v3.0.0, please read the [release notes](#v300-release-notes) if migrating from v2 to v3.
-
-:warning: Most important change is: `onChange` has been renamed to `onValueChange`
-
 ## Features
 
 - Allows [abbreviations](#abbreviations) eg. 1k = 1,000 2.5m = 2,500,000
@@ -38,6 +32,12 @@ There are a number of breaking changes in v3.0.0, please read the [release notes
 - Can allow/disallow decimals
 - Written in TypeScript and has type support
 - Does not use any third party packages
+
+## Migrating to v3.0.0
+
+There are a number of breaking changes in v3.0.0, please read the [release notes](#v300-release-notes) if migrating from v2 to v3.
+
+:warning: Most important change is: `onChange` has been renamed to `onValueChange`
 
 ## Examples
 
@@ -120,7 +120,7 @@ import CurrencyInput from 'react-currency-input-field';
 // 456%
 ```
 
-Note: Passing in prefix/suffix will override the any intl locale config.
+Note: Passing in prefix/suffix will override the intl locale config.
 
 ### Separators
 
