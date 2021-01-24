@@ -47,13 +47,25 @@ export type FormatValueOptions = {
    * Prefix
    */
   prefix?: string;
+
+  /**
+   * Suffix
+   */
+  suffix?: string;
 };
 
 /**
  * Format value with decimal separator, group separator and prefix
  */
 export const formatValue = (options: FormatValueOptions): string => {
-  const { value: _value, decimalSeparator, intlConfig, decimalScale, prefix = '' } = options;
+  const {
+    value: _value,
+    decimalSeparator,
+    intlConfig,
+    decimalScale,
+    prefix = '',
+    suffix = '',
+  } = options;
 
   if (_value === '' || _value === undefined) {
     return '';
@@ -87,20 +99,15 @@ export const formatValue = (options: FormatValueOptions): string => {
 
   let formatted = replaceParts(parts, options);
 
-  // Without intl config, number formatter won't include currency symbol ie. prefix
-  if (!intlConfig) {
-    formatted = isNegative ? formatted.replace(/^-/g, `-${prefix}`) : `${prefix}${formatted}`;
-  }
-
   // Does intl formatting add a suffix?
-  const suffix = getSuffix(formatted, { ...options });
+  const intlSuffix = getSuffix(formatted, { ...options });
 
   // Include decimal separator if user input ends with decimal separator
   const includeDecimalSeparator = _value.slice(-1) === decimalSeparator ? decimalSeparator : '';
 
-  // Keep original decimal padding if no decimalScale
   const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
 
+  // Keep original decimal padding if no decimalScale
   if (decimalScale === undefined && decimals && decimalSeparator) {
     if (formatted.includes(decimalSeparator)) {
       formatted = formatted.replace(
@@ -108,8 +115,8 @@ export const formatValue = (options: FormatValueOptions): string => {
         `$1$2${decimals}`
       );
     } else {
-      if (suffix) {
-        formatted = formatted.replace(suffix, `${decimalSeparator}${decimals}${suffix}`);
+      if (intlSuffix && !suffix) {
+        formatted = formatted.replace(intlSuffix, `${decimalSeparator}${decimals}${intlSuffix}`);
       } else {
         formatted = `${formatted}${decimalSeparator}${decimals}`;
       }
@@ -117,10 +124,18 @@ export const formatValue = (options: FormatValueOptions): string => {
   }
 
   if (suffix && includeDecimalSeparator) {
-    return formatted.replace(suffix, `${includeDecimalSeparator}${suffix}`);
+    return `${formatted}${includeDecimalSeparator}${suffix}`;
   }
 
-  return [formatted, includeDecimalSeparator].join('');
+  if (intlSuffix && includeDecimalSeparator) {
+    return formatted.replace(intlSuffix, `${includeDecimalSeparator}${intlSuffix}`);
+  }
+
+  if (intlSuffix && suffix) {
+    return formatted.replace(intlSuffix, `${includeDecimalSeparator}${suffix}`);
+  }
+
+  return [formatted, includeDecimalSeparator, suffix].join('');
 };
 
 /**
@@ -156,7 +171,7 @@ const replaceParts = (
 ): string => {
   return parts
     .reduce(
-      (prev, { type, value }) => {
+      (prev, { type, value }, i) => {
         if (type === 'currency' && prefix) {
           return [...prev, prefix];
         }
@@ -177,6 +192,14 @@ const replaceParts = (
 
         if (type === 'fraction') {
           return [...prev, decimalScale !== undefined ? value.slice(0, decimalScale) : value];
+        }
+
+        if (type === 'minusSign' && prefix) {
+          return [value, prefix];
+        }
+
+        if (prefix && i === 0) {
+          return [prefix, value];
         }
 
         return [...prev, value];

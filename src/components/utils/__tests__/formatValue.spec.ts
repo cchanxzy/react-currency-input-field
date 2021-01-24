@@ -352,4 +352,113 @@ describe('formatValue', () => {
       ).toEqual('¥987654321');
     });
   });
+
+  describe('custom suffix', () => {
+    it('should handle custom suffix', () => {
+      expect(
+        formatValue({
+          value: '123',
+          suffix: '$',
+        })
+      ).toEqual(`123$`);
+
+      expect(
+        formatValue({
+          value: '0',
+          suffix: ' %',
+        })
+      ).toEqual(`0 %`);
+    });
+
+    it('should handle custom suffix with negative', () => {
+      expect(
+        formatValue({
+          value: '-123.99',
+          suffix: '$',
+        })
+      ).toEqual(`-123.99$`);
+    });
+
+    it('should handle custom suffix with decimalScale', () => {
+      expect(
+        formatValue({
+          value: '123',
+          decimalSeparator: '.',
+          decimalScale: 3,
+          suffix: '$',
+        })
+      ).toEqual(`123.000$`);
+
+      expect(
+        formatValue({
+          value: '123.456',
+          decimalSeparator: '.',
+          decimalScale: 2,
+          suffix: '$',
+        })
+      ).toEqual(`123.45$`);
+    });
+
+    it('should handle custom suffix ending with decimal separator', () => {
+      expect(
+        formatValue({
+          value: '123.',
+          decimalSeparator: '.',
+          suffix: '$',
+        })
+      ).toEqual(`123.$`);
+    });
+
+    it('should handle custom suffix ending with decimal separator and decimals', () => {
+      expect(
+        formatValue({
+          value: '123.45',
+          decimalSeparator: '.',
+          suffix: '$',
+        })
+      ).toEqual(`123.45$`);
+
+      expect(
+        formatValue({
+          value: '123.0',
+          decimalSeparator: '.',
+          suffix: '$',
+        })
+      ).toEqual(`123.0$`);
+    });
+
+    it('should override intl config suffix', () => {
+      expect(
+        formatValue({
+          value: '123.98',
+          decimalSeparator: '.',
+          suffix: '$',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`123.98$`);
+    });
+
+    it('should handle custom suffix and prefix', () => {
+      expect(
+        formatValue({
+          value: '123.98',
+          decimalSeparator: '.',
+          suffix: '$',
+          prefix: '£',
+        })
+      ).toEqual(`£123.98$`);
+    });
+
+    it('should handle custom suffix and prefix with intl config', () => {
+      expect(
+        formatValue({
+          value: '123.98',
+          decimalSeparator: '.',
+          suffix: '$',
+          prefix: '£',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`£123.98$`);
+    });
+  });
 });
