@@ -36,6 +36,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       suffix,
       intlConfig,
       step,
+      min,
+      max,
       disableGroupSeparators = false,
       disableAbbreviations = false,
       decimalSeparator: _decimalSeparator,
@@ -193,7 +195,25 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0;
         const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
-        processChange(String(newValue).replace('.', decimalSeparator));
+
+        if (min !== undefined && newValue < min) {
+          return;
+        }
+
+        if (max !== undefined && newValue > max) {
+          return;
+        }
+
+        const fixedLength = String(step).includes(decimalSeparator)
+          ? Number(String(step).split(decimalSeparator)[1].length)
+          : undefined;
+
+        processChange(
+          String(fixedLength ? newValue.toFixed(fixedLength) : newValue).replace(
+            '.',
+            decimalSeparator
+          )
+        );
       }
 
       onKeyDown && onKeyDown(event);
