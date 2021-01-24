@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.1.0...v3.2.0) (2021-01-24)
+
+
+### Features
+
+* stepping does not go beyond min max values ([0cc5d57](https://github.com/cchanxzy/react-currency-input-field/commit/0cc5d5716e43d84297467916cc803e27d9910062))
+
 # [3.1.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.4...v3.1.0) (2021-01-24)
 
 
