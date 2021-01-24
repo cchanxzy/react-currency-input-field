@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.4...v3.1.0) (2021-01-24)
+
+
+### Features
+
+* allow custom suffix prop ([9b57ec6](https://github.com/cchanxzy/react-currency-input-field/commit/9b57ec604c2acbd826149b6a93c9f231f2416dc2))
+
 ## [3.0.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.0.3...v3.0.4) (2021-01-24)
 
 
