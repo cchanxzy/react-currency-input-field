@@ -213,10 +213,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     /* istanbul ignore next */
     useEffect(() => {
-      if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+      // prevent cursor jumping if editing value
+      if (dirty && inputRef && typeof inputRef === 'object' && inputRef.current) {
         inputRef.current.setSelectionRange(cursor, cursor);
       }
-    }, [cursor, inputRef]);
+    }, [cursor, inputRef, dirty]);
 
     const formattedPropsValue =
       userValue !== undefined
