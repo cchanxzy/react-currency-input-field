@@ -43,4 +43,41 @@ describe('<CurrencyInput/> decimals', () => {
 
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
+
+  it('should handle starting with decimal separator', () => {
+    render(<CurrencyInput prefix="$" onValueChange={onValueChangeSpy} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    userEvent.type(screen.getByRole('textbox'), '.');
+
+    expect(screen.getByRole('textbox')).toHaveValue('.');
+    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+
+    userEvent.type(screen.getByRole('textbox'), '9');
+
+    expect(screen.getByRole('textbox')).toHaveValue('$0.9');
+    expect(onValueChangeSpy).toBeCalledWith('.9', undefined);
+  });
+
+  it('should handle starting with decimal separator that is non period', () => {
+    render(
+      <CurrencyInput
+        intlConfig={{ locale: 'de-DE', currency: 'EUR' }}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    userEvent.type(screen.getByRole('textbox'), ',');
+
+    expect(screen.getByRole('textbox')).toHaveValue(',');
+    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+
+    userEvent.type(screen.getByRole('textbox'), '9');
+
+    expect(screen.getByRole('textbox')).toHaveValue('0,9\xa0€');
+    expect(onValueChangeSpy).toBeCalledWith(',9', undefined);
+  });
 });

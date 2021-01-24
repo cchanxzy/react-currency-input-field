@@ -33,6 +33,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       placeholder,
       decimalScale,
       prefix,
+      suffix,
       intlConfig,
       step,
       disableGroupSeparators = false,
@@ -70,6 +71,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       disableGroupSeparators,
       intlConfig,
       prefix,
+      suffix,
     };
 
     const cleanValueOptions: Partial<CleanValueOptions> = {
@@ -108,7 +110,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         return;
       }
 
-      if (valueOnly === '-') {
+      if (valueOnly === '-' || valueOnly === decimalSeparator) {
         onValueChange && onValueChange(undefined, name);
         setStateValue(value);
         return;
@@ -182,14 +184,16 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
         event.preventDefault();
+        setCursor(stateValue.length);
+
         const currentValue =
-          Number(
+          parseFloat(
             userValue !== undefined
-              ? userValue
+              ? String(userValue).replace(decimalSeparator, '.')
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0;
         const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
-        processChange(String(newValue));
+        processChange(String(newValue).replace('.', decimalSeparator));
       }
 
       onKeyDown && onKeyDown(event);
@@ -197,14 +201,17 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     const handleOnKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
       const {
+        key,
         currentTarget: { selectionStart },
       } = event;
-      const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
+      if (key !== 'ArrowUp' && key !== 'ArrowDown') {
+        const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
 
-      if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
-        if (inputRef && typeof inputRef === 'object' && inputRef.current) {
-          const newCursor = stateValue.length - suffix.length;
-          inputRef.current.setSelectionRange(newCursor, newCursor);
+        if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
+          if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+            const newCursor = stateValue.length - suffix.length;
+            inputRef.current.setSelectionRange(newCursor, newCursor);
+          }
         }
       }
 
@@ -242,7 +249,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       placeholder,
       disabled,
       value:
-        formattedPropsValue !== undefined && stateValue !== '-' ? formattedPropsValue : stateValue,
+        formattedPropsValue !== undefined && stateValue !== '-' && stateValue !== decimalSeparator
+          ? formattedPropsValue
+          : stateValue,
       ref: inputRef,
       ...props,
     };

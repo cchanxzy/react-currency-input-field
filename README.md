@@ -10,6 +10,7 @@
   - [Usage](#usage)
   - [Props](#props)
     - [Abbreviations](#abbreviations)
+    - [Prefix and Suffix](#prefix-and-suffix)
     - [Separators](#separators)
     - [Intl Locale Config](#intl-locale-config)
     - [Fixed Decimal Length](#fixed-decimal-length)
@@ -30,7 +31,7 @@ There are a number of breaking changes in v3.0.0, please read the [release notes
 ## Features
 
 - Allows [abbreviations](#abbreviations) eg. 1k = 1,000 2.5m = 2,500,000
-- Prefix option eg. £ or \$
+- Prefix and Suffix options eg. £ or \$
 - Automatically inserts [group separator](#separators)
 - Accepts [Intl locale config](#intl-locale-config)
 - Can use arrow down/up to step
@@ -83,6 +84,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | decimalScale           | `number`   |                | Specify decimal scale for padding/trimming eg. 1.5 -> 1.50 or 1.234 -> 1.23 if decimal scale 2 |
 | fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                                        |
 | prefix                 | `string`   |                | Include a prefix eg. £ or \$                                                                   |
+| suffix                 | `string`   |                | Include a suffix eg. € or %                                                                    |
 | decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value                                    |
 | groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                                                |
 | intlConfig             | `object`   |                | International locale config                                                                    |
@@ -103,6 +105,22 @@ Examples:
 - 3.456B = 3,456,000,000
 
 This can be turned off by passing in `disableAbbreviations`.
+
+### Prefix and Suffix
+
+You can add a prefix or suffix by passing in `prefix` or `suffix`.
+
+```js
+import CurrencyInput from 'react-currency-input-field';
+
+<CurrencyInput prefix="£" value={123} />;
+// £123
+
+<CurrencyInput suffix="%" value={456} />;
+// 456%
+```
+
+Note: Passing in prefix/suffix will override the any intl locale config.
 
 ### Separators
 
@@ -140,7 +158,7 @@ import CurrencyInput from 'react-currency-input-field';
 
 `currency` should be a [ISO 4217 currency code](https://en.wikipedia.org/wiki/ISO_4217), such as "USD" for the US dollar, "EUR" for the euro, or "CNY" for the Chinese RMB.
 
-Any prefix, group separator and decimal separator options passed in will override the default locale settings.
+Any prefix, suffix, group separator and decimal separator options passed in will override the default locale settings.
 
 ### Fixed Decimal Length
 
@@ -161,7 +179,7 @@ Example if `fixedDecimalLength` was 2:
 
 `decimalsLimit` and `decimalScale` are similar, the difference is `decimalsLimit` prevents the user from typing more than the limit, and `decimalScale` will format the decimals `onBlur` to the specified length, padding or trimming as necessary.
 
-Example: If decimal scale 2, 1.5 -> 1.50 and 1.234 -> 1.23
+Example: If decimal scale `2`: `1.5` becomes `1.50` and `1.234` becomes `1.23`
 
 ## Format values for display
 
