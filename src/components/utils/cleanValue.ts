@@ -2,17 +2,18 @@ import { parseAbbrValue } from './parseAbbrValue';
 import { removeSeparators } from './removeSeparators';
 import { removeInvalidChars } from './removeInvalidChars';
 import { escapeRegExp } from './escapeRegExp';
+import { CurrencyInputProps } from '../CurrencyInputProps';
 
-export type CleanValueOptions = {
-  value: string;
-  decimalSeparator?: string;
-  groupSeparator?: string;
-  allowDecimals?: boolean;
-  decimalsLimit?: number;
-  allowNegativeValue?: boolean;
-  disableAbbreviations?: boolean;
-  prefix?: string;
-};
+export type CleanValueOptions = Pick<
+  CurrencyInputProps,
+  | 'decimalSeparator'
+  | 'groupSeparator'
+  | 'allowDecimals'
+  | 'decimalsLimit'
+  | 'allowNegativeValue'
+  | 'disableAbbreviations'
+  | 'prefix'
+> & { value: string };
 
 /**
  * Remove prefix, separators and extra decimals from value

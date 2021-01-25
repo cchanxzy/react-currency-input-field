@@ -84,12 +84,17 @@ export const formatValue = (options: FormatValueOptions): string => {
       : _value;
 
   const numberFormatter = intlConfig
-    ? new Intl.NumberFormat(intlConfig.locale, {
-        style: 'currency',
-        currency: intlConfig.currency,
-        minimumFractionDigits: decimalScale || 0,
-        maximumFractionDigits: 20,
-      })
+    ? new Intl.NumberFormat(
+        intlConfig.locale,
+        intlConfig.currency
+          ? {
+              style: 'currency',
+              currency: intlConfig.currency,
+              minimumFractionDigits: decimalScale || 0,
+              maximumFractionDigits: 20,
+            }
+          : undefined
+      )
     : new Intl.NumberFormat(undefined, {
         minimumFractionDigits: decimalScale || 0,
         maximumFractionDigits: 20,

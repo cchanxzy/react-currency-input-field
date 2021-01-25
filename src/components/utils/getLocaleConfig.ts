@@ -17,10 +17,9 @@ const defaultConfig: LocaleConfig = {
  */
 export const getLocaleConfig = (intlConfig?: IntlConfig): LocaleConfig => {
   const { locale, currency } = intlConfig || {};
-  const numberFormatter =
-    locale && currency
-      ? new Intl.NumberFormat(locale, { currency, style: 'currency' })
-      : new Intl.NumberFormat();
+  const numberFormatter = locale
+    ? new Intl.NumberFormat(locale, currency ? { currency, style: 'currency' } : undefined)
+    : new Intl.NumberFormat();
 
   return numberFormatter.formatToParts(1000.1).reduce((prev, curr): LocaleConfig => {
     if (curr.type === 'currency') {
