@@ -272,6 +272,22 @@ describe('formatValue', () => {
       ).toEqual('¥123,456.79');
     });
 
+    it('should able to omit intlConfig.currency', () => {
+      expect(
+        formatValue({
+          value: '-500000',
+          intlConfig: { locale: 'en-IN' },
+        })
+      ).toEqual('-5,00,000');
+
+      expect(
+        formatValue({
+          value: '123456.79',
+          intlConfig: { locale: 'zh-CN' },
+        })
+      ).toEqual('123,456.79');
+    });
+
     it('should handle suffix', () => {
       expect(
         formatValue({

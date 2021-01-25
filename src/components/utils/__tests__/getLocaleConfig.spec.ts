@@ -16,4 +16,12 @@ describe('getLocaleConfig', () => {
       groupSeparator: ',',
     });
   });
+
+  it('should return locale config from intlConfig even without currency', () => {
+    expect(getLocaleConfig({ locale: 'fr-FR' })).toStrictEqual({
+      currencySymbol: '',
+      decimalSeparator: ',',
+      groupSeparator: ' ',
+    });
+  });
 });

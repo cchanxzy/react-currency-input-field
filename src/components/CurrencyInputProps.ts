@@ -4,7 +4,7 @@ type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
 export type IntlConfig = {
   locale: string;
-  currency: string;
+  currency?: string;
 };
 
 export type CurrencyInputProps = Overwrite<
