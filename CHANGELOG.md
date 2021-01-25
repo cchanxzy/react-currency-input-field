@@ -1,3 +1,10 @@
+## [3.2.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.1...v3.2.2) (2021-01-25)
+
+
+### Bug Fixes
+
+* intl config currency is optional ([a52a9d6](https://github.com/cchanxzy/react-currency-input-field/commit/a52a9d61604f73be9fe0cbf6383e0065758c2c64))
+
 ## [3.2.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.0...v3.2.1) (2021-01-24)
 
 # [3.2.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.1.0...v3.2.0) (2021-01-24)
