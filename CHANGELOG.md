@@ -1,3 +1,10 @@
+## [3.2.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.2...v3.2.3) (2021-01-31)
+
+
+### Bug Fixes
+
+* prevent cursor moving if only negative value at start ([aadec9d](https://github.com/cchanxzy/react-currency-input-field/commit/aadec9d71e7928a9e2c8b1c8d3a663350fb1a473))
+
 ## [3.2.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.1...v3.2.2) (2021-01-25)
 
 
