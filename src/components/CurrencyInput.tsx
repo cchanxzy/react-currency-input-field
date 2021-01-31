@@ -224,7 +224,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         key,
         currentTarget: { selectionStart },
       } = event;
-      if (key !== 'ArrowUp' && key !== 'ArrowDown') {
+      if (key !== 'ArrowUp' && key !== 'ArrowDown' && stateValue !== '-') {
         const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
 
         if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
@@ -241,7 +241,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     /* istanbul ignore next */
     useEffect(() => {
       // prevent cursor jumping if editing value
-      if (dirty && inputRef && typeof inputRef === 'object' && inputRef.current) {
+      if (
+        dirty &&
+        stateValue !== '-' &&
+        inputRef &&
+        typeof inputRef === 'object' &&
+        inputRef.current
+      ) {
         inputRef.current.setSelectionRange(cursor, cursor);
       }
     }, [cursor, inputRef, dirty]);
