@@ -33,6 +33,27 @@ describe('cleanValue', () => {
         prefix: '$',
       })
     ).toEqual('5.5');
+
+    expect(
+      cleanValue({
+        value: '$ 1.5',
+        prefix: '$ ',
+      })
+    ).toEqual('1.5');
+
+    expect(
+      cleanValue({
+        value: 'JMD5.5',
+        prefix: 'JMD',
+      })
+    ).toEqual('5.5');
+
+    expect(
+      cleanValue({
+        value: 'Value: 1.5',
+        prefix: 'Value: ',
+      })
+    ).toEqual('1.5');
   });
 
   it('should remove suffix', () => {
