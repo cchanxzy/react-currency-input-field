@@ -35,8 +35,13 @@ export const cleanValue = ({
   const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
   const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(value);
 
+  // Is there a digit before the prefix? eg. 1$
   const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
-  const withoutPrefix = prefix ? value.replace(prefixWithValue, '').concat(preValue) : value;
+  const withoutPrefix = prefix
+    ? prefixWithValue
+      ? value.replace(prefixWithValue, '').concat(preValue)
+      : value.replace(prefix, '')
+    : value;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
     groupSeparator,
