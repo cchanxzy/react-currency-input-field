@@ -190,7 +190,7 @@ import { formatValue } from 'react-currency-input-field';
 
 // Format using prefix, groupSeparator and decimalSeparator
 const formattedValue1 = formatValue({
-  value: 123456,
+  value: '123456',
   groupSeparator: ',',
   decimalSeparator: '.',
   prefix: '$',
@@ -201,7 +201,7 @@ console.log(formattedValue1);
 
 // Format using intl locale config
 const formattedValue2 = formatValue({
-  value: 500000,
+  value: '500000',
   intlConfig: { locale: 'en-IN', currency: 'INR' },
 });
 
