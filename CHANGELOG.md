@@ -1,3 +1,5 @@
+## [3.2.5](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.4...v3.2.5) (2021-02-15)
+
 ## [3.2.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.3...v3.2.4) (2021-02-03)
 
 
