@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
@@ -154,7 +154,7 @@ describe('<CurrencyInput/>', () => {
     const onBlurSpy = jest.fn();
     render(<CurrencyInput prefix="£" onBlur={onBlurSpy} />);
     userEvent.click(screen.getByRole('textbox'));
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalledTimes(1);
   });
@@ -162,7 +162,7 @@ describe('<CurrencyInput/>', () => {
   it('should call onFocus', () => {
     const onFocusSpy = jest.fn();
     render(<CurrencyInput onFocus={onFocusSpy} />);
-    userEvent.click(screen.getByRole('textbox'));
+    fireEvent.focusIn(screen.getByRole('textbox'));
 
     expect(onFocusSpy).toBeCalledTimes(1);
   });

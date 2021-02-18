@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import CurrencyInput from '../CurrencyInput';
@@ -27,7 +27,7 @@ describe('<CurrencyInput/> onBlur', () => {
     );
 
     userEvent.type(screen.getByRole('textbox'), '123');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalled();
 
@@ -40,7 +40,7 @@ describe('<CurrencyInput/> onBlur', () => {
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
     userEvent.type(screen.getByRole('textbox'), '0');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalled();
 
@@ -51,7 +51,7 @@ describe('<CurrencyInput/> onBlur', () => {
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
     userEvent.type(screen.getByRole('textbox'), '');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalled();
 
@@ -62,7 +62,7 @@ describe('<CurrencyInput/> onBlur', () => {
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
     userEvent.type(screen.getByRole('textbox'), '-');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalled();
 

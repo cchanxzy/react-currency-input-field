@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
@@ -74,7 +74,7 @@ describe('<CurrencyInput/> negative value', () => {
     expect(onValueChangeSpy).toBeCalledTimes(7);
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined);
 
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
