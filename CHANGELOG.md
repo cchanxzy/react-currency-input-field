@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.5...v3.3.0) (2021-02-18)
+
+
+### Features
+
+* update dependencies to react 17 ([#141](https://github.com/cchanxzy/react-currency-input-field/issues/141)) ([33c60e2](https://github.com/cchanxzy/react-currency-input-field/commit/33c60e2d214c9c5ab8286238ec93e20b9071277e))
+
 ## [3.2.5](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.4...v3.2.5) (2021-02-15)
 
 ## [3.2.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.3...v3.2.4) (2021-02-03)
