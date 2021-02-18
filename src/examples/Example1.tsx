@@ -14,6 +14,7 @@ export const Example1: FC = () => {
    * Handle validation
    */
   const handleOnValueChange = (value: string | undefined): void => {
+    console.log(' >> value: ', value);
     setRawValue(value === undefined ? 'undefined' : value || ' ');
 
     if (!value) {
@@ -64,6 +65,7 @@ export const Example1: FC = () => {
                 placeholder="Please enter a number"
                 prefix={prefix}
                 step={1}
+                decimalScale={5}
               />
               <div className="invalid-feedback">{errorMessage}</div>
             </div>

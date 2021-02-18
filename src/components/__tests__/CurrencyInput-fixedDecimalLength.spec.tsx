@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
@@ -28,7 +28,7 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
       // delete .000
       userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}{backspace}');
 
-      userEvent.tab();
+      fireEvent.focusOut(screen.getByRole('textbox'));
 
       expect(onValueChangeSpy).toBeCalledWith('1.230', undefined);
 
@@ -51,7 +51,7 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
 
       // delete ,00
       userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
-      userEvent.tab();
+      fireEvent.focusOut(screen.getByRole('textbox'));
 
       expect(onValueChangeSpy).toBeCalledWith('1,23', undefined);
 

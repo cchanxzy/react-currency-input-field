@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
@@ -15,7 +15,8 @@ describe('<CurrencyInput/> decimalScale', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalScale={5} />);
 
     userEvent.type(screen.getByRole('textbox'), '1.5');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
+
     expect(onValueChangeSpy).toBeCalledWith('1.50000', undefined);
 
     expect(screen.getByRole('textbox')).toHaveValue('£1.50000');
@@ -33,7 +34,8 @@ describe('<CurrencyInput/> decimalScale', () => {
     );
 
     userEvent.type(screen.getByRole('textbox'), '1');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
+
     expect(onBlurSpy).toBeCalled();
 
     expect(onValueChangeSpy).toBeCalledWith('1.00', undefined);

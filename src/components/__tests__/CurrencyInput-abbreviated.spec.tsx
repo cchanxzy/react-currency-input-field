@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
@@ -23,7 +23,7 @@ describe('<CurrencyInput/> abbreviated', () => {
   it('should allow abbreviated values with m', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalsLimit={3} />);
     userEvent.type(screen.getByRole('textbox'), '2.123M');
-    userEvent.tab();
+    fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(screen.getByRole('textbox')).toHaveValue('£2,123,000');
 
