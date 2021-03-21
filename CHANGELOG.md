@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.3.0...v3.3.1) (2021-03-21)
+
+
+### Bug Fixes
+
+* handle intl config with prefix and negative ([#148](https://github.com/cchanxzy/react-currency-input-field/issues/148)) ([0c9e6ec](https://github.com/cchanxzy/react-currency-input-field/commit/0c9e6ec46d6fba0fa6320b49fcfffbb983fd76f7))
+
 # [3.3.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.2.5...v3.3.0) (2021-02-18)
 
 
