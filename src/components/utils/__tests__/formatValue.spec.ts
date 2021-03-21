@@ -270,6 +270,21 @@ describe('formatValue', () => {
           intlConfig: { locale: 'zh-CN', currency: 'CNY' },
         })
       ).toEqual('¥123,456.79');
+
+      expect(
+        formatValue({
+          value: '-123',
+          intlConfig: { locale: 'nl-NL', currency: 'EUR' },
+        })
+      ).toEqual('€\xa0-123');
+
+      expect(
+        formatValue({
+          value: '-123',
+          intlConfig: { locale: 'nl-NL', currency: 'EUR' },
+          prefix: '€',
+        })
+      ).toEqual('€\xa0-123');
     });
 
     it('should able to omit intlConfig.currency', () => {
@@ -334,6 +349,22 @@ describe('formatValue', () => {
           prefix: '₹',
         })
       ).toEqual('₹345');
+
+      expect(
+        formatValue({
+          value: '123',
+          intlConfig: { locale: 'en-US', currency: 'USD' },
+          prefix: '$',
+        })
+      ).toEqual('$123');
+
+      expect(
+        formatValue({
+          value: '-123',
+          intlConfig: { locale: 'en-US', currency: 'USD' },
+          prefix: '$',
+        })
+      ).toEqual('-$123');
     });
 
     it('should override locale if groupSeparator passed in', () => {
@@ -452,6 +483,15 @@ describe('formatValue', () => {
           intlConfig: { locale: 'de-DE', currency: 'EUR' },
         })
       ).toEqual(`123.98$`);
+
+      expect(
+        formatValue({
+          value: '-123.98',
+          decimalSeparator: '.',
+          suffix: '$',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+        })
+      ).toEqual(`-123.98$`);
     });
 
     it('should handle custom suffix and prefix', () => {

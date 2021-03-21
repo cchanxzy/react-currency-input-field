@@ -4,12 +4,16 @@ type LocaleConfig = {
   currencySymbol: string;
   groupSeparator: string;
   decimalSeparator: string;
+  prefix: string;
+  suffix: string;
 };
 
 const defaultConfig: LocaleConfig = {
   currencySymbol: '',
   groupSeparator: '',
   decimalSeparator: '',
+  prefix: '',
+  suffix: '',
 };
 
 /**
@@ -21,9 +25,13 @@ export const getLocaleConfig = (intlConfig?: IntlConfig): LocaleConfig => {
     ? new Intl.NumberFormat(locale, currency ? { currency, style: 'currency' } : undefined)
     : new Intl.NumberFormat();
 
-  return numberFormatter.formatToParts(1000.1).reduce((prev, curr): LocaleConfig => {
+  return numberFormatter.formatToParts(1000.1).reduce((prev, curr, i): LocaleConfig => {
     if (curr.type === 'currency') {
-      return { ...prev, currencySymbol: curr.value };
+      if (i === 0) {
+        return { ...prev, currencySymbol: curr.value, prefix: curr.value };
+      } else {
+        return { ...prev, currencySymbol: curr.value, suffix: curr.value };
+      }
     }
     if (curr.type === 'group') {
       return { ...prev, groupSeparator: curr.value };

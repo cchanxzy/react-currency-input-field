@@ -72,8 +72,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       groupSeparator,
       disableGroupSeparators,
       intlConfig,
-      prefix,
-      suffix,
+      prefix: prefix || localeConfig.prefix,
+      suffix: suffix,
     };
 
     const cleanValueOptions: Partial<CleanValueOptions> = {
@@ -83,7 +83,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
       allowNegativeValue,
       disableAbbreviations,
-      prefix,
+      prefix: prefix || localeConfig.prefix,
     };
 
     const formattedStateValue =
