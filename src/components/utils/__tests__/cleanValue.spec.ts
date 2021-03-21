@@ -123,6 +123,15 @@ describe('cleanValue', () => {
       ).toEqual('-1000');
     });
 
+    it('should handle negative value with intl with prefix', () => {
+      expect(
+        cleanValue({
+          value: '€\xa0-123',
+          prefix: '€',
+        })
+      ).toEqual('-123');
+    });
+
     it('should handle negative value with decimal', () => {
       expect(
         cleanValue({

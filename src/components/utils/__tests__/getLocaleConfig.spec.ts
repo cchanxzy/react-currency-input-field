@@ -6,6 +6,8 @@ describe('getLocaleConfig', () => {
       currencySymbol: '',
       decimalSeparator: '.',
       groupSeparator: ',',
+      prefix: '',
+      suffix: '',
     });
   });
 
@@ -14,6 +16,8 @@ describe('getLocaleConfig', () => {
       currencySymbol: '￥',
       decimalSeparator: '',
       groupSeparator: ',',
+      prefix: '￥',
+      suffix: '',
     });
   });
 
@@ -22,6 +26,8 @@ describe('getLocaleConfig', () => {
       currencySymbol: '',
       decimalSeparator: ',',
       groupSeparator: ' ',
+      prefix: '',
+      suffix: '',
     });
   });
 });

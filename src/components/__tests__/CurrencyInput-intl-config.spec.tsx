@@ -107,5 +107,21 @@ describe('<CurrencyInput/> intlConfig', () => {
 
       expect(screen.getByRole('textbox')).toHaveValue('₹12,34,567');
     });
+
+    it('should handle onValueChange with negative value and prefix', () => {
+      render(
+        <CurrencyInput
+          id={id}
+          intlConfig={{ locale: 'nl-NL', currency: 'EUR' }}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).toHaveValue('');
+
+      userEvent.type(screen.getByRole('textbox'), '-1200');
+
+      expect(screen.getByRole('textbox')).toHaveValue('€\xa0-1.200');
+    });
   });
 });

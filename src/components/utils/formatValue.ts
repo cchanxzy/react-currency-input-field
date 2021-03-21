@@ -177,8 +177,20 @@ const replaceParts = (
   return parts
     .reduce(
       (prev, { type, value }, i) => {
-        if (type === 'currency' && prefix) {
-          return [...prev, prefix];
+        if (i === 0 && prefix) {
+          if (type === 'minusSign') {
+            return [value, prefix];
+          }
+
+          if (type === 'currency') {
+            return [...prev, prefix];
+          }
+
+          return [prefix, value];
+        }
+
+        if (type === 'currency') {
+          return prefix ? prev : [...prev, value];
         }
 
         if (type === 'group') {
@@ -197,14 +209,6 @@ const replaceParts = (
 
         if (type === 'fraction') {
           return [...prev, decimalScale !== undefined ? value.slice(0, decimalScale) : value];
-        }
-
-        if (type === 'minusSign' && prefix) {
-          return [value, prefix];
-        }
-
-        if (prefix && i === 0) {
-          return [prefix, value];
         }
 
         return [...prev, value];
