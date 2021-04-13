@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.3.1...v3.3.2) (2021-04-13)
+
+
+### Bug Fixes
+
+* prevent cursor jumping when press delete key ([#155](https://github.com/cchanxzy/react-currency-input-field/issues/155)) ([242ec90](https://github.com/cchanxzy/react-currency-input-field/commit/242ec908d6eb34b1767b21b21515d5ea25e3c80e))
+
 ## [3.3.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.3.0...v3.3.1) (2021-03-21)
 
 
