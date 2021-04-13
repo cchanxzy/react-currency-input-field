@@ -123,8 +123,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       /* istanbul ignore next */
       if (selectionStart !== undefined && selectionStart !== null) {
         // Prevent cursor jumping
-        const cursor = selectionStart + (formattedValue.length - value.length) || 1;
-        setCursor(cursor);
+        const newCursor = selectionStart + (formattedValue.length - value.length) || 1;
+        setCursor(newCursor);
       }
 
       setStateValue(formattedValue);
@@ -250,7 +250,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       ) {
         inputRef.current.setSelectionRange(cursor, cursor);
       }
-    }, [cursor, inputRef, dirty]);
+    }, [stateValue, cursor, inputRef, dirty]);
 
     const formattedPropsValue =
       userValue !== undefined

@@ -56,4 +56,22 @@ describe('<CurrencyInput/> backspace', () => {
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
+
+  it('should handle Del key without moving cursor', () => {
+    render(
+      <CurrencyInput
+        defaultValue=""
+        onValueChange={onValueChangeSpy}
+        groupSeparator={','}
+        decimalScale={2}
+        prefix="$"
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '123456789');
+    expect(screen.getByRole('textbox')).toHaveValue('$123,456,789');
+
+    userEvent.type(screen.getByRole('textbox'), '{arrowleft}{arrowleft}{arrowleft}{del}');
+    expect(screen.getByRole('textbox')).toHaveValue('$12,345,689');
+  });
 });
