@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.3.2...v3.4.0) (2021-05-22)
+
+
+### Features
+
+* export CurrencyInputProps ([#166](https://github.com/cchanxzy/react-currency-input-field/issues/166)) ([977b8cc](https://github.com/cchanxzy/react-currency-input-field/commit/977b8cc6575f1dfa414b5971685375240b0cea1e))
+
 ## [3.3.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.3.1...v3.3.2) (2021-04-13)
 
 
