@@ -50,7 +50,6 @@ describe('<CurrencyInput/> onBlur', () => {
   it('should call onBlur for empty value', () => {
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    userEvent.type(screen.getByRole('textbox'), '');
     fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalled();
