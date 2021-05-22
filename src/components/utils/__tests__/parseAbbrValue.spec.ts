@@ -48,6 +48,7 @@ describe('parseAbbrValue', () => {
 
   it('should parse k', () => {
     expect(parseAbbrValue('1k')).toEqual(1000);
+    expect(parseAbbrValue('1.k')).toEqual(1000);
     expect(parseAbbrValue('2K')).toEqual(2000);
     expect(parseAbbrValue('1.1239999k')).toEqual(1123.9999);
     expect(parseAbbrValue('1.5k')).toEqual(1500);
@@ -57,6 +58,7 @@ describe('parseAbbrValue', () => {
 
   it('should parse m', () => {
     expect(parseAbbrValue('1m')).toEqual(1000000);
+    expect(parseAbbrValue('1.m')).toEqual(1000000);
     expect(parseAbbrValue('1.5m')).toEqual(1500000);
     expect(parseAbbrValue('45.123456m')).toEqual(45123456);
     expect(parseAbbrValue('83.5m')).toEqual(83500000);
@@ -65,6 +67,7 @@ describe('parseAbbrValue', () => {
 
   it('should parse b', () => {
     expect(parseAbbrValue('1b')).toEqual(1000000000);
+    expect(parseAbbrValue('1.b')).toEqual(1000000000);
     expect(parseAbbrValue('1.5b')).toEqual(1500000000);
     expect(parseAbbrValue('65.5513b')).toEqual(65551300000);
     expect(parseAbbrValue('100B')).toEqual(100000000000);
