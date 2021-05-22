@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.0...v3.4.1) (2021-05-22)
+
+
+### Bug Fixes
+
+* abbreviation char after period ([#168](https://github.com/cchanxzy/react-currency-input-field/issues/168)) ([58612ba](https://github.com/cchanxzy/react-currency-input-field/commit/58612ba3a50540307b53c9be57d0559373cdf807))
+
 # [3.4.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.3.2...v3.4.0) (2021-05-22)
 
 
