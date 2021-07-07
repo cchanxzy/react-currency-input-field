@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { hot } from 'react-hot-loader';
 import CurrencyInput from '../components/CurrencyInput';
 
 export const Example2: FC = () => {
@@ -65,4 +64,4 @@ export const Example2: FC = () => {
   );
 };
 
-export default hot(module)(Example2);
+export default Example2;

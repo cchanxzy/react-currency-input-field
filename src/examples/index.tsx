@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Example1 from './examples/Example1';
-import Example2 from './examples/Example2';
-import Example3 from './examples/Example3';
-import Example4 from './examples/Example4';
-import FormatValuesExample from './examples/FormatValuesExample';
+import Example1 from './Example1';
+import Example2 from './Example2';
+import Example3 from './Example3';
+import Example4 from './Example4';
+import FormatValuesExample from './FormatValuesExample';
 
 ReactDOM.render(<Example1 />, document.getElementById('example-1'));
 

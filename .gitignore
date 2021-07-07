@@ -3,3 +3,4 @@ coverage
 .vscode
 dist
 demo/examples
+.parcel-cache

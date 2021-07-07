@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "node",
     "lib": ["es2017", "es7", "es6", "dom"],
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -12,8 +13,5 @@
     "jsx": "react",
     "skipLibCheck": true
   },
-  "files": ["src/index.ts"],
-  "awesomeTypescriptLoaderOptions": {
-    "useTranspileModule": true
-  }
+  "files": ["src/index.ts"]
 }
