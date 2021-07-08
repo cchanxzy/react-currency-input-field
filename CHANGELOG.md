@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.1...v3.4.2) (2021-07-08)
+
+
+### Performance Improvements
+
+* add tree shaking support ([#182](https://github.com/cchanxzy/react-currency-input-field/issues/182)) ([af1c9c4](https://github.com/cchanxzy/react-currency-input-field/commit/af1c9c4918ff3f9912ef99dbdaf5432ea5db6035))
+
 ## [3.4.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.0...v3.4.1) (2021-05-22)
 
 
