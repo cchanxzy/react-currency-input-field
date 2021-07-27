@@ -84,7 +84,7 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Handle change in value
      */
-    onValueChange?: (value: string | undefined, name?: string) => void;
+    onValueChange?: (value: string | undefined, name?: string, numberValue?: number) => void;
 
     /**
      * Placeholder if there is no value

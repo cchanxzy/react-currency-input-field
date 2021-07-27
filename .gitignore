@@ -4,3 +4,4 @@ coverage
 dist
 demo/examples
 .parcel-cache
+.idea
