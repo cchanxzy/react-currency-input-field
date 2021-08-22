@@ -87,9 +87,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     };
 
     const formattedStateValue =
-      defaultValue !== undefined
+      defaultValue !== undefined && defaultValue !== null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
-        : userValue !== undefined
+        : userValue !== undefined && userValue !== null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
         : '';
 
@@ -190,7 +190,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
         const currentValue =
           parseFloat(
-            userValue !== undefined
+            userValue !== undefined && userValue !== null
               ? String(userValue).replace(decimalSeparator, '.')
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0;
@@ -253,7 +253,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     }, [stateValue, cursor, inputRef, dirty]);
 
     const formattedPropsValue =
-      userValue !== undefined
+      userValue !== undefined && userValue !== null
         ? formatValue({
             ...formatValueOptions,
             decimalScale: dirty ? undefined : decimalScale,
