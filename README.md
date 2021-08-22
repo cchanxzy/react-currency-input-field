@@ -13,8 +13,8 @@
     - [Prefix and Suffix](#prefix-and-suffix)
     - [Separators](#separators)
     - [Intl Locale Config](#intl-locale-config)
+    - [Decimal Scale and Decimals Limit](#decimal-scale-and-decimals-limit)
     - [Fixed Decimal Length](#fixed-decimal-length)
-  - [Decimal Scale and Decimals Limit](#decimal-scale-and-decimals-limit)
   - [Format values for display](#format-values-for-display)
   - [v3.0.0 Release Notes](#v300-release-notes)
     - [Breaking Changes](#breaking-changes)
@@ -72,27 +72,27 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 
 ## Props
 
-| Name                   | Type       | Default        | Description                                                                                    |
-| ---------------------- | ---------- | -------------- | ---------------------------------------------------------------------------------------------- |
-| allowDecimals          | `boolean`  | `true`         | Allow decimals                                                                                 |
-| allowNegativeValue     | `boolean`  | `true`         | Allow user to enter negative value                                                             |
-| defaultValue           | `number`   |                | Default value                                                                                  |
-| value                  | `number`   |                | Programmatically set the value                                                                 |
-| onValueChange          | `function` |                | Handle change in value                                                                         |
-| placeholder            | `string`   |                | Placeholder if no value                                                                        |
-| decimalsLimit          | `number`   | `2`            | Limit length of decimals allowed                                                               |
-| decimalScale           | `number`   |                | Specify decimal scale for padding/trimming eg. 1.5 -> 1.50 or 1.234 -> 1.23 if decimal scale 2 |
-| fixedDecimalLength     | `number`   |                | Value will always have the specified length of decimals                                        |
-| prefix                 | `string`   |                | Include a prefix eg. £ or \$                                                                   |
-| suffix                 | `string`   |                | Include a suffix eg. € or %                                                                    |
-| decimalSeparator       | `string`   | locale default | Separator between integer part and fractional part of value                                    |
-| groupSeparator         | `string`   | locale default | Separator between thousand, million and billion                                                |
-| intlConfig             | `object`   |                | International locale config                                                                    |
-| disabled               | `boolean`  | `false`        | Disabled                                                                                       |
-| disableAbbreviations   | `boolean`  | `false`        | Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000                                         |
-| disableGroupSeparators | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 -> 1,000                      |
-| maxLength              | `number`   |                | Maximum characters the user can enter                                                          |
-| step                   | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
+| Name                                               | Type       | Default        | Description                                                                                    |
+| -------------------------------------------------- | ---------- | -------------- | ---------------------------------------------------------------------------------------------- |
+| allowDecimals                                      | `boolean`  | `true`         | Allow decimals                                                                                 |
+| allowNegativeValue                                 | `boolean`  | `true`         | Allow user to enter negative value                                                             |
+| defaultValue                                       | `number`   |                | Default value                                                                                  |
+| value                                              | `number`   |                | Programmatically set the value                                                                 |
+| onValueChange                                      | `function` |                | Handle change in value                                                                         |
+| placeholder                                        | `string`   |                | Placeholder if no value                                                                        |
+| [decimalsLimit](#decimal-scale-and-decimals-limit) | `number`   | `2`            | Limit length of decimals allowed                                                               |
+| [decimalScale](#decimal-scale-and-decimals-limit)  | `number`   |                | Specify decimal scale for padding/trimming eg. 1.5 -> 1.50 or 1.234 -> 1.23 if decimal scale 2 |
+| [fixedDecimalLength](#fixed-decimal-length)        | `number`   |                | Value will always have the specified length of decimals                                        |
+| [prefix](#prefix-and-suffix)                       | `string`   |                | Include a prefix eg. £ or \$                                                                   |
+| [suffix](#prefix-and-suffix)                       | `string`   |                | Include a suffix eg. € or %                                                                    |
+| [decimalSeparator](#separators)                    | `string`   | locale default | Separator between integer part and fractional part of value                                    |
+| [groupSeparator](#separators)                      | `string`   | locale default | Separator between thousand, million and billion                                                |
+| [intlConfig](#intl-locale-config)                  | `object`   |                | International locale config                                                                    |
+| disabled                                           | `boolean`  | `false`        | Disabled                                                                                       |
+| disableAbbreviations                               | `boolean`  | `false`        | Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000                                         |
+| [disableGroupSeparators](#separators)              | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 -> 1,000                      |
+| maxLength                                          | `number`   |                | Maximum characters the user can enter                                                          |
+| step                                               | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
 
 ### Abbreviations
 
@@ -160,6 +160,28 @@ import CurrencyInput from 'react-currency-input-field';
 
 Any prefix, suffix, group separator and decimal separator options passed in will override the default locale settings.
 
+### Decimal Scale and Decimals Limit
+
+`decimalsLimit` and `decimalScale` sound similar but have different usages.
+
+`decimalsLimit` prevents the user from typing more than the limit, and `decimalScale` will format the decimals `onBlur` to the specified length, padding or trimming as necessary.
+
+Example:
+
+```md
+If decimalScale is 2
+
+- 1.5 becomes 1.50 (padded)
+- 1.234 becomes 1.23 (trimmed)
+
+---
+
+If decimalLimit is 2
+
+- User enters 1.23
+- User is then prevented from entering another value
+```
+
 ### Fixed Decimal Length
 
 Use `fixedDecimalLength` so that the value will always have the specified length of decimals.
@@ -174,12 +196,6 @@ Example if `fixedDecimalLength` was 2:
 - 12.3 -> 12.30
 - 12.34 -> 12.34
 ```
-
-## Decimal Scale and Decimals Limit
-
-`decimalsLimit` and `decimalScale` are similar, the difference is `decimalsLimit` prevents the user from typing more than the limit, and `decimalScale` will format the decimals `onBlur` to the specified length, padding or trimming as necessary.
-
-Example: If decimal scale `2`: `1.5` becomes `1.50` and `1.234` becomes `1.23`
 
 ## Format values for display
 
