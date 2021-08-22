@@ -51,10 +51,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     }: CurrencyInputProps,
     ref
   ) => {
-    if (_decimalSeparator && _groupSeparator && _decimalSeparator === _groupSeparator) {
-      throw new Error('decimalSeparator cannot be the same as groupSeparator');
-    }
-
     if (_decimalSeparator && isNumber(_decimalSeparator)) {
       throw new Error('decimalSeparator cannot be a number');
     }
@@ -66,6 +62,15 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const localeConfig = useMemo(() => getLocaleConfig(intlConfig), [intlConfig]);
     const decimalSeparator = _decimalSeparator || localeConfig.decimalSeparator || '';
     const groupSeparator = _groupSeparator || localeConfig.groupSeparator || '';
+
+    if (
+      decimalSeparator &&
+      groupSeparator &&
+      decimalSeparator === groupSeparator &&
+      disableGroupSeparators === false
+    ) {
+      throw new Error('decimalSeparator cannot be the same as groupSeparator');
+    }
 
     const formatValueOptions = {
       decimalSeparator,
@@ -87,9 +92,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     };
 
     const formattedStateValue =
-      defaultValue !== undefined
+      defaultValue !== undefined && defaultValue !== null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
-        : userValue !== undefined
+        : userValue !== undefined && userValue !== null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
         : '';
 
@@ -190,7 +195,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
         const currentValue =
           parseFloat(
-            userValue !== undefined
+            userValue !== undefined && userValue !== null
               ? String(userValue).replace(decimalSeparator, '.')
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0;
@@ -253,7 +258,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     }, [stateValue, cursor, inputRef, dirty]);
 
     const formattedPropsValue =
-      userValue !== undefined
+      userValue !== undefined && userValue !== null
         ? formatValue({
             ...formatValueOptions,
             decimalScale: dirty ? undefined : decimalScale,

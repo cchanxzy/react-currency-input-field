@@ -80,6 +80,34 @@ describe('<CurrencyInput/> separators', () => {
       expect(console.error).toHaveBeenCalled();
     });
 
+    it('should throw error if decimalSeparator and default groupSeparator are the same', () => {
+      expect(() => render(<CurrencyInput name={name} prefix="£" decimalSeparator="," />)).toThrow(
+        'decimalSeparator cannot be the same as groupSeparator'
+      );
+      expect(console.error).toHaveBeenCalled();
+    });
+
+    it('should NOT throw error if decimalSeparator and default groupSeparator are the same but disableGroupSeparators is true', () => {
+      expect(() =>
+        render(
+          <CurrencyInput
+            name={name}
+            prefix="£"
+            decimalSeparator=","
+            disableGroupSeparators={true}
+          />
+        )
+      ).not.toThrow('decimalSeparator cannot be the same as groupSeparator');
+      expect(console.error).not.toHaveBeenCalled();
+    });
+
+    it('should throw error if groupSeparator and default decimalSeparator are the same', () => {
+      expect(() => render(<CurrencyInput name={name} prefix="£" groupSeparator="." />)).toThrow(
+        'decimalSeparator cannot be the same as groupSeparator'
+      );
+      expect(console.error).toHaveBeenCalled();
+    });
+
     it('should throw error if decimalSeparator is a number', () => {
       expect(() =>
         render(<CurrencyInput name={name} prefix="£" decimalSeparator={'1'} groupSeparator="," />)

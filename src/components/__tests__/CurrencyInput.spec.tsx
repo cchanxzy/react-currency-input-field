@@ -42,6 +42,19 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
+  it('Renders with default value undefined', () => {
+    render(<CurrencyInput defaultValue={undefined} prefix="£" />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
+  it('Renders with default value null', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<CurrencyInput defaultValue={null as any} prefix="£" />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
   it('Renders with default value 0 with decimalScale 2', () => {
     render(<CurrencyInput defaultValue={0} decimalScale={2} prefix="£" />);
 
@@ -58,6 +71,19 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput value={0} prefix="£" />);
 
     expect(screen.getByRole('textbox')).toHaveValue('£0');
+  });
+
+  it('Renders with value undefined', () => {
+    render(<CurrencyInput value={undefined} prefix="£" />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
+  it('Renders with value null', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<CurrencyInput value={null as any} prefix="£" />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   it('Renders with value 0 with decimalScale 2', () => {
