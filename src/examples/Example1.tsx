@@ -64,7 +64,6 @@ export const Example1: FC = () => {
                 placeholder="Please enter a number"
                 prefix={prefix}
                 step={1}
-                decimalScale={2}
               />
               <div className="invalid-feedback">{errorMessage}</div>
             </div>
