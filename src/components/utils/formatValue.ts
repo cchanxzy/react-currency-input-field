@@ -110,7 +110,7 @@ export const formatValue = (options: FormatValueOptions): string => {
   // Include decimal separator if user input ends with decimal separator
   const includeDecimalSeparator = _value.slice(-1) === decimalSeparator ? decimalSeparator : '';
 
-  const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
+  const [, decimals] = value.match(RegExp('\\d\\.(\\d+)')) || [];
 
   // Keep original decimal padding if no decimalScale
   if (decimalScale === undefined && decimals && decimalSeparator) {
