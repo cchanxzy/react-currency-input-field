@@ -1,3 +1,10 @@
+## [3.4.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.2...v3.4.3) (2021-08-22)
+
+
+### Bug Fixes
+
+* artificial change to trigger version update ([1dfc138](https://github.com/cchanxzy/react-currency-input-field/commit/1dfc138db8f9a6a04936ba2d27baa8f0536c46de))
+
 ## [3.4.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.1...v3.4.2) (2021-07-08)
 
 
