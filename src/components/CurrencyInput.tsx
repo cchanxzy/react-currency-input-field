@@ -9,7 +9,7 @@ import {
   padTrimValue,
   CleanValueOptions,
   getSuffix,
-  parseAsFloat
+  parseAsFloat,
 } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
@@ -102,7 +102,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const processChange = (value: string, selectionStart?: number | null): void => {
       setDirty(true);
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
-      const numberValue = parseAsFloat(valueOnly, cleanValueOptions.groupSeparator || '.');
+      const numberValue = parseAsFloat(
+        valueOnly,
+        cleanValueOptions.groupSeparator,
+        cleanValueOptions.decimalSeparator
+      );
 
       if (valueOnly === '') {
         onValueChange && onValueChange(undefined, name, numberValue);
@@ -155,7 +159,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       } = event;
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
-      const numberValue = parseAsFloat(valueOnly, cleanValueOptions.groupSeparator || '.');
+      const numberValue = parseAsFloat(
+        valueOnly,
+        cleanValueOptions.groupSeparator,
+        cleanValueOptions.decimalSeparator
+      );
 
       if (valueOnly === '-' || !valueOnly) {
         setStateValue('');
