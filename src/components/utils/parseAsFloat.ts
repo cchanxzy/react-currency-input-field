@@ -13,6 +13,12 @@ export const parseAsFloat = (
     return parseFloat(val);
   }
 
+  const decimalValue = value.split(decimalSeparator)[1];
+
+  if (!Boolean(decimalValue)) {
+    return parseInt(value, 10);
+  }
+
   /**
    * Remove group separator eg:
    * Value = 5-033-121,5899
@@ -22,13 +28,12 @@ export const parseAsFloat = (
   const strippedGroupValue = value.replace(groupValueRegex, '');
 
   /**
-   * Value = 5-033-121,5899
-   * Return = 5033121
+   * Replace decimal place with a '.':
+   * Value = 5033121,5899
+   * Return = 5033121.5899
    */
-  const stripDecimalPlacesRegex = new RegExp(`\.[^${decimalSeparator}]*$`, 'g');
-  const groupValue = strippedGroupValue.replace(stripDecimalPlacesRegex, '');
+  const decimalReplacerRegex = new RegExp(`[${decimalSeparator}]`, 'g');
+  const val = strippedGroupValue.replace(decimalReplacerRegex, '.');
 
-  const decimalValue = value.split(decimalSeparator)[1];
-
-  return parseFloat([groupValue, decimalValue].join('.'));
+  return parseFloat(val);
 };
