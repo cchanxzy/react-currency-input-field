@@ -9,6 +9,7 @@ import {
   padTrimValue,
   CleanValueOptions,
   getSuffix,
+  parseAsFloat,
 } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
@@ -106,9 +107,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const processChange = (value: string, selectionStart?: number | null): void => {
       setDirty(true);
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
+      const numberValue = parseAsFloat(
+        valueOnly,
+        cleanValueOptions.groupSeparator,
+        cleanValueOptions.decimalSeparator
+      );
 
       if (valueOnly === '') {
-        onValueChange && onValueChange(undefined, name);
+        onValueChange && onValueChange(undefined, name, numberValue);
         setStateValue('');
         return;
       }
@@ -118,7 +124,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
 
       if (valueOnly === '-' || valueOnly === decimalSeparator) {
-        onValueChange && onValueChange(undefined, name);
+        onValueChange && onValueChange(undefined, name, numberValue);
         setStateValue(value);
         return;
       }
@@ -134,7 +140,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       setStateValue(formattedValue);
 
-      onValueChange && onValueChange(valueOnly, name);
+      onValueChange && onValueChange(valueOnly, name, numberValue);
     };
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -158,6 +164,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       } = event;
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
+      const numberValue = parseAsFloat(
+        valueOnly,
+        cleanValueOptions.groupSeparator,
+        cleanValueOptions.decimalSeparator
+      );
 
       if (valueOnly === '-' || !valueOnly) {
         setStateValue('');
@@ -174,7 +185,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         decimalScale !== undefined ? decimalScale : fixedDecimalLength
       );
 
-      onValueChange && onValueChange(newValue, name);
+      onValueChange && onValueChange(newValue, name, numberValue);
 
       const formattedValue = formatValue({
         ...formatValueOptions,
