@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.3...v3.5.0) (2021-08-30)
+
+
+### Features
+
+* onValueChange calls Values object as third param ([#199](https://github.com/cchanxzy/react-currency-input-field/issues/199)) ([f2f6f2b](https://github.com/cchanxzy/react-currency-input-field/commit/f2f6f2bb8666ca373e85e4ff0f840e6a5f88edc7))
+
 ## [3.4.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.2...v3.4.3) (2021-08-22)
 
 
