@@ -2,6 +2,34 @@ import { Ref, ElementType } from 'react';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
+/**
+ * Value in different formats
+ *
+ * @experimental
+ */
+export type Values = {
+  /**
+   * Value as float or null if empty
+   *
+   * Example:
+   *   "1.99" > 1.99
+   *   "" > null
+   */
+  float: number | null;
+
+  /**
+   * Value after applying formatting
+   *
+   * Example: "1000000" > "1,000,0000"
+   */
+  formatted: string;
+
+  /**
+   * Non formatted value as string
+   */
+  value: string;
+};
+
 export type IntlConfig = {
   locale: string;
   currency?: string;
@@ -56,7 +84,9 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Specify decimal scale for padding/trimming
      *
-     * Eg. 1.5 -> 1.50 or 1.234 -> 1.23
+     * Example:
+     *   1.5 -> 1.50
+     *   1.234 -> 1.23
      */
     decimalScale?: number;
 
@@ -75,7 +105,8 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Value will always have the specified length of decimals
      *
-     * Eg. 123 -> 1.23
+     * Example:
+     *   123 -> 1.23
      *
      * Note: This formatting only happens onBlur
      */
@@ -84,7 +115,7 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Handle change in value
      */
-    onValueChange?: (value: string | undefined, name?: string) => void;
+    onValueChange?: (value: string | undefined, name?: string, values?: Values) => void;
 
     /**
      * Placeholder if there is no value
@@ -128,7 +159,7 @@ export type CurrencyInputProps = Overwrite<
     disableGroupSeparators?: boolean;
 
     /**
-     * Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000
+     * Disable abbreviations (m, k, b)
      *
      * Default = false
      */

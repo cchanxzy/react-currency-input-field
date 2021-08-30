@@ -113,7 +113,11 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '100');
 
-    expect(onValueChangeSpy).toBeCalledWith('100', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('100', undefined, {
+      float: 100,
+      formatted: '£100',
+      value: '100',
+    });
   });
 
   it('should prefix 0 value', () => {
@@ -126,7 +130,11 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '0');
 
-    expect(onValueChangeSpy).toBeCalledWith('0', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
+      float: 0,
+      formatted: '£0',
+      value: '0',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
@@ -135,7 +143,11 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} defaultValue={1} />);
     userEvent.clear(screen.getByRole('textbox'));
 
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
@@ -145,14 +157,22 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput name={name} prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '123');
 
-    expect(onValueChangeSpy).toBeCalledWith('123', name);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', name, {
+      float: 123,
+      formatted: '£123',
+      value: '123',
+    });
   });
 
   it('should not allow invalid characters', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), 'hello');
 
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
@@ -161,7 +181,11 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '£123hello');
 
-    expect(onValueChangeSpy).toBeCalledWith('123', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', undefined, {
+      float: 123,
+      formatted: '£123',
+      value: '123',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£123');
   });

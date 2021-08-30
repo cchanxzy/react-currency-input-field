@@ -30,7 +30,11 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
 
       fireEvent.focusOut(screen.getByRole('textbox'));
 
-      expect(onValueChangeSpy).toBeCalledWith('1.230', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.230', undefined, {
+        float: 1.23,
+        formatted: '$1.230',
+        value: '1.230',
+      });
 
       expect(screen.getByRole('textbox')).toHaveValue('$1.230');
     });
@@ -40,22 +44,27 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
         <CurrencyInput
           prefix="$"
           onValueChange={onValueChangeSpy}
-          fixedDecimalLength={3}
+          fixedDecimalLength={2}
           decimalSeparator="."
-          decimalScale={3}
-          defaultValue={123}
+          defaultValue={1}
+          decimalScale={2}
         />
       );
 
-      expect(screen.getByRole('textbox')).toHaveValue('$123.000');
+      expect(screen.getByRole('textbox')).toHaveValue('$1.00');
 
       // delete .00
       userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
+      userEvent.type(screen.getByRole('textbox'), '23');
       fireEvent.focusOut(screen.getByRole('textbox'));
 
-      expect(onValueChangeSpy).toBeCalledWith('123.0', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.23', undefined, {
+        float: 1.23,
+        formatted: '$1.23',
+        value: '1.23',
+      });
 
-      expect(screen.getByRole('textbox')).toHaveValue('$123.000');
+      expect(screen.getByRole('textbox')).toHaveValue('$1.23');
     });
   });
 });

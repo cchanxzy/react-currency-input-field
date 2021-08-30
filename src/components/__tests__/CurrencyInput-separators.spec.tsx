@@ -28,7 +28,11 @@ describe('<CurrencyInput/> separators', () => {
 
     userEvent.clear(screen.getByRole('textbox'));
     userEvent.type(screen.getByRole('textbox'), '123456');
-    expect(onValueChangeSpy).toBeCalledWith('123456', name);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456', name, {
+      float: 123456,
+      formatted: '£123456',
+      value: '123456',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£123456');
   });
@@ -46,7 +50,11 @@ describe('<CurrencyInput/> separators', () => {
 
     userEvent.clear(screen.getByRole('textbox'));
     userEvent.type(screen.getByRole('textbox'), '123456,33');
-    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456,33', name);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456,33', name, {
+      float: 123456.33,
+      formatted: '£123.456,33',
+      value: '123456,33',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£123.456,33');
   });

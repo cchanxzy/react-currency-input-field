@@ -31,7 +31,11 @@ describe('<CurrencyInput/> onBlur', () => {
 
     expect(onBlurSpy).toBeCalled();
 
-    expect(onValueChangeSpy).toBeCalledWith('123.00', name);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123.00', name, {
+      float: 123,
+      formatted: '$123.00',
+      value: '123.00',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('$123.00');
   });

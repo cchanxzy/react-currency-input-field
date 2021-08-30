@@ -25,10 +25,20 @@ describe('<CurrencyInput/> backspace', () => {
 
     userEvent.type(screen.getByRole('textbox'), '56');
 
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('12,3456', undefined, {
+      float: 12.3456,
+      formatted: '12,3456 €',
+      value: '12,3456',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('12,3456\xa0€');
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}');
 
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('12,3', undefined, {
+      float: 12.3,
+      formatted: '12,3 €',
+      value: '12,3',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('12,3\xa0€');
   });
 
@@ -45,15 +55,39 @@ describe('<CurrencyInput/> backspace', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£1.00');
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.0', undefined, {
+      float: 1,
+      formatted: '£1.0',
+      value: '1.0',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£1.0');
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.', undefined, {
+      float: 1,
+      formatted: '£1.',
+      value: '1.',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£1.');
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1', undefined, {
+      float: 1,
+      formatted: '£1',
+      value: '1',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£1');
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
@@ -69,9 +103,21 @@ describe('<CurrencyInput/> backspace', () => {
     );
 
     userEvent.type(screen.getByRole('textbox'), '123456789');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456789', undefined, {
+      float: 123456789,
+      formatted: '$123,456,789',
+      value: '123456789',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('$123,456,789');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowleft}{arrowleft}{arrowleft}{del}');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('12345689', undefined, {
+      float: 12345689,
+      formatted: '$12,345,689',
+      value: '12345689',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('$12,345,689');
   });
 });

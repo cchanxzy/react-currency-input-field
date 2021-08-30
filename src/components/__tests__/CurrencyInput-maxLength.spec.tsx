@@ -41,7 +41,11 @@ describe('<CurrencyInput/> maxLength', () => {
     expect(screen.getByRole('textbox')).toHaveValue('-£123');
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}5');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('-125', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('-125', undefined, {
+      float: -125,
+      formatted: '-£125',
+      value: '-125',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('-£125');
   });
 });

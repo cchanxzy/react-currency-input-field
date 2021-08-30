@@ -103,7 +103,11 @@ describe('<CurrencyInput/> intlConfig', () => {
 
       userEvent.type(screen.getByRole('textbox'), '₹12,34,567');
 
-      expect(onValueChangeSpy).toBeCalledWith('1234567', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234567', undefined, {
+        float: 1234567,
+        formatted: '₹12,34,567',
+        value: '1234567',
+      });
 
       expect(screen.getByRole('textbox')).toHaveValue('₹12,34,567');
     });

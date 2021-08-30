@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useRef, forwardRef, useMemo } from 'react';
-import { CurrencyInputProps } from './CurrencyInputProps';
+import { CurrencyInputProps, Values } from './CurrencyInputProps';
 import {
   isNumber,
   cleanValue,
@@ -105,25 +105,26 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     const processChange = (value: string, selectionStart?: number | null): void => {
       setDirty(true);
-      const valueOnly = cleanValue({ value, ...cleanValueOptions });
+      const stringValue = cleanValue({ value, ...cleanValueOptions });
 
-      if (valueOnly === '') {
-        onValueChange && onValueChange(undefined, name);
+      if (stringValue === '') {
+        onValueChange && onValueChange(undefined, name, { float: null, formatted: '', value: '' });
         setStateValue('');
         return;
       }
 
-      if (userMaxLength && valueOnly.replace(/-/g, '').length > userMaxLength) {
+      if (userMaxLength && stringValue.replace(/-/g, '').length > userMaxLength) {
         return;
       }
 
-      if (valueOnly === '-' || valueOnly === decimalSeparator) {
-        onValueChange && onValueChange(undefined, name);
+      if (stringValue === '-' || stringValue === decimalSeparator) {
+        onValueChange && onValueChange(undefined, name, { float: null, formatted: '', value: '' });
         setStateValue(value);
         return;
       }
 
-      const formattedValue = formatValue({ value: valueOnly, ...formatValueOptions });
+      const numberValue = parseFloat(stringValue.replace(decimalSeparator, '.'));
+      const formattedValue = formatValue({ value: stringValue, ...formatValueOptions });
 
       /* istanbul ignore next */
       if (selectionStart !== undefined && selectionStart !== null) {
@@ -134,7 +135,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       setStateValue(formattedValue);
 
-      onValueChange && onValueChange(valueOnly, name);
+      if (onValueChange) {
+        const values: Values = {
+          float: numberValue,
+          formatted: formattedValue,
+          value: stringValue,
+        };
+        onValueChange(stringValue, name, values);
+      }
     };
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -174,12 +182,20 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         decimalScale !== undefined ? decimalScale : fixedDecimalLength
       );
 
-      onValueChange && onValueChange(newValue, name);
+      const numberValue = parseFloat(newValue.replace(decimalSeparator, '.'));
 
       const formattedValue = formatValue({
         ...formatValueOptions,
         value: newValue,
       });
+
+      if (onValueChange) {
+        onValueChange(newValue, name, {
+          float: numberValue,
+          formatted: formattedValue,
+          value: newValue,
+        });
+      }
 
       setStateValue(formattedValue);
 

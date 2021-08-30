@@ -17,7 +17,11 @@ describe('<CurrencyInput/> decimalScale', () => {
     userEvent.type(screen.getByRole('textbox'), '1.5');
     fireEvent.focusOut(screen.getByRole('textbox'));
 
-    expect(onValueChangeSpy).toBeCalledWith('1.50000', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('1.50000', undefined, {
+      float: 1.5,
+      formatted: '£1.50000',
+      value: '1.50000',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1.50000');
   });
@@ -38,7 +42,11 @@ describe('<CurrencyInput/> decimalScale', () => {
 
     expect(onBlurSpy).toBeCalled();
 
-    expect(onValueChangeSpy).toBeCalledWith('1.00', undefined);
+    expect(onValueChangeSpy).toBeCalledWith('1.00', undefined, {
+      float: 1,
+      formatted: '£1.00',
+      value: '1.00',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1.00');
   });

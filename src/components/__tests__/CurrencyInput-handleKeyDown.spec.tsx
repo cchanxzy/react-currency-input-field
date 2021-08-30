@@ -31,11 +31,19 @@ describe('<CurrencyInput/> handleKeyDown', () => {
     );
 
     userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('98', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('98', undefined, {
+      float: 98,
+      formatted: '£98',
+      value: '98',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£98');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('100', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('100', undefined, {
+      float: 100,
+      formatted: '£100',
+      value: '100',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£100');
   });
 
@@ -44,7 +52,11 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       render(<CurrencyInput prefix="£" step={1} onValueChange={onValueChangeSpy} />);
 
       userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-      expect(onValueChangeSpy).toBeCalledWith('-1', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('-1', undefined, {
+        float: -1,
+        formatted: '-£1',
+        value: '-1',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('-£1');
     });
 
@@ -52,7 +64,11 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       render(<CurrencyInput prefix="£" step={1} onValueChange={onValueChangeSpy} />);
 
       userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-      expect(onValueChangeSpy).toBeCalledWith('1', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('1', undefined, {
+        float: 1,
+        formatted: '£1',
+        value: '1',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('£1');
     });
   });
@@ -62,14 +78,22 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       render(<CurrencyInput prefix="£" value={99} step={1.25} onValueChange={onValueChangeSpy} />);
 
       userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-      expect(onValueChangeSpy).toHaveBeenCalledWith('97.75', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('97.75', undefined, {
+        float: 97.75,
+        formatted: '£97.75',
+        value: '97.75',
+      });
     });
 
     it('should handle arrow up key', () => {
       render(<CurrencyInput prefix="£" value={99} step={1.25} onValueChange={onValueChangeSpy} />);
 
       userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-      expect(onValueChangeSpy).toHaveBeenCalledWith('100.25', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('100.25', undefined, {
+        float: 100.25,
+        formatted: '£100.25',
+        value: '100.25',
+      });
     });
   });
 
@@ -80,11 +104,19 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       );
 
       userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-      expect(onValueChangeSpy).toBeCalledWith('94.5', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('94.5', undefined, {
+        float: 94.5,
+        formatted: '£94.5',
+        value: '94.5',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('£94.5');
 
       userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-      expect(onValueChangeSpy).toBeCalledWith('89.0', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('89.0', undefined, {
+        float: 89,
+        formatted: '£89.0',
+        value: '89.0',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('£89.0');
     });
 
@@ -94,11 +126,19 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       );
 
       userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-      expect(onValueChangeSpy).toBeCalledWith('105.5', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('105.5', undefined, {
+        float: 105.5,
+        formatted: '£105.5',
+        value: '105.5',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('£105.5');
 
       userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-      expect(onValueChangeSpy).toBeCalledWith('111.0', undefined);
+      expect(onValueChangeSpy).toBeCalledWith('111.0', undefined, {
+        float: 111,
+        formatted: '£111.0',
+        value: '111.0',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('£111.0');
     });
   });
@@ -120,7 +160,11 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       expect(screen.getByRole('textbox')).toHaveValue('-£99');
 
       userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-      expect(onValueChangeSpy).toHaveBeenCalledWith('-98', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('-98', undefined, {
+        float: -98,
+        formatted: '-£98',
+        value: '-98',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('-£98');
     });
 
@@ -140,7 +184,11 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       expect(screen.getByRole('textbox')).toHaveValue('£99');
 
       userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-      expect(onValueChangeSpy).toHaveBeenCalledWith('98', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('98', undefined, {
+        float: 98,
+        formatted: '£98',
+        value: '98',
+      });
       expect(screen.getByRole('textbox')).toHaveValue('£98');
     });
   });
@@ -153,19 +201,35 @@ describe('<CurrencyInput/> handleKeyDown', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£1.99');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('2.99', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('2.99', undefined, {
+      float: 2.99,
+      formatted: '£2.99',
+      value: '2.99',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£2.99');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('1.99', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.99', undefined, {
+      float: 1.99,
+      formatted: '£1.99',
+      value: '1.99',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£1.99');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('0.99', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0.99', undefined, {
+      float: 0.99,
+      formatted: '£0.99',
+      value: '0.99',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£0.99');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('-0.01', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('-0.01', undefined, {
+      float: -0.01,
+      formatted: '-£0.01',
+      value: '-0.01',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('-£0.01');
   });
 
@@ -184,15 +248,27 @@ describe('<CurrencyInput/> handleKeyDown', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£1.00');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('0', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
+      float: 0,
+      formatted: '£0',
+      value: '0',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£0');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('0', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
+      float: 0,
+      formatted: '£0',
+      value: '0',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£0');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('1', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1', undefined, {
+      float: 1,
+      formatted: '£1',
+      value: '1',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£1');
   });
 
@@ -210,15 +286,27 @@ describe('<CurrencyInput/> handleKeyDown', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£44');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('45', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('45', undefined, {
+      float: 45,
+      formatted: '£45',
+      value: '45',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£45');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowup}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('45', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('45', undefined, {
+      float: 45,
+      formatted: '£45',
+      value: '45',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£45');
 
     userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
-    expect(onValueChangeSpy).toHaveBeenCalledWith('44', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('44', undefined, {
+      float: 44,
+      formatted: '£44',
+      value: '44',
+    });
     expect(screen.getByRole('textbox')).toHaveValue('£44');
   });
 });

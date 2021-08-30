@@ -15,7 +15,11 @@ describe('<CurrencyInput/> decimals', () => {
     render(<CurrencyInput allowDecimals={true} prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1,234.56');
 
-    expect(onValueChangeSpy).toBeCalledWith('1234.56', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.56', undefined, {
+      float: 1234.56,
+      formatted: '£1,234.56',
+      value: '1234.56',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1,234.56');
   });
@@ -24,7 +28,11 @@ describe('<CurrencyInput/> decimals', () => {
     render(<CurrencyInput allowDecimals={false} prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1,234.56');
 
-    expect(onValueChangeSpy).toBeCalledWith('123456', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456', undefined, {
+      float: 123456,
+      formatted: '£123,456',
+      value: '123456',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£123,456');
   });
@@ -33,7 +41,11 @@ describe('<CurrencyInput/> decimals', () => {
     render(<CurrencyInput decimalsLimit={3} prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1,234.56789');
 
-    expect(onValueChangeSpy).toBeCalledWith('1234.567', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.567', undefined, {
+      float: 1234.567,
+      formatted: '£1,234.567',
+      value: '1234.567',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1,234.567');
   });
@@ -52,12 +64,20 @@ describe('<CurrencyInput/> decimals', () => {
     userEvent.type(screen.getByRole('textbox'), '.');
 
     expect(screen.getByRole('textbox')).toHaveValue('.');
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
 
     userEvent.type(screen.getByRole('textbox'), '9');
 
     expect(screen.getByRole('textbox')).toHaveValue('$0.9');
-    expect(onValueChangeSpy).toBeCalledWith('.9', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('.9', undefined, {
+      float: 0.9,
+      formatted: '$0.9',
+      value: '.9',
+    });
   });
 
   it('should handle starting with decimal separator that is non period', () => {
@@ -73,11 +93,19 @@ describe('<CurrencyInput/> decimals', () => {
     userEvent.type(screen.getByRole('textbox'), ',');
 
     expect(screen.getByRole('textbox')).toHaveValue(',');
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
 
     userEvent.type(screen.getByRole('textbox'), '9');
 
     expect(screen.getByRole('textbox')).toHaveValue('0,9\xa0€');
-    expect(onValueChangeSpy).toBeCalledWith(',9', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(',9', undefined, {
+      float: 0.9,
+      formatted: '0,9 €',
+      value: ',9',
+    });
   });
 });
