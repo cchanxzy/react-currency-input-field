@@ -15,7 +15,11 @@ describe('<CurrencyInput/> abbreviated', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1.5k');
 
-    expect(onValueChangeSpy).toBeCalledWith('1500', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1500', undefined, {
+      float: 1500,
+      formatted: '£1,500',
+      value: '1500',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1,500');
   });
@@ -27,14 +31,22 @@ describe('<CurrencyInput/> abbreviated', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('£2,123,000');
 
-    expect(onValueChangeSpy).toBeCalledWith('2123000', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('2123000', undefined, {
+      float: 2123000,
+      formatted: '£2,123,000',
+      value: '2123000',
+    });
   });
 
   it('should allow abbreviated values with b', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalsLimit={3} />);
     userEvent.type(screen.getByRole('textbox'), '1.599B');
 
-    expect(onValueChangeSpy).toBeCalledWith('1599000000', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1599000000', undefined, {
+      float: 1599000000,
+      formatted: '£1,599,000,000',
+      value: '1599000000',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1,599,000,000');
   });
@@ -43,7 +55,11 @@ describe('<CurrencyInput/> abbreviated', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1.5e');
 
-    expect(onValueChangeSpy).toBeCalledWith('1.5', undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.5', undefined, {
+      float: 1.5,
+      formatted: '£1.5',
+      value: '1.5',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('£1.5');
   });
@@ -52,13 +68,21 @@ describe('<CurrencyInput/> abbreviated', () => {
     render(<CurrencyInput onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), 'k');
 
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('');
 
     userEvent.type(screen.getByRole('textbox'), 'M');
 
-    expect(onValueChangeSpy).toBeCalledWith(undefined, undefined);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
@@ -73,14 +97,22 @@ describe('<CurrencyInput/> abbreviated', () => {
       userEvent.clear(screen.getByRole('textbox'));
       userEvent.type(screen.getByRole('textbox'), '23m');
 
-      expect(onValueChangeSpy).toBeCalledWith('23', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('23', undefined, {
+        float: 23,
+        formatted: '23',
+        value: '23',
+      });
 
       expect(screen.getByRole('textbox')).toHaveValue('23');
 
       userEvent.clear(screen.getByRole('textbox'));
       userEvent.type(screen.getByRole('textbox'), '55b');
 
-      expect(onValueChangeSpy).toBeCalledWith('55', undefined);
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('55', undefined, {
+        float: 55,
+        formatted: '55',
+        value: '55',
+      });
 
       expect(screen.getByRole('textbox')).toHaveValue('55');
     });
