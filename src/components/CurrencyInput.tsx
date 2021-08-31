@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useRef, forwardRef, useMemo } from 'react';
-import { CurrencyInputProps, Values } from './CurrencyInputProps';
+import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
   isNumber,
   cleanValue,
@@ -134,7 +134,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       setStateValue(formattedValue);
 
       if (onValueChange) {
-        const values: Values = {
+        const values: CurrencyInputOnChangeValues = {
           float: numberValue,
           formatted: formattedValue,
           value: stringValue,
