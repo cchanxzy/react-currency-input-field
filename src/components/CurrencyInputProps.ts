@@ -7,7 +7,7 @@ type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
  *
  * @experimental
  */
-export type Values = {
+export type CurrencyInputOnChangeValues = {
   /**
    * Value as float or null if empty
    *
@@ -115,7 +115,11 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Handle change in value
      */
-    onValueChange?: (value: string | undefined, name?: string, values?: Values) => void;
+    onValueChange?: (
+      value: string | undefined,
+      name?: string,
+      values?: CurrencyInputOnChangeValues
+    ) => void;
 
     /**
      * Placeholder if there is no value

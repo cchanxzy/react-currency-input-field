@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import CurrencyInput from '../components/CurrencyInput';
+import { CurrencyInputProps, CurrencyInputOnChangeValues } from '../components/CurrencyInputProps';
 
 export const Example1: FC = () => {
   const limit = 1000;
@@ -8,12 +9,14 @@ export const Example1: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
   const [value, setValue] = useState<string | number>(123.45);
+  const [values, setValues] = useState<CurrencyInputOnChangeValues>();
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
 
   /**
    * Handle validation
    */
-  const handleOnValueChange = (value: string | undefined): void => {
+  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (value, _, values): void => {
+    setValues(values);
     setRawValue(value === undefined ? 'undefined' : value || ' ');
 
     if (!value) {
@@ -73,6 +76,10 @@ export const Example1: FC = () => {
                   <div className="col-6">
                     <div className="text-muted mr-3">onValueChange:</div>
                     {rawValue}
+                  </div>
+                  <div className="col-6">
+                    <div className="text-muted mr-3">Values:</div>
+                    {JSON.stringify(values, undefined, ' ')}
                   </div>
                 </div>
               </pre>
