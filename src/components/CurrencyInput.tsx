@@ -48,6 +48,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onBlur,
       onKeyDown,
       onKeyUp,
+      transformRawValue,
       ...props
     }: CurrencyInputProps,
     ref
@@ -90,6 +91,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       allowNegativeValue,
       disableAbbreviations,
       prefix: prefix || localeConfig.prefix,
+      transformRawValue,
     };
 
     const formattedStateValue =
