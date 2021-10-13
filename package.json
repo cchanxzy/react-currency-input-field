@@ -12,7 +12,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc && rollup -c",
     "start": "parcel src/examples/index.html",
-    "test": "jest --coverage",
+    "test": "jest --coverage --roots ./src",
     "test-ci": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --coverage",
     "lint": "tsc && eslint 'src/**/*.{js,ts,tsx}' --max-warnings=0",
     "gh-predeploy": "parcel build src/examples/index.html --dist-dir demo/examples --public-url ./",
