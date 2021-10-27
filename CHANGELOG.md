@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.5.1...v3.6.0) (2021-10-27)
+
+
+### Features
+
+* add transformRawValue option to transform the value before parsing ([#208](https://github.com/cchanxzy/react-currency-input-field/issues/208)) ([36950cc](https://github.com/cchanxzy/react-currency-input-field/commit/36950cc2d5f2dfc4088a3822be3a78ea9910e725))
+
 ## [3.5.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.5.0...v3.5.1) (2021-09-01)
 
 # [3.5.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.4.3...v3.5.0) (2021-08-30)
