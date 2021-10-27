@@ -13,6 +13,7 @@ export type CleanValueOptions = Pick<
   | 'allowNegativeValue'
   | 'disableAbbreviations'
   | 'prefix'
+  | 'transformRawValue'
 > & { value: string };
 
 /**
@@ -27,22 +28,25 @@ export const cleanValue = ({
   allowNegativeValue = true,
   disableAbbreviations = false,
   prefix = '',
+  transformRawValue = (rawValue) => rawValue,
 }: CleanValueOptions): string => {
-  if (value === '-') {
-    return value;
+  const transformedValue = transformRawValue(value);
+
+  if (transformedValue === '-') {
+    return transformedValue;
   }
 
   const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
   const reg = new RegExp(`((^|\\D)-\\d)|(-${escapeRegExp(prefix)})`);
-  const isNegative = reg.test(value);
+  const isNegative = reg.test(transformedValue);
 
   // Is there a digit before the prefix? eg. 1$
   const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
   const withoutPrefix = prefix
     ? prefixWithValue
-      ? value.replace(prefixWithValue, '').concat(preValue)
-      : value.replace(prefix, '')
-    : value;
+      ? transformedValue.replace(prefixWithValue, '').concat(preValue)
+      : transformedValue.replace(prefix, '')
+    : transformedValue;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
     groupSeparator,

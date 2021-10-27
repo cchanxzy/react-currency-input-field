@@ -93,6 +93,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | [disableGroupSeparators](#separators)              | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 -> 1,000                      |
 | maxLength                                          | `number`   |                | Maximum characters the user can enter                                                          |
 | step                                               | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
+| transformRawValue                                  | `function` |                | Transform the raw value from the input before parsing. Needs to return  `string`.              |
 
 ### Abbreviations
 

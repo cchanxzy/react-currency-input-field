@@ -183,5 +183,10 @@ export type CurrencyInputProps = Overwrite<
      * Ref property
      */
     ref?: Ref<HTMLInputElement>;
+
+    /**
+     * Transform the raw value form the input before parsing
+     */
+    transformRawValue?: (rawValue: string) => string;
   }
 >;
