@@ -104,14 +104,33 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const [stateValue, setStateValue] = useState(formattedStateValue);
     const [dirty, setDirty] = useState(false);
     const [cursor, setCursor] = useState(0);
+    const [changeCount, setChangeCount] = useState(0);
+    const [lastKeyStroke, setLastKeyStroke] = useState<string | null>(null);
     const inputRef = ref || useRef<HTMLInputElement>(null);
 
     /**
      * Process change in value
      */
-    const processChange = (value: string, selectionStart?: number | null): void => {
+    const processChange = (value: string, _selectionStart?: number | null): void => {
       setDirty(true);
-      const stringValue = cleanValue({ value, ...cleanValueOptions });
+
+      let selectionStart = _selectionStart;
+      let modValue = value;
+      if (stateValue && selectionStart) {
+        const spliced = value.split('');
+        if (lastKeyStroke === 'Backspace' && stateValue[selectionStart] === groupSeparator) {
+          spliced.splice(selectionStart - 1, 1);
+          selectionStart -= 1;
+        }
+        if (lastKeyStroke === 'Delete' && stateValue[selectionStart] === groupSeparator) {
+          spliced.splice(selectionStart, 1);
+          selectionStart += 1;
+        }
+        modValue = spliced.join('');
+        console.log({ modValue, selectionStart });
+      }
+
+      let stringValue = cleanValue({ value: modValue, ...cleanValueOptions });
 
       if (userMaxLength && stringValue.replace(/-/g, '').length > userMaxLength) {
         return;
@@ -124,13 +143,46 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
 
       const numberValue = parseFloat(stringValue.replace(decimalSeparator, '.'));
-      const formattedValue = formatValue({ value: stringValue, ...formatValueOptions });
+      // console.log({ stateValue, selectionStart });
 
-      /* istanbul ignore next */
+      // if (stateValue && selectionStart) {
+      //   const spliced = stringValue.split('');
+      //   if (lastKeyStroke === 'Backspace' && stateValue[selectionStart] === groupSeparator) {
+      //     spliced.splice(selectionStart - 1, 1);
+      //     stringValue = spliced.join('');
+      //   }
+      //   if (lastKeyStroke === 'Delete' && stateValue[selectionStart] === groupSeparator) {
+      //     spliced.splice(selectionStart, 1);
+      //     stringValue = spliced.join('');
+      //   }
+      //   console.log({ stringValue });
+      // }
+
+      const formattedValue = formatValue({
+        value: stringValue,
+        // lastKeyStroke,
+        // stateValue,
+        // selectionStart,
+        ...formatValueOptions,
+      });
+      // console.log({ formattedValue }, 'from main fn');
+
       if (selectionStart !== undefined && selectionStart !== null) {
         // Prevent cursor jumping
-        const newCursor = selectionStart + (formattedValue.length - value.length) || 1;
+        const selectionStartChar = formattedValue[selectionStart];
+        // allows to jump past a group separator if cursor is next to one and backspace is pressed
+        const groupSeparatorDiff = 0;
+        // lastKeyStroke === 'Backspace' && selectionStartChar === groupSeparator ? 1 : 0;
+
+        let newCursor =
+          selectionStart - groupSeparatorDiff + (formattedValue.length - value.length);
+
+        console.log({ newCursor });
+        // prevent cursor from jumping to end of input
+        newCursor = newCursor > 0 ? newCursor : prefix ? 1 : 0;
+
         setCursor(newCursor);
+        setChangeCount(changeCount + 1);
       }
 
       setStateValue(formattedValue);
@@ -153,6 +205,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         target: { value, selectionStart },
       } = event;
 
+      // console.log({ stateValue, value, selectionStart });
       processChange(value, selectionStart);
 
       onChange && onChange(event);
@@ -219,6 +272,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
      */
     const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       const { key } = event;
+
+      setLastKeyStroke(key);
 
       if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
         event.preventDefault();
@@ -291,7 +346,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       ) {
         inputRef.current.setSelectionRange(cursor, cursor);
       }
-    }, [stateValue, cursor, inputRef, dirty]);
+    }, [stateValue, cursor, inputRef, dirty, changeCount]);
 
     /**
      * If user has only entered "-" or decimal separator,
