@@ -10,6 +10,7 @@ import {
   CleanValueOptions,
   getSuffix,
   FormatValueOptions,
+  repositionCursor,
 } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
@@ -111,26 +112,18 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     /**
      * Process change in value
      */
-    const processChange = (value: string, _selectionStart?: number | null): void => {
+    const processChange = (value: string, selectionStart?: number | null): void => {
       setDirty(true);
 
-      let selectionStart = _selectionStart;
-      let modValue = value;
-      if (stateValue && selectionStart) {
-        const spliced = value.split('');
-        if (lastKeyStroke === 'Backspace' && stateValue[selectionStart] === groupSeparator) {
-          spliced.splice(selectionStart - 1, 1);
-          selectionStart -= 1;
-        }
-        if (lastKeyStroke === 'Delete' && stateValue[selectionStart] === groupSeparator) {
-          spliced.splice(selectionStart, 1);
-          selectionStart += 1;
-        }
-        modValue = spliced.join('');
-        console.log({ modValue, selectionStart });
-      }
+      const { modifiedValue, cursorPosition } = repositionCursor({
+        selectionStart,
+        value,
+        lastKeyStroke,
+        stateValue,
+        groupSeparator,
+      });
 
-      let stringValue = cleanValue({ value: modValue, ...cleanValueOptions });
+      const stringValue = cleanValue({ value: modifiedValue, ...cleanValueOptions });
 
       if (userMaxLength && stringValue.replace(/-/g, '').length > userMaxLength) {
         return;
@@ -143,43 +136,26 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
 
       const numberValue = parseFloat(stringValue.replace(decimalSeparator, '.'));
-      // console.log({ stateValue, selectionStart });
-
-      // if (stateValue && selectionStart) {
-      //   const spliced = stringValue.split('');
-      //   if (lastKeyStroke === 'Backspace' && stateValue[selectionStart] === groupSeparator) {
-      //     spliced.splice(selectionStart - 1, 1);
-      //     stringValue = spliced.join('');
-      //   }
-      //   if (lastKeyStroke === 'Delete' && stateValue[selectionStart] === groupSeparator) {
-      //     spliced.splice(selectionStart, 1);
-      //     stringValue = spliced.join('');
-      //   }
-      //   console.log({ stringValue });
-      // }
 
       const formattedValue = formatValue({
         value: stringValue,
-        // lastKeyStroke,
-        // stateValue,
-        // selectionStart,
         ...formatValueOptions,
       });
-      // console.log({ formattedValue }, 'from main fn');
 
-      if (selectionStart !== undefined && selectionStart !== null) {
+      if (cursorPosition !== undefined && cursorPosition !== null) {
         // Prevent cursor jumping
-        const selectionStartChar = formattedValue[selectionStart];
-        // allows to jump past a group separator if cursor is next to one and backspace is pressed
-        const groupSeparatorDiff = 0;
-        // lastKeyStroke === 'Backspace' && selectionStartChar === groupSeparator ? 1 : 0;
+        let newCursor = cursorPosition + (formattedValue.length - value.length);
 
-        let newCursor =
-          selectionStart - groupSeparatorDiff + (formattedValue.length - value.length);
-
-        console.log({ newCursor });
+        console.log(newCursor);
         // prevent cursor from jumping to end of input
-        newCursor = newCursor > 0 ? newCursor : prefix ? 1 : 0;
+        if (newCursor <= 0) {
+          if (prefix) {
+            newCursor = 1;
+          } else {
+            newCursor = 0;
+          }
+          // newCursor = prefix ? 1 : 0;
+        }
 
         setCursor(newCursor);
         setChangeCount(changeCount + 1);
@@ -205,7 +181,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         target: { value, selectionStart },
       } = event;
 
-      // console.log({ stateValue, value, selectionStart });
       processChange(value, selectionStart);
 
       onChange && onChange(event);

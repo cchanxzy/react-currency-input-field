@@ -52,10 +52,6 @@ export type FormatValueOptions = {
    * Suffix
    */
   suffix?: string;
-
-  lastKeyStroke?: string | null;
-  stateValue?: string;
-  selectionStart?: number | null;
 };
 
 /**
@@ -64,15 +60,11 @@ export type FormatValueOptions = {
 export const formatValue = (options: FormatValueOptions): string => {
   const {
     value: _value,
-    groupSeparator,
     decimalSeparator,
     intlConfig,
     decimalScale,
     prefix = '',
     suffix = '',
-    lastKeyStroke,
-    stateValue,
-    selectionStart,
   } = options;
 
   if (_value === '' || _value === undefined) {
@@ -87,7 +79,7 @@ export const formatValue = (options: FormatValueOptions): string => {
     _value
   );
 
-  let value =
+  const value =
     decimalSeparator !== '.'
       ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
       : _value;
@@ -108,15 +100,6 @@ export const formatValue = (options: FormatValueOptions): string => {
         minimumFractionDigits: decimalScale || 0,
         maximumFractionDigits: 20,
       });
-
-  // if (stateValue && selectionStart) {
-  //   if (lastKeyStroke === 'Backspace' && stateValue[selectionStart] === groupSeparator) {
-  //     const spliced = value.split('');
-  //     spliced.splice(selectionStart - 1, 1);
-  //     value = spliced.join('');
-  //     console.log({ value });
-  //   }
-  // }
 
   const parts = numberFormatter.formatToParts(Number(value));
 
@@ -145,7 +128,6 @@ export const formatValue = (options: FormatValueOptions): string => {
       }
     }
   }
-  console.log({ formatted });
 
   if (suffix && includeDecimalSeparator) {
     return `${formatted}${includeDecimalSeparator}${suffix}`;
