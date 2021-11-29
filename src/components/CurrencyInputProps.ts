@@ -1,4 +1,4 @@
-import { Ref, ElementType } from 'react';
+import React, { ElementType } from 'react';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
@@ -36,7 +36,7 @@ export type IntlConfig = {
 };
 
 export type CurrencyInputProps = Overwrite<
-  React.InputHTMLAttributes<HTMLInputElement>,
+  React.ComponentPropsWithoutRef<'input'>,
   {
     /**
      * Allow decimals
@@ -178,11 +178,6 @@ export type CurrencyInputProps = Overwrite<
      * will override Intl Locale config
      */
     intlConfig?: IntlConfig;
-
-    /**
-     * Ref property
-     */
-    ref?: Ref<HTMLInputElement>;
 
     /**
      * Transform the raw value form the input before parsing

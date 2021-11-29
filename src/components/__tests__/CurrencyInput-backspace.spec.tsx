@@ -142,28 +142,28 @@ describe('<CurrencyInput/> backspace', () => {
   });
 
   it('should handle backspace at the beginning of the input when prefix exists', () => {
-    render(<CurrencyInput prefix="£" defaultValue="123" groupSeparator="," />);
+    render(<CurrencyInput prefix="£" defaultValue="12345" groupSeparator="," />);
     const input = screen.getByRole('textbox');
-    expect(input).toHaveValue('£123');
+    expect(input).toHaveValue('£12,345');
 
-    userEvent.type(input, '{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}');
+    userEvent.type(
+      input,
+      '{backspace}{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}'
+    );
 
-    expect(input).toHaveValue('£123');
-
-    userEvent.type(input, '{arrowleft}{backspace}{backspace}{backspace}');
-
-    expect(input).toHaveValue('£123');
+    expect(input).toHaveValue('£234');
   });
 
   it('should handle backspace at the beginning of the input when no prefix exists', () => {
-    render(<CurrencyInput prefix="" defaultValue="123" groupSeparator="," />);
+    render(<CurrencyInput prefix="" defaultValue="12345" groupSeparator="," />);
     const input = screen.getByRole('textbox');
-    expect(input).toHaveValue('123');
+    expect(input).toHaveValue('12,345');
 
-    userEvent.type(input, '{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}');
+    userEvent.type(
+      input,
+      '{backspace}{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}'
+    );
 
-    expect(input).toHaveValue('123');
-
-    userEvent.type(input, '{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}');
+    expect(input).toHaveValue('234');
   });
 });

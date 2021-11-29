@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef, forwardRef, useMemo } from 'react';
+import React, { FC, useState, useEffect, useRef, forwardRef, useMemo, createRef } from 'react';
 import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
   isNumber,
@@ -145,17 +145,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (cursorPosition !== undefined && cursorPosition !== null) {
         // Prevent cursor jumping
         let newCursor = cursorPosition + (formattedValue.length - value.length);
-
-        console.log(newCursor);
-        // prevent cursor from jumping to end of input
-        if (newCursor <= 0) {
-          if (prefix) {
-            newCursor = 1;
-          } else {
-            newCursor = 0;
-          }
-          // newCursor = prefix ? 1 : 0;
-        }
+        newCursor = newCursor <= 0 ? (prefix ? prefix.length : 0) : newCursor;
 
         setCursor(newCursor);
         setChangeCount(changeCount + 1);
@@ -299,6 +289,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
 
         if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
+          /* istanbul ignore else */
           if (inputRef && typeof inputRef === 'object' && inputRef.current) {
             const newCursor = stateValue.length - suffix.length;
             inputRef.current.setSelectionRange(newCursor, newCursor);
@@ -309,7 +300,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onKeyUp && onKeyUp(event);
     };
 
-    /* istanbul ignore next */
     useEffect(() => {
       // prevent cursor jumping if editing value
       if (
@@ -344,7 +334,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       return stateValue;
     };
 
-    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+    const inputProps: React.ComponentPropsWithRef<'input'> = {
       type: 'text',
       inputMode: 'decimal',
       id,

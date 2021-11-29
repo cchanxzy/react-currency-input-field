@@ -4,7 +4,7 @@ import { CurrencyInputProps, CurrencyInputOnChangeValues } from '../components/C
 
 export const Example1: FC = () => {
   const limit = 1000;
-  const prefix = '';
+  const prefix = '£';
 
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
