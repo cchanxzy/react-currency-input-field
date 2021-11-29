@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef, forwardRef, useMemo, createRef } from 'react';
+import React, { FC, useState, useEffect, useRef, forwardRef, useMemo } from 'react';
 import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
   isNumber,
