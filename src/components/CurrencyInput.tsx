@@ -302,7 +302,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         userValue !== undefined &&
         userValue !== null &&
         stateValue !== '-' &&
-        stateValue !== decimalSeparator
+        (!decimalSeparator || stateValue !== decimalSeparator)
       ) {
         return formatValue({
           ...formatValueOptions,
