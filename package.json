@@ -3,7 +3,8 @@
   "version": "3.6.0",
   "description": "React <input/> component for formatting currency and numbers.",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "src/**/*"
   ],
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
