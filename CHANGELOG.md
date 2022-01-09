@@ -1,3 +1,10 @@
+## [3.6.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.0...v3.6.1) (2022-01-09)
+
+
+### Bug Fixes
+
+* invalid source maps ([#216](https://github.com/cchanxzy/react-currency-input-field/issues/216)) ([17f1398](https://github.com/cchanxzy/react-currency-input-field/commit/17f13984caeeac758f798595da0f959aa815e111))
+
 # [3.6.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.5.1...v3.6.0) (2021-10-27)
 
 
