@@ -10,6 +10,7 @@ import {
   CleanValueOptions,
   getSuffix,
   FormatValueOptions,
+  repositionCursor,
 } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
@@ -104,6 +105,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const [stateValue, setStateValue] = useState(formattedStateValue);
     const [dirty, setDirty] = useState(false);
     const [cursor, setCursor] = useState(0);
+    const [changeCount, setChangeCount] = useState(0);
+    const [lastKeyStroke, setLastKeyStroke] = useState<string | null>(null);
     const inputRef = ref || useRef<HTMLInputElement>(null);
 
     /**
@@ -111,7 +114,16 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
      */
     const processChange = (value: string, selectionStart?: number | null): void => {
       setDirty(true);
-      const stringValue = cleanValue({ value, ...cleanValueOptions });
+
+      const { modifiedValue, cursorPosition } = repositionCursor({
+        selectionStart,
+        value,
+        lastKeyStroke,
+        stateValue,
+        groupSeparator,
+      });
+
+      const stringValue = cleanValue({ value: modifiedValue, ...cleanValueOptions });
 
       if (userMaxLength && stringValue.replace(/-/g, '').length > userMaxLength) {
         return;
@@ -124,13 +136,19 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
 
       const numberValue = parseFloat(stringValue.replace(decimalSeparator, '.'));
-      const formattedValue = formatValue({ value: stringValue, ...formatValueOptions });
 
-      /* istanbul ignore next */
-      if (selectionStart !== undefined && selectionStart !== null) {
+      const formattedValue = formatValue({
+        value: stringValue,
+        ...formatValueOptions,
+      });
+
+      if (cursorPosition !== undefined && cursorPosition !== null) {
         // Prevent cursor jumping
-        const newCursor = selectionStart + (formattedValue.length - value.length) || 1;
+        let newCursor = cursorPosition + (formattedValue.length - value.length);
+        newCursor = newCursor <= 0 ? (prefix ? prefix.length : 0) : newCursor;
+
         setCursor(newCursor);
+        setChangeCount(changeCount + 1);
       }
 
       setStateValue(formattedValue);
@@ -220,6 +238,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       const { key } = event;
 
+      setLastKeyStroke(key);
+
       if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
         event.preventDefault();
         setCursor(stateValue.length);
@@ -269,6 +289,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
 
         if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
+          /* istanbul ignore else */
           if (inputRef && typeof inputRef === 'object' && inputRef.current) {
             const newCursor = stateValue.length - suffix.length;
             inputRef.current.setSelectionRange(newCursor, newCursor);
@@ -279,7 +300,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onKeyUp && onKeyUp(event);
     };
 
-    /* istanbul ignore next */
     useEffect(() => {
       // prevent cursor jumping if editing value
       if (
@@ -291,7 +311,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       ) {
         inputRef.current.setSelectionRange(cursor, cursor);
       }
-    }, [stateValue, cursor, inputRef, dirty]);
+    }, [stateValue, cursor, inputRef, dirty, changeCount]);
 
     /**
      * If user has only entered "-" or decimal separator,
@@ -314,7 +334,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       return stateValue;
     };
 
-    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+    const inputProps: React.ComponentPropsWithRef<'input'> = {
       type: 'text',
       inputMode: 'decimal',
       id,

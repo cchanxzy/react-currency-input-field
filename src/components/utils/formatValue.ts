@@ -78,6 +78,7 @@ export const formatValue = (options: FormatValueOptions): string => {
   const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(
     _value
   );
+
   const value =
     decimalSeparator !== '.'
       ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
