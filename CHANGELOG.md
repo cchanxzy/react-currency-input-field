@@ -1,3 +1,10 @@
+## [3.6.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.1...v3.6.2) (2022-01-09)
+
+
+### Bug Fixes
+
+* dont block controlled prop if decimal separator not present ([#215](https://github.com/cchanxzy/react-currency-input-field/issues/215)) ([02b875c](https://github.com/cchanxzy/react-currency-input-field/commit/02b875cfe5c6a08d6db74ea3e3508d7d3bd33d40))
+
 ## [3.6.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.0...v3.6.1) (2022-01-09)
 
 
