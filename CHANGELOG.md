@@ -1,3 +1,10 @@
+## [3.6.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.2...v3.6.3) (2022-01-09)
+
+
+### Bug Fixes
+
+* inconsistent cursor behaviour ([#212](https://github.com/cchanxzy/react-currency-input-field/issues/212)) ([7b740ca](https://github.com/cchanxzy/react-currency-input-field/commit/7b740ca908c444437a6ba6e9d291f446a44a29ab))
+
 ## [3.6.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.1...v3.6.2) (2022-01-09)
 
 
