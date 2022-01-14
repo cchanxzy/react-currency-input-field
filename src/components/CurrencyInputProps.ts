@@ -36,7 +36,7 @@ export type IntlConfig = {
 };
 
 export type CurrencyInputProps = Overwrite<
-  React.ComponentPropsWithoutRef<'input'>,
+  React.ComponentPropsWithRef<'input'>,
   {
     /**
      * Allow decimals
