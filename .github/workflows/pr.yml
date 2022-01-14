@@ -25,6 +25,8 @@ jobs:
         run: yarn lint
       - name: Run tests
         run: yarn test-ci
+      - name: Run typecheck
+        run: yarn typecheck
       - name: Code coverage
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
