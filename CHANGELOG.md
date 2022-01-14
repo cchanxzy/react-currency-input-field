@@ -1,3 +1,10 @@
+## [3.6.4](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.3...v3.6.4) (2022-01-14)
+
+
+### Bug Fixes
+
+* include ref in component props ([#219](https://github.com/cchanxzy/react-currency-input-field/issues/219)) ([525ea32](https://github.com/cchanxzy/react-currency-input-field/commit/525ea32d9a6b62bc9391ad9fde9c1930e28ad498))
+
 ## [3.6.3](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.2...v3.6.3) (2022-01-09)
 
 
