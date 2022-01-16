@@ -30,13 +30,13 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
 
       fireEvent.focusOut(screen.getByRole('textbox'));
 
-      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.230', undefined, {
-        float: 1.23,
-        formatted: '$1.230',
-        value: '1.230',
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('123.000', undefined, {
+        float: 123.0,
+        formatted: '$123.000',
+        value: '123.000',
       });
 
-      expect(screen.getByRole('textbox')).toHaveValue('$1.230');
+      expect(screen.getByRole('textbox')).toHaveValue('$123.000');
     });
 
     it('should work with decimalScale and decimalSeparator', () => {

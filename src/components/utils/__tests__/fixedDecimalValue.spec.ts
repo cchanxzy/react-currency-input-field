@@ -7,17 +7,17 @@ describe('fixedDecimalValue', () => {
 
   it('should work with 2 fixed decimal length', () => {
     expect(fixedDecimalValue('1', '.', 2)).toEqual('1');
-    expect(fixedDecimalValue('12', '.', 2)).toEqual('1.2');
-    expect(fixedDecimalValue('123', '.', 2)).toEqual('1.23');
-    expect(fixedDecimalValue('12345', '.', 2)).toEqual('123.45');
+    expect(fixedDecimalValue('12', '.', 2)).toEqual('12.00');
+    expect(fixedDecimalValue('123', '.', 2)).toEqual('123.00');
+    expect(fixedDecimalValue('12345', '.', 2)).toEqual('12345.00');
     expect(fixedDecimalValue('123.4567', '.', 2)).toEqual('123.45');
   });
 
   it('should work with 4 fixed decimal length', () => {
-    expect(fixedDecimalValue('12', ',', 4)).toEqual('1,2');
-    expect(fixedDecimalValue('123', ',', 4)).toEqual('1,23');
-    expect(fixedDecimalValue('1234', ',', 4)).toEqual('1,234');
-    expect(fixedDecimalValue('12345', ',', 4)).toEqual('1,2345');
+    expect(fixedDecimalValue('12', ',', 4)).toEqual('12,0000');
+    expect(fixedDecimalValue('123', ',', 4)).toEqual('123,0000');
+    expect(fixedDecimalValue('1234', ',', 4)).toEqual('1234,0000');
+    expect(fixedDecimalValue('12345', ',', 4)).toEqual('12345,0000');
   });
 
   it('should trim decimals if too long', () => {
