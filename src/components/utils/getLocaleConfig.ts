@@ -4,6 +4,7 @@ type LocaleConfig = {
   currencySymbol: string;
   groupSeparator: string;
   decimalSeparator: string;
+  literalSeparator: string;
   prefix: string;
   suffix: string;
 };
@@ -12,6 +13,7 @@ const defaultConfig: LocaleConfig = {
   currencySymbol: '',
   groupSeparator: '',
   decimalSeparator: '',
+  literalSeparator: '',
   prefix: '',
   suffix: '',
 };
@@ -38,6 +40,9 @@ export const getLocaleConfig = (intlConfig?: IntlConfig): LocaleConfig => {
     }
     if (curr.type === 'decimal') {
       return { ...prev, decimalSeparator: curr.value };
+    }
+    if (curr.type === 'literal') {
+      return { ...prev, literalSeparator: curr.value };
     }
 
     return prev;

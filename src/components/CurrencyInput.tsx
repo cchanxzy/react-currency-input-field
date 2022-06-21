@@ -65,6 +65,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const localeConfig = useMemo(() => getLocaleConfig(intlConfig), [intlConfig]);
     const decimalSeparator = _decimalSeparator || localeConfig.decimalSeparator || '';
     const groupSeparator = _groupSeparator || localeConfig.groupSeparator || '';
+    const literalSeparator = localeConfig.literalSeparator;
 
     if (
       decimalSeparator &&
@@ -78,6 +79,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const formatValueOptions: Partial<FormatValueOptions> = {
       decimalSeparator,
       groupSeparator,
+      literalSeparator,
       disableGroupSeparators,
       intlConfig,
       prefix: prefix || localeConfig.prefix,
@@ -286,7 +288,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         currentTarget: { selectionStart },
       } = event;
       if (key !== 'ArrowUp' && key !== 'ArrowDown' && stateValue !== '-') {
-        const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
+        const suffix = getSuffix(stateValue, {
+          groupSeparator,
+          decimalSeparator,
+          literalSeparator,
+        });
 
         if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
           /* istanbul ignore else */
