@@ -177,7 +177,7 @@ If decimalScale is 2
 
 ---
 
-If decimalLimit is 2
+If decimalsLimit is 2
 
 - User enters 1.23
 - User is then prevented from entering another value
