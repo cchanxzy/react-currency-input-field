@@ -135,7 +135,12 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         return;
       }
 
-      const numberValue = parseFloat(stringValue.replace(decimalSeparator, '.'));
+      const numberValue = (() => {
+        const stringValueWithoutSeparator = decimalSeparator
+          ? stringValue.replace(decimalSeparator, '.')
+          : stringValue;
+        return parseFloat(stringValueWithoutSeparator);
+      })();
 
       const formattedValue = formatValue({
         value: stringValue,
