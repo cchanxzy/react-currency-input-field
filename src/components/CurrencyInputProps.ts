@@ -75,6 +75,13 @@ export type CurrencyInputProps = Overwrite<
     customInput?: ElementType;
 
     /**
+     * MUI component
+     *
+     * Default = <input/>
+     */
+    muiInput?: ElementType;
+
+    /**
      * Limit length of decimals allowed
      *
      * Default = 2

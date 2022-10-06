@@ -24,6 +24,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       id,
       name,
       className,
+      muiInput,
       customInput,
       decimalsLimit,
       defaultValue,
@@ -352,8 +353,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       ...props,
     };
 
-    if (customInput) {
-      const CustomInput = customInput;
+    if (customInput || muiInput) {
+      const CustomInput = customInput || muiInput;
+
+      if (muiInput) {
+        return <CustomInput inputProps={...inputProps} />;
+      }
+
       return <CustomInput {...inputProps} />;
     }
 
