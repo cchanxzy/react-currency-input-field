@@ -527,7 +527,7 @@ describe('formatValue', () => {
       ).toEqual(`123.00`);
     });
 
-    it('should add decimals if intlConfig has no currency provided, decimalScale defined and the input value is X.00', () => {
+    it('should add decimals if intlConfig has no currency provided, decimalScale defined and the input value is X.00 (de-DE)', () => {
       expect(
         formatValue({
           value: '123.00',
