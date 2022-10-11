@@ -84,22 +84,23 @@ export const formatValue = (options: FormatValueOptions): string => {
       ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
       : _value;
 
+  const defaultNumberFormatOptions = {
+    minimumFractionDigits: decimalScale || 0,
+    maximumFractionDigits: 20,
+  };
+
   const numberFormatter = intlConfig
     ? new Intl.NumberFormat(
         intlConfig.locale,
         intlConfig.currency
           ? {
+              ...defaultNumberFormatOptions,
               style: 'currency',
               currency: intlConfig.currency,
-              minimumFractionDigits: decimalScale || 0,
-              maximumFractionDigits: 20,
             }
-          : undefined
+          : defaultNumberFormatOptions
       )
-    : new Intl.NumberFormat(undefined, {
-        minimumFractionDigits: decimalScale || 0,
-        maximumFractionDigits: 20,
-      });
+    : new Intl.NumberFormat(undefined, defaultNumberFormatOptions);
 
   const parts = numberFormatter.formatToParts(Number(value));
 
