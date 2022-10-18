@@ -516,5 +516,25 @@ describe('formatValue', () => {
         })
       ).toEqual(`£123.98$`);
     });
+
+    it('should add decimals if intlConfig has no currency provided, decimalScale defined and the input value is X.00', () => {
+      expect(
+        formatValue({
+          value: '123.00',
+          intlConfig: { locale: 'en-US' },
+          decimalScale: 2,
+        })
+      ).toEqual(`123.00`);
+    });
+
+    it('should add decimals if intlConfig has no currency provided, decimalScale defined and the input value is X.00 (de-DE)', () => {
+      expect(
+        formatValue({
+          value: '123.00',
+          intlConfig: { locale: 'de-DE' },
+          decimalScale: 2,
+        })
+      ).toEqual(`123,00`);
+    });
   });
 });
