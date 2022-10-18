@@ -307,7 +307,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         stateValue !== '-' &&
         inputRef &&
         typeof inputRef === 'object' &&
-        inputRef.current
+        inputRef.current &&
+        document.activeElement === inputRef.current
       ) {
         inputRef.current.setSelectionRange(cursor, cursor);
       }
