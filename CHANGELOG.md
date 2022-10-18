@@ -1,3 +1,10 @@
+## [3.6.7](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.6...v3.6.7) (2022-10-18)
+
+
+### Bug Fixes
+
+* safari cursor stuck if onBlur & decimalScale set ([#261](https://github.com/cchanxzy/react-currency-input-field/issues/261)) ([d724157](https://github.com/cchanxzy/react-currency-input-field/commit/d7241578b882736e9d22de9dd79dfc653e2f1023))
+
 ## [3.6.6](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.5...v3.6.6) (2022-10-18)
 
 
