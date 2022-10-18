@@ -1,3 +1,10 @@
+## [3.6.6](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.5...v3.6.6) (2022-10-18)
+
+
+### Bug Fixes
+
+* no decimals if defined decimalScale, input value as  X.00 and intlConfig, but without no currency ([#262](https://github.com/cchanxzy/react-currency-input-field/issues/262)) ([36ad0ed](https://github.com/cchanxzy/react-currency-input-field/commit/36ad0edea389d88fe11146e00fdfd999e4c0b19c))
+
 ## [3.6.5](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.4...v3.6.5) (2022-09-20)
 
 
