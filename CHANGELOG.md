@@ -1,3 +1,10 @@
+## [3.6.8](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.7...v3.6.8) (2022-10-20)
+
+
+### Bug Fixes
+
+* parse float for currencies w/o decimal sep ([#259](https://github.com/cchanxzy/react-currency-input-field/issues/259)) ([a75d8cc](https://github.com/cchanxzy/react-currency-input-field/commit/a75d8cc84779696855889ba524be542a93a2c212))
+
 ## [3.6.7](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.6...v3.6.7) (2022-10-18)
 
 
