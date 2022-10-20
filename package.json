@@ -13,8 +13,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc && rollup -c",
     "start": "parcel src/examples/index.html",
-    "test": "jest --coverage --roots ./src",
-    "test-ci": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --coverage",
+    "test": "LANG=en_GB jest --coverage --roots ./src",
+    "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest --coverage",
     "typecheck": "tsc && tsc --project tsconfig.test.json",
     "lint": "eslint src --max-warnings=0",
     "gh-predeploy": "parcel build src/examples/index.html --dist-dir demo/examples --public-url ./",

@@ -80,6 +80,26 @@ describe('<CurrencyInput/> decimals', () => {
     });
   });
 
+  it('should handle currencies without decimals', () => {
+    render(
+      <CurrencyInput
+        intlConfig={{ locale: 'ja-JP', currency: 'JPY' }}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    userEvent.type(screen.getByRole('textbox'), '1');
+
+    expect(screen.getByRole('textbox')).toHaveValue('￥1');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1', undefined, {
+      float: 1,
+      formatted: '￥1',
+      value: '1',
+    });
+  });
+
   it('should handle starting with decimal separator that is non period', () => {
     render(
       <CurrencyInput
