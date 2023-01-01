@@ -1,4 +1,12 @@
-import React, { FC, useState, useEffect, useRef, forwardRef, useMemo } from 'react';
+import React, {
+  FC,
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useMemo,
+  useImperativeHandle,
+} from 'react';
 import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
   isNumber,
@@ -107,7 +115,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     const [cursor, setCursor] = useState(0);
     const [changeCount, setChangeCount] = useState(0);
     const [lastKeyStroke, setLastKeyStroke] = useState<string | null>(null);
-    const inputRef = ref || useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     /**
      * Process change in value
@@ -294,7 +303,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
         if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
           /* istanbul ignore else */
-          if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+          if (inputRef.current) {
             const newCursor = stateValue.length - suffix.length;
             inputRef.current.setSelectionRange(newCursor, newCursor);
           }
@@ -309,8 +318,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (
         dirty &&
         stateValue !== '-' &&
-        inputRef &&
-        typeof inputRef === 'object' &&
         inputRef.current &&
         document.activeElement === inputRef.current
       ) {
