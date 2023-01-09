@@ -47,11 +47,11 @@ There are a number of breaking changes in v3.0.0, please read the [release notes
 
 ## Install
 
-`npm install @ecancan/react-currency-input-field`
+`npm install react-currency-input-field`
 
 or
 
-`yarn add @ecancan/react-currency-input-field`
+`yarn add react-currency-input-field`
 
 ## Usage
 
