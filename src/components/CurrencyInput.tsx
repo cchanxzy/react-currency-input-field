@@ -168,6 +168,25 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     };
 
     /**
+     * Handle minimum maximum limitation.
+     */
+    const handleMinMaxValueLimitation = (value: string): string => {
+      const newValue = parseFloat(
+        value.replace(prefix || '', '').replace(new RegExp(groupSeparator, 'gi'), '')
+      );
+
+      if (min !== undefined && newValue <= min) {
+        return min.toString();
+      }
+
+      if (max !== undefined && newValue >= max) {
+        return max.toString();
+      }
+
+      return value;
+    };
+
+    /**
      * Handle change event
      */
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -198,7 +217,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         target: { value },
       } = event;
 
-      const valueOnly = cleanValue({ value, ...cleanValueOptions });
+      const limitedValue = handleMinMaxValueLimitation(value);
+
+      const valueOnly = cleanValue({ value: limitedValue, ...cleanValueOptions });
 
       if (valueOnly === '-' || !valueOnly) {
         setStateValue('');
@@ -358,8 +379,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     };
 
     if (customInput) {
-      const CustomInput = customInput;
-      return <CustomInput {...inputProps} />;
+      return React.createElement(customInput, inputProps);
     }
 
     return <input {...inputProps} />;
