@@ -1,7 +1,8 @@
 {
-  "name": "react-currency-input-field",
-  "version": "3.6.9",
+  "name": "@ecancan/react-currency-input-field",
+  "version": "3.7.0",
   "description": "React <input/> component for formatting currency and numbers.",
+  "private": false,
   "files": [
     "dist/**/*",
     "src/**/*"
@@ -25,11 +26,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cchanxzy/react-currency-input-field"
+    "url": "https://github.com/Ecancan/react-currency-input-field"
   },
   "bugs": {
-    "email": "cchan.xzy@gmail.com",
-    "url": "https://github.com/cchanxzy/react-currency-input-field/issues"
+    "email": "email.ahmetcan@gmail.com",
+    "url": "https://github.com/Ecancan/react-currency-input-field/issues"
   },
   "keywords": [
     "react",
@@ -42,7 +43,7 @@
     "intl",
     "locale"
   ],
-  "author": "cchanxzy",
+  "author": "cchanxzy, ecancan",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
