@@ -93,56 +93,82 @@ describe('<CurrencyInput/> onBlur', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$100');
   });
 
-  it('should be have maximum value with maximum limit after focusout without prefix', () => {
+  const minMaxLimitations = [
+    {
+      value: '1000000000',
+      onValueReturnWith: '10000000',
+      expectValue: '10.000.000',
+      min: '100',
+      max: '10000000',
+      intlConfig: { locale: 'de-DE' },
+    },
+    {
+      value: '100000',
+      onValueReturnWith: '10000',
+      expectValue: '10.000',
+      min: '100',
+      max: '10000',
+      intlConfig: { locale: 'de-DE' },
+    },
+    {
+      value: '99,99',
+      onValueReturnWith: '99,99',
+      expectValue: '99,99',
+      min: '10',
+      max: '100',
+      intlConfig: { locale: 'de-DE' },
+    },
+    {
+      value: '100000',
+      onValueReturnWith: '124,22',
+      expectValue: '124,22',
+      min: '100',
+      max: '124,22',
+      intlConfig: { locale: 'de-DE' },
+    },
+    {
+      value: '10',
+      onValueReturnWith: '100,01',
+      expectValue: '100,01',
+      min: '100,01',
+      max: '124,22',
+      intlConfig: { locale: 'de-DE' },
+    },
+    {
+      value: '10',
+      onValueReturnWith: '100.01',
+      expectValue: '100.01',
+      min: '100.01',
+      max: '124.22',
+      intlConfig: { locale: 'en-US' },
+    },
+    {
+      value: '-1000',
+      onValueReturnWith: '100.01',
+      expectValue: '100.01',
+      min: '100.01',
+      max: '124.22',
+      intlConfig: { locale: 'en-US' },
+    },
+  ];
+
+  it.each(minMaxLimitations)('should be not exceed the limits %s', (item) => {
     render(
       <CurrencyInput
         name={name}
         onBlur={onBlurSpy}
         onValueChange={onValueChangeSpyWithValue}
         placeholder="Please enter a number"
-        max={10000}
+        min={item.min}
+        max={item.max}
+        intlConfig={item.intlConfig}
       />
     );
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '1000000000' } });
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: item.value } });
     fireEvent.focusOut(screen.getByRole('textbox'));
 
     expect(onBlurSpy).toBeCalled();
-    expect(onValueChangeSpyWithValue).toHaveReturnedWith('10000');
-    expect(screen.getByRole('textbox')).toHaveValue('10,000');
-  });
-
-  it('should be have maximum value with maximum limit after focusout without prefix', () => {
-    render(
-      <CurrencyInput
-        name={name}
-        onBlur={onBlurSpy}
-        onValueChange={onValueChangeSpyWithValue}
-        max={10000}
-      />
-    );
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '1000000000' } });
-    fireEvent.focusOut(screen.getByRole('textbox'));
-
-    expect(onBlurSpy).toBeCalled();
-    expect(onValueChangeSpyWithValue).toHaveReturnedWith('10000');
-    expect(screen.getByRole('textbox')).toHaveValue('10,000');
-  });
-
-  it('should be have minimum value with minimum limit after focusout without prefix', () => {
-    render(
-      <CurrencyInput
-        name={name}
-        onBlur={onBlurSpy}
-        onValueChange={onValueChangeSpyWithValue}
-        min={1000}
-        max={90000}
-      />
-    );
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '1' } });
-    fireEvent.focusOut(screen.getByRole('textbox'));
-
-    expect(onBlurSpy).toBeCalled();
-    expect(onValueChangeSpyWithValue).toHaveReturnedWith('1000');
-    expect(screen.getByRole('textbox')).toHaveValue('1,000');
+    expect(onValueChangeSpyWithValue).toHaveReturnedWith(item.onValueReturnWith);
+    expect(screen.getByRole('textbox')).toHaveValue(item.expectValue);
   });
 });

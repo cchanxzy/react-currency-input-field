@@ -12,6 +12,7 @@ import {
   FormatValueOptions,
   repositionCursor,
 } from './utils';
+import { normalizeValue } from './utils/normalizeValue';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
   HTMLInputElement,
@@ -171,15 +172,19 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
      * Handle minimum maximum limitation.
      */
     const handleMinMaxValueLimitation = (value: string): string => {
-      const newValue = parseFloat(
-        value.replace(prefix || '', '').replace(new RegExp(groupSeparator, 'gi'), '')
-      );
+      const newValue = normalizeValue({ value, prefix, groupSeparator });
 
-      if (min !== undefined && newValue <= min) {
+      if (
+        min !== undefined &&
+        newValue <= normalizeValue({ value: min.toString(), groupSeparator })
+      ) {
         return min.toString();
       }
 
-      if (max !== undefined && newValue >= max) {
+      if (
+        max !== undefined &&
+        newValue >= normalizeValue({ value: max.toString(), groupSeparator })
+      ) {
         return max.toString();
       }
 
