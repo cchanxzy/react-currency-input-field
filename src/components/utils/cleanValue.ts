@@ -47,7 +47,7 @@ export const cleanValue = ({
   const isNegative = reg.test(transformedValue);
 
   // Is there a digit before the prefix? eg. 1$
-  const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
+  const [prefixWithValue, preValue] = RegExp(`(-?\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
   const withoutPrefix = prefix
     ? prefixWithValue
       ? transformedValue.replace(prefixWithValue, '').concat(preValue)
@@ -61,18 +61,23 @@ export const cleanValue = ({
 
   let valueOnly = withoutInvalidChars;
 
+  let includeNegative = isNegative && allowNegativeValue ? '-' : '';
+
   if (!disableAbbreviations) {
     // disallow letter without number
     if (abbrKeys.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
       return '';
     }
-    const parsed = parseAbbrValue(withoutInvalidChars, abbreviations, decimalSeparator);
+    const parsed = parseAbbrValue(
+      `${includeNegative}${withoutInvalidChars}`,
+      abbreviations,
+      decimalSeparator
+    );
     if (parsed !== undefined) {
-      valueOnly = String(parsed);
+      includeNegative = parsed < 0 ? '-' : '';
+      valueOnly = String(includeNegative ? parsed * -1 : parsed);
     }
   }
-
-  const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
   if (decimalSeparator && valueOnly.includes(decimalSeparator)) {
     const [int, decimals] = withoutInvalidChars.split(decimalSeparator);

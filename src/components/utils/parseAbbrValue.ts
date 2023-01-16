@@ -30,7 +30,7 @@ export const parseAbbrValue = (
 ): number | undefined => {
   const abbrKeys = Object.keys(abbreviations);
   const reg = new RegExp(
-    `(\\d+(${escapeRegExp(decimalSeparator)}\\d*)?)([${abbrKeys.join('')}])$`,
+    `(-?\\d+(${escapeRegExp(decimalSeparator)}\\d*)?)([${abbrKeys.join('')}])$`,
     'i'
   );
   const match = value.match(reg);

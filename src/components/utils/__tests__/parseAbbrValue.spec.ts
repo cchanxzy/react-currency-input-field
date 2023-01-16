@@ -90,5 +90,6 @@ describe('parseAbbrValue', () => {
   it('should work with user defined abbreviations', () => {
     expect(parseAbbrValueBase('100c', userAbbrMap)).toEqual(0);
     expect(parseAbbrValueBase('10n', userAbbrMap)).toEqual(-10);
+    expect(parseAbbrValueBase('-10n', userAbbrMap)).toEqual(10);
   });
 });
