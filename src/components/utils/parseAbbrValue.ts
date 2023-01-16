@@ -29,14 +29,14 @@ export const parseAbbrValue = (
   decimalSeparator = '.'
 ): number | undefined => {
   const abbrKeys = Object.keys(abbreviations);
-  const reg = new RegExp(
-    `(-?\\d+(${escapeRegExp(decimalSeparator)}\\d*)?)([${abbrKeys.join('')}])$`,
-    'i'
-  );
-  const match = value.match(reg);
+  const reg = new RegExp(`([${abbrKeys.join('')}])`, 'i');
+  let abbr = '';
+  const digits = value.replace(reg, (_, a) => {
+    abbr = a;
+    return '';
+  });
 
-  if (match) {
-    const [, digits, , abbr] = match;
+  if (abbr && digits && !reg.test(digits)) {
     const multiplier = abbreviations[abbr.toLowerCase()];
 
     return Number(digits.replace(decimalSeparator, '.')) * multiplier;
