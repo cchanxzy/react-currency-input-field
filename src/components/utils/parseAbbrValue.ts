@@ -1,3 +1,4 @@
+import { AbbrMap } from './cleanValue';
 import { escapeRegExp } from './escapeRegExp';
 
 /**
@@ -19,20 +20,24 @@ export const abbrValue = (value: number, decimalSeparator = '.', _decimalPlaces 
   return String(value);
 };
 
-type AbbrMap = { [key: string]: number };
-
-const abbrMap: AbbrMap = { k: 1000, m: 1000000, b: 1000000000 };
-
 /**
  * Parse a value with abbreviation e.g 1k = 1000
  */
-export const parseAbbrValue = (value: string, decimalSeparator = '.'): number | undefined => {
-  const reg = new RegExp(`(\\d+(${escapeRegExp(decimalSeparator)}\\d*)?)([kmb])$`, 'i');
+export const parseAbbrValue = (
+  value: string,
+  abbreviations: AbbrMap,
+  decimalSeparator = '.'
+): number | undefined => {
+  const abbrKeys = Object.keys(abbreviations);
+  const reg = new RegExp(
+    `(\\d+(${escapeRegExp(decimalSeparator)}\\d*)?)([${abbrKeys.join('')}])$`,
+    'i'
+  );
   const match = value.match(reg);
 
   if (match) {
     const [, digits, , abbr] = match;
-    const multiplier = abbrMap[abbr.toLowerCase()];
+    const multiplier = abbreviations[abbr.toLowerCase()];
 
     return Number(digits.replace(decimalSeparator, '.')) * multiplier;
   }

@@ -14,7 +14,12 @@ export type CleanValueOptions = Pick<
   | 'disableAbbreviations'
   | 'prefix'
   | 'transformRawValue'
+  | 'abbreviations'
 > & { value: string };
+
+export type AbbrMap = { [key: string]: number };
+
+export const abbrMap: AbbrMap = { k: 1000, m: 1000000, b: 1000000000 };
 
 /**
  * Remove prefix, separators and extra decimals from value
@@ -29,6 +34,7 @@ export const cleanValue = ({
   disableAbbreviations = false,
   prefix = '',
   transformRawValue = (rawValue) => rawValue,
+  abbreviations = abbrMap,
 }: CleanValueOptions): string => {
   const transformedValue = transformRawValue(value);
 
@@ -36,7 +42,7 @@ export const cleanValue = ({
     return transformedValue;
   }
 
-  const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
+  const abbrKeys = disableAbbreviations ? [] : Object.keys(abbreviations);
   const reg = new RegExp(`((^|\\D)-\\d)|(-${escapeRegExp(prefix)})`);
   const isNegative = reg.test(transformedValue);
 
@@ -49,20 +55,19 @@ export const cleanValue = ({
     : transformedValue;
   const withoutSeparators = removeSeparators(withoutPrefix, groupSeparator);
   const withoutInvalidChars = removeInvalidChars(withoutSeparators, [
-    groupSeparator,
     decimalSeparator,
-    ...abbreviations,
+    ...abbrKeys,
   ]);
 
   let valueOnly = withoutInvalidChars;
 
   if (!disableAbbreviations) {
     // disallow letter without number
-    if (abbreviations.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
+    if (abbrKeys.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
       return '';
     }
-    const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator);
-    if (parsed) {
+    const parsed = parseAbbrValue(withoutInvalidChars, abbreviations, decimalSeparator);
+    if (parsed !== undefined) {
       valueOnly = String(parsed);
     }
   }

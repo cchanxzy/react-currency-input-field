@@ -39,6 +39,13 @@ export type CurrencyInputProps = Overwrite<
   React.ComponentPropsWithRef<'input'>,
   {
     /**
+     * User defined abbreviations
+     *
+     * Default = { k: 1000, m: 1000000, b: 1000000000 }
+     */
+    abbreviations?: Record<string, number>;
+
+    /**
      * Allow decimals
      *
      * Default = true

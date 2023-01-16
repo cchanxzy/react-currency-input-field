@@ -1,4 +1,13 @@
-import { abbrValue, parseAbbrValue } from '../parseAbbrValue';
+import { abbrMap } from '../cleanValue';
+import { abbrValue, parseAbbrValue as parseAbbrValueBase } from '../parseAbbrValue';
+
+const parseAbbrValue = (val: string, separator?: string) =>
+  parseAbbrValueBase(val, abbrMap, separator);
+
+const userAbbrMap = {
+  c: 0,
+  n: -1,
+};
 
 describe('abbrValue', () => {
   it('should not convert value under 1000', () => {
@@ -76,5 +85,10 @@ describe('parseAbbrValue', () => {
   it('should work with comma as decimal separator', () => {
     expect(parseAbbrValue('1,2k', ',')).toEqual(1200);
     expect(parseAbbrValue('2,3m', ',')).toEqual(2300000);
+  });
+
+  it('should work with user defined abbreviations', () => {
+    expect(parseAbbrValueBase('100c', userAbbrMap)).toEqual(0);
+    expect(parseAbbrValueBase('10n', userAbbrMap)).toEqual(-10);
   });
 });
