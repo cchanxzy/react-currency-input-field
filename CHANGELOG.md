@@ -1,3 +1,10 @@
+## [3.6.10](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.9...v3.6.10) (2023-02-03)
+
+
+### Bug Fixes
+
+* closes Cursor jumping issue if the ref passed isn't a ref object [#247](https://github.com/cchanxzy/react-currency-input-field/issues/247) ([#276](https://github.com/cchanxzy/react-currency-input-field/issues/276)) ([ef4e9e4](https://github.com/cchanxzy/react-currency-input-field/commit/ef4e9e442ba6dd693163fe978308e2c4d65c2731))
+
 ## [3.6.9](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.8...v3.6.9) (2022-10-25)
 
 ## [3.6.8](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.7...v3.6.8) (2022-10-20)
