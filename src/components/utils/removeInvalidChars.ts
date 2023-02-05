@@ -1,5 +1,5 @@
 import { escapeRegExp } from './escapeRegExp';
-import {countryCodesWithAbbreviationsChars} from './countryCodesWithAbbreviationsRegExp'
+import { countryCodesWithAbbreviationsChars } from './countryCodesWithAbbreviationsRegExp';
 
 /**
  * Remove invalid characters
