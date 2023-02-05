@@ -1,19 +1,5 @@
 import { escapeRegExp } from './escapeRegExp';
-
-const countryCodesWithAbbreviationsChars = [
-  // with K
-  /[A-Z][A-Z]K/,
-  /[A-Z]K[A-Z]/,
-  /K[A-Z][A-Z]/,
-  // with M
-  /[A-Z][A-Z]M/,
-  /[A-Z]M[A-Z]/,
-  /M[A-Z][A-Z]/,
-  // with B
-  /[A-Z][A-Z]B/,
-  /[A-Z]B[A-Z]/,
-  /B[A-Z][A-Z]/,
-];
+import {countryCodesWithAbbreviationsChars} from './countryCodesWithAbbreviationsRegExp'
 
 /**
  * Remove invalid characters
