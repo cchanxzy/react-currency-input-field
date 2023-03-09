@@ -57,7 +57,10 @@ export type FormatValueOptions = {
 /**
  * Format value with decimal separator, group separator and prefix
  */
-export const formatValue = (options: FormatValueOptions): string => {
+export const formatValue = (
+  options: FormatValueOptions,
+  numberFormatterOptions: Intl.NumberFormatOptions = {}
+): string => {
   const {
     value: _value,
     decimalSeparator,
@@ -87,6 +90,7 @@ export const formatValue = (options: FormatValueOptions): string => {
   const defaultNumberFormatOptions = {
     minimumFractionDigits: decimalScale || 0,
     maximumFractionDigits: 20,
+    ...numberFormatterOptions,
   };
 
   const numberFormatter = intlConfig

@@ -97,7 +97,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       decimalSeparator,
       groupSeparator,
       allowDecimals,
-      decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
+      decimalsLimit: options?.maximumFractionDigits || decimalsLimit || fixedDecimalLength || 2,
       allowNegativeValue,
       disableAbbreviations,
       prefix: prefix || localeConfig.prefix,
@@ -106,9 +106,9 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     const formattedStateValue =
       defaultValue !== undefined && defaultValue !== null
-        ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
+        ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) }, options)
         : userValue !== undefined && userValue !== null
-        ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
+        ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) }, options)
         : '';
 
     const [stateValue, setStateValue] = useState(formattedStateValue);
