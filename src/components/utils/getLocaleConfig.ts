@@ -19,10 +19,16 @@ const defaultConfig: LocaleConfig = {
 /**
  * Get locale config from input or default
  */
-export const getLocaleConfig = (intlConfig?: IntlConfig): LocaleConfig => {
+export const getLocaleConfig = (
+  intlConfig?: IntlConfig,
+  options?: Intl.NumberFormatOptions
+): LocaleConfig => {
   const { locale, currency } = intlConfig || {};
   const numberFormatter = locale
-    ? new Intl.NumberFormat(locale, currency ? { currency, style: 'currency' } : undefined)
+    ? new Intl.NumberFormat(
+        locale,
+        currency ? { ...options, currency, style: 'currency' } : { ...options }
+      )
     : new Intl.NumberFormat();
 
   return numberFormatter.formatToParts(1000.1).reduce((prev, curr, i): LocaleConfig => {

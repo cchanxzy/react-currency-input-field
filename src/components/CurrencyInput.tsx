@@ -58,6 +58,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onKeyDown,
       onKeyUp,
       transformRawValue,
+      options,
       ...props
     }: CurrencyInputProps,
     ref
@@ -70,7 +71,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       throw new Error('groupSeparator cannot be a number');
     }
 
-    const localeConfig = useMemo(() => getLocaleConfig(intlConfig), [intlConfig]);
+    const localeConfig = useMemo(() => getLocaleConfig(intlConfig, options), [intlConfig]);
     const decimalSeparator = _decimalSeparator || localeConfig.decimalSeparator || '';
     const groupSeparator = _groupSeparator || localeConfig.groupSeparator || '';
 

@@ -180,6 +180,13 @@ export type CurrencyInputProps = Overwrite<
     intlConfig?: IntlConfig;
 
     /**
+     * Intl.NumberFormat options
+     *
+     * Allows users to pass options to overr
+     */
+    options?: Intl.NumberFormatOptions;
+
+    /**
      * Transform the raw value form the input before parsing
      */
     transformRawValue?: (rawValue: string) => string;

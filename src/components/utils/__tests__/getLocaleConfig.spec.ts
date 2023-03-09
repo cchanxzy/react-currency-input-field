@@ -30,4 +30,19 @@ describe('getLocaleConfig', () => {
       suffix: '',
     });
   });
+
+  it('should override default locale config with options', () => {
+    expect(
+      getLocaleConfig(
+        { locale: 'ja-JP', currency: 'JPY' },
+        { maximumFractionDigits: 2, minimumSignificantDigits: 2 }
+      )
+    ).toStrictEqual({
+      currencySymbol: '￥',
+      decimalSeparator: '.',
+      groupSeparator: ',',
+      prefix: '￥',
+      suffix: '',
+    });
+  });
 });
