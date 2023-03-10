@@ -182,7 +182,7 @@ export type CurrencyInputProps = Overwrite<
     /**
      * Intl.NumberFormat options
      *
-     * Allows users to pass options to overr
+     * Allows users to pass options to override default formatting
      */
     options?: Intl.NumberFormatOptions;
 
