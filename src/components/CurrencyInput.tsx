@@ -209,7 +209,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-      if (valueOnly === '-' || !valueOnly) {
+      if (valueOnly === '-' || valueOnly === decimalSeparator || !valueOnly) {
         setStateValue('');
         onBlur && onBlur(event);
         return;
