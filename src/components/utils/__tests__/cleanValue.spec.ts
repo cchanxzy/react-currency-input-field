@@ -209,21 +209,21 @@ describe('cleanValue', () => {
       expect(
         cleanValue({
           value: 'k',
-          disableAbbreviations: true,
+          disableAbbreviations: false,
         })
       ).toEqual('');
 
       expect(
         cleanValue({
           value: 'm',
-          disableAbbreviations: true,
+          disableAbbreviations: false,
         })
       ).toEqual('');
 
       expect(
         cleanValue({
           value: 'b',
-          disableAbbreviations: true,
+          disableAbbreviations: false,
         })
       ).toEqual('');
     });
@@ -233,7 +233,7 @@ describe('cleanValue', () => {
         cleanValue({
           value: '$k',
           prefix: '$',
-          disableAbbreviations: true,
+          disableAbbreviations: false,
         })
       ).toEqual('');
 
@@ -241,7 +241,28 @@ describe('cleanValue', () => {
         cleanValue({
           value: '£m',
           prefix: '£',
-          disableAbbreviations: true,
+          disableAbbreviations: false,
+        })
+      ).toEqual('');
+    });
+
+    it('should return empty string if decimal separator and abbreviation only', () => {
+      expect(
+        cleanValue({
+          value: '.k',
+        })
+      ).toEqual('');
+
+      expect(
+        cleanValue({
+          value: '.m',
+        })
+      ).toEqual('');
+
+      expect(
+        cleanValue({
+          value: '£.m',
+          prefix: '£',
         })
       ).toEqual('');
     });
