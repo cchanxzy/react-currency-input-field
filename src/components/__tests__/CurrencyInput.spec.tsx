@@ -190,6 +190,34 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
+  it('should clear decimal point only input', () => {
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '.');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
+
+    fireEvent.focusOut(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
+  it('should allow .3 decimal inputs', () => {
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '.3');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('.3', undefined, {
+      float: 0.3,
+      formatted: '£0.3',
+      value: '.3',
+    });
+
+    fireEvent.focusOut(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).toHaveValue('£0.3');
+  });
+
   it('should call onChange', () => {
     const onChangeSpy = jest.fn();
     render(<CurrencyInput prefix="£" onChange={onChangeSpy} />);

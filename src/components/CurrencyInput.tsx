@@ -141,6 +141,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (stringValue === '' || stringValue === '-' || stringValue === decimalSeparator) {
         onValueChange && onValueChange(undefined, name, { float: null, formatted: '', value: '' });
         setStateValue(stringValue);
+        // Always sets cursor after '-' or decimalSeparator input
+        setCursor(1);
         return;
       }
 
@@ -209,7 +211,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-      if (valueOnly === '-' || !valueOnly) {
+      if (valueOnly === '-' || valueOnly === decimalSeparator || !valueOnly) {
         setStateValue('');
         onBlur && onBlur(event);
         return;

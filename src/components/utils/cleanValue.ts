@@ -58,7 +58,11 @@ export const cleanValue = ({
 
   if (!disableAbbreviations) {
     // disallow letter without number
-    if (abbreviations.some((letter) => letter === withoutInvalidChars.toLowerCase())) {
+    if (
+      abbreviations.some(
+        (letter) => letter === withoutInvalidChars.toLowerCase().replace(decimalSeparator, '')
+      )
+    ) {
       return '';
     }
     const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator);
