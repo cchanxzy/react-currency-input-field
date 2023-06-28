@@ -89,7 +89,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       groupSeparator,
       disableGroupSeparators,
       intlConfig,
-      prefix: prefix || localeConfig.prefix,
+      prefix: prefix ?? localeConfig.prefix,
       suffix: suffix,
     };
 
@@ -100,7 +100,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
       allowNegativeValue,
       disableAbbreviations,
-      prefix: prefix || localeConfig.prefix,
+      prefix: prefix ?? localeConfig.prefix,
       transformRawValue,
     };
 
