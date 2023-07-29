@@ -79,7 +79,7 @@ export const formatValue = (options: FormatValueOptions): string => {
     _value
   );
 
-  const value =
+  let value =
     decimalSeparator !== '.'
       ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
       : _value;
@@ -101,6 +101,10 @@ export const formatValue = (options: FormatValueOptions): string => {
           : defaultNumberFormatOptions
       )
     : new Intl.NumberFormat(undefined, defaultNumberFormatOptions);
+
+  if (value.startsWith('.')) {
+    value = '0' + value;
+  }
 
   const parts = numberFormatter.formatToParts(Number(value));
 

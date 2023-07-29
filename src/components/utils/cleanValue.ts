@@ -80,6 +80,5 @@ export const cleanValue = ({
 
     return `${includeNegative}${int}${includeDecimals}`;
   }
-
   return `${includeNegative}${valueOnly}`;
 };
