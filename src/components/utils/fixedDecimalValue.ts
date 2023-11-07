@@ -3,9 +3,18 @@ export const fixedDecimalValue = (
   decimalSeparator: string,
   fixedDecimalLength?: number
 ): string => {
-  if (fixedDecimalLength && value.length > 1) {
+  if (fixedDecimalLength !== undefined && value.length > 1) {
+    if (fixedDecimalLength === 0) {
+      return value.replace(decimalSeparator, '');
+    }
+
     if (value.includes(decimalSeparator)) {
       const [int, decimals] = value.split(decimalSeparator);
+
+      if (decimals.length === fixedDecimalLength) {
+        return value;
+      }
+
       if (decimals.length > fixedDecimalLength) {
         return `${int}${decimalSeparator}${decimals.slice(0, fixedDecimalLength)}`;
       }
