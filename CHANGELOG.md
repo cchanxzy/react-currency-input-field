@@ -1,3 +1,10 @@
+## [3.6.12](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.11...v3.6.12) (2023-11-07)
+
+
+### Bug Fixes
+
+* fixedDecimalValue issue [#292](https://github.com/cchanxzy/react-currency-input-field/issues/292) and handle fixedDecimalValue 0 ([#313](https://github.com/cchanxzy/react-currency-input-field/issues/313)) ([5be14cb](https://github.com/cchanxzy/react-currency-input-field/commit/5be14cb54128ebe314271001832d5756d3a60d60))
+
 ## [3.6.11](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.10...v3.6.11) (2023-06-23)
 
 
