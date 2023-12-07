@@ -16,6 +16,14 @@ const defaultConfig: LocaleConfig = {
   suffix: '',
 };
 
+const fallbackConfig: LocaleConfig = {
+  currencySymbol: '',
+  groupSeparator: ',',
+  decimalSeparator: '.',
+  prefix: '',
+  suffix: '',
+};
+
 /**
  * Get locale config from input or default
  */
@@ -24,6 +32,10 @@ export const getLocaleConfig = (intlConfig?: IntlConfig): LocaleConfig => {
   const numberFormatter = locale
     ? new Intl.NumberFormat(locale, currency ? { currency, style: 'currency' } : undefined)
     : new Intl.NumberFormat();
+
+  if (typeof numberFormatter.formatToParts !== 'function') {
+    return fallbackConfig;
+  }
 
   return numberFormatter.formatToParts(1000.1).reduce((prev, curr, i): LocaleConfig => {
     if (curr.type === 'currency') {

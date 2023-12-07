@@ -30,4 +30,24 @@ describe('getLocaleConfig', () => {
       suffix: '',
     });
   });
+
+  describe('with formatToParts missing', () => {
+    beforeEach(() => {
+      jest.spyOn(Intl, 'NumberFormat').mockImplementation();
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it('should return fallback en-US config', () => {
+      expect(getLocaleConfig()).toStrictEqual({
+        currencySymbol: '',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        prefix: '',
+        suffix: '',
+      });
+    });
+  })
 });
