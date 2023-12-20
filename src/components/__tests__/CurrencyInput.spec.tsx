@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -260,4 +260,33 @@ describe('<CurrencyInput/>', () => {
 
     expect(onKeyUpSpy).toBeCalledTimes(1);
   });
+
+  it('should blank the input when prop value changes from a number to undefined', () => {
+    render(<TestCurrencyInput initValue={'1'} />);
+
+    const field = screen.getByRole('textbox');
+    expect(field).toHaveValue('£1');
+
+    // Click the reset button
+    const resetButton = screen.getByRole('button');
+    userEvent.click(resetButton);
+
+    expect(field).toHaveValue('');
+  });
 });
+
+// Test component that holds the state of the input value.
+const TestCurrencyInput: FC<{ initValue?: string }> = (prop) => {
+  const [value, setValue] = React.useState<string | undefined>(prop.initValue);
+  return (
+    <div>
+      <CurrencyInput
+        value={value}
+        onValueChange={(v) => setValue(v)}
+        placeholder="Please enter a number"
+        prefix="£"
+      />
+      <button onClick={() => setValue(undefined)}>Reset</button>
+    </div>
+  );
+};
