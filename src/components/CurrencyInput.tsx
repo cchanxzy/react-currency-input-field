@@ -103,14 +103,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       transformRawValue,
     };
 
-    const formattedStateValue =
+    const [stateValue, setStateValue] = useState(() =>
       defaultValue != null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
         : userValue != null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
-        : '';
-
-    const [stateValue, setStateValue] = useState(formattedStateValue);
+        : ''
+    );
     const [dirty, setDirty] = useState(false);
     const [cursor, setCursor] = useState(0);
     const [changeCount, setChangeCount] = useState(0);
