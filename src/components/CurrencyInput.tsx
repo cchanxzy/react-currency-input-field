@@ -314,6 +314,13 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onKeyUp && onKeyUp(event);
     };
 
+    // Update state if userValue changes to undefined
+    useEffect(() => {
+      if (userValue == null && defaultValue == null) {
+        setStateValue('');
+      }
+    }, [userValue]);
+
     useEffect(() => {
       // prevent cursor jumping if editing value
       if (
