@@ -319,7 +319,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (userValue == null && defaultValue == null) {
         setStateValue('');
       }
-    }, [userValue]);
+    }, [defaultValue, userValue]);
 
     useEffect(() => {
       // prevent cursor jumping if editing value
