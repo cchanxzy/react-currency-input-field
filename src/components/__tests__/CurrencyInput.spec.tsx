@@ -278,15 +278,13 @@ describe('<CurrencyInput/>', () => {
   });
 
   it('should update the input when prop value changes to undefined', () => {
-    const { rerender } = render(
-      <CurrencyInput value="1" placeholder="Please enter a number" prefix="£" />
-    );
+    const { rerender } = render(<CurrencyInput value="1" prefix="£" />);
 
     const field = screen.getByRole('textbox');
     expect(field).toHaveValue('£1');
 
     act(() => {
-      rerender(<CurrencyInput value={undefined} placeholder="Please enter a number" prefix="£" />);
+      rerender(<CurrencyInput value={undefined} prefix="£" />);
     });
 
     expect(field).toHaveValue('');
