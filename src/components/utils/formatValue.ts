@@ -84,7 +84,7 @@ export const formatValue = (options: FormatValueOptions): string => {
       ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
       : _value;
 
-  if (decimalSeparator === ".") {
+  if (value.startsWith(decimalSeparator)) {
     value = '0' + value;
   }
 
