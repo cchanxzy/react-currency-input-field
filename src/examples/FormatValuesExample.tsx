@@ -37,7 +37,7 @@ const FormatValuesExample: FC = () => {
   return (
     <div className="row">
       <div className="col-12 mb-4">
-        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples/FormatValuesExample.tsx">
+        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/FormatValuesExample.tsx">
           <h2>Format values example</h2>
         </a>
         <ul>
