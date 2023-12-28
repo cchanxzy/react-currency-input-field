@@ -45,7 +45,7 @@ export const Example3: FC = () => {
   return (
     <div className="row">
       <div className="col-12 mb-4">
-        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples/Example3.tsx">
+        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/Example3.tsx">
           <h2>Example 3</h2>
         </a>
         <ul>

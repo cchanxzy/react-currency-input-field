@@ -41,7 +41,7 @@ There are a number of breaking changes in v3.0.0, please read the [release notes
 
 ## Examples
 
-[Play with demo](https://cchanxzy.github.io/react-currency-input-field) or view [examples code](https://github.com/cchanxzy/react-currency-input-field/blob/master/src/examples)
+[Play with demo](https://cchanxzy.github.io/react-currency-input-field) or view [examples code](https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples)
 
 [![React Currency Input Demo](demo/demo.gif)](https://cchanxzy.github.io/react-currency-input-field)
 
@@ -68,7 +68,7 @@ import CurrencyInput from 'react-currency-input-field';
 />;
 ```
 
-Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/master/src/examples) for more examples on implementing and validation.
+Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/main/src/examples) for more examples on implementing and validation.
 
 ## Props
 
@@ -93,7 +93,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | [disableGroupSeparators](#separators)              | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 -> 1,000                      |
 | maxLength                                          | `number`   |                | Maximum characters the user can enter                                                          |
 | step                                               | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
-| transformRawValue                                  | `function` |                | Transform the raw value from the input before parsing. Needs to return  `string`.              |
+| transformRawValue                                  | `function` |                | Transform the raw value from the input before parsing. Needs to return `string`.               |
 
 ### Abbreviations
 
