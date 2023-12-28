@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import Example1 from './Example1';
 import Example2 from './Example2';
@@ -7,12 +7,43 @@ import Example3 from './Example3';
 import Example4 from './Example4';
 import FormatValuesExample from './FormatValuesExample';
 
-ReactDOM.render(<Example1 />, document.getElementById('example-1'));
+const container = document.getElementById('app');
+const root = createRoot(container!);
 
-ReactDOM.render(<Example2 />, document.getElementById('example-2'));
+const Content = () => {
+  return (
+    <>
+      <div id="example-1">
+        <Example1 />
+      </div>
 
-ReactDOM.render(<Example3 />, document.getElementById('example-3'));
+      <hr />
 
-ReactDOM.render(<Example4 />, document.getElementById('example-4'));
+      <div id="example-2">
+        <Example2 />
+      </div>
 
-ReactDOM.render(<FormatValuesExample />, document.getElementById('format-values-example'));
+      <hr />
+
+      <div id="example-3">
+        <Example3 />
+      </div>
+
+      <hr />
+
+      <div id="example-4">
+        <Example4 />
+      </div>
+
+      <hr />
+
+      <div id="format-values-example">
+        <FormatValuesExample />
+      </div>
+
+      <hr />
+    </>
+  );
+};
+
+root.render(<Content />);
