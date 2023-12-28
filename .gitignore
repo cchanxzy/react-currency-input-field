@@ -4,3 +4,7 @@ coverage
 dist
 demo/examples
 .parcel-cache
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
