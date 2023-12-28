@@ -1,3 +1,10 @@
+## [3.6.13](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.12...v3.6.13) (2023-12-28)
+
+
+### Bug Fixes
+
+* Update input to empty string when `userValue` is `undefined` ([#323](https://github.com/cchanxzy/react-currency-input-field/issues/323)) ([30c5fcc](https://github.com/cchanxzy/react-currency-input-field/commit/30c5fccb18e9d341f08e3bb1c05b7e1f808e229a))
+
 ## [3.6.12](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.11...v3.6.12) (2023-11-07)
 
 
