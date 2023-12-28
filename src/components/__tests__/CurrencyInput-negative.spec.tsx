@@ -79,7 +79,7 @@ describe('<CurrencyInput/> negative value', () => {
       '{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}-'
     );
     expect(screen.getByRole('textbox')).toHaveValue('-');
-    expect(onValueChangeSpy).toBeCalledTimes(7);
+    expect(onValueChangeSpy).toHaveBeenCalledTimes(7);
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
       float: null,
       formatted: '',

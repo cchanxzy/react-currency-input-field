@@ -12,7 +12,7 @@
   "homepage": "https://github.com/cchanxzy/react-currency-input-field",
   "scripts": {
     "build": "rm -rf dist && tsc && rollup -c",
-    "start": "parcel src/examples/index.html",
+    "start": "parcel src/examples/index.html --open",
     "test": "LANG=en_GB jest",
     "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest",
     "typecheck": "tsc && tsc --project tsconfig.test.json",

@@ -224,7 +224,7 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput prefix="£" onChange={onChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '123');
 
-    expect(onChangeSpy).toBeCalledTimes(3);
+    expect(onChangeSpy).toHaveBeenCalledTimes(3);
 
     expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
@@ -235,7 +235,7 @@ describe('<CurrencyInput/>', () => {
     userEvent.click(screen.getByRole('textbox'));
     fireEvent.focusOut(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).toBeCalledTimes(1);
+    expect(onBlurSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should call onFocus', () => {
@@ -243,7 +243,7 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput onFocus={onFocusSpy} />);
     fireEvent.focusIn(screen.getByRole('textbox'));
 
-    expect(onFocusSpy).toBeCalledTimes(1);
+    expect(onFocusSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should call onKeyDown', () => {
@@ -251,7 +251,7 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput onKeyDown={onKeyDownSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1');
 
-    expect(onKeyDownSpy).toBeCalledTimes(1);
+    expect(onKeyDownSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should call onKeyUp', () => {
@@ -259,7 +259,7 @@ describe('<CurrencyInput/>', () => {
     render(<CurrencyInput onKeyUp={onKeyUpSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1');
 
-    expect(onKeyUpSpy).toBeCalledTimes(1);
+    expect(onKeyUpSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should update the input when prop value changes to another number', () => {
