@@ -13,8 +13,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc && rollup -c",
     "start": "parcel src/examples/index.html",
-    "test": "LANG=en_GB jest --coverage --roots ./src",
-    "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest --coverage",
+    "test": "LANG=en_GB jest",
+    "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest",
     "typecheck": "tsc && tsc --project tsconfig.test.json",
     "lint": "eslint src --max-warnings=0",
     "gh-predeploy": "parcel build src/examples/index.html --dist-dir demo/examples --public-url ./",
@@ -84,6 +84,7 @@
     "semantic-release": "^17.4.3",
     "source-map-loader": "^3.0.0",
     "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
     "typescript": "^4.2.4"
   },
@@ -91,21 +92,6 @@
     "react": "^16.9.0 || ^17.0.0 || ^18.0.0"
   },
   "dependencies": {},
-  "jest": {
-    "verbose": false,
-    "collectCoverage": true,
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx"
-    ]
-  },
   "targets": {
     "main": false,
     "module": false,
