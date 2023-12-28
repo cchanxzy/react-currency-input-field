@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
+import { act } from 'react-dom/test-utils';
 
 describe('<CurrencyInput/>', () => {
   const onValueChangeSpy = jest.fn();
@@ -259,5 +260,33 @@ describe('<CurrencyInput/>', () => {
     userEvent.type(screen.getByRole('textbox'), '1');
 
     expect(onKeyUpSpy).toBeCalledTimes(1);
+  });
+
+  it('should update the input when prop value changes to another number', () => {
+    const { rerender } = render(
+      <CurrencyInput value="1" placeholder="Please enter a number" prefix="£" />
+    );
+
+    const field = screen.getByRole('textbox');
+    expect(field).toHaveValue('£1');
+
+    act(() => {
+      rerender(<CurrencyInput value="2" placeholder="Please enter a number" prefix="£" />);
+    });
+
+    expect(field).toHaveValue('£2');
+  });
+
+  it('should update the input when prop value changes to undefined', () => {
+    const { rerender } = render(<CurrencyInput value="1" prefix="£" />);
+
+    const field = screen.getByRole('textbox');
+    expect(field).toHaveValue('£1');
+
+    act(() => {
+      rerender(<CurrencyInput value={undefined} prefix="£" />);
+    });
+
+    expect(field).toHaveValue('');
   });
 });
