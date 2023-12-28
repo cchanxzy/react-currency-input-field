@@ -4,7 +4,6 @@
 
 - [React Currency Input Field Component](#react-currency-input-field-component)
   - [Features](#features)
-  - [Migrating to v3.0.0](#migrating-to-v300)
   - [Examples](#examples)
   - [Install](#install)
   - [Usage](#usage)
@@ -21,6 +20,7 @@
     - [Improvements in v3](#improvements-in-v3)
     - [Reasoning](#reasoning)
   - [Issues](#issues)
+  - [Contributing](#contributing)
 
 ## Features
 
@@ -32,12 +32,6 @@
 - Can allow/disallow decimals
 - Written in TypeScript and has type support
 - Does not use any third party packages
-
-## Migrating to v3.0.0
-
-There are a number of breaking changes in v3.0.0, please read the [release notes](#v300-release-notes) if migrating from v2 to v3.
-
-:warning: Most important change is: `onChange` has been renamed to `onValueChange`
 
 ## Examples
 
@@ -255,4 +249,8 @@ I apologize if any of the changes cause new bugs or issues. Please let me know a
 
 ## Issues
 
-Feel free to raise an issue on Github if you find a bug or have a feature request
+Feel free to raise an issue on Github if you find a bug or have a feature request.
+
+## Contributing
+
+If you want to contribute to this repository, please refer to the [contributing doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CONTRIBUTING.md)
