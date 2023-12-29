@@ -1,8 +1,7 @@
-import React, { FC, useState } from 'react';
-import CurrencyInput from '../components/CurrencyInput';
-import { CurrencyInputProps, CurrencyInputOnChangeValues } from '../components/CurrencyInputProps';
+import React, { useState } from 'react';
+import CurrencyInput, { CurrencyInputProps, CurrencyInputOnChangeValues } from '../index';
 
-export const Example1: FC = () => {
+export const Example1 = () => {
   const limit = 1000;
   const prefix = '£';
 
@@ -10,42 +9,40 @@ export const Example1: FC = () => {
   const [className, setClassName] = useState('');
   const [value, setValue] = useState<string | number>(123.45);
   const [values, setValues] = useState<CurrencyInputOnChangeValues>();
-  const [rawValue, setRawValue] = useState<string | undefined>(' ');
 
   /**
    * Handle validation
    */
-  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (value, _, values): void => {
-    setValues(values);
-    setRawValue(value === undefined ? 'undefined' : value || ' ');
+  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (_value, name, _values) => {
+    // _values is only for demo purposes in this example
+    setValues(_values);
 
-    if (!value) {
+    if (!_value) {
       setClassName('');
       setValue('');
       return;
     }
 
-    if (Number.isNaN(Number(value))) {
-      setErrorMessage('Please enter a valid number');
-      setClassName('is-invalid');
-      return;
-    }
-
-    if (Number(value) > limit) {
+    // value is over limit
+    if (Number(_value) > limit) {
       setErrorMessage(`Max: ${prefix}${limit}`);
       setClassName('is-invalid');
-      setValue(value);
+      setValue(_value);
       return;
     }
 
     setClassName('is-valid');
-    setValue(value);
+    setValue(_value);
   };
 
   return (
     <div className="row">
       <div className="col-12 mb-4">
-        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/Example1.tsx">
+        <a
+          href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/Example1.tsx"
+          target="_blank"
+          rel="noreferrer"
+        >
           <h2>Example 1</h2>
         </a>
         <ul>
@@ -75,7 +72,7 @@ export const Example1: FC = () => {
                 <div className="row">
                   <div className="col-6">
                     <div className="text-muted mr-3">onValueChange:</div>
-                    {rawValue}
+                    {value}
                   </div>
                   <div className="col-6">
                     <div className="text-muted mr-3">Values:</div>

@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react';
-import CurrencyInput from '../components/CurrencyInput';
+import React, { useState } from 'react';
+import CurrencyInput from '../index';
 
-export const Example2: FC = () => {
+export const Example2 = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [className, setClassName] = useState('');
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
@@ -23,7 +23,11 @@ export const Example2: FC = () => {
   return (
     <div className="row">
       <div className="col-12 mb-4">
-        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/Example2.tsx">
+        <a
+          href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/Example2.tsx"
+          target="_blank"
+          rel="noreferrer"
+        >
           <h2>Example 2</h2>
         </a>
         <ul>
