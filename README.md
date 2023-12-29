@@ -1,6 +1,7 @@
 # React Currency Input Field Component
 
-[![npm](https://img.shields.io/npm/v/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![Codecov Coverage](https://img.shields.io/codecov/c/github/cchanxzy/react-currency-input-field)](https://codecov.io/gh/cchanxzy/react-currency-input-field/) [![Release build](https://github.com/cchanxzy/react-currency-input-field/workflows/Release/badge.svg)](https://github.com/cchanxzy/react-currency-input-field/actions?query=workflow%3ARelease)
+[![npm](https://img.shields.io/npm/v/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![npm](https://img.shields.io/npm/dm/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field)
+[![NPM](https://img.shields.io/npm/l/react-currency-input-field)](https://www.npmjs.com/package/react-currency-input-field) [![Codecov Coverage](https://img.shields.io/codecov/c/github/cchanxzy/react-currency-input-field)](https://codecov.io/gh/cchanxzy/react-currency-input-field/) [![Release build](https://github.com/cchanxzy/react-currency-input-field/workflows/Release/badge.svg)](https://github.com/cchanxzy/react-currency-input-field/actions?query=workflow%3ARelease)
 
 - [React Currency Input Field Component](#react-currency-input-field-component)
   - [Features](#features)
@@ -8,6 +9,10 @@
   - [Install](#install)
   - [Usage](#usage)
   - [Props](#props)
+    - [onValueChange](#onvaluechange)
+      - [value](#value)
+      - [name](#name)
+      - [values](#values)
     - [Abbreviations](#abbreviations)
     - [Prefix and Suffix](#prefix-and-suffix)
     - [Separators](#separators)
@@ -58,7 +63,7 @@ import CurrencyInput from 'react-currency-input-field';
   placeholder="Please enter a number"
   defaultValue={1000}
   decimalsLimit={2}
-  onValueChange={(value, name) => console.log(value, name)}
+  onValueChange={(value, name, values) => console.log(value, name, values)}
 />;
 ```
 
@@ -72,7 +77,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | allowNegativeValue                                 | `boolean`  | `true`         | Allow user to enter negative value                                                             |
 | defaultValue                                       | `number`   |                | Default value                                                                                  |
 | value                                              | `number`   |                | Programmatically set the value                                                                 |
-| onValueChange                                      | `function` |                | Handle change in value                                                                         |
+| [onValueChange](#onvaluechange)                    | `function` |                | Handle change in value                                                                         |
 | placeholder                                        | `string`   |                | Placeholder if no value                                                                        |
 | [decimalsLimit](#decimal-scale-and-decimals-limit) | `number`   | `2`            | Limit length of decimals allowed                                                               |
 | [decimalScale](#decimal-scale-and-decimals-limit)  | `number`   |                | Specify decimal scale for padding/trimming eg. 1.5 -> 1.50 or 1.234 -> 1.23 if decimal scale 2 |
@@ -88,6 +93,32 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | maxLength                                          | `number`   |                | Maximum characters the user can enter                                                          |
 | step                                               | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
 | transformRawValue                                  | `function` |                | Transform the raw value from the input before parsing. Needs to return `string`.               |
+
+### onValueChange
+
+Handle changes to the value.
+
+```js
+onValueChange = (value, name, values) => void;
+```
+
+#### value
+
+`value` will give you the value in a string format, without the prefix/suffix/separators.
+
+Example: `£123,456 -> 123456`
+
+#### name
+
+`name` is the name you have passed to your component
+
+#### values
+
+`values` gives an object with three key values:
+
+- `float`: Value as float or null if empty. Example: "1.99" > 1.99
+- `formatted`: Value after applying formatting. Example: "1000000" > "1,000,0000"
+- `value`: Non formatted value as string, ie. same as first param.
 
 ### Abbreviations
 
