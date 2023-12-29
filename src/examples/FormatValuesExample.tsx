@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { formatValue } from '../components/utils';
 
-const FormatValuesExample: FC = () => {
+const FormatValuesExample = () => {
   const [value, setValue] = useState('123456789.999');
   const [prefix, setPrefix] = useState('$');
   const [groupSeparator, setGroupSeparator] = useState(',');
@@ -37,7 +37,11 @@ const FormatValuesExample: FC = () => {
   return (
     <div className="row">
       <div className="col-12 mb-4">
-        <a href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/FormatValuesExample.tsx">
+        <a
+          href="https://github.com/cchanxzy/react-currency-input-field/blob/main/src/examples/FormatValuesExample.tsx"
+          target="_blank"
+          rel="noreferrer"
+        >
           <h2>Format values example</h2>
         </a>
         <ul>
