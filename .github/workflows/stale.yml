@@ -1,0 +1,16 @@
+name: Close Stale Issues and Pull Requests
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run every day at midnight
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  close_stale_prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Stale Issues
+        uses: actions/stale@v9.0.0
