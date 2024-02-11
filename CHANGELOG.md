@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.14...v3.7.0) (2024-02-11)
+
+
+### Features
+
+* export utility function 'cleanValue' ([#334](https://github.com/cchanxzy/react-currency-input-field/issues/334)) ([026329f](https://github.com/cchanxzy/react-currency-input-field/commit/026329f30aa23cebbb90ddeadce62be94324567c))
+
 ## [3.6.14](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.13...v3.6.14) (2023-12-29)
 
 
