@@ -183,5 +183,12 @@ export type CurrencyInputProps = Overwrite<
      * Transform the raw value form the input before parsing
      */
     transformRawValue?: (rawValue: string) => string;
+
+    /**
+     * When set to false, the formatValueOnBlur flag disables the application of the __onValueChange__ function
+     * specifically on blur events. If disabled or set to false, the onValueChange will not trigger on blur.
+     * Default = true
+     */
+     formatValueOnBlur?: boolean;
   }
 >;

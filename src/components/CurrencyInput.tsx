@@ -58,6 +58,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onKeyDown,
       onKeyUp,
       transformRawValue,
+      formatValueOnBlur = true,
       ...props
     }: CurrencyInputProps,
     ref
@@ -231,7 +232,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         value: newValue,
       });
 
-      if (onValueChange) {
+      if (onValueChange && formatValueOnBlur) {
         onValueChange(newValue, name, {
           float: numberValue,
           formatted: formattedValue,
