@@ -79,10 +79,14 @@ export const formatValue = (options: FormatValueOptions): string => {
     _value
   );
 
-  const value =
+  let value =
     decimalSeparator !== '.'
       ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
       : _value;
+
+  if (value.startsWith('.')) {
+    value = '0' + value;
+  }
 
   const defaultNumberFormatOptions = {
     minimumFractionDigits: decimalScale || 0,
