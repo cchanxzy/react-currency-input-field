@@ -284,4 +284,4 @@ Feel free to raise an issue on Github if you find a bug or have a feature reques
 
 ## Contributing
 
-If you want to contribute to this repository, please refer to the [contributing doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CONTRIBUTING.md)
+If you want to contribute to this repository, please refer to the [contributing doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CONTRIBUTING.md).
