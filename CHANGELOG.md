@@ -1,3 +1,10 @@
+## [3.7.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.7.0...v3.7.1) (2024-02-19)
+
+
+### Bug Fixes
+
+* update doc to trigger release ([4672670](https://github.com/cchanxzy/react-currency-input-field/commit/46726709d410f9c1bcb4e64fdb997a13ba52e122))
+
 # [3.7.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.6.14...v3.7.0) (2024-02-11)
 
 
