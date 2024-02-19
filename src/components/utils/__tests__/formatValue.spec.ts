@@ -203,6 +203,18 @@ describe('formatValue', () => {
     ).toEqual('$30');
   });
 
+  it('should prefix decimal values correctly with zero', () => {
+    expect(
+      formatValue({
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        decimalScale: 2,
+        prefix: '$',
+        value: '.02',
+      })
+    ).toEqual('$0.02');
+  });
+
   describe('negative values', () => {
     it('should handle negative values', () => {
       expect(
