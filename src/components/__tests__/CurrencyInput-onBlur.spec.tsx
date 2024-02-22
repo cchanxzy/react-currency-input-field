@@ -29,7 +29,7 @@ describe('<CurrencyInput/> onBlur', () => {
     userEvent.type(screen.getByRole('textbox'), '123');
     fireEvent.focusOut(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).toBeCalled();
+    expect(onBlurSpy).toHaveBeenCalled();
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('123.00', name, {
       float: 123,
@@ -40,13 +40,34 @@ describe('<CurrencyInput/> onBlur', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$123.00');
   });
 
+  it('should call onBlur, but not onValueChange', () => {
+    render(
+      <CurrencyInput
+        name={name}
+        prefix="$"
+        onBlur={onBlurSpy}
+        onValueChange={onValueChangeSpy}
+        formatValueOnBlur={false}
+        decimalScale={2}
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '123');
+    fireEvent.focusOut(screen.getByRole('textbox'));
+
+    expect(onBlurSpy).toHaveBeenCalled();
+
+    expect(onValueChangeSpy).toHaveBeenCalledTimes(3);
+    expect(screen.getByRole('textbox')).toHaveValue('$123.00');
+  });
+
   it('should call onBlur for 0', () => {
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
     userEvent.type(screen.getByRole('textbox'), '0');
     fireEvent.focusOut(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).toBeCalled();
+    expect(onBlurSpy).toHaveBeenCalled();
 
     expect(screen.getByRole('textbox')).toHaveValue('$0');
   });
@@ -56,7 +77,7 @@ describe('<CurrencyInput/> onBlur', () => {
 
     fireEvent.focusOut(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).toBeCalled();
+    expect(onBlurSpy).toHaveBeenCalled();
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
@@ -67,7 +88,7 @@ describe('<CurrencyInput/> onBlur', () => {
     userEvent.type(screen.getByRole('textbox'), '-');
     fireEvent.focusOut(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).toBeCalled();
+    expect(onBlurSpy).toHaveBeenCalled();
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
