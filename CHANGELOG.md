@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.7.1...v3.8.0) (2024-02-22)
+
+
+### Features
+
+* introduce formatValueOnBlur flag ([#339](https://github.com/cchanxzy/react-currency-input-field/issues/339)) ([5e30154](https://github.com/cchanxzy/react-currency-input-field/commit/5e301544ac9a171bc65f09537f82a313ece0e77c))
+
 ## [3.7.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.7.0...v3.7.1) (2024-02-19)
 
 
