@@ -4,3 +4,4 @@ export { CurrencyInputProps, CurrencyInputOnChangeValues } from './components/Cu
 export default CurrencyInput;
 export { formatValue } from './components/utils/formatValue';
 export { cleanValue } from './components/utils/cleanValue';
+export { getLocaleConfig } from './components/utils/getLocaleConfig';
