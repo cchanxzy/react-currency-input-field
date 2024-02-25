@@ -20,6 +20,8 @@
     - [Decimal Scale and Decimals Limit](#decimal-scale-and-decimals-limit)
     - [Fixed Decimal Length](#fixed-decimal-length)
   - [Format values for display](#format-values-for-display)
+  - [Clean values](#clean-values)
+  - [Get locale configuration](#get-locale-configuration)
   - [v3.0.0 Release Notes](#v300-release-notes)
     - [Breaking Changes](#breaking-changes)
     - [Improvements in v3](#improvements-in-v3)
@@ -250,6 +252,50 @@ const formattedValue2 = formatValue({
 
 console.log(formattedValue2);
 // ₹5,00,000
+```
+
+## Clean values
+
+Use the `cleanValue` function to remove the prefix, suffix and separators from the value, and return the raw float value.
+
+```javascript
+import { cleanValue } from 'react-currency-input-field';
+
+const cleanedValue = cleanValue({
+  value: '$1,000.25',
+  prefix: '$',
+  groupSeparator: ',',
+  decimalSeparator: '.',
+  allowNegativeValue: true,
+  allowDecimals: true,
+  decimalsLimit: 2,
+  disableAbbreviations: false,
+  transformRawValue: (rawValue) => rawValue,
+});
+
+console.log(cleanedValue);
+// 1000.25
+```
+
+## Get locale configuration
+
+Use the `getLocaleConfig` function to get the locale configuration for a given locale and currency.
+
+```javascript
+import { getLocaleConfig } from 'react-currency-input-field';
+
+type LocaleConfig = {
+  currencySymbol: string;
+  groupSeparator: string;
+  decimalSeparator: string;
+  prefix: string;
+  suffix: string;
+};
+
+const localeConfig: LocaleConfig = getLocaleConfig({ locale: 'en-US', currency: 'USD' });
+
+console.log(localeConfig);
+// { currencySymbol: '$', groupSeparator: ',', decimalSeparator: '.', prefix: '', suffix: '' }
 ```
 
 ## v3.0.0 Release Notes
