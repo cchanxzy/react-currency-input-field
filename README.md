@@ -95,7 +95,7 @@ Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input
 | maxLength                                          | `number`   |                | Maximum characters the user can enter                                                          |
 | step                                               | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
 | transformRawValue                                  | `function` |                | Transform the raw value from the input before parsing. Needs to return `string`.               |
-| formatValueOnBlur                                  | `function` | `true`         | Allows users to customize the behavior of the onValueChange function on blur events. Default's to `true`. When `false` onBlur events will not trigger onValueChange.               |
+| formatValueOnBlur                                  | `boolean`  | `true`         | Allows users to customize the behavior of the onValueChange function on blur events. Default's to `true`. When `false` onBlur events will not trigger onValueChange.               |
 
 ### onValueChange
 
