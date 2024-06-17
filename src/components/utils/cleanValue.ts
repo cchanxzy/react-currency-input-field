@@ -36,6 +36,10 @@ export const cleanValue = ({
     return transformedValue;
   }
 
+  if (transformedValue === '-.') {
+    return '-0.';
+  }
+
   const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
   const reg = new RegExp(`((^|\\D)-\\d)|(-${escapeRegExp(prefix)})`);
   const isNegative = reg.test(transformedValue);

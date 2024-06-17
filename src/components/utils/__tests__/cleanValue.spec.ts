@@ -132,6 +132,19 @@ describe('cleanValue', () => {
       ).toEqual('-123');
     });
 
+    it('should handle negative value with decimal seperator', () => {
+      expect(
+        cleanValue({
+          value: '-.',
+          decimalSeparator: '.',
+          groupSeparator: ',',
+          allowDecimals: true,
+          decimalsLimit: 2,
+          prefix: '£',
+        })
+      ).toEqual('-0.');
+    });
+
     it('should handle negative value with decimal', () => {
       expect(
         cleanValue({
