@@ -81,7 +81,7 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
-    "rollup": "^2.52.7",
+    "rollup": "^3.29.5",
     "semantic-release": "^17.4.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
