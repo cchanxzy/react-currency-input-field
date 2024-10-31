@@ -3,6 +3,7 @@ import { removeSeparators } from './removeSeparators';
 import { removeInvalidChars } from './removeInvalidChars';
 import { escapeRegExp } from './escapeRegExp';
 import { CurrencyInputProps } from '../CurrencyInputProps';
+import { normalizeNumerals } from './getLocaleConfig';
 
 export type CleanValueOptions = Pick<
   CurrencyInputProps,
@@ -30,6 +31,8 @@ export const cleanValue = ({
   prefix = '',
   transformRawValue = (rawValue) => rawValue,
 }: CleanValueOptions): string => {
+  value = normalizeNumerals(value);
+
   const transformedValue = transformRawValue(value);
 
   if (transformedValue === '-') {

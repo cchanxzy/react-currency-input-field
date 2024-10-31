@@ -22,6 +22,50 @@ const options: ReadonlyArray<CurrencyInputProps['intlConfig']> = [
     locale: 'en-IN',
     currency: 'INR',
   },
+  {
+    locale: 'ar-BH',
+    currency: 'BHD'
+  },
+  {
+    locale: 'ar-EG',
+    currency: 'EGP'
+  },
+  {
+    locale: 'ar-JO',
+    currency: 'JOD'
+  },
+  {
+    locale: 'ar-KW',
+    currency: 'KWD'
+  },
+  {
+    locale: 'ar-LB',
+    currency: 'LBP'
+  },
+  {
+    locale: 'ar-OM',
+    currency: 'OMR'
+  },
+  {
+    locale: 'ar-SA',
+    currency: 'SAR'
+  },
+  {
+    locale: 'ar-QA',
+    currency: 'QAR'
+  },
+  {
+    locale: 'fa-AF',
+    currency: 'AFN'
+  },
+  {
+    locale: 'th-TH',
+    currency: 'THB'
+  },
+  {
+    locale: 'th-u-nu-thai',
+    currency: 'THB'
+  }
 ];
 
 export const Example3 = () => {
