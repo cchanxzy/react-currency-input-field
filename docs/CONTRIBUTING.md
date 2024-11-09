@@ -5,7 +5,7 @@ Thanks for being willing to contribute!
 ## Project setup
 
 1. Fork and clone the repo
-2. Run `yarn` to install dependencies
+2. Run `pnpm` to install dependencies
 3. Create a branch for your PR with `git checkout -b pr/your-branch-name`
 
 > Tip: Keep your `main` branch pointing at the original repository and make pull
@@ -25,7 +25,7 @@ Thanks for being willing to contribute!
 
 ## Start
 
-To start the examples page locally, run `yarn start`.
+To start the examples page locally, run `pnpm start`.
 
 This will open the page in `http://localhost:1234/`.
 
