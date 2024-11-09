@@ -18,8 +18,8 @@
     "typecheck": "tsc && tsc --project tsconfig.test.json",
     "lint": "eslint ./ --max-warnings=0",
     "gh-predeploy": "parcel build src/examples/index.html --dist-dir demo/examples --public-url ./",
-    "gh-deploy": "yarn gh-predeploy && gh-pages -d demo/examples",
-    "ci": "yarn && yarn build",
+    "gh-deploy": "pnpm gh-predeploy && gh-pages -d demo/examples",
+    "ci": "pnpm && pnpm build",
     "codecov": "codecov",
     "semantic-release": "semantic-release"
   },
@@ -96,5 +96,6 @@
     "main": false,
     "module": false,
     "types": false
-  }
+  },
+  "packageManager": "pnpm@10.0.0-alpha.0+sha512.856941ef22665d2f3e41c04e8d86ed757ef057fb2bc35011698bfa988ef5817cc1cdd28bb883e7f23f0568c75de5544d4750211d4276b9ba6d55369eb207a549"
 }
