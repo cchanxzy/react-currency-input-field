@@ -1,3 +1,18 @@
+# [4.0.0-alpha.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.0...v4.0.0-alpha.1) (2024-11-09)
+
+
+* build!: switch from rollup to esbuild to build ([75ef80c](https://github.com/cchanxzy/react-currency-input-field/commit/75ef80ce48787bd1ea139820421e59cb35a69247))
+
+
+### BREAKING CHANGES
+
+* UMD is no longer exported.
+
+In order to reduce complexity and simplify the build process,
+we have switched from rollup to esbuild and only export CJS and ESM versions.
+
+This means that the UMD build is no longer exported.
+
 # [3.8.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.7.1...v3.8.0) (2024-02-22)
 
 
