@@ -26,6 +26,7 @@
     - [Reasoning](#reasoning)
   - [Issues](#issues)
   - [Contributing](#contributing)
+  - [Support this Project](#support-this-project)
   - [v4.0.0-alpha Announcement](#v400-alpha-announcement)
 
 ## Features
@@ -286,6 +287,10 @@ Feel free to raise an issue on Github if you find a bug or have a feature reques
 ## Contributing
 
 If you would like to contribute to this repository, please refer to the [contributing doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CONTRIBUTING.md).
+
+## Support this Project
+
+If you'd like to support this project, please refer to the [support doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/SUPPORT.md).
 
 ## v4.0.0-alpha Announcement
 
