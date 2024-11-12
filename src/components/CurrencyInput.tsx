@@ -19,6 +19,7 @@ import {
   getSuffix,
   FormatValueOptions,
   repositionCursor,
+  normalizeNumerals,
 } from './utils';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
@@ -123,6 +124,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
      */
     const processChange = (value: string, selectionStart?: number | null): void => {
       setDirty(true);
+      value = normalizeNumerals(value);
 
       const { modifiedValue, cursorPosition } = repositionCursor({
         selectionStart,

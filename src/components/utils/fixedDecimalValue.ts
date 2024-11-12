@@ -1,8 +1,12 @@
+import { normalizeNumerals } from './getLocaleConfig';
+
 export const fixedDecimalValue = (
   value: string,
   decimalSeparator: string,
   fixedDecimalLength?: number
 ): string => {
+  value = normalizeNumerals(value);
+
   if (fixedDecimalLength !== undefined && value.length > 1) {
     if (fixedDecimalLength === 0) {
       return value.replace(decimalSeparator, '');

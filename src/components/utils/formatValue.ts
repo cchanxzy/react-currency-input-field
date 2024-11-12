@@ -1,6 +1,7 @@
 import { IntlConfig } from '../CurrencyInputProps';
 import { escapeRegExp } from './escapeRegExp';
 import { getSuffix } from './getSuffix';
+import { normalizeNumerals } from './getLocaleConfig';
 
 export type FormatValueOptions = {
   /**
@@ -75,14 +76,12 @@ export const formatValue = (options: FormatValueOptions): string => {
     return '-';
   }
 
-  const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(
-    _value
-  );
+  let value = normalizeNumerals(_value);
 
-  let value =
-    decimalSeparator !== '.'
-      ? replaceDecimalSeparator(_value, decimalSeparator, isNegative)
-      : _value;
+  const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(value);
+
+  value =
+    decimalSeparator !== '.' ? replaceDecimalSeparator(value, decimalSeparator, isNegative) : value;
 
   if (decimalSeparator && decimalSeparator !== '-' && value.startsWith(decimalSeparator)) {
     value = '0' + value;

@@ -1,3 +1,5 @@
+import { normalizeNumerals } from './getLocaleConfig';
+
 export const padTrimValue = (
   value: string,
   decimalSeparator = '.',
@@ -10,6 +12,8 @@ export const padTrimValue = (
   if (!value.match(/\d/g)) {
     return '';
   }
+
+  value = normalizeNumerals(value);
 
   const [int, decimals] = value.split(decimalSeparator);
 
