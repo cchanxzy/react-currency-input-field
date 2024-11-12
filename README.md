@@ -26,6 +26,8 @@
     - [Reasoning](#reasoning)
   - [Issues](#issues)
   - [Contributing](#contributing)
+  - [Support this Project](#support-this-project)
+  - [v4.0.0-alpha Announcement](#v400-alpha-announcement)
 
 ## Features
 
@@ -284,4 +286,30 @@ Feel free to raise an issue on Github if you find a bug or have a feature reques
 
 ## Contributing
 
-If you want to contribute to this repository, please refer to the [contributing doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CONTRIBUTING.md).
+If you would like to contribute to this repository, please refer to the [contributing doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CONTRIBUTING.md).
+
+## Support this Project
+
+If you'd like to support this project, please refer to the [support doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/SUPPORT.md).
+
+## v4.0.0-alpha Announcement
+
+I'm excited to announce the release of **[v4.0.0-alpha.1](https://www.npmjs.com/package/react-currency-input-field/v/4.0.0-alpha.1)**.
+
+This marks the beginning of development for version 4.0.0, and the first improvement is a significant reduction in bundle size, going from ~26KB to ~7KB.
+
+For more information, please refer to the [announcement post](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/v4.0.0-alpha-annoucement.md).
+
+If you would like to try out the alpha version, you can install it using the following command:
+
+```bash
+npm install react-currency-input-field@alpha
+
+yarn add react-currency-input-field@alpha
+
+pnpm add react-currency-input-field@alpha
+```
+
+Please note that this version is still in development and may contain bugs or incomplete features.
+
+**Use it at your own risk!**
