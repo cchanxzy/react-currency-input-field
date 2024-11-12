@@ -1,3 +1,15 @@
+# [4.0.0-alpha.2](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.0-alpha.1...v4.0.0-alpha.2) (2024-11-12)
+
+
+### Bug Fixes
+
+* correct entry for cjs and esm ([cc48412](https://github.com/cchanxzy/react-currency-input-field/commit/cc48412adaf7468cf8864826f93931ba0f07e689))
+
+
+### Features
+
+* export `IntlConfig` props ([#374](https://github.com/cchanxzy/react-currency-input-field/issues/374)) ([308d961](https://github.com/cchanxzy/react-currency-input-field/commit/308d96118db667a5cd4d9a312bccf9061a49063c))
+
 # [4.0.0-alpha.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.0...v4.0.0-alpha.1) (2024-11-09)
 
 
