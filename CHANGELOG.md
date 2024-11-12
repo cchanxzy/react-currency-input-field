@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.1...v3.9.0) (2024-11-12)
+
+
+### Features
+
+* export `IntlConfig` props ([#374](https://github.com/cchanxzy/react-currency-input-field/issues/374)) ([308d961](https://github.com/cchanxzy/react-currency-input-field/commit/308d96118db667a5cd4d9a312bccf9061a49063c))
+
 ## [3.8.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.0...v3.8.1) (2024-11-10)
 
 # [3.8.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.7.1...v3.8.0) (2024-02-22)
