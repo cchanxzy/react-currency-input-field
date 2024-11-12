@@ -3,6 +3,7 @@ import CurrencyInput from './components/CurrencyInput';
 export type {
   CurrencyInputProps,
   CurrencyInputOnChangeValues,
+  IntlConfig,
 } from './components/CurrencyInputProps';
 
 export { CurrencyInput } from './components/CurrencyInput';
