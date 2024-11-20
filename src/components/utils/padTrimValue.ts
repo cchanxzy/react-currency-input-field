@@ -3,7 +3,12 @@ export const padTrimValue = (
   decimalSeparator = '.',
   decimalScale?: number
 ): string => {
-  if (decimalScale === undefined || value === '' || value === undefined) {
+  if (
+    decimalScale === undefined ||
+    decimalSeparator === '' ||
+    value === '' ||
+    value === undefined
+  ) {
     return value;
   }
 
