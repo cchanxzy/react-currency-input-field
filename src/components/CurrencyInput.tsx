@@ -277,7 +277,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
           ) || 0;
         const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
 
-        if (min !== undefined && newValue < Number(min)) {
+        if (
+          (min !== undefined && newValue < Number(min)) ||
+          (!allowNegativeValue && newValue < 0)
+        ) {
           return;
         }
 
