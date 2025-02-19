@@ -88,22 +88,19 @@ export const formatValue = (options: FormatValueOptions): string => {
     value = '0' + value;
   }
 
+  const { locale, currency, ...formatOptions } = intlConfig || {};
+
   const defaultNumberFormatOptions = {
+    ...formatOptions,
     minimumFractionDigits: decimalScale || 0,
     maximumFractionDigits: 20,
   };
 
   const numberFormatter = intlConfig
-    ? new Intl.NumberFormat(
-        intlConfig.locale,
-        intlConfig.currency
-          ? {
-              ...defaultNumberFormatOptions,
-              style: 'currency',
-              currency: intlConfig.currency,
-            }
-          : defaultNumberFormatOptions
-      )
+    ? new Intl.NumberFormat(locale, {
+        ...defaultNumberFormatOptions,
+        ...(currency && { style: 'currency', currency }),
+      })
     : new Intl.NumberFormat(undefined, defaultNumberFormatOptions);
 
   const parts = numberFormatter.formatToParts(Number(value));

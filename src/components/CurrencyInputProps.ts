@@ -32,8 +32,7 @@ export type CurrencyInputOnChangeValues = {
 
 export type IntlConfig = {
   locale: string;
-  currency?: string;
-};
+} & Intl.NumberFormatOptions;
 
 export type CurrencyInputProps = Overwrite<
   React.ComponentPropsWithRef<'input'>,
@@ -189,6 +188,6 @@ export type CurrencyInputProps = Overwrite<
      * specifically on blur events. If disabled or set to false, the onValueChange will not trigger on blur.
      * Default = true
      */
-     formatValueOnBlur?: boolean;
+    formatValueOnBlur?: boolean;
   }
 >;
