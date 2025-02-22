@@ -1,3 +1,25 @@
+# [3.10.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.2...v3.10.0) (2025-02-22)
+
+
+### Features
+
+* intlConfig support all NumberFormatOptions ([#386](https://github.com/cchanxzy/react-currency-input-field/issues/386)) ([0b84349](https://github.com/cchanxzy/react-currency-input-field/commit/0b8434938769109a9073eec840d08a48e03e000c))
+
+## [3.9.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.1...v3.9.2) (2025-02-22)
+
+
+### Bug Fixes
+
+* handle cases where decimalSeparator is empty ([#385](https://github.com/cchanxzy/react-currency-input-field/issues/385)) ([656e5c2](https://github.com/cchanxzy/react-currency-input-field/commit/656e5c2e1407a36ecf26d5fc3c7e8f0037436ef6))
+
+## [3.9.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.0...v3.9.1) (2025-02-22)
+
+
+### Bug Fixes
+
+* add react 19 as peer dependency ([396d57b](https://github.com/cchanxzy/react-currency-input-field/commit/396d57b638c6419c4997e267f176a7d0b5c6bd92)), closes [#380](https://github.com/cchanxzy/react-currency-input-field/issues/380)
+
+
 # [4.0.0-alpha.2](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.0-alpha.1...v4.0.0-alpha.2) (2024-11-12)
 
 

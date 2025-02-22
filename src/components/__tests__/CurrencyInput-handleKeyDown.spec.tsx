@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -233,6 +233,45 @@ describe('<CurrencyInput/> handleKeyDown', () => {
     expect(screen.getByRole('textbox')).toHaveValue('-£0.01');
   });
 
+  it('should not go into negative value if disallowed', () => {
+    render(
+      <CurrencyInput
+        prefix="£"
+        defaultValue={1}
+        decimalScale={2}
+        step={1}
+        allowNegativeValue={false}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    expect(screen.getByRole('textbox')).toHaveValue('£1.00');
+
+    userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
+      float: 0,
+      formatted: '£0',
+      value: '0',
+    });
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
+
+    userEvent.type(screen.getByRole('textbox'), '{arrowdown}');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
+      float: 0,
+      formatted: '£0',
+      value: '0',
+    });
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
+
+    userEvent.type(screen.getByRole('textbox'), '{arrowup}');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1', undefined, {
+      float: 1,
+      formatted: '£1',
+      value: '1',
+    });
+    expect(screen.getByRole('textbox')).toHaveValue('£1');
+  });
+
   it('should not step below min if specified', () => {
     render(
       <CurrencyInput
@@ -308,5 +347,44 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       value: '44',
     });
     expect(screen.getByRole('textbox')).toHaveValue('£44');
+  });
+
+  it('should handle currencies without decimals when controlled', () => {
+    const ControlledCurrencyInput = () => {
+      const [value, setValue] = useState<number>();
+      return (
+        <CurrencyInput
+          intlConfig={{ locale: 'ja-JP', currency: 'JPY' }}
+          onValueChange={(value, name, values) => {
+            setValue(values && values.float != null ? values.float : undefined);
+            return onValueChangeSpy(value, name, values);
+          }}
+          step={100}
+          value={value}
+        />
+      );
+    };
+
+    render(<ControlledCurrencyInput />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    userEvent.type(screen.getByRole('textbox'), '{arrowup}');
+
+    expect(screen.getByRole('textbox')).toHaveValue('￥100');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('100', undefined, {
+      float: 100,
+      formatted: '￥100',
+      value: '100',
+    });
+
+    userEvent.type(screen.getByRole('textbox'), '{arrowup}');
+
+    expect(screen.getByRole('textbox')).toHaveValue('￥200');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('200', undefined, {
+      float: 200,
+      formatted: '￥200',
+      value: '200',
+    });
   });
 });

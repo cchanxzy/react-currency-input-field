@@ -29,8 +29,8 @@ jobs:
       - name: Run typecheck
         run: pnpm typecheck
       - name: Code coverage
+        uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: pnpm codecov
       - name: Prepare new release
         run: pnpm semantic-release --dry-run
