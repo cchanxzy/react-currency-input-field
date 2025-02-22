@@ -20,7 +20,6 @@
     "gh-predeploy": "parcel build src/examples/index.html --dist-dir demo/examples --public-url ./",
     "gh-deploy": "yarn gh-predeploy && gh-pages -d demo/examples",
     "ci": "yarn && yarn build",
-    "codecov": "codecov",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -47,7 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@playwright/test": "^1.40.1",
+    "@playwright/test": "^1.50.1",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
@@ -63,7 +62,6 @@
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
-    "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
