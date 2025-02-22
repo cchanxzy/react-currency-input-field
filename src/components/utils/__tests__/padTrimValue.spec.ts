@@ -29,4 +29,9 @@ describe('padTrimValue', () => {
   it('should trim handle comma as decimal separator', () => {
     expect(padTrimValue('9,9', ',', 3)).toEqual('9,900');
   });
+
+  it('should trim handle empty decimal separator', () => {
+    expect(padTrimValue('99', '', 0)).toEqual('99');
+    expect(padTrimValue('99', '')).toEqual('99');
+  });
 });

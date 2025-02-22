@@ -29,9 +29,9 @@ jobs:
       - name: Run tests
         run: pnpm test-ci
       - name: Code coverage
+        uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: pnpm codecov
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

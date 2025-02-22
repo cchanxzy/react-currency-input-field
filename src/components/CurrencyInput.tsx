@@ -108,8 +108,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       defaultValue != null
         ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
         : userValue != null
-        ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
-        : ''
+          ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
+          : ''
     );
     const [dirty, setDirty] = useState(false);
     const [cursor, setCursor] = useState(0);
@@ -225,7 +225,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         decimalScale !== undefined ? decimalScale : fixedDecimalLength
       );
 
-      const numberValue = parseFloat(newValue.replace(decimalSeparator, '.'));
+      const stringValueWithoutSeparator = decimalSeparator
+        ? newValue.replace(decimalSeparator, '.')
+        : newValue;
+
+      const numberValue = parseFloat(stringValueWithoutSeparator);
 
       const formattedValue = formatValue({
         ...formatValueOptions,
@@ -259,15 +263,24 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         event.preventDefault();
         setCursor(stateValue.length);
 
+        const stringValue = userValue != null ? String(userValue) : undefined;
+        const stringValueWithoutSeparator =
+          decimalSeparator && stringValue
+            ? stringValue.replace(decimalSeparator, '.')
+            : stringValue;
+
         const currentValue =
           parseFloat(
-            userValue != null
-              ? String(userValue).replace(decimalSeparator, '.')
+            stringValueWithoutSeparator != null
+              ? stringValueWithoutSeparator
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0;
         const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
 
-        if (min !== undefined && newValue < Number(min)) {
+        if (
+          (min !== undefined && newValue < Number(min)) ||
+          (!allowNegativeValue && newValue < 0)
+        ) {
           return;
         }
 

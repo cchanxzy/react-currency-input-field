@@ -100,6 +100,28 @@ describe('<CurrencyInput/> decimals', () => {
     });
   });
 
+  it('should handle currencies without decimals with provided decimalScale', () => {
+    render(
+      <CurrencyInput
+        decimalScale={0}
+        intlConfig={{ locale: 'ja-JP', currency: 'JPY' }}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    userEvent.type(screen.getByRole('textbox'), '123');
+    userEvent.click(document.body);
+
+    expect(screen.getByRole('textbox')).toHaveValue('￥123');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', undefined, {
+      float: 123,
+      formatted: '￥123',
+      value: '123',
+    });
+  });
+
   it('should handle starting with decimal separator that is non period', () => {
     render(
       <CurrencyInput
