@@ -1,3 +1,10 @@
+## [3.9.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.0...v3.9.1) (2025-02-22)
+
+
+### Bug Fixes
+
+* add react 19 as peer dependency ([396d57b](https://github.com/cchanxzy/react-currency-input-field/commit/396d57b638c6419c4997e267f176a7d0b5c6bd92)), closes [#380](https://github.com/cchanxzy/react-currency-input-field/issues/380)
+
 # [3.9.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.1...v3.9.0) (2024-11-12)
 
 
