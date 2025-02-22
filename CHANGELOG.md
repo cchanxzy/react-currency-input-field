@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.2...v3.10.0) (2025-02-22)
+
+
+### Features
+
+* intlConfig support all NumberFormatOptions ([#386](https://github.com/cchanxzy/react-currency-input-field/issues/386)) ([0b84349](https://github.com/cchanxzy/react-currency-input-field/commit/0b8434938769109a9073eec840d08a48e03e000c))
+
 ## [3.9.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.1...v3.9.2) (2025-02-22)
 
 
