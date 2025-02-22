@@ -27,9 +27,9 @@ jobs:
       - name: Run tests
         run: yarn test-ci
       - name: Code coverage
+        uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: yarn codecov
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
