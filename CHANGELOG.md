@@ -1,3 +1,10 @@
+## [3.9.2](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.1...v3.9.2) (2025-02-22)
+
+
+### Bug Fixes
+
+* handle cases where decimalSeparator is empty ([#385](https://github.com/cchanxzy/react-currency-input-field/issues/385)) ([656e5c2](https://github.com/cchanxzy/react-currency-input-field/commit/656e5c2e1407a36ecf26d5fc3c7e8f0037436ef6))
+
 ## [3.9.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.0...v3.9.1) (2025-02-22)
 
 
