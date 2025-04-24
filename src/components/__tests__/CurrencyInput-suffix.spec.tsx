@@ -44,4 +44,41 @@ describe('<CurrencyInput/> suffix', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('$1,234.9 %');
   });
+
+  it('should handle empty prefix and suffix', () => {
+    render(
+      <CurrencyInput onValueChange={onValueChangeSpy} prefix="" suffix="" defaultValue="1234" />
+    );
+
+    expect(screen.getByRole('textbox')).toHaveValue('1,234');
+
+    userEvent.type(screen.getByRole('textbox'), '56');
+
+    expect(screen.getByRole('textbox')).toHaveValue('123,456');
+
+    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
+
+    expect(screen.getByRole('textbox')).toHaveValue('1,234');
+  });
+
+  it('should fallback to default prefix and suffix when undefined', () => {
+    render(
+      <CurrencyInput
+        onValueChange={onValueChangeSpy}
+        prefix={undefined}
+        suffix={undefined}
+        defaultValue="1234"
+      />
+    );
+
+    expect(screen.getByRole('textbox')).toHaveValue('1,234');
+
+    userEvent.type(screen.getByRole('textbox'), '56');
+
+    expect(screen.getByRole('textbox')).toHaveValue('123,456');
+
+    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
+
+    expect(screen.getByRole('textbox')).toHaveValue('1,234');
+  });
 });
