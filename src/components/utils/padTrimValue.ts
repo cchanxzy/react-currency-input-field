@@ -23,12 +23,12 @@ export const padTrimValue = (
     return int;
   }
 
-  const numberFormatter = new Intl.NumberFormat(undefined, {
+  // only for rounding float formatting
+  const numberFormatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: decimalScale,
     maximumFractionDigits: decimalScale,
   });
 
   const stringValueWithoutSeparator = value.replace(decimalSeparator, '.');
-
-  return numberFormatter.format(parseFloat(stringValueWithoutSeparator));
+  return numberFormatter.format(parseFloat(stringValueWithoutSeparator)).replace(/,/g, '');
 };
