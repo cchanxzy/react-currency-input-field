@@ -1,25 +1,25 @@
-import React, {
-  FC,
-  useState,
-  useEffect,
-  useRef,
-  forwardRef,
-  useMemo,
-  useImperativeHandle,
-} from 'react';
-import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
-  isNumber,
+  CleanValueOptions,
+  FormatValueOptions,
   cleanValue,
   fixedDecimalValue,
   formatValue,
   getLocaleConfig,
-  padTrimValue,
-  CleanValueOptions,
   getSuffix,
-  FormatValueOptions,
+  isNumber,
+  padTrimValue,
   repositionCursor,
 } from './utils';
+import { CurrencyInputOnChangeValues, CurrencyInputProps } from './CurrencyInputProps';
+import React, {
+  FC,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
   HTMLInputElement,
@@ -225,11 +225,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         decimalScale !== undefined ? decimalScale : fixedDecimalLength
       );
 
-      const stringValueWithoutSeparator = decimalSeparator
-        ? newValue.replace(decimalSeparator, '.')
-        : newValue;
-
-      const numberValue = parseFloat(stringValueWithoutSeparator);
+      const numberValue = parseFloat(newValue);
 
       const formattedValue = formatValue({
         ...formatValueOptions,
