@@ -93,7 +93,7 @@ export const formatValue = (options: FormatValueOptions): string => {
   const defaultNumberFormatOptions = {
     ...formatOptions,
     minimumFractionDigits: decimalScale || 0,
-    maximumFractionDigits: 20,
+    maximumFractionDigits: decimalScale || 20,
   };
 
   const numberFormatter = intlConfig
