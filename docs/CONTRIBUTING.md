@@ -2,11 +2,21 @@
 
 Thanks for being willing to contribute!
 
+- [Contributing](#contributing)
+  - [Project setup](#project-setup)
+  - [Prerequisites](#prerequisites)
+    - [Node.js \& nvm](#nodejs--nvm)
+    - [Corepack](#corepack)
+  - [Install](#install)
+  - [Start](#start)
+  - [Committing and Pushing changes](#committing-and-pushing-changes)
+  - [Pull request](#pull-request)
+  - [Help needed](#help-needed)
+
 ## Project setup
 
 1. Fork and clone the repo
-2. Run `pnpm` to install dependencies
-3. Create a branch for your PR with `git checkout -b pr/your-branch-name`
+2. Create a branch for your PR with `git checkout -b pr/your-branch-name`
 
 > Tip: Keep your `main` branch pointing at the original repository and make pull
 > requests from branches on your fork. To do this, run:
@@ -23,6 +33,40 @@ Thanks for being willing to contribute!
 > all of your pull request branches based on this `main` branch. Whenever you
 > want to update your version of `main`, do a regular `git pull`.
 
+## Prerequisites
+
+### Node.js & nvm
+
+We use [nvm](https://github.com/nvm-sh/nvm) to ensure everyone runs the same Node.js version.
+
+Follow instructions to install NVM via their [documentation](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating).
+
+```bash
+# Check you have NVM installed:
+nvm --version
+
+# Use project Node.js version from .nvmrc
+nvm install
+nvm use
+```
+
+### Corepack
+
+Corepack comes bundled with Node.js (>=16.9).
+It ensures the correct package manager version is used across machines.
+
+```bash
+# Enable Corepack (one-time)
+corepack enable
+
+# Update Corepack shims
+corepack prepare
+```
+
+## Install
+
+Run `pnpm i` to install dependencies
+
 ## Start
 
 To start the examples page locally, run `pnpm start`.
@@ -31,12 +75,22 @@ This will open the page in `http://localhost:1234/`.
 
 ## Committing and Pushing changes
 
-Please make sure to run the tests before you commit your changes.
+Please make sure to run the tests and linting before you commit your changes.
+
+```bash
+# Run tests
+pnpm test
+
+# Run linting
+pnpm lint
+```
 
 ## Pull request
 
-If you are a first time contributor for this project, your PR will not run the checks required in CI. Please mention @cchanxzy in a comment on the pull request, and I will enable the checks to run for the PR.
+If you are a first time contributor for this project, your PR will not run the checks required in CI.
+
+Please mention @cchanxzy in a comment on the pull request, and I will enable the checks to run for the PR.
 
 ## Help needed
 
-Please checkout the [the open issues](https://github.com/cchanxzy/react-currency-input-field/issues)
+Please checkout the [the open issues](https://github.com/cchanxzy/react-currency-input-field/issues) if you would like to help.
