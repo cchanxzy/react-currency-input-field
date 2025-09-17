@@ -20,25 +20,22 @@
     - [Decimal Scale and Decimals Limit](#decimal-scale-and-decimals-limit)
     - [Fixed Decimal Length](#fixed-decimal-length)
   - [Format values for display](#format-values-for-display)
-  - [v3.0.0 Release Notes](#v300-release-notes)
-    - [Breaking Changes](#breaking-changes)
-    - [Improvements in v3](#improvements-in-v3)
-    - [Reasoning](#reasoning)
   - [Issues](#issues)
   - [Contributing](#contributing)
   - [Support this Project](#support-this-project)
-  - [v4.0.0-alpha Announcement](#v400-alpha-announcement)
+  - [v4.0.0 Announcement](#v400-announcement)
 
 ## Features
 
-- Allows [abbreviations](#abbreviations) eg. 1k = 1,000 2.5m = 2,500,000
-- Prefix and Suffix options eg. £ or \$
-- Automatically inserts [group separator](#separators)
+- Supports [abbreviations](#abbreviations) (e.g. `1k` → `1,000`, `2.5m` → `2,500,000`)
+- Prefix and suffix support (e.g. `£`, `$`)
+- Automatically inserts [group separators](#separators)
 - Accepts [Intl locale config](#intl-locale-config)
-- Can use arrow down/up to step
+- Keyboard stepping with `ArrowUp` / `ArrowDown`
 - Can allow/disallow decimals
 - Written in TypeScript and has type support
-- Does not use any third party packages
+- Zero runtime dependencies (ie. does not depend on any third party packages except for development)
+- Bundle size [7.6kB (Minified), 3.1kB (Minified + Gzipped)](https://bundlephobia.com/package/react-currency-input-field@4.0.0)
 
 ## Examples
 
@@ -48,11 +45,13 @@
 
 ## Install
 
-`npm install react-currency-input-field`
+```bash
+npm install react-currency-input-field
 
-or
+yarn add react-currency-input-field
 
-`yarn add react-currency-input-field`
+pnpm add react-currency-input-field
+```
 
 ## Usage
 
@@ -253,33 +252,6 @@ console.log(formattedValue2);
 // ₹5,00,000
 ```
 
-## v3.0.0 Release Notes
-
-### Breaking Changes
-
-- :warning: `onChange` renamed to `onValueChange` :warning:
-- `onBlurValue` has been removed.
-- `turnOffAbbreviations` renamed to `disableAbbreviations`.
-- `turnOffSeparators` renamed to `disableGroupSeparators`.
-- `precision` renamed to `decimalScale`
-
-### Improvements in v3
-
-- [Intl locale config](#intl-locale-config) can be passed in. _Please note: formatting where the currency symbol is placed after the value like a suffix eg. (1 234,56 €) might cause problems, this is still in development._
-- Group separator will default to browser locale if not specified.
-- Can pass `ref` to the component.
-- `onChange` and `onBlur` functions can be passed in and will be called with original event.
-
-### Reasoning
-
-As this component grew in usage, I started getting more bug reports and feature requests. That wasn't a problem though, because I was always happy to fix any bugs and implement any features if I could.
-
-However, this meant sometimes I was a bit trigger happy, and didn't always think about how the different options interacted with each other. I found that it was getting a bit convoluted for my liking, and choices I had made earlier in development, now seemed like it could be improved.
-
-Therefore, I took the opportunity of v3 to do a bit of tidying up for the component, in order to make it more future proof and intuitive to use.
-
-I apologize if any of the changes cause new bugs or issues. Please let me know and I will fix asap.
-
 ## Issues
 
 Feel free to raise an issue on Github if you find a bug or have a feature request.
@@ -292,24 +264,10 @@ If you would like to contribute to this repository, please refer to the [contrib
 
 If you'd like to support this project, please refer to the [support doc](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/SUPPORT.md).
 
-## v4.0.0-alpha Announcement
+## v4.0.0 Announcement
 
-I'm excited to announce the release of **[v4.0.0-alpha.1](https://www.npmjs.com/package/react-currency-input-field/v/4.0.0-alpha.1)**.
+I'm excited to announce the release of **[v4.0.0](https://www.npmjs.com/package/react-currency-input-field/v/4.0.0)**.
 
-This marks the beginning of development for version 4.0.0, and the first improvement is a significant reduction in bundle size, going from ~26KB to ~7KB.
+This marks the beginning of development for version 4.0.0, and the first improvement is a significant reduction in bundle size, going from ~26KB to [~7.6kB (Minified), 3.1kB (Minified + Gzipped)](https://bundlephobia.com/package/react-currency-input-field@4.0.0)
 
 For more information, please refer to the [announcement post](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/v4.0.0-alpha-annoucement.md).
-
-If you would like to try out the alpha version, you can install it using the following command:
-
-```bash
-npm install react-currency-input-field@alpha
-
-yarn add react-currency-input-field@alpha
-
-pnpm add react-currency-input-field@alpha
-```
-
-Please note that this version is still in development and may contain bugs or incomplete features.
-
-**Use it at your own risk!**
