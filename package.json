@@ -76,7 +76,6 @@
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "full-icu": "^1.3.4",
     "gh-pages": "^5.0.0",
     "glob": "^11.0.0",
     "husky": "^8.0.3",
@@ -97,11 +96,11 @@
   "peerDependencies": {
     "react": "^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
-  "dependencies": {},
   "targets": {
     "main": false,
     "module": false,
     "types": false
   },
-  "packageManager": "pnpm@10.0.0-alpha.0+sha512.856941ef22665d2f3e41c04e8d86ed757ef057fb2bc35011698bfa988ef5817cc1cdd28bb883e7f23f0568c75de5544d4750211d4276b9ba6d55369eb207a549"
+  "minimumReleaseAge": 4320,
+  "packageManager": "pnpm@10.16.1+sha512.0e155aa2629db8672b49e8475da6226aa4bdea85fdcdfdc15350874946d4f3c91faaf64cbdc4a5d1ab8002f473d5c3fcedcd197989cf0390f9badd3c04678706"
 }
