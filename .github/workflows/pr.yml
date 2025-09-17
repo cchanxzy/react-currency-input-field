@@ -6,30 +6,31 @@ jobs:
   install-build-and-test:
     name: Install, build and test PR
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
       - name: Build package
-        run: yarn build
+        run: pnpm build
       - name: Run linting
-        run: yarn lint
+        run: pnpm lint
       - name: Run tests
-        run: yarn test-ci
+        run: pnpm test-ci
       - name: Run typecheck
-        run: yarn typecheck
+        run: pnpm typecheck
       - name: Code coverage
         uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Prepare new release
-        run: yarn semantic-release --dry-run
+        run: pnpm semantic-release --dry-run

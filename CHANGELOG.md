@@ -1,3 +1,17 @@
+# [4.0.0-alpha.3](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.0-alpha.2...v4.0.0-alpha.3) (2025-02-22)
+
+
+### Bug Fixes
+
+* add react 19 as peer dependency ([396d57b](https://github.com/cchanxzy/react-currency-input-field/commit/396d57b638c6419c4997e267f176a7d0b5c6bd92)), closes [#380](https://github.com/cchanxzy/react-currency-input-field/issues/380)
+* handle cases where decimalSeparator is empty ([#385](https://github.com/cchanxzy/react-currency-input-field/issues/385)) ([656e5c2](https://github.com/cchanxzy/react-currency-input-field/commit/656e5c2e1407a36ecf26d5fc3c7e8f0037436ef6))
+
+
+### Features
+
+* intlConfig support all NumberFormatOptions ([#386](https://github.com/cchanxzy/react-currency-input-field/issues/386)) ([0b84349](https://github.com/cchanxzy/react-currency-input-field/commit/0b8434938769109a9073eec840d08a48e03e000c))
+* merge changes in main into alpha branch ([6985156](https://github.com/cchanxzy/react-currency-input-field/commit/6985156a88577e8a891cdcd7bb9b8e4270d448b5))
+
 # [3.10.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.9.2...v3.10.0) (2025-02-22)
 
 
@@ -18,6 +32,34 @@
 ### Bug Fixes
 
 * add react 19 as peer dependency ([396d57b](https://github.com/cchanxzy/react-currency-input-field/commit/396d57b638c6419c4997e267f176a7d0b5c6bd92)), closes [#380](https://github.com/cchanxzy/react-currency-input-field/issues/380)
+
+
+# [4.0.0-alpha.2](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.0-alpha.1...v4.0.0-alpha.2) (2024-11-12)
+
+
+### Bug Fixes
+
+* correct entry for cjs and esm ([cc48412](https://github.com/cchanxzy/react-currency-input-field/commit/cc48412adaf7468cf8864826f93931ba0f07e689))
+
+
+### Features
+
+* export `IntlConfig` props ([#374](https://github.com/cchanxzy/react-currency-input-field/issues/374)) ([308d961](https://github.com/cchanxzy/react-currency-input-field/commit/308d96118db667a5cd4d9a312bccf9061a49063c))
+
+# [4.0.0-alpha.1](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.0...v4.0.0-alpha.1) (2024-11-09)
+
+
+* build!: switch from rollup to esbuild to build ([75ef80c](https://github.com/cchanxzy/react-currency-input-field/commit/75ef80ce48787bd1ea139820421e59cb35a69247))
+
+
+### BREAKING CHANGES
+
+* UMD is no longer exported.
+
+In order to reduce complexity and simplify the build process,
+we have switched from rollup to esbuild and only export CJS and ESM versions.
+
+This means that the UMD build is no longer exported.
 
 # [3.9.0](https://github.com/cchanxzy/react-currency-input-field/compare/v3.8.1...v3.9.0) (2024-11-12)
 
