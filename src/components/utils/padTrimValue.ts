@@ -17,21 +17,18 @@ export const padTrimValue = (
     return '';
   }
 
-  const [int, decimals] = value.split(decimalSeparator);
+  const [int] = value.split(decimalSeparator);
 
   if (decimalScale === 0) {
     return int;
   }
 
-  let newValue = decimals || '';
+  // only for rounding float formatting
+  const numberFormatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: decimalScale,
+    maximumFractionDigits: decimalScale,
+  });
 
-  if (newValue.length < decimalScale) {
-    while (newValue.length < decimalScale) {
-      newValue += '0';
-    }
-  } else {
-    newValue = newValue.slice(0, decimalScale);
-  }
-
-  return `${int}${decimalSeparator}${newValue}`;
+  const stringValueWithoutSeparator = value.replace(decimalSeparator, '.');
+  return numberFormatter.format(parseFloat(stringValueWithoutSeparator)).replace(/,/g, '');
 };
