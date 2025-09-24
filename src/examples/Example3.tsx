@@ -19,7 +19,7 @@ const options: ReadonlyArray<CurrencyInputProps['intlConfig']> = [
     currency: 'JPY',
   },
   {
-    locale: 'en-IN',
+    locale: 'hi-IN',
     currency: 'INR',
   },
 ];

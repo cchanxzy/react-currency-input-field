@@ -272,7 +272,7 @@ describe('formatValue', () => {
       expect(
         formatValue({
           value: '-500000',
-          intlConfig: { locale: 'en-IN', currency: 'INR' },
+          intlConfig: { locale: 'hi-IN', currency: 'INR' },
         })
       ).toEqual('-₹5,00,000');
 
@@ -303,7 +303,7 @@ describe('formatValue', () => {
       expect(
         formatValue({
           value: '-500000',
-          intlConfig: { locale: 'en-IN' },
+          intlConfig: { locale: 'hi-IN' },
         })
       ).toEqual('-5,00,000');
 
@@ -383,7 +383,7 @@ describe('formatValue', () => {
       expect(
         formatValue({
           value: '-123456',
-          intlConfig: { locale: 'en-IN', currency: 'INR' },
+          intlConfig: { locale: 'hi-IN', currency: 'INR' },
           groupSeparator: '-',
         })
       ).toEqual('-₹1-23-456');

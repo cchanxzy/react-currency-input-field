@@ -18,7 +18,7 @@ describe('<CurrencyInput/> intlConfig', () => {
 
   it('should use intl config settings (en-IN, INR)', () => {
     render(
-      <CurrencyInput id={id} intlConfig={{ locale: 'en-IN', currency: 'INR' }} value="500000" />
+      <CurrencyInput id={id} intlConfig={{ locale: 'hi-IN', currency: 'INR' }} value="500000" />
     );
 
     expect(screen.getByRole('textbox')).toHaveValue('₹5,00,000');
@@ -94,7 +94,7 @@ describe('<CurrencyInput/> intlConfig', () => {
       render(
         <CurrencyInput
           id={id}
-          intlConfig={{ locale: 'en-IN', currency: 'INR' }}
+          intlConfig={{ locale: 'hi-IN', currency: 'INR' }}
           onValueChange={onValueChangeSpy}
         />
       );
