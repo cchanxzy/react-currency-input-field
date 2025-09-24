@@ -68,32 +68,36 @@ import CurrencyInput from 'react-currency-input-field';
 />;
 ```
 
-Have a look in [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/main/src/examples) for more examples on implementing and validation.
+See [`src/examples`](https://github.com/cchanxzy/react-currency-input-field/tree/main/src/examples) for more patterns covering implementation details and validation helpers.
 
 ## Props
 
-| Name                                               | Type       | Default        | Description                                                                                    |
-| -------------------------------------------------- | ---------- | -------------- | ---------------------------------------------------------------------------------------------- |
-| allowDecimals                                      | `boolean`  | `true`         | Allow decimals                                                                                 |
-| allowNegativeValue                                 | `boolean`  | `true`         | Allow user to enter negative value                                                             |
-| defaultValue                                       | `number`   |                | Default value                                                                                  |
-| value                                              | `number`   |                | Programmatically set the value                                                                 |
-| [onValueChange](#onvaluechange)                    | `function` |                | Handle change in value                                                                         |
-| placeholder                                        | `string`   |                | Placeholder if no value                                                                        |
-| [decimalsLimit](#decimal-scale-and-decimals-limit) | `number`   | `2`            | Limit length of decimals allowed                                                               |
-| [decimalScale](#decimal-scale-and-decimals-limit)  | `number`   |                | Specify decimal scale for padding/trimming eg. 1.5 -> 1.50 or 1.234 -> 1.23 if decimal scale 2 |
-| [fixedDecimalLength](#fixed-decimal-length)        | `number`   |                | Value will always have the specified length of decimals                                        |
-| [prefix](#prefix-and-suffix)                       | `string`   |                | Include a prefix eg. £ or \$                                                                   |
-| [suffix](#prefix-and-suffix)                       | `string`   |                | Include a suffix eg. € or %                                                                    |
-| [decimalSeparator](#separators)                    | `string`   | locale default | Separator between integer part and fractional part of value                                    |
-| [groupSeparator](#separators)                      | `string`   | locale default | Separator between thousand, million and billion                                                |
-| [intlConfig](#intl-locale-config)                  | `object`   |                | International locale config                                                                    |
-| disabled                                           | `boolean`  | `false`        | Disabled                                                                                       |
-| disableAbbreviations                               | `boolean`  | `false`        | Disable abbreviations eg. 1k -> 1,000, 2m -> 2,000,000                                         |
-| [disableGroupSeparators](#separators)              | `boolean`  | `false`        | Disable auto adding the group separator between values, eg. 1000 -> 1,000                      |
-| maxLength                                          | `number`   |                | Maximum characters the user can enter                                                          |
-| step                                               | `number`   |                | Incremental value change on arrow down and arrow up key press                                  |
-| transformRawValue                                  | `function` |                | Transform the raw value from the input before parsing. Needs to return `string`.               |
+| Name                                               | Type                | Default        | Description                                                                                                  |
+| -------------------------------------------------- | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------------ |
+| allowDecimals                                      | `boolean`           | `true`         | Allow entering decimal values.                                                                               |
+| allowNegativeValue                                 | `boolean`           | `true`         | Allow the user to enter negative numbers.                                                                    |
+| className                                          | `string`            |                | Additional CSS class names for the rendered input.                                                           |
+| customInput                                        | `React.ElementType` | `input`        | Render a custom component instead of the native `input`.                                                     |
+| [decimalsLimit](#decimal-scale-and-decimals-limit) | `number`            | `2`            | Maximum number of fractional digits the user can type.                                                       |
+| [decimalScale](#decimal-scale-and-decimals-limit)  | `number`            |                | Pads or trims decimals on blur to the specified length.                                                      |
+| [decimalSeparator](#separators)                    | `string`            | locale default | Character used to separate the integer and fractional parts. Cannot be numeric or match the group separator. |
+| defaultValue                                       | `number \| string`  |                | Initial value when the component is uncontrolled.                                                            |
+| value                                              | `number \| string`  |                | Controlled value supplied by the parent component.                                                           |
+| disabled                                           | `boolean`           | `false`        | Disable user interaction.                                                                                    |
+| disableAbbreviations                               | `boolean`           | `false`        | Disable shorthand parsing (`1k`, `2m`, `3b`, etc.).                                                          |
+| [disableGroupSeparators](#separators)              | `boolean`           | `false`        | Prevent automatic insertion of group separators (e.g. keep `1000` instead of `1,000`).                       |
+| [fixedDecimalLength](#fixed-decimal-length)        | `number`            |                | Forces the value to always display with the specified number of decimals on blur.                            |
+| formatValueOnBlur                                  | `boolean`           | `true`         | When set to `false`, the `onValueChange` will not be called on `blur` events.                                |
+| [groupSeparator](#separators)                      | `string`            | locale default | Character used to group thousands. Cannot be numeric.                                                        |
+| id                                                 | `string`            |                | Forwarded to the rendered input element.                                                                     |
+| [intlConfig](#intl-locale-config)                  | `IntlConfig`        |                | Locale configuration for `Intl.NumberFormat` (locale, currency, style).                                      |
+| maxLength                                          | `number`            |                | Maximum number of characters (excluding the negative sign) the user can enter.                               |
+| [onValueChange](#onvaluechange)                    | `function`          |                | Handler fired whenever the parsed value changes.                                                             |
+| placeholder                                        | `string`            |                | Displayed when there is no value.                                                                            |
+| [prefix](#prefix-and-suffix)                       | `string`            |                | String added before the value (e.g. `£`, `$`). Overrides locale-derived prefixes.                            |
+| [suffix](#prefix-and-suffix)                       | `string`            |                | String added after the value (e.g. `%`, `€`). Overrides locale-derived suffixes.                             |
+| step                                               | `number`            |                | Increment applied when pressing `ArrowUp` / `ArrowDown`.                                                     |
+| transformRawValue                                  | `function`          |                | Intercept and adjust the raw input string before parsing. Must return a string.                              |
 
 ### onValueChange
 
@@ -106,6 +110,8 @@ onValueChange = (value, name, values) => void;
 #### value
 
 `value` will give you the value in a string format, without the prefix/suffix/separators.
+
+Useful for displaying the value, but you can use `values.float` if you need the numerical value for calculations.
 
 Example: `£123,456 -> 123456`
 
@@ -131,7 +137,7 @@ Examples:
 - 2.5m = 2,500,000
 - 3.456B = 3,456,000,000
 
-This can be turned off by passing in `disableAbbreviations`.
+This can be turned off by passing in `disableAbbreviations={true}`.
 
 ### Prefix and Suffix
 
@@ -174,11 +180,36 @@ Examples:
 ```javascript
 import CurrencyInput from 'react-currency-input-field';
 
-<CurrencyInput intlConfig={{ locale: 'en-US', currency: 'GBP' }} />;
+// US Dollar
+<CurrencyInput intlConfig={{ locale: 'en-US', currency: 'USD' }} />
 
-<CurrencyInput intlConfig={{ locale: 'ja-JP', currency: 'JPY' }} />;
+// British Pound
+<CurrencyInput intlConfig={{ locale: 'en-GB', currency: 'GBP' }} />
 
-<CurrencyInput intlConfig={{ locale: 'en-IN', currency: 'INR' }} />;
+// Canadian Dollar
+<CurrencyInput intlConfig={{ locale: 'en-CA', currency: 'CAD' }} />
+
+// Australian Dollar
+<CurrencyInput intlConfig={{ locale: 'en-AU', currency: 'AUD' }} />
+
+// Japanese Yen
+<CurrencyInput intlConfig={{ locale: 'ja-JP', currency: 'JPY' }} />
+
+// Chinese Yuan
+<CurrencyInput intlConfig={{ locale: 'zh-CN', currency: 'CNY' }} />
+
+// Euro (Germany)
+<CurrencyInput intlConfig={{ locale: 'de-DE', currency: 'EUR' }} />
+
+// Euro (France)
+<CurrencyInput intlConfig={{ locale: 'fr-FR', currency: 'EUR' }} />
+
+// Indian Rupee
+<CurrencyInput intlConfig={{ locale: 'hi-IN', currency: 'INR' }} />
+
+// Brazilian Real
+<CurrencyInput intlConfig={{ locale: 'pt-BR', currency: 'BRL' }} />
+
 ```
 
 `locale` should be a [BCP 47 language tag](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation), such as "en-US" or "en-IN".
@@ -245,7 +276,7 @@ console.log(formattedValue1);
 // Format using intl locale config
 const formattedValue2 = formatValue({
   value: '500000',
-  intlConfig: { locale: 'en-IN', currency: 'INR' },
+  intlConfig: { locale: 'hi-IN', currency: 'INR' },
 });
 
 console.log(formattedValue2);
