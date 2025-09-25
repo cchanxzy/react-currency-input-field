@@ -32,5 +32,6 @@
       'next-major',
       { name: 'beta', prerelease: true },
       { name: 'alpha', prerelease: true },
+      { 'name': 'experimental', 'prerelease': 'experimental' },
     ],
 }
