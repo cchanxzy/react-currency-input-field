@@ -1,31 +1,26 @@
 import * as esbuild from 'esbuild';
-import { glob } from 'glob';
-
-const files = glob.sync('src/**/*.{ts,tsx}', {
-  ignore: ['src/examples/**', 'src/**/__tests__/**', 'src/**/*.spec.{ts,tsx}'],
-});
 
 // Exports ESM
 esbuild.build({
-  entryPoints: files,
-  outdir: 'dist/esm',
-  bundle: false,
+  entryPoints: ['src/index.ts'],
+  outfile: 'dist/esm/index.js',
+  bundle: true,
   sourcemap: true,
-  splitting: true,
-  platform: 'browser',
+  platform: 'neutral',
   format: 'esm',
   target: ['esnext'],
   minify: true,
+  external: ['react'],
 });
 
-// Exports CJS
 esbuild.build({
-  entryPoints: files,
-  outdir: 'dist/cjs',
-  bundle: false,
+  entryPoints: ['src/index.ts'],
+  outfile: 'dist/cjs/index.js',
+  bundle: true,
   sourcemap: true,
-  platform: 'browser',
+  platform: 'neutral',
   format: 'cjs',
   target: ['esnext'],
   minify: true,
+  external: ['react'],
 });
