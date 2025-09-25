@@ -1,3 +1,10 @@
+## [4.0.3-experimental.1](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.2...v4.0.3-experimental.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* update platform to neutral for esbuild config ([016151d](https://github.com/cchanxzy/react-currency-input-field/commit/016151d79627166591cfc8cc4a7a2e9720d67c8e))
+
 ## [4.0.2](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.1...v4.0.2) (2025-09-24)
 
 ## [4.0.1](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.0...v4.0.1) (2025-09-17)
