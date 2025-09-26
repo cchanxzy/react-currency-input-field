@@ -11,12 +11,10 @@ esbuild.build({
   outdir: 'dist/esm',
   bundle: false,
   sourcemap: true,
-  splitting: true,
   platform: 'neutral',
   format: 'esm',
   target: ['esnext'],
   minify: true,
-  outExtension: { '.js': '.mjs' },
 });
 
 // Exports CJS
@@ -29,5 +27,4 @@ esbuild.build({
   format: 'cjs',
   target: ['esnext'],
   minify: true,
-  outExtension: { '.js': '.cjs' },
 });
