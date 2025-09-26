@@ -1,3 +1,10 @@
+## [4.0.3-experimental.4](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.3-experimental.3...v4.0.3-experimental.4) (2025-09-26)
+
+
+### Bug Fixes
+
+* try bundling for build ([853e55f](https://github.com/cchanxzy/react-currency-input-field/commit/853e55fb786fb4d2e448ec63ffda7f686e44dd4e))
+
 ## [4.0.3-experimental.3](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.3-experimental.2...v4.0.3-experimental.3) (2025-09-26)
 
 
