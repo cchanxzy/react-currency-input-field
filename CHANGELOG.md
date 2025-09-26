@@ -1,3 +1,10 @@
+## [4.0.3-experimental.2](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.3-experimental.1...v4.0.3-experimental.2) (2025-09-26)
+
+
+### Bug Fixes
+
+* use .mjs and .cjs for build extensions ([1182139](https://github.com/cchanxzy/react-currency-input-field/commit/118213946be284d069d1ab72c49b47ead3d547db))
+
 ## [4.0.3-experimental.1](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.2...v4.0.3-experimental.1) (2025-09-25)
 
 
