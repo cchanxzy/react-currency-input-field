@@ -1,3 +1,10 @@
+## [4.0.3](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.2...v4.0.3) (2025-09-29)
+
+
+### Bug Fixes
+
+* **esm:** bundle ESM/CJS builds to avoid Node ESM resolution issues in SSR ([81d6b94](https://github.com/cchanxzy/react-currency-input-field/commit/81d6b943c90166ead82217db61bc66ce75844317))
+
 ## [4.0.2](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.1...v4.0.2) (2025-09-24)
 
 ## [4.0.1](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.0...v4.0.1) (2025-09-17)
