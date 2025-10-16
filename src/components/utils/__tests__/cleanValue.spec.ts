@@ -267,6 +267,38 @@ describe('cleanValue', () => {
       ).toEqual('');
     });
 
+    it('should handle floating-point precision issues in abbreviations', () => {
+      expect(
+        cleanValue({
+          value: '4.1m',
+        })
+      ).toEqual('4100000');
+
+      expect(
+        cleanValue({
+          value: '-4.11B',
+        })
+      ).toEqual('-4110000000');
+
+      expect(
+        cleanValue({
+          value: '1.025m',
+        })
+      ).toEqual('1025000');
+
+      expect(
+        cleanValue({
+          value: '2.1k',
+        })
+      ).toEqual('2100');
+
+      expect(
+        cleanValue({
+          value: '3.1m',
+        })
+      ).toEqual('3100000');
+    });
+
     it('should ignore abbreviations if disableAbbreviations is true', () => {
       expect(
         cleanValue({

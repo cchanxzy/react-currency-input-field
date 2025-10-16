@@ -55,6 +55,7 @@ export const cleanValue = ({
   ]);
 
   let valueOnly = withoutInvalidChars;
+  let parsedAbbreviation = false;
 
   if (!disableAbbreviations) {
     // disallow letter without number
@@ -66,12 +67,18 @@ export const cleanValue = ({
       return '';
     }
     const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator);
-    if (parsed) {
+    if (parsed !== undefined) {
       valueOnly = String(parsed);
+      parsedAbbreviation = true;
     }
   }
 
   const includeNegative = isNegative && allowNegativeValue ? '-' : '';
+
+  // If we parsed an abbreviation, return the expanded value directly
+  if (parsedAbbreviation) {
+    return `${includeNegative}${valueOnly}`;
+  }
 
   if (decimalSeparator && valueOnly.includes(decimalSeparator)) {
     const [int, decimals] = withoutInvalidChars.split(decimalSeparator);

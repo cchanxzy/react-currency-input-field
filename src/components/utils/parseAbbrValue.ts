@@ -1,4 +1,5 @@
 import { escapeRegExp } from './escapeRegExp';
+import { safeMultiply } from './safeMultiply';
 
 /**
  * Abbreviate number eg. 1000 = 1k
@@ -12,7 +13,8 @@ export const abbrValue = (value: number, decimalSeparator = '.', _decimalPlaces 
     const d = p(10, _decimalPlaces);
     valueLength -= valueLength % 3;
 
-    const abbrValue = Math.round((value * d) / p(10, valueLength)) / d + ' kMGTPE'[valueLength / 3];
+    const scaledValue = safeMultiply(value, d);
+    const abbrValue = Math.round(scaledValue / p(10, valueLength)) / d + ' kMGTPE'[valueLength / 3];
     return abbrValue.replace('.', decimalSeparator);
   }
 
@@ -27,14 +29,15 @@ const abbrMap: AbbrMap = { k: 1000, m: 1000000, b: 1000000000 };
  * Parse a value with abbreviation e.g 1k = 1000
  */
 export const parseAbbrValue = (value: string, decimalSeparator = '.'): number | undefined => {
-  const reg = new RegExp(`(\\d+(${escapeRegExp(decimalSeparator)}\\d*)?)([kmb])$`, 'i');
+  const reg = new RegExp(`(-?\\d+(?:${escapeRegExp(decimalSeparator)}\\d*)?)([kmb])$`, 'i');
   const match = value.match(reg);
 
   if (match) {
-    const [, digits, , abbr] = match;
+    const [, digits, abbr] = match;
     const multiplier = abbrMap[abbr.toLowerCase()];
+    const numericValue = Number(digits.replace(decimalSeparator, '.'));
 
-    return Number(digits.replace(decimalSeparator, '.')) * multiplier;
+    return safeMultiply(numericValue, multiplier);
   }
 
   return undefined;

@@ -9,5 +9,6 @@ export type {
 export { CurrencyInput } from './components/CurrencyInput';
 export { formatValue } from './components/utils/formatValue';
 export { cleanValue } from './components/utils/cleanValue';
+export { safeMultiply } from './components/utils/safeMultiply';
 
 export default CurrencyInput;
