@@ -28,7 +28,7 @@ export const getLocaleConfig = (intlConfig?: IntlConfig): LocaleConfig => {
       })
     : new Intl.NumberFormat();
 
-  return numberFormatter.formatToParts(1000.1).reduce((prev, curr, i): LocaleConfig => {
+  return numberFormatter.formatToParts(10000.1).reduce((prev, curr, i): LocaleConfig => {
     if (curr.type === 'currency') {
       if (i === 0) {
         return { ...prev, currencySymbol: curr.value, prefix: curr.value };

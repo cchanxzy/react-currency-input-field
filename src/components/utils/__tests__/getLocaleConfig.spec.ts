@@ -30,4 +30,14 @@ describe('getLocaleConfig', () => {
       suffix: '',
     });
   });
+
+  it('should include group separator for locales that skip grouping 4-digit numbers', () => {
+    expect(getLocaleConfig({ locale: 'pt-PT' })).toStrictEqual({
+      currencySymbol: '',
+      decimalSeparator: ',',
+      groupSeparator: '\u00a0',
+      prefix: '',
+      suffix: '',
+    });
+  });
 });
