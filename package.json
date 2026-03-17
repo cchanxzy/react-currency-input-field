@@ -22,12 +22,12 @@
     "build:types": "tsc",
     "build:js": "node esbuild.mjs",
     "build": "rm -rf dist && pnpm build:js && pnpm build:types",
-    "start": "parcel src/examples/index.html --open",
+    "start": "parcel src/examples/index.html --target app --open",
     "test": "LANG=en_GB jest",
     "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest",
     "typecheck": "tsc && tsc --project tsconfig.test.json",
     "lint": "eslint ./ --max-warnings=0",
-    "gh-predeploy": "parcel build src/examples/index.html --dist-dir demo/examples --public-url ./",
+    "gh-predeploy": "parcel build src/examples/index.html --target app",
     "gh-deploy": "pnpm gh-predeploy && gh-pages -d demo/examples",
     "ci": "pnpm && pnpm build",
     "semantic-release": "semantic-release"
@@ -82,7 +82,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^11.0.0",
-    "parcel": "^2.0.0-rc.0",
+    "parcel": "^2.16.4",
     "prettier": "^3.1.1",
     "process": "^0.11.10",
     "react": "^18.2.0",
@@ -99,7 +99,11 @@
   "targets": {
     "main": false,
     "module": false,
-    "types": false
+    "types": false,
+    "app": {
+      "distDir": "demo/examples",
+      "publicUrl": "./"
+    }
   },
   "minimumReleaseAge": 4320,
   "packageManager": "pnpm@10.16.1+sha512.0e155aa2629db8672b49e8475da6226aa4bdea85fdcdfdc15350874946d4f3c91faaf64cbdc4a5d1ab8002f473d5c3fcedcd197989cf0390f9badd3c04678706"
