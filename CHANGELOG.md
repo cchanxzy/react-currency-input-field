@@ -1,3 +1,10 @@
+## [4.0.4](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.3...v4.0.4) (2026-03-18)
+
+
+### Bug Fixes
+
+* **build:** use named Parcel target to avoid exports field conflict ([c634281](https://github.com/cchanxzy/react-currency-input-field/commit/c63428133a294e3f38af57a277d84f246647281e))
+
 ## [4.0.3](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.2...v4.0.3) (2025-09-29)
 
 
