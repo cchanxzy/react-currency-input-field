@@ -1,3 +1,17 @@
+## [4.0.5](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.4...v4.0.5) (2026-03-18)
+
+
+### Bug Fixes
+
+* **package:** exclude test files and examples from published package ([8902a67](https://github.com/cchanxzy/react-currency-input-field/commit/8902a67d50546af8140092b8941cc5412b0f509c))
+
+## [4.0.4](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.3...v4.0.4) (2026-03-18)
+
+
+### Bug Fixes
+
+* **build:** use named Parcel target to avoid exports field conflict ([c634281](https://github.com/cchanxzy/react-currency-input-field/commit/c63428133a294e3f38af57a277d84f246647281e))
+
 ## [4.0.3](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.2...v4.0.3) (2025-09-29)
 
 
