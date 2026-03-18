@@ -59,6 +59,7 @@
     "@playwright/test": "^1.50.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^13.1.5",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.1.2",
