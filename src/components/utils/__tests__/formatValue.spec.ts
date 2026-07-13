@@ -203,6 +203,68 @@ describe('formatValue', () => {
     ).toEqual('$30');
   });
 
+  it('should keep trailing zero decimals when prefix contains the decimal separator', () => {
+    expect(
+      formatValue({
+        value: '1.0',
+        prefix: 'kr.',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+      })
+    ).toEqual('kr.1.0');
+
+    expect(
+      formatValue({
+        value: '1.0',
+        prefix: 'د.إ',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+      })
+    ).toEqual('د.إ1.0');
+  });
+
+  it('should keep decimals when prefix contains the decimal separator and value has decimals', () => {
+    expect(
+      formatValue({
+        value: '1000.05',
+        prefix: 'kr.',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+      })
+    ).toEqual('kr.1,000.05');
+  });
+
+  it('should handle negative value when prefix contains the decimal separator', () => {
+    expect(
+      formatValue({
+        value: '-1.0',
+        prefix: 'kr.',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+      })
+    ).toEqual('-kr.1.0');
+  });
+
+  it('should handle prefix equal to the decimal separator', () => {
+    expect(
+      formatValue({
+        value: '1.05',
+        prefix: '.',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+      })
+    ).toEqual('.1.05');
+
+    expect(
+      formatValue({
+        value: '1.0',
+        prefix: '.',
+        decimalSeparator: '.',
+        groupSeparator: ',',
+      })
+    ).toEqual('.1.0');
+  });
+
   it('should prefix decimal values correctly with zero', () => {
     expect(
       formatValue({

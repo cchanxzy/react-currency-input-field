@@ -122,6 +122,32 @@ describe('<CurrencyInput/> decimals', () => {
     });
   });
 
+  it('should keep trailing zero decimals when prefix contains the decimal separator', () => {
+    render(<CurrencyInput prefix="kr." onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '1.0');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.0', undefined, {
+      float: 1,
+      formatted: 'kr.1.0',
+      value: '1.0',
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue('kr.1.0');
+  });
+
+  it('should keep decimals while typing when prefix contains the decimal separator', () => {
+    render(<CurrencyInput prefix="kr." onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), '1000.05');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1000.05', undefined, {
+      float: 1000.05,
+      formatted: 'kr.1,000.05',
+      value: '1000.05',
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue('kr.1,000.05');
+  });
+
   it('should handle starting with decimal separator that is non period', () => {
     render(
       <CurrencyInput
