@@ -65,7 +65,12 @@ export const formatValue = (options: FormatValueOptions): string => {
 
   // Keep original decimal padding if no decimalScale
   if (decimalScale === undefined && decimals && decimalSeparator) {
-    if (formatted.includes(decimalSeparator)) {
+    // The prefix itself may contain the decimal separator (e.g. 'kr.' or 'د.إ'),
+    // so only check the formatted value excluding the prefix. Only the first
+    // occurrence is removed: it is always the prefix, as at most a minus sign
+    // can precede it, and later occurrences may belong to the number itself
+    const formattedWithoutPrefix = prefix ? formatted.replace(prefix, '') : formatted;
+    if (formattedWithoutPrefix.includes(decimalSeparator)) {
       formatted = formatted.replace(
         RegExp(`(\\d+)(${escapeRegExp(decimalSeparator)})(\\d+)`, 'g'),
         `$1$2${decimals}`
