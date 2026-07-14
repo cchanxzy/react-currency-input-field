@@ -1,3 +1,10 @@
+## [4.0.6](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.5...v4.0.6) (2026-07-14)
+
+
+### Bug Fixes
+
+* **format-value:** keep trailing zero decimals when prefix contains the decimal separator ([93a3099](https://github.com/cchanxzy/react-currency-input-field/commit/93a3099e9ecac4dac4186b52d810c43162bc9648))
+
 ## [4.0.5](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.4...v4.0.5) (2026-03-18)
 
 
