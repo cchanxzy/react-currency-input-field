@@ -16,6 +16,8 @@ describe('fixedDecimalValue', () => {
     expect(fixedDecimalValue('12', '.', 2)).toEqual('1.2');
     expect(fixedDecimalValue('123', '.', 2)).toEqual('1.23');
     expect(fixedDecimalValue('12345', '.', 2)).toEqual('123.45');
+    expect(fixedDecimalValue('-123', '.', 2)).toEqual('-1.23');
+    expect(fixedDecimalValue('-12', '.', 2)).toEqual('-1.2');
     expect(fixedDecimalValue('123.4567', '.', 2)).toEqual('123.45');
 
     expect(fixedDecimalValue('1111.11', '.', 2)).toEqual('1111.11');

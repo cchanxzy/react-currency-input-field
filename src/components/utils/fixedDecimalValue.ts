@@ -4,31 +4,35 @@ export const fixedDecimalValue = (
   fixedDecimalLength?: number
 ): string => {
   if (fixedDecimalLength !== undefined && value.length > 1) {
+    const negative = value.startsWith('-');
+    const unsignedValue = negative ? value.slice(1) : value;
+    const sign = negative ? '-' : '';
+
     if (fixedDecimalLength === 0) {
-      return value.replace(decimalSeparator, '');
+      return `${sign}${unsignedValue.replace(decimalSeparator, '')}`;
     }
 
-    if (value.includes(decimalSeparator)) {
-      const [int, decimals] = value.split(decimalSeparator);
+    if (unsignedValue.includes(decimalSeparator)) {
+      const [int, decimals] = unsignedValue.split(decimalSeparator);
 
       if (decimals.length === fixedDecimalLength) {
-        return value;
+        return `${sign}${unsignedValue}`;
       }
 
       if (decimals.length > fixedDecimalLength) {
-        return `${int}${decimalSeparator}${decimals.slice(0, fixedDecimalLength)}`;
+        return `${sign}${int}${decimalSeparator}${decimals.slice(0, fixedDecimalLength)}`;
       }
     }
 
     const reg =
-      value.length > fixedDecimalLength
+      unsignedValue.length > fixedDecimalLength
         ? new RegExp(`(\\d+)(\\d{${fixedDecimalLength}})`)
         : new RegExp(`(\\d)(\\d+)`);
 
-    const match = value.match(reg);
+    const match = unsignedValue.match(reg);
     if (match) {
       const [, int, decimals] = match;
-      return `${int}${decimalSeparator}${decimals}`;
+      return `${sign}${int}${decimalSeparator}${decimals}`;
     }
   }
 
