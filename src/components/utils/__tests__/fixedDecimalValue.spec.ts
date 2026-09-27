@@ -38,4 +38,13 @@ describe('fixedDecimalValue', () => {
     expect(fixedDecimalValue('1,2345678', ',', 3)).toEqual('1,234');
     expect(fixedDecimalValue('123,45678', ',', 3)).toEqual('123,456');
   });
+
+  it('should keep a short decimal and the sign', () => {
+    expect(fixedDecimalValue('123.4', '.', 2)).toEqual('123.4');
+    expect(fixedDecimalValue('-123.4', '.', 2)).toEqual('-123.4');
+    expect(fixedDecimalValue('-1.2345', '.', 2)).toEqual('-1.23');
+    expect(fixedDecimalValue('-1.23', '.', 2)).toEqual('-1.23');
+    expect(fixedDecimalValue('-1.2', '.', 0)).toEqual('-12');
+    expect(fixedDecimalValue('-5', '.', 2)).toEqual('-5');
+  });
 });

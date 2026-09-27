@@ -3,36 +3,36 @@ export const fixedDecimalValue = (
   decimalSeparator: string,
   fixedDecimalLength?: number
 ): string => {
-  if (fixedDecimalLength !== undefined && value.length > 1) {
-    const negative = value.startsWith('-');
-    const unsignedValue = negative ? value.slice(1) : value;
-    const sign = negative ? '-' : '';
+  // Keep the sign in one place so a later branch cannot drop it.
+  if (value.startsWith('-')) {
+    return `-${fixedDecimalValue(value.slice(1), decimalSeparator, fixedDecimalLength)}`;
+  }
 
+  if (fixedDecimalLength !== undefined && value.length > 1) {
     if (fixedDecimalLength === 0) {
-      return `${sign}${unsignedValue.replace(decimalSeparator, '')}`;
+      return value.replace(decimalSeparator, '');
     }
 
-    if (unsignedValue.includes(decimalSeparator)) {
-      const [int, decimals] = unsignedValue.split(decimalSeparator);
+    if (value.includes(decimalSeparator)) {
+      const [int, decimals] = value.split(decimalSeparator);
 
-      if (decimals.length === fixedDecimalLength) {
-        return `${sign}${unsignedValue}`;
-      }
-
+      // A short decimal is padded later. Only a longer one is cut here.
       if (decimals.length > fixedDecimalLength) {
-        return `${sign}${int}${decimalSeparator}${decimals.slice(0, fixedDecimalLength)}`;
+        return `${int}${decimalSeparator}${decimals.slice(0, fixedDecimalLength)}`;
       }
+
+      return value;
     }
 
     const reg =
-      unsignedValue.length > fixedDecimalLength
+      value.length > fixedDecimalLength
         ? new RegExp(`(\\d+)(\\d{${fixedDecimalLength}})`)
         : new RegExp(`(\\d)(\\d+)`);
 
-    const match = unsignedValue.match(reg);
+    const match = value.match(reg);
     if (match) {
       const [, int, decimals] = match;
-      return `${sign}${int}${decimalSeparator}${decimals}`;
+      return `${int}${decimalSeparator}${decimals}`;
     }
   }
 
