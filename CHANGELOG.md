@@ -1,3 +1,10 @@
+## [4.0.7](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.6...v4.0.7) (2026-09-27)
+
+
+### Bug Fixes
+
+* **examples:** restore demo page rendering ([#431](https://github.com/cchanxzy/react-currency-input-field/issues/431)) ([ab70e42](https://github.com/cchanxzy/react-currency-input-field/commit/ab70e42ac3d3f26d8984f6e384f93b217b496cf3))
+
 ## [4.0.6](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.5...v4.0.6) (2026-07-14)
 
 
