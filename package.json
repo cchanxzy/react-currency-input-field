@@ -39,7 +39,10 @@
     "gh-deploy": "pnpm gh-predeploy && gh-pages -d demo/examples",
     "ci": "pnpm && pnpm build",
     "semantic-release": "semantic-release",
-    "prepare": "husky"
+    "prepare": "husky",
+    "publint": "publint",
+    "attw": "attw --pack . --ignore-rules unexpected-module-syntax",
+    "verify-package": "pnpm publint && pnpm attw"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
@@ -70,6 +73,7 @@
   "author": "cchanxzy",
   "license": "MIT",
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@playwright/test": "^1.50.1",
@@ -102,9 +106,11 @@
     "parcel": "^2.16.4",
     "prettier": "^3.1.1",
     "process": "^0.11.10",
+    "publint": "^0.3.24",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
     "semantic-release": "^25.0.3",
+    "serve": "^14.2.6",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
