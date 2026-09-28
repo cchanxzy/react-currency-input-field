@@ -1,0 +1,3 @@
+# One-off whole-repo Prettier reformat.
+# Run: git blame --ignore-revs-file .git-blame-ignore-revs
+419d86412f8a6e109e6911f5c37aae43815e68b5
