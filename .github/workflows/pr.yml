@@ -5,35 +5,65 @@ on: [pull_request]
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   install-build-and-test:
     name: Install, build and test PR
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24]
     steps:
       - uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
       - name: Build package
         run: pnpm build
-      - name: Run linting
-        run: pnpm lint
-      - name: Run tests
-        run: pnpm test-ci
-      - name: Run typecheck
-        run: pnpm typecheck
+      - name: Run checks (format, lint, typecheck, test)
+        run: pnpm check
+      - name: Build demo
+        run: pnpm gh-predeploy
+      - name: Verify published package (publint + arethetypeswrong)
+        run: pnpm run verify-package
       - name: Code coverage
         uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Prepare new release
         run: pnpm semantic-release --dry-run
+
+  commitlint:
+    name: Lint commit messages and PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      # Lints every commit in the PR, not just the local pre-commit hook,
+      # since that hook can be skipped with --no-verify or bypassed via
+      # the GitHub web UI.
+      - name: Lint commits
+        run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+      # The repo squash-merges PRs, so the PR title becomes the commit
+      # message on main: semantic-release derives versions and the
+      # changelog from it, so it must be a valid Conventional Commit too.
+      - name: Lint PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | pnpm exec commitlint
