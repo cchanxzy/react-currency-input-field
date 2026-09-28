@@ -124,6 +124,7 @@
     "module": false,
     "types": false,
     "app": {
+      "context": "browser",
       "distDir": "demo/examples",
       "publicUrl": "./"
     }
