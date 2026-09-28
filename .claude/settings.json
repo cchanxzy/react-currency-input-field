@@ -12,10 +12,6 @@
       "Bash(git branch *)",
       "Bash(git checkout *)"
     ],
-    "deny": [
-      "Bash(git push *)",
-      "Bash(git reset --hard *)",
-      "Bash(rm -rf *)"
-    ]
+    "deny": ["Bash(git push *)", "Bash(git reset --hard *)", "Bash(rm -rf *)"]
   }
 }
