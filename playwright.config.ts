@@ -68,10 +68,14 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
+  /* Build and serve the production demo bundle before starting the tests.
+   * Running against the production build (rather than the Parcel dev
+   * server via `pnpm start`) catches issues that only show up after
+   * tree-shaking/minification, such as https://github.com/cchanxzy/react-currency-input-field/pull/431. */
   webServer: {
-    command: 'pnpm start',
+    command: 'pnpm gh-predeploy && pnpm exec serve demo/examples -l 1234',
     url: 'http://localhost:1234/',
     reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
   },
 });
