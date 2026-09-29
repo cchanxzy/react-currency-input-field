@@ -4,5 +4,17 @@ onlyBuiltDependencies:
   - lmdb
   - msgpackr-extract
 
+# unrs-resolver (used by eslint-plugin-import-x) installs its native binding
+# as an optional dependency; its postinstall is only a fallback download.
+ignoredBuiltDependencies:
+  - unrs-resolver
+
 overrides:
   form-data@>=4.0.0 <4.0.4: '>=4.0.4'
+
+peerDependencyRules:
+  allowedVersions:
+    # eslint-plugin-react 7.37.5 predates ESLint 10 and declares eslint up
+    # to ^9.7. It works with ESLint 10 when the React version is set
+    # explicitly in eslint.config.mjs. Remove once a release supports 10.
+    eslint-plugin-react>eslint: '10'

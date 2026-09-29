@@ -12,7 +12,7 @@ React Currency Input Field — a zero-dependency React `<input>` component for f
 - **Build:** `pnpm build` (cleans dist, bundles ESM+CJS via esbuild, emits types via tsc)
 - **Test (unit):** `pnpm test` (Jest with jsdom, runs with `LANG=en_GB`)
 - **Run single test:** `LANG=en_GB npx jest --testPathPattern="<pattern>"` (e.g. `"CurrencyInput-decimals"`)
-- **Typecheck:** `pnpm typecheck` (runs tsc against both `tsconfig.json` and `tsconfig.test.json`)
+- **Typecheck:** `pnpm typecheck` (runs tsc against `tsconfig.json` (library), `tsconfig.test.json` (unit tests) and `tsconfig.examples.json` (demo app, e2e tests, tool configs))
 - **Lint:** `pnpm lint` (ESLint with zero warnings allowed)
 - **E2E tests:** `pnpm exec playwright test` (Playwright; builds the production demo and serves it on localhost:1234 automatically, reusing a server that is already running there locally)
 - **Dev server:** `pnpm start` (Parcel, serves `src/examples/index.html` on port 1234)

@@ -1,5 +1,5 @@
 import React, {
-  FC,
+  type FC,
   useState,
   useEffect,
   useRef,
@@ -7,17 +7,17 @@ import React, {
   useMemo,
   useImperativeHandle,
 } from 'react';
-import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
+import type { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
+  type CleanValueOptions,
+  type FormatValueOptions,
   isNumber,
   cleanValue,
   fixedDecimalValue,
   formatValue,
   getLocaleConfig,
   padTrimValue,
-  CleanValueOptions,
   getSuffix,
-  FormatValueOptions,
   repositionCursor,
 } from './utils';
 
@@ -139,7 +139,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
 
       if (stringValue === '' || stringValue === '-' || stringValue === decimalSeparator) {
-        onValueChange && onValueChange(undefined, name, { float: null, formatted: '', value: '' });
+        onValueChange?.(undefined, name, { float: null, formatted: '', value: '' });
         setStateValue(stringValue);
         // Always sets cursor after '-' or decimalSeparator input
         setCursor(1);
@@ -188,14 +188,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       processChange(value, selectionStart);
 
-      onChange && onChange(event);
+      onChange?.(event);
     };
 
     /**
      * Handle focus event
      */
     const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>): number => {
-      onFocus && onFocus(event);
+      onFocus?.(event);
       return stateValue ? stateValue.length : 0;
     };
 
@@ -213,7 +213,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       if (valueOnly === '-' || valueOnly === decimalSeparator || !valueOnly) {
         setStateValue('');
-        onBlur && onBlur(event);
+        onBlur?.(event);
         return;
       }
 
@@ -246,7 +246,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       setStateValue(formattedValue);
 
-      onBlur && onBlur(event);
+      onBlur?.(event);
     };
 
     /**
@@ -300,7 +300,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         );
       }
 
-      onKeyDown && onKeyDown(event);
+      onKeyDown?.(event);
     };
 
     /**
@@ -325,7 +325,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         }
       }
 
-      onKeyUp && onKeyUp(event);
+      onKeyUp?.(event);
     };
 
     // Update state if userValue changes to undefined

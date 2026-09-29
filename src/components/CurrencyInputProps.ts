@@ -1,4 +1,4 @@
-import React, { ElementType } from 'react';
+import type React from 'react';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
@@ -83,7 +83,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    customInput?: ElementType;
+    customInput?: React.ElementType;
 
     /**
      * Limit length of decimals allowed.
