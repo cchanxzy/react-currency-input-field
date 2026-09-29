@@ -20,7 +20,9 @@ const config: Config = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  // Only *.spec.ts(x). ESLint flags test calls in any other file under src,
+  // so a misnamed test fails lint instead of being skipped.
+  testRegex: '\\.spec\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };
 

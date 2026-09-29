@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CurrencyInput, { CurrencyInputProps, CurrencyInputOnChangeValues } from '../index';
+import CurrencyInput, { type CurrencyInputProps, type CurrencyInputOnChangeValues } from '../index';
 
 export const Example1 = () => {
   const limit = 1000;
@@ -13,26 +13,26 @@ export const Example1 = () => {
   /**
    * Handle validation
    */
-  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (_value, name, _values) => {
-    // _values is only for demo purposes in this example
-    setValues(_values);
+  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (newValue, _name, newValues) => {
+    // newValues is only for demo purposes in this example
+    setValues(newValues);
 
-    if (!_value) {
+    if (!newValue) {
       setClassName('');
       setValue('');
       return;
     }
 
     // value is over limit
-    if (Number(_value) > limit) {
+    if (Number(newValue) > limit) {
       setErrorMessage(`Max: ${prefix}${limit}`);
       setClassName('is-invalid');
-      setValue(_value);
+      setValue(newValue);
       return;
     }
 
     setClassName('is-valid');
-    setValue(_value);
+    setValue(newValue);
   };
 
   return (

@@ -2,8 +2,8 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import CurrencyInput from '../CurrencyInput';
 import { act } from 'react-dom/test-utils';
+import CurrencyInput from '../CurrencyInput';
 
 describe('<CurrencyInput/>', () => {
   const onValueChangeSpy = jest.fn();
@@ -50,7 +50,6 @@ describe('<CurrencyInput/>', () => {
   });
 
   it('Renders with default value null', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<CurrencyInput defaultValue={null as any} prefix="£" />);
 
     expect(screen.getByRole('textbox')).toHaveValue('');
@@ -81,7 +80,6 @@ describe('<CurrencyInput/>', () => {
   });
 
   it('Renders with value null', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<CurrencyInput value={null as any} prefix="£" />);
 
     expect(screen.getByRole('textbox')).toHaveValue('');

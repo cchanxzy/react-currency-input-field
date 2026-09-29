@@ -1,8 +1,8 @@
+import type { CurrencyInputProps } from '../CurrencyInputProps';
 import { parseAbbrValue } from './parseAbbrValue';
 import { removeSeparators } from './removeSeparators';
 import { removeInvalidChars } from './removeInvalidChars';
 import { escapeRegExp } from './escapeRegExp';
-import { CurrencyInputProps } from '../CurrencyInputProps';
 
 export type CleanValueOptions = Pick<
   CurrencyInputProps,

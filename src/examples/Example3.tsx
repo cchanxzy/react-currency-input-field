@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CurrencyInput, { CurrencyInputProps } from '../index';
+import CurrencyInput, { type CurrencyInputProps, type IntlConfig } from '../index';
 
-const options: ReadonlyArray<CurrencyInputProps['intlConfig']> = [
+const options: ReadonlyArray<IntlConfig> = [
   {
     locale: 'de-DE',
     currency: 'EUR',
@@ -74,16 +74,11 @@ export const Example3 = () => {
               <div className="col-12 mt-3">
                 <label htmlFor="intlConfigSelect">Intl option</label>
                 <select className="form-control" id="intlConfigSelect" onChange={handleIntlSelect}>
-                  {options.map((config, i) => {
-                    if (config) {
-                      const { locale, currency } = config;
-                      return (
-                        <option key={`${locale}${currency}`} value={i}>
-                          {locale}
-                        </option>
-                      );
-                    }
-                  })}
+                  {options.map(({ locale, currency }, i) => (
+                    <option key={`${locale}${currency}`} value={i}>
+                      {locale}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

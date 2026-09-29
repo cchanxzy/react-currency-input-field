@@ -6,7 +6,7 @@ export const Example2 = () => {
   const [className, setClassName] = useState('');
   const [rawValue, setRawValue] = useState<string | undefined>(' ');
 
-  const validateValue = (value: string | undefined): void => {
+  const handleOnValueChange = (value: string | undefined): void => {
     const rawValue = value === undefined ? 'undefined' : value;
     setRawValue(rawValue || ' ');
 
@@ -45,7 +45,7 @@ export const Example2 = () => {
                 placeholder="$1,234,567"
                 allowDecimals={false}
                 className={`form-control ${className}`}
-                onValueChange={validateValue}
+                onValueChange={handleOnValueChange}
                 prefix={'$'}
                 step={10}
               />

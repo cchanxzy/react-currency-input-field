@@ -1,6 +1,6 @@
 import { escapeRegExp } from './escapeRegExp';
 import { getSuffix } from './getSuffix';
-import { FormatValueOptions } from './formatValue.types';
+import type { FormatValueOptions } from './formatValue.types';
 
 /**
  * Format value with decimal separator, group separator and prefix

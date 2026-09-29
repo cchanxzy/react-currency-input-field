@@ -1,4 +1,4 @@
-import { IntlConfig } from '../CurrencyInputProps';
+import type { IntlConfig } from '../CurrencyInputProps';
 
 type LocaleConfig = {
   currencySymbol: string;
