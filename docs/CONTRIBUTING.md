@@ -9,14 +9,16 @@ Thanks for being willing to contribute!
     - [Corepack](#corepack)
   - [Install](#install)
   - [Start](#start)
+  - [Commands](#commands)
   - [Committing and Pushing changes](#committing-and-pushing-changes)
+    - [Commit messages](#commit-messages)
   - [Pull request](#pull-request)
   - [Help needed](#help-needed)
 
 ## Project setup
 
 1. Fork and clone the repo
-2. Create a branch for your PR with `git checkout -b pr/your-branch-name`
+2. Create a branch for your PR with `git checkout -b <type>/<short-kebab-description>`, where `<type>` is a Conventional Commits type such as `feat`, `fix`, `docs` or `chore` (for example `fix/demo-side-effects`)
 
 > Tip: Keep your `main` branch pointing at the original repository and make pull
 > requests from branches on your fork. To do this, run:
@@ -73,19 +75,46 @@ To start the examples page locally, run `pnpm start`.
 
 This will open the page in `http://localhost:1234/`.
 
+## Commands
+
+| Command                     | What it does                                                                                         |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `pnpm check`                | Everything CI checks: Prettier, ESLint, the type checks and the unit tests                           |
+| `pnpm test`                 | Unit tests (Jest). Add a pattern to run some of them, for example `pnpm test CurrencyInput-decimals` |
+| `pnpm lint`                 | ESLint, with zero warnings allowed                                                                   |
+| `pnpm typecheck`            | Type-checks the library, the unit tests, and the demo, e2e tests and tool configs                    |
+| `pnpm build`                | Builds the package into `dist/` (ESM and CJS bundles plus type declarations)                         |
+| `pnpm exec playwright test` | End-to-end tests. Builds the production demo and serves it on port 1234 first                        |
+
+`package.json` lists the rest.
+
 ## Committing and Pushing changes
 
-Please make sure to run the tests and linting before you commit your changes.
+Before you push, run:
 
 ```bash
-# Run tests
-pnpm test
-
-# Run linting
-pnpm lint
+pnpm check
 ```
 
+It runs Prettier, ESLint, the type checks and the unit tests. Follow the conventions in [CODING_STANDARDS.md](CODING_STANDARDS.md).
+
+A pre-commit hook fixes formatting and lint problems on the files you stage, and runs the type checks.
+
+### Commit messages
+
+PRs are squash-merged, so the **PR title** becomes the whole commit on `main`. It matters most:
+
+- It must be a [Conventional Commit](https://www.conventionalcommits.org/), for example `fix(format-value): handle negative prefix`. CI checks it.
+- The scope is optional. Allowed scopes: `component`, `format-value`, `clean-value`, `utils`, `types`, `examples`, `deps`, `deps-dev`, `release`. Use a scope for changes to the library or demo; tooling changes don't need one (`ci: …`, `build: …`, `chore: …`).
+- Don't put `!` in the title, because commitlint rejects it. If your change is breaking, say so in the PR description. The maintainer adds a `BREAKING CHANGE:` footer to the squash commit message when merging, which is what makes semantic-release publish a major version.
+
+Commits on your branch aren't checked in CI and don't reach `main`, but the local commit-msg hook still checks them. Don't add attribution lines such as `Co-authored-by:` trailers or "Generated with" lines; the hook rejects them.
+
 ## Pull request
+
+The pull request template lists what to check before you open the PR.
+
+AI tools are welcome, but you're responsible for what they write. Review and test all AI-generated code manually before you open the PR, the same as code you wrote yourself.
 
 If you are a first time contributor for this project, your PR will not run the checks required in CI.
 
