@@ -117,4 +117,12 @@ ESLint uses a flat config (`eslint.config.mjs`) built on `@eslint/js` recommende
 
 ## Commits
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org/), enforced by commitlint with `@commitlint/config-conventional`, in the commit-msg hook and in CI. Husky runs the pre-commit and commit-msg hooks.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/), using `@commitlint/config-conventional` plus the rules in `commitlint.config.js`.
+
+- **The PR title is the commit that reaches `main`.** PRs are squash-merged with the title as the whole message, and semantic-release reads it. It must be a valid Conventional Commit. _(CI: the `Lint PR title` check)_
+- **Scopes are optional**, and must be one of: `component`, `format-value`, `clean-value`, `utils`, `types`, `examples`, `deps`, `deps-dev`, `release`. _(commitlint: `scope-enum`)_
+- **No `!` in the title.** For a breaking change, say so in the PR description. The maintainer adds a `BREAKING CHANGE:` footer to the squash commit message when merging, which is what makes semantic-release publish a major version. _(commitlint: `subject-exclamation-mark` rejects `!`; the footer is review)_
+- **Commits on a branch aren't checked in CI** and don't reach `main`, but the local commit-msg hook still checks them. _(commit-msg hook)_
+- **No attribution lines.** `Co-authored-by:` trailers (in any capitalisation) and "Generated with" lines are rejected. _(commitlint: the inline `no-attribution` rule)_
+
+Husky runs the pre-commit and commit-msg hooks.

@@ -9,6 +9,9 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - unrs-resolver
 
+# New dependency versions must be 3 days old before pnpm installs them.
+minimumReleaseAge: 4320
+
 overrides:
   form-data@>=4.0.0 <4.0.4: '>=4.0.4'
 

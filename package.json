@@ -29,15 +29,12 @@
     "build": "rm -rf dist && pnpm build:js && pnpm build:types",
     "start": "parcel src/examples/index.html --target app --open",
     "test": "LANG=en_GB jest",
-    "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest",
     "typecheck": "tsc && tsc --project tsconfig.test.json && tsc --project tsconfig.examples.json",
     "lint": "eslint ./ --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
     "gh-predeploy": "parcel build src/examples/index.html --target app",
-    "gh-deploy": "pnpm gh-predeploy && gh-pages -d demo/examples",
-    "ci": "pnpm && pnpm build",
     "semantic-release": "semantic-release",
     "prepare": "husky",
     "publint": "publint",
@@ -89,14 +86,12 @@
     "@types/node": "^24.19.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
-    "cross-env": "^7.0.3",
     "esbuild": "^0.25.0",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "gh-pages": "^5.0.0",
     "glob": "^11.0.0",
     "globals": "^17.12.0",
     "husky": "^9.1.7",
@@ -130,6 +125,5 @@
       "publicUrl": "./"
     }
   },
-  "minimumReleaseAge": 4320,
   "packageManager": "pnpm@10.16.1+sha512.0e155aa2629db8672b49e8475da6226aa4bdea85fdcdfdc15350874946d4f3c91faaf64cbdc4a5d1ab8002f473d5c3fcedcd197989cf0390f9badd3c04678706"
 }
