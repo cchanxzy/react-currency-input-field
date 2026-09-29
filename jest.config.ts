@@ -4,6 +4,7 @@ const config: Config = {
   roots: ['src'],
   verbose: false,
   collectCoverage: true,
+  collectCoverageFrom: ['src/components/**/*.{ts,tsx}', '!**/__tests__/**'],
   // Current coverage is 100% across the board; the threshold is set a
   // few points below that so a real regression fails the build without
   // being so tight that routine changes trip it.
