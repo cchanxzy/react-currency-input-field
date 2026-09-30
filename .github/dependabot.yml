@@ -5,9 +5,14 @@ updates:
     schedule:
       interval: weekly
     groups:
+      # Minor and patch bumps come as one PR. Each major bump gets its own PR,
+      # so a breaking one can be reverted without the others.
       github-actions:
         patterns:
           - '*'
+        update-types:
+          - minor
+          - patch
     commit-message:
       prefix: ci
       include: scope

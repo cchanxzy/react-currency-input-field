@@ -5,6 +5,8 @@ on:
     - cron: '0 0 * * *' # Run every day at midnight
 
 permissions:
+  # stale saves its progress between runs in the Actions cache.
+  actions: write
   issues: write
   pull-requests: write
 
@@ -13,4 +15,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Close Stale Issues
-        uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639 # v9.1.0
+        uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
