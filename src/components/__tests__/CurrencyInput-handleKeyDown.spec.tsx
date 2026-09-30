@@ -387,4 +387,117 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       value: '200',
     });
   });
+
+  describe('stepping values with decimals', () => {
+    const stepOnce = (key: '{arrowup}' | '{arrowdown}') =>
+      userEvent.type(screen.getByRole('textbox'), key);
+
+    it('should step an integer by an integer step', () => {
+      render(<CurrencyInput defaultValue={10} step={3} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(screen.getByRole('textbox')).toHaveValue('13');
+      stepOnce('{arrowdown}');
+      stepOnce('{arrowdown}');
+      expect(screen.getByRole('textbox')).toHaveValue('7');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('7', undefined, {
+        float: 7,
+        formatted: '7',
+        value: '7',
+      });
+    });
+
+    it('should drop trailing zeros of the value when stepping', () => {
+      render(<CurrencyInput value="1.50" step={1} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('2.5', undefined, {
+        float: 2.5,
+        formatted: '2.5',
+        value: '2.5',
+      });
+    });
+
+    it('should keep the decimals of a decimal step', () => {
+      render(<CurrencyInput defaultValue={1.5} step={0.01} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.51');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.51', undefined, {
+        float: 1.51,
+        formatted: '1.51',
+        value: '1.51',
+      });
+    });
+
+    it('should keep the step decimals for a value in exponent notation', () => {
+      render(<CurrencyInput value={1.5e-7} step={0.1} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('0.1', undefined, {
+        float: 0.1,
+        formatted: '0.1',
+        value: '0.1',
+      });
+    });
+
+    it('should step an integer step down from a decimal value without float errors', () => {
+      render(<CurrencyInput defaultValue={8.2} step={1} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowdown}');
+      expect(screen.getByRole('textbox')).toHaveValue('7.2');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('7.2', undefined, {
+        float: 7.2,
+        formatted: '7.2',
+        value: '7.2',
+      });
+    });
+
+    it('should keep the value decimals when they are more than the step decimals', () => {
+      render(<CurrencyInput defaultValue={1.25} step={0.1} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.35');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.35', undefined, {
+        float: 1.35,
+        formatted: '1.35',
+        value: '1.35',
+      });
+    });
+
+    it('should keep the digits of a result that has no float error after the decimals limit', () => {
+      render(<CurrencyInput defaultValue={34.7} step={12} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowdown}');
+      expect(screen.getByRole('textbox')).toHaveValue('22.70');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('22.70', undefined, {
+        float: 22.7,
+        formatted: '22.70',
+        value: '22.70',
+      });
+    });
+
+    it('should keep the step decimals when a longer value would be cut at the decimals limit', () => {
+      render(<CurrencyInput value="271.5037" step={4.6} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('276.1', undefined, {
+        float: 276.1,
+        formatted: '276.1',
+        value: '276.1',
+      });
+    });
+
+    it('should step a decimal step without float errors', () => {
+      render(<CurrencyInput defaultValue={0.1} step={0.2} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(screen.getByRole('textbox')).toHaveValue('0.3');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('0.3', undefined, {
+        float: 0.3,
+        formatted: '0.3',
+        value: '0.3',
+      });
+    });
+  });
 });

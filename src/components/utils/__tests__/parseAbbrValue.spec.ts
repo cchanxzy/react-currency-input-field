@@ -1,4 +1,4 @@
-import { abbrValue, parseAbbrValue } from '../parseAbbrValue';
+import { abbrValue, expandAbbrValue, parseAbbrValue } from '../parseAbbrValue';
 
 describe('abbrValue', () => {
   it('should not convert value under 1000', () => {
@@ -129,5 +129,47 @@ describe('parseAbbrValue', () => {
       expect(parseAbbrValue('-1.5k')).toBe(-1500);
       expect(parseAbbrValue('-2.5b')).toBe(-2500000000);
     });
+  });
+});
+
+describe('expandAbbrValue', () => {
+  it('should return undefined if there is no abbreviation', () => {
+    expect(expandAbbrValue('1.23')).toBeUndefined();
+    expect(expandAbbrValue('1km')).toBeUndefined();
+    expect(expandAbbrValue('k')).toBeUndefined();
+  });
+
+  it('should move the decimal separator instead of multiplying', () => {
+    expect(expandAbbrValue('4.1m')).toEqual('4100000');
+    expect(expandAbbrValue('1.2345k')).toEqual('1234.5');
+    expect(expandAbbrValue('1.1239999k')).toEqual('1123.9999');
+    expect(expandAbbrValue('65.5513B')).toEqual('65551300000');
+  });
+
+  it('should use the given decimal separator for the remaining decimals', () => {
+    expect(expandAbbrValue('1,2345k', ',')).toEqual('1234,5');
+    expect(expandAbbrValue('4,1m', ',')).toEqual('4100000');
+  });
+
+  it('should strip leading zeros and trailing decimal zeros', () => {
+    expect(expandAbbrValue('0.5k')).toEqual('500');
+    expect(expandAbbrValue('00.5k')).toEqual('500');
+    expect(expandAbbrValue('0k')).toEqual('0');
+    expect(expandAbbrValue('0.0001k')).toEqual('0.1');
+    expect(expandAbbrValue('1.50000k')).toEqual('1500');
+    expect(expandAbbrValue('1.k')).toEqual('1000');
+  });
+
+  it('should read only the digits before the abbreviation', () => {
+    expect(expandAbbrValue('.5k')).toEqual('5000');
+  });
+
+  it('should keep a leading minus sign', () => {
+    expect(expandAbbrValue('-1.5k')).toEqual('-1500');
+  });
+
+  it('should keep large values exact', () => {
+    expect(expandAbbrValue('123456789.123b')).toEqual('123456789123000000');
+    expect(parseAbbrValue('123456789.123b')).toBe(123456789123000000);
   });
 });

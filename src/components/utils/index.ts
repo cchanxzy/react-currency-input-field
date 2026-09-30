@@ -8,4 +8,3 @@ export { getSuffix } from './getSuffix';
 export { isNumber } from './isNumber';
 export { padTrimValue } from './padTrimValue';
 export { repositionCursor } from './repositionCursor';
-export { safeMultiply } from './safeMultiply';

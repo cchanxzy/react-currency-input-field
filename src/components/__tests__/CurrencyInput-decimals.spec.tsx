@@ -176,4 +176,10 @@ describe('<CurrencyInput/> decimals', () => {
       value: ',9',
     });
   });
+
+  it('should render with a decimalScale above 20', () => {
+    render(<CurrencyInput prefix="£" decimalScale={25} defaultValue={1.5} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue(`£1.5${'0'.repeat(19)}`);
+  });
 });

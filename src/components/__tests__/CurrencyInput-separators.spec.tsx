@@ -59,6 +59,41 @@ describe('<CurrencyInput/> separators', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£123.456,33');
   });
 
+  it('should keep a comma decimal separator if group separators are disabled', () => {
+    render(
+      <CurrencyInput
+        name={name}
+        decimalSeparator=","
+        disableGroupSeparators={true}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '1,5');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1,5', name, {
+      float: 1.5,
+      formatted: '1,5',
+      value: '1,5',
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue('1,5');
+  });
+
+  it('should still remove the group separator from a paste if group separators are disabled', () => {
+    render(
+      <CurrencyInput name={name} disableGroupSeparators={true} onValueChange={onValueChangeSpy} />
+    );
+
+    userEvent.paste(screen.getByRole('textbox'), '1,234');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234', name, {
+      float: 1234,
+      formatted: '1234',
+      value: '1234',
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue('1234');
+  });
+
   describe('throwing errors', () => {
     // Ensure console error fails tests by replacing with a function that throws
     const { error: originalError } = console;

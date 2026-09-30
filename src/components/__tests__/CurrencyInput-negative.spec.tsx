@@ -113,4 +113,141 @@ describe('<CurrencyInput/> negative value', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('$1,234');
   });
+
+  it('should not show a lone minus sign if allowNegativeValue is false', () => {
+    render(<CurrencyInput id={id} onValueChange={onValueChangeSpy} allowNegativeValue={false} />);
+
+    userEvent.type(screen.getByRole('textbox'), '-');
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+    expect(onValueChangeSpy).toHaveBeenCalledTimes(1);
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
+
+    userEvent.type(screen.getByRole('textbox'), '5');
+
+    expect(screen.getByRole('textbox')).toHaveValue('5');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('5', undefined, {
+      float: 5,
+      formatted: '5',
+      value: '5',
+    });
+  });
+});
+
+describe('<CurrencyInput/> minus sign followed by the decimal separator', () => {
+  const onValueChangeSpy = jest.fn();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const emptyValues = { float: null, formatted: '', value: '' };
+
+  it('should keep "-." as typed without a prefix', () => {
+    render(<CurrencyInput onValueChange={onValueChangeSpy} />);
+
+    userEvent.type(screen.getByRole('textbox'), '-.');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-.');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, emptyValues);
+    expect(onValueChangeSpy).not.toHaveBeenCalledWith('-.', undefined, expect.anything());
+
+    userEvent.type(screen.getByRole('textbox'), '5');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-0.5');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('-.5', undefined, {
+      float: -0.5,
+      formatted: '-0.5',
+      value: '-.5',
+    });
+  });
+
+  it('should keep "-." as typed for en-US', () => {
+    render(
+      <CurrencyInput
+        intlConfig={{ locale: 'en-US', currency: 'USD' }}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '-.');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-.');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, emptyValues);
+
+    userEvent.type(screen.getByRole('textbox'), '5');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-$0.5');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('-.5', undefined, {
+      float: -0.5,
+      formatted: '-$0.5',
+      value: '-.5',
+    });
+  });
+
+  it('should keep "-," as typed for de-DE', () => {
+    render(
+      <CurrencyInput
+        intlConfig={{ locale: 'de-DE', currency: 'EUR' }}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '-,');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-,');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, emptyValues);
+
+    userEvent.type(screen.getByRole('textbox'), '5');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-0,5 €');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('-,5', undefined, {
+      float: -0.5,
+      formatted: '-0,5 €',
+      value: '-,5',
+    });
+  });
+
+  it('should clear "-." on blur', () => {
+    render(<CurrencyInput onValueChange={onValueChangeSpy} />);
+
+    userEvent.type(screen.getByRole('textbox'), '-.');
+    fireEvent.focusOut(screen.getByRole('textbox'));
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
+  it('should show the decimal separator alone if allowNegativeValue is false', () => {
+    render(
+      <CurrencyInput
+        intlConfig={{ locale: 'de-DE', currency: 'EUR' }}
+        allowNegativeValue={false}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '-,');
+
+    expect(screen.getByRole('textbox')).toHaveValue(',');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, emptyValues);
+  });
+
+  it('should show the minus sign alone if allowDecimals is false', () => {
+    render(
+      <CurrencyInput
+        intlConfig={{ locale: 'en-US', currency: 'USD' }}
+        allowDecimals={false}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '-.');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, emptyValues);
+  });
 });

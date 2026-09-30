@@ -41,11 +41,6 @@ describe('utils index exports', () => {
     expect(typeof utils.repositionCursor).toBe('function');
   });
 
-  it('should export safeMultiply function', () => {
-    expect(utils.safeMultiply).toBeDefined();
-    expect(typeof utils.safeMultiply).toBe('function');
-  });
-
   describe('exported functions should work correctly', () => {
     it('cleanValue should clean values', () => {
       const result = utils.cleanValue({ value: '1,000' });
@@ -95,11 +90,6 @@ describe('utils index exports', () => {
       expect(result).toHaveProperty('modifiedValue');
       expect(result).toHaveProperty('cursorPosition');
       expect(typeof result.modifiedValue).toBe('string');
-    });
-
-    it('safeMultiply should multiply safely', () => {
-      const result = utils.safeMultiply(4.1, 1000000);
-      expect(result).toBe(4100000);
     });
   });
 });

@@ -9,14 +9,14 @@ export type FormatValueOptions = {
   /**
    * Decimal separator
    *
-   * Default = '.'
+   * Default: the locale's decimal separator
    */
   decimalSeparator?: string;
 
   /**
    * Group separator
    *
-   * Default = ','
+   * Default: the locale's group separator
    */
   groupSeparator?: string;
 

@@ -128,4 +128,15 @@ describe('<CurrencyInput/> intlConfig', () => {
       expect(screen.getByRole('textbox')).toHaveValue('€\xa0-1.200');
     });
   });
+
+  it('should put the caret after the intl prefix when the change removes a character before it', () => {
+    render(<CurrencyInput intlConfig={{ locale: 'en-US', currency: 'USD' }} defaultValue={1234} />);
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    input.setSelectionRange(0, 0);
+    userEvent.type(input, 'x', { initialSelectionStart: 0, initialSelectionEnd: 0 });
+
+    expect(input).toHaveValue('$1,234');
+    expect(input.selectionStart).toBe(1);
+  });
 });

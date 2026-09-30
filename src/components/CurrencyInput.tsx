@@ -95,7 +95,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     const cleanValueOptions: Partial<CleanValueOptions> = {
       decimalSeparator,
-      groupSeparator,
+      // With group separators disabled, the locale's group separator can be the same as the
+      // decimal separator (eg. "," in en locales). Keep it as the decimal separator
+      groupSeparator:
+        disableGroupSeparators && groupSeparator === decimalSeparator ? '' : groupSeparator,
       allowDecimals,
       decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
       allowNegativeValue,
@@ -138,11 +141,19 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         return;
       }
 
-      if (stringValue === '' || stringValue === '-' || stringValue === decimalSeparator) {
+      // A minus sign followed by the decimal separator is kept as typed, like a lone minus sign
+      const negativeDecimal = `-${decimalSeparator}`;
+
+      if (
+        stringValue === '' ||
+        stringValue === '-' ||
+        stringValue === decimalSeparator ||
+        stringValue === negativeDecimal
+      ) {
         onValueChange?.(undefined, name, { float: null, formatted: '', value: '' });
         setStateValue(stringValue);
-        // Always sets cursor after '-' or decimalSeparator input
-        setCursor(1);
+        // Always sets cursor after '-', decimalSeparator or '-' and decimalSeparator input
+        setCursor(stringValue === negativeDecimal ? negativeDecimal.length : 1);
         return;
       }
 
@@ -160,7 +171,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (cursorPosition != null) {
         // Prevent cursor jumping
         let newCursor = cursorPosition + (formattedValue.length - value.length);
-        newCursor = newCursor <= 0 ? (prefix ? prefix.length : 0) : newCursor;
+        newCursor = newCursor <= 0 ? (prefix || localeConfig.prefix).length : newCursor;
 
         setCursor(newCursor);
         setChangeCount(changeCount + 1);
@@ -211,7 +222,12 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-      if (valueOnly === '-' || valueOnly === decimalSeparator || !valueOnly) {
+      if (
+        valueOnly === '-' ||
+        valueOnly === decimalSeparator ||
+        valueOnly === `-${decimalSeparator}` ||
+        !valueOnly
+      ) {
         setStateValue('');
         onBlur?.(event);
         return;
@@ -288,15 +304,31 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
           return;
         }
 
-        const fixedLength = String(step).includes('.')
-          ? Number(String(step).split('.')[1].length)
-          : undefined;
+        const stepString = String(step);
+        const valueString = String(currentValue);
+        const stepDecimals = stepString.includes('.') ? stepString.split('.')[1].length : 0;
+        const valueDecimals = valueString.includes('.') ? valueString.split('.')[1].length : 0;
+
+        // Round to the longer of the step and value decimals to drop floating point errors,
+        // eg. 8.2 - 1 = 7.199999999999999. Numbers in exponent notation keep the step decimals
+        const fixedLength = /e/.test(stepString + valueString)
+          ? stepDecimals
+          : Math.max(stepDecimals, valueDecimals);
+
+        const toStepValue = (decimals: number): string =>
+          String(decimals ? newValue.toFixed(decimals) : newValue).replace('.', decimalSeparator);
+        const toNumber = (stepValue: string): number => {
+          const cleaned = cleanValue({ value: stepValue, ...cleanValueOptions });
+          return parseFloat(decimalSeparator ? cleaned.replace(decimalSeparator, '.') : cleaned);
+        };
+
+        // Only use the new rounding when it gives a different number, so results that were
+        // already right keep their digits, eg. 34.7 - 12 still shows 22.70
+        const stepDecimalsValue = toStepValue(stepDecimals);
+        const roundedValue = toStepValue(fixedLength);
 
         processChange(
-          String(fixedLength ? newValue.toFixed(fixedLength) : newValue).replace(
-            '.',
-            decimalSeparator
-          )
+          toNumber(roundedValue) === toNumber(stepDecimalsValue) ? stepDecimalsValue : roundedValue
         );
       }
 

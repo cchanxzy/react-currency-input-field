@@ -85,6 +85,48 @@ describe('<CurrencyInput/> abbreviated', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$2,100');
   });
 
+  it('should apply decimalsLimit to a pasted abbreviation', () => {
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} decimalsLimit={2} />);
+    userEvent.paste(screen.getByRole('textbox'), '1.2345678k');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.56', undefined, {
+      float: 1234.56,
+      formatted: '£1,234.56',
+      value: '1234.56',
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue('£1,234.56');
+  });
+
+  it('should expand abbreviations with a comma decimal separator', () => {
+    render(
+      <CurrencyInput
+        decimalSeparator=","
+        groupSeparator="."
+        decimalsLimit={4}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+    userEvent.paste(screen.getByRole('textbox'), '1,2345k');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.5', undefined, {
+      float: 1234.5,
+      formatted: '1.234,5',
+      value: '1234.5',
+    });
+    expect(screen.getByRole('textbox')).toHaveValue('1.234,5');
+
+    userEvent.clear(screen.getByRole('textbox'));
+    userEvent.type(screen.getByRole('textbox'), '4,1m');
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('4100000', undefined, {
+      float: 4100000,
+      formatted: '4.100.000',
+      value: '4100000',
+    });
+    expect(screen.getByRole('textbox')).toHaveValue('4.100.000');
+  });
+
   it('should not abbreviate any other letters', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1.5e');
