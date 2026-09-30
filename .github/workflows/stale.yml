@@ -5,6 +5,8 @@ on:
     - cron: '0 0 * * *' # Run every day at midnight
 
 permissions:
+  # stale saves its progress between runs in the Actions cache.
+  actions: write
   issues: write
   pull-requests: write
 
