@@ -218,6 +218,8 @@ import CurrencyInput from 'react-currency-input-field';
 
 Any prefix, suffix, group separator and decimal separator options passed in will override the default locale settings.
 
+For which currency formats are supported, and the standards they follow, see [Currency behavior](https://github.com/cchanxzy/react-currency-input-field/blob/main/docs/CURRENCY_BEHAVIOR.md).
+
 ### Decimal Scale and Decimals Limit
 
 `decimalsLimit` and `decimalScale` sound similar but have different usages.
