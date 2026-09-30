@@ -43,4 +43,7 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # @semantic-release/git makes the release commit. Skip the husky hooks: checks
+          # already ran above, and commitlint rejects changelog lines over 100 characters.
+          HUSKY: '0'
         run: pnpm semantic-release
