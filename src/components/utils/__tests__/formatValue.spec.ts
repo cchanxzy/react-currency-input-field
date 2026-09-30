@@ -611,4 +611,18 @@ describe('formatValue', () => {
       ).toEqual(`123,00`);
     });
   });
+
+  describe('long integers', () => {
+    it('should format an integer beyond 2^53 exactly', () => {
+      expect(formatValue({ value: '9007199254740993', intlConfig: { locale: 'en-US' } })).toEqual(
+        '9,007,199,254,740,993'
+      );
+    });
+
+    it('should format a 20-digit integer exactly', () => {
+      expect(
+        formatValue({ value: '12345678901234567890', intlConfig: { locale: 'en-US' } })
+      ).toEqual('12,345,678,901,234,567,890');
+    });
+  });
 });

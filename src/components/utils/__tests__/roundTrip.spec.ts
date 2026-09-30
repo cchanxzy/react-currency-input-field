@@ -18,6 +18,7 @@ const shapes: ReadonlyArray<Shape> = [
   { name: 'en-GB / GBP', intlConfig: { locale: 'en-GB', currency: 'GBP' } },
   { name: 'de-DE / EUR', intlConfig: { locale: 'de-DE', currency: 'EUR' } },
   { name: 'en-IN / INR', intlConfig: { locale: 'en-IN', currency: 'INR' } },
+  { name: 'fi-FI / EUR', intlConfig: { locale: 'fi-FI', currency: 'EUR' } },
   { name: 'he-IL / ILS', intlConfig: { locale: 'he-IL', currency: 'ILS' } },
   { name: 'custom prefix', prefix: '£', decimalSeparator: '.', groupSeparator: ',' },
 ];
@@ -101,6 +102,49 @@ describe('formatValue and cleanValue round trip', () => {
           const formatted = format(value);
 
           expect(format(clean(formatted))).toBe(formatted);
+        })
+      );
+    });
+  });
+});
+
+describe('formatValue and cleanValue round trip for long integers', () => {
+  const longShapes: ReadonlyArray<Shape> = [
+    { name: 'en-US / USD', intlConfig: { locale: 'en-US', currency: 'USD' } },
+    { name: 'de-DE / EUR', intlConfig: { locale: 'de-DE', currency: 'EUR' } },
+  ];
+
+  /** 16 to 30 integer digits without leading zeros. */
+  const longIntegerArbitrary = fc
+    .tuple(
+      fc.integer({ min: 1, max: 9 }),
+      fc.array(fc.integer({ min: 0, max: 9 }), { minLength: 15, maxLength: 29 })
+    )
+    .map(([first, rest]) => `${first}${rest.join('')}`);
+
+  describe.each(longShapes)('$name', (shape) => {
+    const { intlConfig, prefix, decimalSeparator, groupSeparator } = resolveSeparators(shape);
+
+    it('cleans a formatted long integer back to the original digits', () => {
+      fc.assert(
+        fc.property(longIntegerArbitrary, (value) => {
+          const formatted = formatValue({
+            value,
+            intlConfig,
+            decimalSeparator,
+            groupSeparator,
+            prefix,
+          });
+
+          expect(
+            cleanValue({
+              value: formatted,
+              decimalSeparator,
+              groupSeparator,
+              prefix,
+              disableAbbreviations: true,
+            })
+          ).toBe(value);
         })
       );
     });

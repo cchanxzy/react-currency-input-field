@@ -153,7 +153,6 @@ const shapes: ReadonlyArray<Shape> = [
     abbreviations: [],
   },
   {
-    // Typed negatives are not pinned: the sign is dropped.
     name: 'fi-FI / EUR (negatives use U+2212)',
     props: { intlConfig: { locale: 'fi-FI', currency: 'EUR' } },
     display: [
@@ -166,6 +165,8 @@ const shapes: ReadonlyArray<Shape> = [
       ['1234', `1${nbsp}234${nbsp}€`, '1234', 1234],
       ['1234567', `1${nbsp}234${nbsp}567${nbsp}€`, '1234567', 1234567],
       ['12,34', `12,34${nbsp}€`, '12,34', 12.34],
+      ['-1234', `${minus}1${nbsp}234${nbsp}€`, '-1234', -1234],
+      ['-12,5', `${minus}12,5${nbsp}€`, '-12,5', -12.5],
     ],
     abbreviations: [
       ['1k', `1${nbsp}000${nbsp}€`, '1000', 1000],
@@ -326,6 +327,27 @@ describe('<CurrencyInput/> currency shapes', () => {
         expect(getInput()).toHaveValue(down);
       });
     }
+  });
+
+  describe('en-US / USD', () => {
+    it('shows a typed 20-digit integer exactly, grouped', () => {
+      render(<CurrencyInput intlConfig={{ locale: 'en-US', currency: 'USD' }} />);
+
+      userEvent.type(getInput(), '12345678901234567890');
+
+      expect(getInput()).toHaveValue('$12,345,678,901,234,567,890');
+    });
+  });
+
+  describe('fi-FI / EUR', () => {
+    it('keeps the minus sign of a typed negative after blurring', () => {
+      render(<CurrencyInput intlConfig={{ locale: 'fi-FI', currency: 'EUR' }} />);
+
+      userEvent.type(getInput(), '-1234');
+      fireEvent.blur(getInput());
+
+      expect(getInput()).toHaveValue(`${minus}1${nbsp}234${nbsp}€`);
+    });
   });
 
   describe('es-ES / EUR', () => {

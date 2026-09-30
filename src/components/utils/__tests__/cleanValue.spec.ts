@@ -297,4 +297,10 @@ describe('cleanValue', () => {
       ).toEqual('9');
     });
   });
+
+  it('should keep a U+2212 minus sign as a negative sign', () => {
+    expect(cleanValue({ value: '\u22125,00 €', decimalSeparator: ',', groupSeparator: '.' })).toBe(
+      '-5,00'
+    );
+  });
 });
