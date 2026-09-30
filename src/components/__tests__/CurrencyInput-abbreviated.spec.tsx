@@ -127,6 +127,21 @@ describe('<CurrencyInput/> abbreviated', () => {
     expect(screen.getByRole('textbox')).toHaveValue('4.100.000');
   });
 
+  it.each(['0k', '0.0k', '00m'])('should expand %s to 0', (typed) => {
+    render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
+    userEvent.type(screen.getByRole('textbox'), typed);
+
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
+      float: 0,
+      formatted: '£0',
+      value: '0',
+    });
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
+
+    fireEvent.focusOut(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).toHaveValue('£0');
+  });
+
   it('should not abbreviate any other letters', () => {
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
     userEvent.type(screen.getByRole('textbox'), '1.5e');

@@ -94,6 +94,66 @@ describe('<CurrencyInput/> separators', () => {
     expect(screen.getByRole('textbox')).toHaveValue('1234');
   });
 
+  describe('deleting a comma decimal separator if group separators are disabled', () => {
+    const deleteChar = (key: '{backspace}' | '{del}', caret: number) => {
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      input.setSelectionRange(caret, caret);
+      userEvent.type(input, key, { initialSelectionStart: caret, initialSelectionEnd: caret });
+    };
+
+    beforeEach(() => {
+      render(
+        <CurrencyInput
+          name={name}
+          decimalSeparator=","
+          disableGroupSeparators={true}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+      userEvent.type(screen.getByRole('textbox'), '1,5');
+    });
+
+    it('should only remove the decimal separator with Backspace', () => {
+      deleteChar('{backspace}', 2);
+
+      expect(screen.getByRole('textbox')).toHaveValue('15');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('15', name, {
+        float: 15,
+        formatted: '15',
+        value: '15',
+      });
+    });
+
+    it('should only remove the decimal separator with Delete', () => {
+      deleteChar('{del}', 1);
+
+      expect(screen.getByRole('textbox')).toHaveValue('15');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('15', name, {
+        float: 15,
+        formatted: '15',
+        value: '15',
+      });
+    });
+  });
+
+  it('should read a pasted comma as the decimal separator if it is also the locale group separator', () => {
+    render(
+      <CurrencyInput
+        name={name}
+        decimalSeparator=","
+        disableGroupSeparators={true}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.paste(screen.getByRole('textbox'), '1,000');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('1,00', name, {
+      float: 1,
+      formatted: '1,00',
+      value: '1,00',
+    });
+  });
+
   describe('throwing errors', () => {
     // Ensure console error fails tests by replacing with a function that throws
     const { error: originalError } = console;

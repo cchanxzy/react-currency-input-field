@@ -336,6 +336,12 @@ describe('cleanValue', () => {
       expect(cleanValue({ value: '.5k' })).toEqual('5000');
     });
 
+    it('should expand an abbreviation of zero to 0', () => {
+      expect(cleanValue({ value: '0k' })).toEqual('0');
+      expect(cleanValue({ value: '0.0k' })).toEqual('0');
+      expect(cleanValue({ value: '00m' })).toEqual('0');
+    });
+
     it('should drop trailing zeros from the decimals of an expanded abbreviation', () => {
       expect(cleanValue({ value: '1.50000k' })).toEqual('1500');
       expect(cleanValue({ value: '1.23450k', decimalsLimit: 3 })).toEqual('1234.5');

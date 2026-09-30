@@ -132,7 +132,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         value,
         lastKeyStroke,
         stateValue,
-        groupSeparator,
+        // Matches cleanValue, so a "," decimal separator isn't taken for a group separator
+        groupSeparator: cleanValueOptions.groupSeparator,
       });
 
       const stringValue = cleanValue({ value: modifiedValue, ...cleanValueOptions });
@@ -307,28 +308,33 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         const stepString = String(step);
         const valueString = String(currentValue);
         const stepDecimals = stepString.includes('.') ? stepString.split('.')[1].length : 0;
-        const valueDecimals = valueString.includes('.') ? valueString.split('.')[1].length : 0;
-
-        // Round to the longer of the step and value decimals to drop floating point errors,
-        // eg. 8.2 - 1 = 7.199999999999999. Numbers in exponent notation keep the step decimals
-        const fixedLength = /e/.test(stepString + valueString)
-          ? stepDecimals
-          : Math.max(stepDecimals, valueDecimals);
 
         const toStepValue = (decimals: number): string =>
           String(decimals ? newValue.toFixed(decimals) : newValue).replace('.', decimalSeparator);
-        const toNumber = (stepValue: string): number => {
-          const cleaned = cleanValue({ value: stepValue, ...cleanValueOptions });
-          return parseFloat(decimalSeparator ? cleaned.replace(decimalSeparator, '.') : cleaned);
+
+        // A decimal step rounds the result to the step decimals, eg. 1.25 + 0.1 = 1.4
+        const stepValue = toStepValue(stepDecimals);
+
+        // An integer step rounds to the value decimals to drop floating point errors,
+        // eg. 8.2 - 1 = 7.199999999999999. Numbers in exponent notation, and inputs without a
+        // decimal separator, are left as they are
+        const valueDecimals =
+          decimalSeparator && Number.isInteger(step) && /^-?\d+\.\d+$/.test(valueString)
+            ? valueString.split('.')[1].length
+            : 0;
+        const roundedValue = valueDecimals ? toStepValue(valueDecimals) : stepValue;
+
+        const toNumber = (value: string): number => {
+          const cleaned = cleanValue({ ...cleanValueOptions, value, transformRawValue: undefined });
+          return parseFloat(cleaned.replace(decimalSeparator, '.'));
         };
 
-        // Only use the new rounding when it gives a different number, so results that were
+        // Only use the rounded value when it gives a different number, so results that were
         // already right keep their digits, eg. 34.7 - 12 still shows 22.70
-        const stepDecimalsValue = toStepValue(stepDecimals);
-        const roundedValue = toStepValue(fixedLength);
-
         processChange(
-          toNumber(roundedValue) === toNumber(stepDecimalsValue) ? stepDecimalsValue : roundedValue
+          roundedValue === stepValue || toNumber(roundedValue) === toNumber(stepValue)
+            ? stepValue
+            : roundedValue
         );
       }
 

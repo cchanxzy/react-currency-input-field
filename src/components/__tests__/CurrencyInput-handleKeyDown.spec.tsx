@@ -453,16 +453,56 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       });
     });
 
-    it('should keep the value decimals when they are more than the step decimals', () => {
+    it('should round to the step decimals when the value has more decimals than a decimal step', () => {
       render(<CurrencyInput defaultValue={1.25} step={0.1} onValueChange={onValueChangeSpy} />);
 
       stepOnce('{arrowup}');
-      expect(screen.getByRole('textbox')).toHaveValue('1.35');
-      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.35', undefined, {
-        float: 1.35,
-        formatted: '1.35',
-        value: '1.35',
+      expect(screen.getByRole('textbox')).toHaveValue('1.4');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.4', undefined, {
+        float: 1.4,
+        formatted: '1.4',
+        value: '1.4',
       });
+    });
+
+    it.each([
+      [1.24, 0.1, '{arrowup}', '1.3'],
+      [1.26, 0.1, '{arrowup}', '1.4'],
+      [10.99, 0.5, '{arrowdown}', '10.5'],
+      [0.125, 0.1, '{arrowup}', '0.2'],
+    ] as const)(
+      'should round %s stepped by %s with %s to the step decimals',
+      (defaultValue, step, key, expected) => {
+        render(
+          <CurrencyInput defaultValue={defaultValue} step={step} onValueChange={onValueChangeSpy} />
+        );
+
+        stepOnce(key);
+        expect(screen.getByRole('textbox')).toHaveValue(expected);
+        expect(onValueChangeSpy).toHaveBeenLastCalledWith(expected, undefined, {
+          float: Number(expected),
+          formatted: expected,
+          value: expected,
+        });
+      }
+    );
+
+    it('should step an integer step up from a decimal value without float errors', () => {
+      render(<CurrencyInput defaultValue={0.57} step={1} onValueChange={onValueChangeSpy} />);
+
+      stepOnce('{arrowup}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.57');
+    });
+
+    it('should not call transformRawValue for the rounding check when stepping', () => {
+      const transformRawValue = jest.fn((rawValue: string) => rawValue);
+      render(<CurrencyInput defaultValue={8.2} step={1} transformRawValue={transformRawValue} />);
+      transformRawValue.mockClear();
+
+      stepOnce('{arrowdown}');
+      expect(screen.getByRole('textbox')).toHaveValue('7.2');
+      // Once to read the current value, and once to process the stepped value
+      expect(transformRawValue.mock.calls).toEqual([['8.2'], ['7.2']]);
     });
 
     it('should keep the digits of a result that has no float error after the decimals limit', () => {
