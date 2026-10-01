@@ -81,7 +81,7 @@ Enforced via Prettier (`.prettierrc`): _(format)_
 
 ## Linting
 
-ESLint uses a flat config (`eslint.config.mjs`) built on `@eslint/js` recommended, `typescript-eslint` recommended, `eslint-plugin-react` recommended and `eslint-plugin-react-hooks` recommended, with `eslint-config-prettier` last so formatting is left to Prettier. The project-specific rules listed in this document are added on top. The lint command enforces **zero warnings** (`--max-warnings=0`).
+ESLint uses a flat config (`eslint.config.mjs`) built on `@eslint/js` recommended, `typescript-eslint` recommended, `eslint-plugin-react` recommended and `eslint-plugin-react-hooks` recommended, with `eslint-config-prettier` last so formatting is left to Prettier. The project-specific rules listed in this document are added on top. The unit tests (`src/**/__tests__`) are also linted with type information, for `@typescript-eslint/no-floating-promises`. The lint command enforces **zero warnings** (`--max-warnings=0`).
 
 ## Testing
 
@@ -110,7 +110,7 @@ ESLint uses a flat config (`eslint.config.mjs`) built on `@eslint/js` recommende
     jest.clearAllMocks();
   });
   ```
-- **Use React Testing Library** — query by role (`screen.getByRole('textbox')`), simulate with `userEvent.type()` / `userEvent.clear()`, and `fireEvent` for blur/focus. _(review)_
+- **Use React Testing Library** — query by role (`screen.getByRole('textbox')`). Simulate with user-event: create `const user = userEvent.setup();` at the start of each test that interacts, then `await user.type()` / `await user.clear()` / `await user.paste()`, and leave the field with `await user.tab()`. `user.type()` clicks the input first, which moves the caret to the end, so use `await user.keyboard()` to keep typing where the caret already is. Use `fireEvent` only when a test needs a single isolated event, with a comment saying why. _(review; lint: `@typescript-eslint/no-floating-promises` catches a missing `await`)_
 - **Snapshots** are used for basic render verification only (e.g., confirming the component renders). _(review)_
 - **No file/module mocks.** Tests use real implementations. Only callback props are mocked with `jest.fn()`. The one exception, `CurrencyInput-no-locale.spec.tsx`, carries an inline disable explaining why. _(lint: `no-restricted-properties` on `jest.mock` and `jest.doMock`)_
 - **Tests run with `LANG=en_GB`** to ensure consistent locale-dependent behavior. _(`pnpm test` sets it)_

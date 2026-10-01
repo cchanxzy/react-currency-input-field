@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import CurrencyInput from '../CurrencyInput';
@@ -265,28 +265,30 @@ describe('<CurrencyInput/> currency shapes', () => {
     if (typing.length > 0) {
       it.each(typing)(
         'formats typed text %s and reports the value',
-        (text, expected, value, float) => {
+        async (text, expected, value, float) => {
+          const user = userEvent.setup();
           render(<CurrencyInput {...props} onValueChange={onValueChangeSpy} />);
 
-          userEvent.type(getInput(), text);
+          await user.type(getInput(), text);
 
           expect(getInput()).toHaveValue(expected);
           expect(lastValues()).toEqual({ value, float, formatted: expected });
 
-          fireEvent.blur(getInput());
+          await user.tab();
 
           expect(getInput()).toHaveValue(expected);
         }
       );
 
-      it.each(typing)('keeps the display after blurring twice for %s', (text, expected) => {
+      it.each(typing)('keeps the display after blurring twice for %s', async (text, expected) => {
+        const user = userEvent.setup();
         render(<CurrencyInput {...props} />);
 
-        userEvent.type(getInput(), text);
-        fireEvent.blur(getInput());
+        await user.type(getInput(), text);
+        await user.tab();
         const afterFirstBlur = getInput().value;
-        fireEvent.focus(getInput());
-        fireEvent.blur(getInput());
+        await user.click(getInput());
+        await user.tab();
 
         expect(afterFirstBlur).toBe(expected);
         expect(getInput()).toHaveValue(expected);
@@ -294,15 +296,16 @@ describe('<CurrencyInput/> currency shapes', () => {
     }
 
     if (abbreviations.length > 0) {
-      it.each(abbreviations)('expands abbreviation %s', (text, expected, value, float) => {
+      it.each(abbreviations)('expands abbreviation %s', async (text, expected, value, float) => {
+        const user = userEvent.setup();
         render(<CurrencyInput {...props} onValueChange={onValueChangeSpy} />);
 
-        userEvent.type(getInput(), text);
+        await user.type(getInput(), text);
 
         expect(getInput()).toHaveValue(expected);
         expect(lastValues()).toEqual({ value, float, formatted: expected });
 
-        fireEvent.blur(getInput());
+        await user.tab();
 
         expect(getInput()).toHaveValue(expected);
       });
@@ -311,18 +314,20 @@ describe('<CurrencyInput/> currency shapes', () => {
     if (stepping) {
       const [up, down] = stepping;
 
-      it('increases an integer value with ArrowUp', () => {
+      it('increases an integer value with ArrowUp', async () => {
+        const user = userEvent.setup();
         render(<CurrencyInput {...props} defaultValue="10" step={1} />);
 
-        userEvent.type(getInput(), '{arrowup}');
+        await user.type(getInput(), '{ArrowUp}');
 
         expect(getInput()).toHaveValue(up);
       });
 
-      it('decreases an integer value with ArrowDown', () => {
+      it('decreases an integer value with ArrowDown', async () => {
+        const user = userEvent.setup();
         render(<CurrencyInput {...props} defaultValue="10" step={1} />);
 
-        userEvent.type(getInput(), '{arrowdown}');
+        await user.type(getInput(), '{ArrowDown}');
 
         expect(getInput()).toHaveValue(down);
       });
@@ -330,28 +335,31 @@ describe('<CurrencyInput/> currency shapes', () => {
   });
 
   describe('en-US / USD', () => {
-    it('shows a typed 20-digit integer exactly, grouped', () => {
+    it('shows a typed 20-digit integer exactly, grouped', async () => {
+      const user = userEvent.setup();
       render(<CurrencyInput intlConfig={{ locale: 'en-US', currency: 'USD' }} />);
 
-      userEvent.type(getInput(), '12345678901234567890');
+      await user.type(getInput(), '12345678901234567890');
 
       expect(getInput()).toHaveValue('$12,345,678,901,234,567,890');
     });
   });
 
   describe('fi-FI / EUR', () => {
-    it('keeps the minus sign of a typed negative after blurring', () => {
+    it('keeps the minus sign of a typed negative after blurring', async () => {
+      const user = userEvent.setup();
       render(<CurrencyInput intlConfig={{ locale: 'fi-FI', currency: 'EUR' }} />);
 
-      userEvent.type(getInput(), '-1234');
-      fireEvent.blur(getInput());
+      await user.type(getInput(), '-1234');
+      await user.tab();
 
       expect(getInput()).toHaveValue(`${minus}1${nbsp}234${nbsp}€`);
     });
   });
 
   describe('es-ES / EUR', () => {
-    it('reports the float of a 7-digit abbreviation', () => {
+    it('reports the float of a 7-digit abbreviation', async () => {
+      const user = userEvent.setup();
       render(
         <CurrencyInput
           intlConfig={{ locale: 'es-ES', currency: 'EUR' }}
@@ -359,7 +367,7 @@ describe('<CurrencyInput/> currency shapes', () => {
         />
       );
 
-      userEvent.type(getInput(), '2,5m');
+      await user.type(getInput(), '2,5m');
 
       expect(lastValues()).toMatchObject({ value: '2500000', float: 2500000 });
     });

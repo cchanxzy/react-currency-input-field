@@ -24,7 +24,8 @@ describe('<CurrencyInput/> intlConfig', () => {
     expect(screen.getByRole('textbox')).toHaveValue('₹5,00,000');
   });
 
-  it('should use intl config settings (ja-JP, JPY)', () => {
+  it('should use intl config settings (ja-JP, JPY)', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         id={id}
@@ -35,11 +36,11 @@ describe('<CurrencyInput/> intlConfig', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('￥123456');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}');
+    await user.type(screen.getByRole('textbox'), '{Backspace}{Backspace}{Backspace}');
 
     expect(screen.getByRole('textbox')).toHaveValue('￥123');
 
-    userEvent.type(screen.getByRole('textbox'), '.99');
+    await user.type(screen.getByRole('textbox'), '.99');
 
     expect(screen.getByRole('textbox')).toHaveValue('￥12,399');
   });
@@ -90,7 +91,8 @@ describe('<CurrencyInput/> intlConfig', () => {
       jest.clearAllMocks();
     });
 
-    it('should handle onValueChange with intl config settings (en-IN, INR)', () => {
+    it('should handle onValueChange with intl config settings (en-IN, INR)', async () => {
+      const user = userEvent.setup();
       render(
         <CurrencyInput
           id={id}
@@ -101,7 +103,7 @@ describe('<CurrencyInput/> intlConfig', () => {
 
       expect(screen.getByRole('textbox')).toHaveValue('');
 
-      userEvent.type(screen.getByRole('textbox'), '₹12,34,567');
+      await user.type(screen.getByRole('textbox'), '₹12,34,567');
 
       expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234567', undefined, {
         float: 1234567,
@@ -112,7 +114,8 @@ describe('<CurrencyInput/> intlConfig', () => {
       expect(screen.getByRole('textbox')).toHaveValue('₹12,34,567');
     });
 
-    it('should handle onValueChange with negative value and prefix', () => {
+    it('should handle onValueChange with negative value and prefix', async () => {
+      const user = userEvent.setup();
       render(
         <CurrencyInput
           id={id}
@@ -123,18 +126,19 @@ describe('<CurrencyInput/> intlConfig', () => {
 
       expect(screen.getByRole('textbox')).toHaveValue('');
 
-      userEvent.type(screen.getByRole('textbox'), '-1200');
+      await user.type(screen.getByRole('textbox'), '-1200');
 
       expect(screen.getByRole('textbox')).toHaveValue('€\xa0-1.200');
     });
   });
 
-  it('should put the caret after the intl prefix when the change removes a character before it', () => {
+  it('should put the caret after the intl prefix when the change removes a character before it', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput intlConfig={{ locale: 'en-US', currency: 'USD' }} defaultValue={1234} />);
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
     input.setSelectionRange(0, 0);
-    userEvent.type(input, 'x', { initialSelectionStart: 0, initialSelectionEnd: 0 });
+    await user.type(input, 'x', { initialSelectionStart: 0, initialSelectionEnd: 0 });
 
     expect(input).toHaveValue('$1,234');
     expect(input.selectionStart).toBe(1);

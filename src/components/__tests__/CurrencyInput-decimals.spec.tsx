@@ -11,9 +11,10 @@ describe('<CurrencyInput/> decimals', () => {
     jest.clearAllMocks();
   });
 
-  it('should allow value with decimals if allowDecimals is true', () => {
+  it('should allow value with decimals if allowDecimals is true', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput allowDecimals={true} prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1,234.56');
+    await user.type(screen.getByRole('textbox'), '1,234.56');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.56', undefined, {
       float: 1234.56,
@@ -24,9 +25,10 @@ describe('<CurrencyInput/> decimals', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£1,234.56');
   });
 
-  it('should disallow value with decimals if allowDecimals is false', () => {
+  it('should disallow value with decimals if allowDecimals is false', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput allowDecimals={false} prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1,234.56');
+    await user.type(screen.getByRole('textbox'), '1,234.56');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456', undefined, {
       float: 123456,
@@ -37,9 +39,10 @@ describe('<CurrencyInput/> decimals', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£123,456');
   });
 
-  it('should limit decimals to decimalsLimit length', () => {
+  it('should limit decimals to decimalsLimit length', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput decimalsLimit={3} prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1,234.56789');
+    await user.type(screen.getByRole('textbox'), '1,234.56789');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.567', undefined, {
       float: 1234.567,
@@ -56,12 +59,13 @@ describe('<CurrencyInput/> decimals', () => {
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
 
-  it('should handle starting with decimal separator', () => {
+  it('should handle starting with decimal separator', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="$" onValueChange={onValueChangeSpy} />);
 
     expect(screen.getByRole('textbox')).toHaveValue('');
 
-    userEvent.type(screen.getByRole('textbox'), '.');
+    await user.type(screen.getByRole('textbox'), '.');
 
     expect(screen.getByRole('textbox')).toHaveValue('.');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
@@ -70,7 +74,7 @@ describe('<CurrencyInput/> decimals', () => {
       value: '',
     });
 
-    userEvent.type(screen.getByRole('textbox'), '9');
+    await user.type(screen.getByRole('textbox'), '9');
 
     expect(screen.getByRole('textbox')).toHaveValue('$0.9');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('.9', undefined, {
@@ -80,7 +84,8 @@ describe('<CurrencyInput/> decimals', () => {
     });
   });
 
-  it('should handle currencies without decimals', () => {
+  it('should handle currencies without decimals', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         intlConfig={{ locale: 'ja-JP', currency: 'JPY' }}
@@ -90,7 +95,7 @@ describe('<CurrencyInput/> decimals', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('');
 
-    userEvent.type(screen.getByRole('textbox'), '1');
+    await user.type(screen.getByRole('textbox'), '1');
 
     expect(screen.getByRole('textbox')).toHaveValue('￥1');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1', undefined, {
@@ -100,7 +105,8 @@ describe('<CurrencyInput/> decimals', () => {
     });
   });
 
-  it('should handle currencies without decimals with provided decimalScale', () => {
+  it('should handle currencies without decimals with provided decimalScale', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         decimalScale={0}
@@ -111,8 +117,8 @@ describe('<CurrencyInput/> decimals', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('');
 
-    userEvent.type(screen.getByRole('textbox'), '123');
-    userEvent.click(document.body);
+    await user.type(screen.getByRole('textbox'), '123');
+    await user.click(document.body);
 
     expect(screen.getByRole('textbox')).toHaveValue('￥123');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', undefined, {
@@ -122,9 +128,10 @@ describe('<CurrencyInput/> decimals', () => {
     });
   });
 
-  it('should keep trailing zero decimals when prefix contains the decimal separator', () => {
+  it('should keep trailing zero decimals when prefix contains the decimal separator', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="kr." onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1.0');
+    await user.type(screen.getByRole('textbox'), '1.0');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.0', undefined, {
       float: 1,
@@ -135,9 +142,10 @@ describe('<CurrencyInput/> decimals', () => {
     expect(screen.getByRole('textbox')).toHaveValue('kr.1.0');
   });
 
-  it('should keep decimals while typing when prefix contains the decimal separator', () => {
+  it('should keep decimals while typing when prefix contains the decimal separator', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="kr." onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1000.05');
+    await user.type(screen.getByRole('textbox'), '1000.05');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1000.05', undefined, {
       float: 1000.05,
@@ -148,7 +156,8 @@ describe('<CurrencyInput/> decimals', () => {
     expect(screen.getByRole('textbox')).toHaveValue('kr.1,000.05');
   });
 
-  it('should handle starting with decimal separator that is non period', () => {
+  it('should handle starting with decimal separator that is non period', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         intlConfig={{ locale: 'de-DE', currency: 'EUR' }}
@@ -158,7 +167,7 @@ describe('<CurrencyInput/> decimals', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('');
 
-    userEvent.type(screen.getByRole('textbox'), ',');
+    await user.type(screen.getByRole('textbox'), ',');
 
     expect(screen.getByRole('textbox')).toHaveValue(',');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
@@ -167,7 +176,7 @@ describe('<CurrencyInput/> decimals', () => {
       value: '',
     });
 
-    userEvent.type(screen.getByRole('textbox'), '9');
+    await user.type(screen.getByRole('textbox'), '9');
 
     expect(screen.getByRole('textbox')).toHaveValue('0,9\xa0€');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(',9', undefined, {

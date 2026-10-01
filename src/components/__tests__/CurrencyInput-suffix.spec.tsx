@@ -11,36 +11,38 @@ describe('<CurrencyInput/> suffix', () => {
     jest.clearAllMocks();
   });
 
-  it('should handle custom suffix', () => {
+  it('should handle custom suffix', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput onValueChange={onValueChangeSpy} suffix=" €" defaultValue="1234" />);
 
     expect(screen.getByRole('textbox')).toHaveValue('1,234 €');
 
-    userEvent.type(screen.getByRole('textbox'), '56');
+    await user.type(screen.getByRole('textbox'), '56');
 
     expect(screen.getByRole('textbox')).toHaveValue('123,456 €');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}');
+    await user.keyboard('{Backspace}{Backspace}{Backspace}');
 
     expect(screen.getByRole('textbox')).toHaveValue('123 €');
   });
 
-  it('should handle custom prefix and suffix', () => {
+  it('should handle custom prefix and suffix', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput onValueChange={onValueChangeSpy} prefix="$" suffix=" %" defaultValue="1234" />
     );
 
     expect(screen.getByRole('textbox')).toHaveValue('$1,234 %');
 
-    userEvent.type(screen.getByRole('textbox'), '56');
+    await user.type(screen.getByRole('textbox'), '56');
 
     expect(screen.getByRole('textbox')).toHaveValue('$123,456 %');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
+    await user.keyboard('{Backspace}{Backspace}');
 
     expect(screen.getByRole('textbox')).toHaveValue('$1,234 %');
 
-    userEvent.type(screen.getByRole('textbox'), '.9');
+    await user.type(screen.getByRole('textbox'), '.9');
 
     expect(screen.getByRole('textbox')).toHaveValue('$1,234.9 %');
   });

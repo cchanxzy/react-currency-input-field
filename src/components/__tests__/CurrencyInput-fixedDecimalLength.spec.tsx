@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyInput from '../CurrencyInput';
 
@@ -12,7 +12,8 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
   });
 
   describe('fixedDecimalLength', () => {
-    it('should convert value on blur if fixedDecimalLength specified', () => {
+    it('should convert value on blur if fixedDecimalLength specified', async () => {
+      const user = userEvent.setup();
       render(
         <CurrencyInput
           prefix="$"
@@ -26,9 +27,9 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
       expect(screen.getByRole('textbox')).toHaveValue('$123.000');
 
       // delete .000
-      userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}{backspace}');
+      await user.type(screen.getByRole('textbox'), '{Backspace}{Backspace}{Backspace}{Backspace}');
 
-      fireEvent.focusOut(screen.getByRole('textbox'));
+      await user.tab();
 
       expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.230', undefined, {
         float: 1.23,
@@ -39,7 +40,8 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
       expect(screen.getByRole('textbox')).toHaveValue('$1.230');
     });
 
-    it('should work with decimalScale and decimalSeparator', () => {
+    it('should work with decimalScale and decimalSeparator', async () => {
+      const user = userEvent.setup();
       render(
         <CurrencyInput
           prefix="$"
@@ -54,9 +56,9 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
       expect(screen.getByRole('textbox')).toHaveValue('$1.00');
 
       // delete .00
-      userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}');
-      userEvent.type(screen.getByRole('textbox'), '23');
-      fireEvent.focusOut(screen.getByRole('textbox'));
+      await user.type(screen.getByRole('textbox'), '{Backspace}{Backspace}');
+      await user.type(screen.getByRole('textbox'), '23');
+      await user.tab();
 
       expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.23', undefined, {
         float: 1.23,
