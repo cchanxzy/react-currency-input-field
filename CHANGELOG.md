@@ -1,3 +1,10 @@
+## [4.0.11](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.10...v4.0.11) (2026-10-01)
+
+
+### Bug Fixes
+
+* correct abbreviations, stepping and other input edge cases ([#444](https://github.com/cchanxzy/react-currency-input-field/issues/444)) ([ee3ddd3](https://github.com/cchanxzy/react-currency-input-field/commit/ee3ddd3d3bf3f1b2e33e182c586df18941ef6d3b))
+
 ## [4.0.10](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.9...v4.0.10) (2026-09-30)
 
 
