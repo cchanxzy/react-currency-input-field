@@ -1,13 +1,13 @@
+// Type-checks everything: the library, its unit tests, the demo app, the
+// Playwright tests and the tool configs. Editors use this file, so it has
+// to include every TypeScript file. The build uses tsconfig.build.json.
 {
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "lib": ["es2017", "es7", "es6", "dom"],
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "declarationDir": "dist",
-    "outDir": "dist",
+    "noEmit": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,5 +21,5 @@
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": ["src/index.ts"]
+  "include": ["src", "tests", "playwright.config.ts", "jest.config.ts"]
 }
