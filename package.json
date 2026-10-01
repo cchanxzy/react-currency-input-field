@@ -14,9 +14,14 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
     }
   },
   "main": "./dist/cjs/index.js",
@@ -24,7 +29,7 @@
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/cchanxzy/react-currency-input-field",
   "scripts": {
-    "build:types": "tsc --project tsconfig.build.json",
+    "build:types": "tsc --project tsconfig.build.json && node esm-types.mjs",
     "build:js": "node esbuild.mjs",
     "build": "rm -rf dist && pnpm build:js && pnpm build:types",
     "start": "parcel src/examples/index.html --target app --open",
@@ -38,7 +43,7 @@
     "semantic-release": "semantic-release",
     "prepare": "husky",
     "publint": "publint",
-    "attw": "attw --pack . --ignore-rules unexpected-module-syntax",
+    "attw": "attw --pack .",
     "verify-package": "pnpm publint && pnpm attw"
   },
   "lint-staged": {

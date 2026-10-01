@@ -12,6 +12,7 @@ React Currency Input Field is a zero-dependency React `<input>` component for fo
 - [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md): setup, commands, branch names, commit messages and pull requests.
 - [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md): code conventions, and how each one is checked.
 - [docs/CURRENCY_BEHAVIOR.md](docs/CURRENCY_BEHAVIOR.md): which currency formats are supported, and the standards each rule comes from.
+- [docs/BUILD.md](docs/BUILD.md): how `pnpm build` lays out `dist/` and the `exports` field, and why. Read it before changing the build.
 
 ## Where things are
 
