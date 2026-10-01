@@ -44,7 +44,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    allowDecimals?: boolean;
+    allowDecimals?: boolean | undefined;
 
     /**
      * Allow user to enter a negative value.
@@ -53,28 +53,28 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    allowNegativeValue?: boolean;
+    allowNegativeValue?: boolean | undefined;
 
     /**
      * Component id
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    id?: string;
+    id?: string | undefined;
 
     /**
      * Maximum characters the user can enter
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    maxLength?: number;
+    maxLength?: number | undefined;
 
     /**
      * Class names
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    className?: string;
+    className?: string | undefined;
 
     /**
      * Render custom component instead of default `<input/>`.
@@ -83,7 +83,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    customInput?: React.ElementType;
+    customInput?: React.ElementType | undefined;
 
     /**
      * Limit length of decimals allowed.
@@ -94,7 +94,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#decimal-scale-and-decimals-limit}
      */
-    decimalsLimit?: number;
+    decimalsLimit?: number | undefined;
 
     /**
      * Specify decimal scale for padding/trimming applied on blur.
@@ -105,7 +105,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#decimal-scale-and-decimals-limit}
      */
-    decimalScale?: number;
+    decimalScale?: number | undefined;
 
     /**
      * Default value if not passing in value via props.
@@ -113,7 +113,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    defaultValue?: number | string;
+    defaultValue?: number | string | undefined;
 
     /**
      * Disabled
@@ -122,7 +122,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    disabled?: boolean;
+    disabled?: boolean | undefined;
 
     /**
      * Value will always have the specified length of decimals
@@ -134,7 +134,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#fixed-decimal-length}
      */
-    fixedDecimalLength?: number;
+    fixedDecimalLength?: number | undefined;
 
     /**
      * Handle change in value.
@@ -150,18 +150,20 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#onvaluechange}
      */
-    onValueChange?: (
-      value: string | undefined,
-      name?: string | undefined,
-      values?: CurrencyInputOnChangeValues
-    ) => void;
+    onValueChange?:
+      | ((
+          value: string | undefined,
+          name?: string | undefined,
+          values?: CurrencyInputOnChangeValues
+        ) => void)
+      | undefined;
 
     /**
      * Placeholder if there is no value
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    placeholder?: string;
+    placeholder?: string | undefined;
 
     /**
      * Include a prefix eg. `£`
@@ -170,7 +172,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#prefix-and-suffix}
      */
-    prefix?: string;
+    prefix?: string | undefined;
 
     /**
      * Include a suffix eg. `€`
@@ -179,14 +181,14 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#prefix-and-suffix}
      */
-    suffix?: string;
+    suffix?: string | undefined;
 
     /**
      * Incremental value change on arrow down and arrow up key press
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    step?: number;
+    step?: number | undefined;
 
     /**
      * Separator between integer part and fractional part of value.
@@ -197,7 +199,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#separators}
      */
-    decimalSeparator?: string;
+    decimalSeparator?: string | undefined;
 
     /**
      * Separator between thousand, million and billion.
@@ -208,7 +210,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#separators}
      */
-    groupSeparator?: string;
+    groupSeparator?: string | undefined;
 
     /**
      * Disable auto adding the group separator between values.
@@ -217,7 +219,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#separators}
      */
-    disableGroupSeparators?: boolean;
+    disableGroupSeparators?: boolean | undefined;
 
     /**
      * Disable abbreviations (m, k, b) so 1k will NOT be formatted to 1,000, 2m will NOT be formatted to 2,000,000 etc...
@@ -226,7 +228,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#abbreviations}
      */
-    disableAbbreviations?: boolean;
+    disableAbbreviations?: boolean | undefined;
 
     /**
      * International locale config
@@ -250,7 +252,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#intl-locale-config}
      */
-    intlConfig?: IntlConfig;
+    intlConfig?: IntlConfig | undefined;
 
     /**
      * Transform the raw value from the input before parsing.
@@ -261,7 +263,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    transformRawValue?: (rawValue: string) => string;
+    transformRawValue?: ((rawValue: string) => string) | undefined;
 
     /**
      * When set to `false`, the `onValueChange` will not be called on `blur` events.
@@ -270,7 +272,7 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    formatValueOnBlur?: boolean;
+    formatValueOnBlur?: boolean | undefined;
 
     /**
      * Current value of the input. This should be a number or a numeric string.
@@ -281,6 +283,6 @@ export type CurrencyInputProps = Overwrite<
      *
      * See {@link https://www.npmjs.com/package/react-currency-input-field#props}
      */
-    value?: string | number;
+    value?: string | number | undefined;
   }
 >;

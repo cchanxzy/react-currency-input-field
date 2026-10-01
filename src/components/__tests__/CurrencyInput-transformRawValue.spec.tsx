@@ -30,4 +30,27 @@ describe('<CurrencyInput/> transformRawValue', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('$1,234.5');
   });
+
+  it('should read the prefix position from the transformed value', () => {
+    const onValueChangeSpy = jest.fn();
+    const movePrefixToFront = (rawValue: string) =>
+      rawValue.endsWith('$') ? `$${rawValue.slice(0, -1)}` : rawValue;
+
+    render(
+      <CurrencyInput
+        prefix="$"
+        transformRawValue={movePrefixToFront}
+        onValueChange={onValueChangeSpy}
+      />
+    );
+
+    userEvent.paste(screen.getByRole('textbox'), '12$');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('12', undefined, {
+      float: 12,
+      formatted: '$12',
+      value: '12',
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue('$12');
+  });
 });

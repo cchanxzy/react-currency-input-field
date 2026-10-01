@@ -203,6 +203,11 @@ describe('formatValue', () => {
     ).toEqual('$30');
   });
 
+  it('should pad to at most 20 decimals if decimalScale is above 20', () => {
+    expect(() => formatValue({ value: '1', decimalScale: 25 })).not.toThrow();
+    expect(formatValue({ value: '1', decimalScale: 25 })).toEqual(`1.${'0'.repeat(20)}`);
+  });
+
   it('should keep trailing zero decimals when prefix contains the decimal separator', () => {
     expect(
       formatValue({

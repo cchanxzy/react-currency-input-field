@@ -171,6 +171,18 @@ describe('cleanValue', () => {
         })
       ).toEqual('1000');
     });
+
+    it('should return an empty string for a lone minus sign if allowNegativeValue is false', () => {
+      expect(cleanValue({ value: '-', allowNegativeValue: false })).toEqual('');
+    });
+
+    it('should keep the minus sign before a leading decimal separator with a prefix', () => {
+      expect(cleanValue({ value: '-.', prefix: '$' })).toEqual('-.');
+      expect(cleanValue({ value: '-.5', prefix: '$' })).toEqual('-.5');
+      expect(
+        cleanValue({ value: '-,5', prefix: 'R$', decimalSeparator: ',', groupSeparator: '.' })
+      ).toEqual('-,5');
+    });
   });
 
   it('should handle values placed before prefix', () => {
@@ -267,6 +279,77 @@ describe('cleanValue', () => {
       ).toEqual('');
     });
 
+    it('should handle floating-point precision issues in abbreviations', () => {
+      expect(
+        cleanValue({
+          value: '4.1m',
+        })
+      ).toEqual('4100000');
+
+      expect(
+        cleanValue({
+          value: '-4.11B',
+        })
+      ).toEqual('-4110000000');
+
+      expect(
+        cleanValue({
+          value: '1.025m',
+        })
+      ).toEqual('1025000');
+
+      expect(
+        cleanValue({
+          value: '2.1k',
+        })
+      ).toEqual('2100');
+
+      expect(
+        cleanValue({
+          value: '3.1m',
+        })
+      ).toEqual('3100000');
+    });
+
+    it('should apply decimalsLimit to an expanded abbreviation', () => {
+      expect(cleanValue({ value: '1.2345678k', decimalsLimit: 2 })).toEqual('1234.56');
+    });
+
+    it('should drop the decimals of an expanded abbreviation if decimals are not allowed', () => {
+      expect(cleanValue({ value: '1.2345k', allowDecimals: false })).toEqual('1234');
+    });
+
+    it('should report a "." decimal in an expanded abbreviation with a comma decimal separator', () => {
+      expect(cleanValue({ value: '1,2345k', decimalSeparator: ',', groupSeparator: '.' })).toEqual(
+        '1234.5'
+      );
+      expect(
+        cleanValue({ value: '1,2345678k', decimalSeparator: ',', groupSeparator: '.' })
+      ).toEqual('1234.56');
+      expect(cleanValue({ value: '4,1m', decimalSeparator: ',', groupSeparator: '.' })).toEqual(
+        '4100000'
+      );
+    });
+
+    it('should expand abbreviations of values below one', () => {
+      expect(cleanValue({ value: '0.5k' })).toEqual('500');
+    });
+
+    it('should expand an abbreviation of zero to 0', () => {
+      expect(cleanValue({ value: '0k' })).toEqual('0');
+      expect(cleanValue({ value: '0.0k' })).toEqual('0');
+      expect(cleanValue({ value: '00m' })).toEqual('0');
+    });
+
+    it('should drop trailing zeros from the decimals of an expanded abbreviation', () => {
+      expect(cleanValue({ value: '1.50000k' })).toEqual('1500');
+      expect(cleanValue({ value: '1.23450k', decimalsLimit: 3 })).toEqual('1234.5');
+    });
+
+    it('should keep large expanded abbreviations exact', () => {
+      expect(cleanValue({ value: '123456789.123b' })).toEqual('123456789123000000');
+    });
+
     it('should ignore abbreviations if disableAbbreviations is true', () => {
       expect(
         cleanValue({
@@ -296,6 +379,15 @@ describe('cleanValue', () => {
         })
       ).toEqual('9');
     });
+  });
+
+  it('should look for a digit before the prefix in the transformed value', () => {
+    const movePrefixToFront = (rawValue: string) =>
+      rawValue.endsWith('$') ? `$${rawValue.slice(0, -1)}` : rawValue;
+
+    expect(cleanValue({ value: '12$', prefix: '$', transformRawValue: movePrefixToFront })).toEqual(
+      '12'
+    );
   });
 
   it('should keep a U+2212 minus sign as a negative sign', () => {

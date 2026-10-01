@@ -40,7 +40,8 @@ export const formatValue = (options: FormatValueOptions): string => {
 
   const defaultNumberFormatOptions = {
     ...formatOptions,
-    minimumFractionDigits: decimalScale || 0,
+    // Intl allows at most 20 fraction digits, and throws if minimum is more than maximum
+    minimumFractionDigits: Math.min(Math.max(decimalScale || 0, 0), 20),
     maximumFractionDigits: 20,
   };
 
