@@ -77,14 +77,14 @@ This will open the page in `http://localhost:1234/`.
 
 ## Commands
 
-| Command                     | What it does                                                                                         |
-| --------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `pnpm check`                | Everything CI checks: Prettier, ESLint, the type checks and the unit tests                           |
-| `pnpm test`                 | Unit tests (Jest). Add a pattern to run some of them, for example `pnpm test CurrencyInput-decimals` |
-| `pnpm lint`                 | ESLint, with zero warnings allowed                                                                   |
-| `pnpm typecheck`            | Type-checks the library, the unit tests, and the demo, e2e tests and tool configs                    |
-| `pnpm build`                | Builds the package into `dist/` (ESM and CJS bundles plus type declarations)                         |
-| `pnpm exec playwright test` | End-to-end tests. Builds the production demo and serves it on port 1234 first                        |
+| Command                     | What it does                                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `pnpm check`                | Everything CI checks: Prettier, ESLint, the type checks and the unit tests                             |
+| `pnpm test`                 | Unit tests (Jest). Add a pattern to run some of them, for example `pnpm test CurrencyInput-decimals`   |
+| `pnpm lint`                 | ESLint, with zero warnings allowed                                                                     |
+| `pnpm typecheck`            | Type-checks the library, the unit tests, and the demo, e2e tests and tool configs                      |
+| `pnpm build`                | Builds the package into `dist/` (ESM and CJS bundles plus type declarations). See [BUILD.md](BUILD.md) |
+| `pnpm exec playwright test` | End-to-end tests. Builds the production demo and serves it on port 1234 first                          |
 
 `package.json` lists the rest.
 
