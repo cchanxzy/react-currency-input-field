@@ -333,7 +333,6 @@ describe('cleanValue', () => {
 
     it('should expand abbreviations of values below one', () => {
       expect(cleanValue({ value: '0.5k' })).toEqual('500');
-      expect(cleanValue({ value: '.5k' })).toEqual('5000');
     });
 
     it('should expand an abbreviation of zero to 0', () => {

@@ -9,7 +9,9 @@ export type FormatValueOptions = {
   /**
    * Decimal separator
    *
-   * Default: the locale's decimal separator
+   * Default: the decimal separator of `intlConfig.locale`, or of the runtime's
+   * locale if there's no `intlConfig`. Without it, `value` must use `.` as its
+   * decimal separator.
    */
   decimalSeparator?: string;
 

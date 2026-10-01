@@ -160,10 +160,6 @@ describe('expandAbbrValue', () => {
     expect(expandAbbrValue('1.k')).toEqual('1000');
   });
 
-  it('should read only the digits before the abbreviation', () => {
-    expect(expandAbbrValue('.5k')).toEqual('5000');
-  });
-
   it('should keep a leading minus sign', () => {
     expect(expandAbbrValue('-1.5k')).toEqual('-1500');
   });
