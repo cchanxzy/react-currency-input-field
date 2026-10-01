@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import CurrencyInput from '../CurrencyInput';
@@ -91,26 +91,29 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£0.00');
   });
 
-  it('Renders with value 0.1 with decimalScale 2', () => {
+  it('Renders with value 0.1 with decimalScale 2', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput value={0.1} prefix="£" decimalScale={2} />);
 
     expect(screen.getByRole('textbox')).toHaveValue('£0.10');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+    await user.type(screen.getByRole('textbox'), '{Backspace}');
 
     expect(screen.getByRole('textbox')).toHaveValue('£0.1');
   });
 
-  it('should go to end of string on focus', () => {
+  it('should go to end of string on focus', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput defaultValue={123} />);
-    userEvent.type(screen.getByRole('textbox'), '{arrowleft}4{arrowright}6');
+    await user.type(screen.getByRole('textbox'), '{ArrowLeft}4{ArrowRight}6');
 
     expect(screen.getByRole('textbox')).toHaveValue('12,436');
   });
 
-  it('should allow value change with number', () => {
+  it('should allow value change with number', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '100');
+    await user.type(screen.getByRole('textbox'), '100');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('100', undefined, {
       float: 100,
@@ -125,9 +128,10 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
-  it('should allow 0 value on change', () => {
+  it('should allow 0 value on change', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '0');
+    await user.type(screen.getByRole('textbox'), '0');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('0', undefined, {
       float: 0,
@@ -138,9 +142,10 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£0');
   });
 
-  it('should allow empty value', () => {
+  it('should allow empty value', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} defaultValue={1} />);
-    userEvent.clear(screen.getByRole('textbox'));
+    await user.clear(screen.getByRole('textbox'));
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
       float: null,
@@ -151,10 +156,11 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('should callback name as second parameter if name prop provided', () => {
+  it('should callback name as second parameter if name prop provided', async () => {
+    const user = userEvent.setup();
     const name = 'inputName';
     render(<CurrencyInput name={name} prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '123');
+    await user.type(screen.getByRole('textbox'), '123');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', name, {
       float: 123,
@@ -163,9 +169,10 @@ describe('<CurrencyInput/>', () => {
     });
   });
 
-  it('should not allow invalid characters', () => {
+  it('should not allow invalid characters', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), 'hello');
+    await user.type(screen.getByRole('textbox'), 'hello');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
       float: null,
@@ -176,9 +183,10 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('should ignore invalid characters', () => {
+  it('should ignore invalid characters', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '£123hello');
+    await user.type(screen.getByRole('textbox'), '£123hello');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', undefined, {
       float: 123,
@@ -189,9 +197,10 @@ describe('<CurrencyInput/>', () => {
     expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
-  it('should clear decimal point only input', () => {
+  it('should clear decimal point only input', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '.');
+    await user.type(screen.getByRole('textbox'), '.');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
       float: null,
@@ -199,13 +208,14 @@ describe('<CurrencyInput/>', () => {
       value: '',
     });
 
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.tab();
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('should allow .3 decimal inputs', () => {
+  it('should allow .3 decimal inputs', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" onValueChange={onValueChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '.3');
+    await user.type(screen.getByRole('textbox'), '.3');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('.3', undefined, {
       float: 0.3,
@@ -213,49 +223,54 @@ describe('<CurrencyInput/>', () => {
       value: '.3',
     });
 
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.tab();
     expect(screen.getByRole('textbox')).toHaveValue('£0.3');
   });
 
-  it('should call onChange', () => {
+  it('should call onChange', async () => {
+    const user = userEvent.setup();
     const onChangeSpy = jest.fn();
     render(<CurrencyInput prefix="£" onChange={onChangeSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '123');
+    await user.type(screen.getByRole('textbox'), '123');
 
     expect(onChangeSpy).toHaveBeenCalledTimes(3);
 
     expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
-  it('should call onBlur', () => {
+  it('should call onBlur', async () => {
+    const user = userEvent.setup();
     const onBlurSpy = jest.fn();
     render(<CurrencyInput prefix="£" onBlur={onBlurSpy} />);
-    userEvent.click(screen.getByRole('textbox'));
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.click(screen.getByRole('textbox'));
+    await user.tab();
 
     expect(onBlurSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call onFocus', () => {
+  it('should call onFocus', async () => {
+    const user = userEvent.setup();
     const onFocusSpy = jest.fn();
     render(<CurrencyInput onFocus={onFocusSpy} />);
-    fireEvent.focusIn(screen.getByRole('textbox'));
+    await user.click(screen.getByRole('textbox'));
 
     expect(onFocusSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call onKeyDown', () => {
+  it('should call onKeyDown', async () => {
+    const user = userEvent.setup();
     const onKeyDownSpy = jest.fn();
     render(<CurrencyInput onKeyDown={onKeyDownSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1');
+    await user.type(screen.getByRole('textbox'), '1');
 
     expect(onKeyDownSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call onKeyUp', () => {
+  it('should call onKeyUp', async () => {
+    const user = userEvent.setup();
     const onKeyUpSpy = jest.fn();
     render(<CurrencyInput onKeyUp={onKeyUpSpy} />);
-    userEvent.type(screen.getByRole('textbox'), '1');
+    await user.type(screen.getByRole('textbox'), '1');
 
     expect(onKeyUpSpy).toHaveBeenCalledTimes(1);
   });

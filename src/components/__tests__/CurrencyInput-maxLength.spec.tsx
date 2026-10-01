@@ -11,20 +11,22 @@ describe('<CurrencyInput/> maxLength', () => {
     jest.clearAllMocks();
   });
 
-  it('should not allow more values than max length', () => {
+  it('should not allow more values than max length', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput prefix="£" onValueChange={onValueChangeSpy} maxLength={3} defaultValue={123} />
     );
 
     expect(screen.getByRole('textbox')).toHaveValue('£123');
 
-    userEvent.type(screen.getByRole('textbox'), '4');
+    await user.type(screen.getByRole('textbox'), '4');
     expect(onValueChangeSpy).not.toBeCalled();
 
     expect(screen.getByRole('textbox')).toHaveValue('£123');
   });
 
-  it('should apply max length rule to negative value', () => {
+  it('should apply max length rule to negative value', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         prefix="£"
@@ -36,11 +38,11 @@ describe('<CurrencyInput/> maxLength', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('-£123');
 
-    userEvent.type(screen.getByRole('textbox'), '4');
+    await user.type(screen.getByRole('textbox'), '4');
     expect(onValueChangeSpy).not.toBeCalled();
     expect(screen.getByRole('textbox')).toHaveValue('-£123');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}5');
+    await user.type(screen.getByRole('textbox'), '{Backspace}5');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('-125', undefined, {
       float: -125,
       formatted: '-£125',

@@ -132,6 +132,17 @@ export default defineConfig(
     },
   },
   {
+    // user-event calls return promises; a missing await lets a test assert
+    // before the events have run.
+    files: ['src/**/__tests__/**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'error',
+    },
+  },
+  {
     // Jest only runs *.spec.ts(x) (see jest.config.ts), so flag test code in
     // any other file, which would otherwise be skipped without any error.
     // Shared helpers and fixtures in __tests__ have no test calls, so pass.

@@ -9,7 +9,8 @@ describe('<CurrencyInput/> transformRawValue', () => {
     jest.clearAllMocks();
   });
 
-  it('should transform the value', () => {
+  it('should transform the value', async () => {
+    const user = userEvent.setup();
     const onValueChangeSpy = jest.fn();
 
     render(
@@ -21,7 +22,7 @@ describe('<CurrencyInput/> transformRawValue', () => {
       />
     );
 
-    userEvent.type(screen.getByRole('textbox'), '1234,5');
+    await user.type(screen.getByRole('textbox'), '1234,5');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234.5', undefined, {
       float: 1234.5,
       formatted: '$1,234.5',
@@ -31,7 +32,8 @@ describe('<CurrencyInput/> transformRawValue', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$1,234.5');
   });
 
-  it('should read the prefix position from the transformed value', () => {
+  it('should read the prefix position from the transformed value', async () => {
+    const user = userEvent.setup();
     const onValueChangeSpy = jest.fn();
     const movePrefixToFront = (rawValue: string) =>
       rawValue.endsWith('$') ? `$${rawValue.slice(0, -1)}` : rawValue;
@@ -44,7 +46,9 @@ describe('<CurrencyInput/> transformRawValue', () => {
       />
     );
 
-    userEvent.paste(screen.getByRole('textbox'), '12$');
+    await user.click(screen.getByRole('textbox'));
+
+    await user.paste('12$');
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('12', undefined, {
       float: 12,
       formatted: '$12',
