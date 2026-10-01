@@ -1,3 +1,10 @@
+## [4.0.12](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.11...v4.0.12) (2026-10-01)
+
+
+### Bug Fixes
+
+* load the ESM build and its types correctly on every Node version ([#447](https://github.com/cchanxzy/react-currency-input-field/issues/447)) ([97f238a](https://github.com/cchanxzy/react-currency-input-field/commit/97f238a6fa4b05d6ace6ea17c409dbd4ec2651d4))
+
 ## [4.0.11](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.10...v4.0.11) (2026-10-01)
 
 
