@@ -68,5 +68,49 @@ describe('<CurrencyInput/> fixedDecimalLength', () => {
 
       expect(screen.getByRole('textbox')).toHaveValue('$1.23');
     });
+
+    it('should pad a short decimal on blur instead of moving the point', () => {
+      render(
+        <CurrencyInput
+          prefix="$"
+          onValueChange={onValueChangeSpy}
+          fixedDecimalLength={2}
+          decimalScale={2}
+        />
+      );
+
+      userEvent.type(screen.getByRole('textbox'), '123.4');
+      fireEvent.focusOut(screen.getByRole('textbox'));
+
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('123.40', undefined, {
+        float: 123.4,
+        formatted: '$123.40',
+        value: '123.40',
+      });
+
+      expect(screen.getByRole('textbox')).toHaveValue('$123.40');
+    });
+
+    it('should keep the sign when fixed decimal length moves the point on blur', () => {
+      render(
+        <CurrencyInput
+          prefix="$"
+          onValueChange={onValueChangeSpy}
+          fixedDecimalLength={2}
+          decimalScale={2}
+        />
+      );
+
+      userEvent.type(screen.getByRole('textbox'), '-123');
+      fireEvent.focusOut(screen.getByRole('textbox'));
+
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('-1.23', undefined, {
+        float: -1.23,
+        formatted: '-$1.23',
+        value: '-1.23',
+      });
+
+      expect(screen.getByRole('textbox')).toHaveValue('-$1.23');
+    });
   });
 });
