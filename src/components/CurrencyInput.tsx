@@ -280,18 +280,16 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         event.preventDefault();
         setCursor(stateValue.length);
 
-        const stringValue = userValue != null ? String(userValue) : undefined;
-        const stringValueWithoutSeparator =
-          decimalSeparator && stringValue
-            ? stringValue.replace(decimalSeparator, '.')
-            : stringValue;
+        // parseFloat only reads "." as a decimal point, eg. "12,5" would be 12, so swap the separator
+        const stringValue =
+          userValue != null
+            ? String(userValue)
+            : cleanValue({ value: stateValue, ...cleanValueOptions });
+        const stringValueWithoutSeparator = decimalSeparator
+          ? stringValue.replace(decimalSeparator, '.')
+          : stringValue;
 
-        const currentValue =
-          parseFloat(
-            stringValueWithoutSeparator != null
-              ? stringValueWithoutSeparator
-              : cleanValue({ value: stateValue, ...cleanValueOptions })
-          ) || 0;
+        const currentValue = parseFloat(stringValueWithoutSeparator) || 0;
         const newValue = key === 'ArrowUp' ? currentValue + step : currentValue - step;
 
         if (

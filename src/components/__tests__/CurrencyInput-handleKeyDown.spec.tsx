@@ -833,4 +833,145 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       expect(onValueChangeSpy).not.toBeCalled();
     });
   });
+
+  describe('stepping with a comma decimal separator', () => {
+    it('should keep the decimals when stepping by an integer step', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={12.5}
+          step={1}
+          decimalSeparator=","
+          groupSeparator="."
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).toHaveValue('12,5');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('13,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('13,5', undefined, {
+        float: 13.5,
+        formatted: '13,5',
+        value: '13,5',
+      });
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('14,5');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('13,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('13,5', undefined, {
+        float: 13.5,
+        formatted: '13,5',
+        value: '13,5',
+      });
+    });
+
+    it('should keep stepping by a decimal step from a value with decimals', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={1234}
+          step={0.5}
+          decimalSeparator=","
+          groupSeparator="."
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.234,5');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.235,0');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1235,0', undefined, {
+        float: 1235,
+        formatted: '1.235,0',
+        value: '1235,0',
+      });
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.234,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234,5', undefined, {
+        float: 1234.5,
+        formatted: '1.234,5',
+        value: '1234,5',
+      });
+    });
+
+    it('should keep the decimals when stepping a negative value', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={-12.5}
+          step={1}
+          decimalSeparator=","
+          groupSeparator="."
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('-13,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('-13,5', undefined, {
+        float: -13.5,
+        formatted: '-13,5',
+        value: '-13,5',
+      });
+    });
+
+    it('should keep the decimals when stepping with a comma locale from intlConfig', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          intlConfig={{ locale: 'de-DE', currency: 'EUR' }}
+          defaultValue={12.5}
+          step={1}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).toHaveValue('12,5\u00a0€');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('13,5\u00a0€');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('13,5', undefined, {
+        float: 13.5,
+        formatted: '13,5\u00a0€',
+        value: '13,5',
+      });
+    });
+
+    it('should keep the decimals when stepping a controlled input', async () => {
+      const user = userEvent.setup();
+      const ControlledCurrencyInput = () => {
+        const [value, setValue] = useState<string | undefined>('12,5');
+        return (
+          <CurrencyInput
+            step={1}
+            decimalSeparator=","
+            groupSeparator="."
+            value={value}
+            onValueChange={(value, name, values) => {
+              setValue(value);
+              return onValueChangeSpy(value, name, values);
+            }}
+          />
+        );
+      };
+
+      render(<ControlledCurrencyInput />);
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('14,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('14,5', undefined, {
+        float: 14.5,
+        formatted: '14,5',
+        value: '14,5',
+      });
+    });
+  });
 });
