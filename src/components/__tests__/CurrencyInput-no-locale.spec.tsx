@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import CurrencyInput from '../CurrencyInput';
 import { getLocaleConfig } from '../utils';
 
+// eslint-disable-next-line no-restricted-properties -- Node ships full ICU, so no real locale lacks separators
 jest.mock('../utils/getLocaleConfig', () => ({
   getLocaleConfig: jest.fn().mockReturnValue({ groupSeparator: ',', decimalSeparator: '.' }),
 }));

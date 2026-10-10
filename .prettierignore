@@ -1,0 +1,8 @@
+dist
+demo
+coverage
+playwright-report
+test-results
+.parcel-cache
+pnpm-lock.yaml
+CHANGELOG.md

@@ -11,7 +11,8 @@ describe('<CurrencyInput/> backspace', () => {
     jest.clearAllMocks();
   });
 
-  it('should handle backspace with suffix', () => {
+  it('should handle backspace with suffix', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         onValueChange={onValueChangeSpy}
@@ -23,7 +24,7 @@ describe('<CurrencyInput/> backspace', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('12,34\xa0€');
 
-    userEvent.type(screen.getByRole('textbox'), '56');
+    await user.type(screen.getByRole('textbox'), '56');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('12,3456', undefined, {
       float: 12.3456,
@@ -32,7 +33,7 @@ describe('<CurrencyInput/> backspace', () => {
     });
     expect(screen.getByRole('textbox')).toHaveValue('12,3456\xa0€');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}{backspace}{backspace}');
+    await user.keyboard('{Backspace}{Backspace}{Backspace}');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('12,3', undefined, {
       float: 12.3,
@@ -42,7 +43,8 @@ describe('<CurrencyInput/> backspace', () => {
     expect(screen.getByRole('textbox')).toHaveValue('12,3\xa0€');
   });
 
-  it('should handle backspace with default value and decimal scale', () => {
+  it('should handle backspace with default value and decimal scale', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         defaultValue="1"
@@ -54,7 +56,7 @@ describe('<CurrencyInput/> backspace', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('£1.00');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+    await user.type(screen.getByRole('textbox'), '{Backspace}');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.0', undefined, {
       float: 1,
@@ -63,7 +65,7 @@ describe('<CurrencyInput/> backspace', () => {
     });
     expect(screen.getByRole('textbox')).toHaveValue('£1.0');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+    await user.type(screen.getByRole('textbox'), '{Backspace}');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.', undefined, {
       float: 1,
@@ -72,7 +74,7 @@ describe('<CurrencyInput/> backspace', () => {
     });
     expect(screen.getByRole('textbox')).toHaveValue('£1.');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+    await user.type(screen.getByRole('textbox'), '{Backspace}');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('1', undefined, {
       float: 1,
@@ -81,7 +83,7 @@ describe('<CurrencyInput/> backspace', () => {
     });
     expect(screen.getByRole('textbox')).toHaveValue('£1');
 
-    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+    await user.type(screen.getByRole('textbox'), '{Backspace}');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
       float: null,
@@ -91,7 +93,8 @@ describe('<CurrencyInput/> backspace', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('should handle Del key without moving cursor', () => {
+  it('should handle Del key without moving cursor', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         defaultValue=""
@@ -102,7 +105,7 @@ describe('<CurrencyInput/> backspace', () => {
       />
     );
 
-    userEvent.type(screen.getByRole('textbox'), '123456789');
+    await user.type(screen.getByRole('textbox'), '123456789');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('123456789', undefined, {
       float: 123456789,
@@ -111,7 +114,7 @@ describe('<CurrencyInput/> backspace', () => {
     });
     expect(screen.getByRole('textbox')).toHaveValue('$123,456,789');
 
-    userEvent.type(screen.getByRole('textbox'), '{arrowleft}{arrowleft}{arrowleft}{del}');
+    await user.type(screen.getByRole('textbox'), '{ArrowLeft}{ArrowLeft}{ArrowLeft}{Delete}');
 
     expect(onValueChangeSpy).toHaveBeenLastCalledWith('12345689', undefined, {
       float: 12345689,
@@ -121,47 +124,51 @@ describe('<CurrencyInput/> backspace', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$12,345,689');
   });
 
-  it('should handle backspace character when no prefix', () => {
+  it('should handle backspace character when no prefix', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="" defaultValue="12345" groupSeparator="," />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,345');
 
-    userEvent.type(input, '{arrowleft}{arrowleft}{arrowleft}{backspace}');
+    await user.type(input, '{ArrowLeft}{ArrowLeft}{ArrowLeft}{Backspace}');
 
     expect(input).toHaveValue('1,345');
   });
 
-  it('should handle delete character left of group separator correctly', () => {
+  it('should handle delete character left of group separator correctly', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" defaultValue="1234" groupSeparator="," />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('£1,234');
 
-    userEvent.type(input, '{arrowleft}{arrowleft}{arrowleft}{arrowleft}{del}');
+    await user.type(input, '{ArrowLeft}{ArrowLeft}{ArrowLeft}{ArrowLeft}{Delete}');
 
     expect(input).toHaveValue('£134');
   });
 
-  it('should handle backspace at the beginning of the input when prefix exists', () => {
+  it('should handle backspace at the beginning of the input when prefix exists', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="£" defaultValue="12345" groupSeparator="," />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('£12,345');
 
-    userEvent.type(
+    await user.type(
       input,
-      '{backspace}{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}'
+      '{Backspace}{ArrowLeft}{ArrowLeft}{ArrowLeft}{Backspace}{Backspace}{Backspace}'
     );
 
     expect(input).toHaveValue('£234');
   });
 
-  it('should handle backspace at the beginning of the input when no prefix exists', () => {
+  it('should handle backspace at the beginning of the input when no prefix exists', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput prefix="" defaultValue="12345" groupSeparator="," />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,345');
 
-    userEvent.type(
+    await user.type(
       input,
-      '{backspace}{arrowleft}{arrowleft}{arrowleft}{backspace}{backspace}{backspace}'
+      '{Backspace}{ArrowLeft}{ArrowLeft}{ArrowLeft}{Backspace}{Backspace}{Backspace}'
     );
 
     expect(input).toHaveValue('234');

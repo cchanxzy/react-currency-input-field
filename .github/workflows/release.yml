@@ -2,10 +2,15 @@ name: Release
 on:
   push:
     branches:
+      # Keep in sync with `branches` in .releaserc.yml.
       - main
       - beta
       - alpha
       - experimental
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -17,30 +22,28 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24]
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version-file: '.nvmrc'
+          # No dependency cache in a job that publishes: a poisoned cache would
+          # run with this job's tokens. setup-node's README advises the same.
+          package-manager-cache: false
       - name: Install dependencies
         run: pnpm install
       - name: Build package
         run: pnpm build
-      - name: Run tests
-        run: pnpm test-ci
-      - name: Code coverage
-        uses: codecov/codecov-action@v5
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Run checks
+        run: pnpm check
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # @semantic-release/git makes the release commit. Skip the husky hooks: checks
+          # already ran above, and commitlint rejects changelog lines over 100 characters.
+          HUSKY: '0'
         run: pnpm semantic-release

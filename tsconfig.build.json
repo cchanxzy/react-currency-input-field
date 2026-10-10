@@ -1,0 +1,13 @@
+// Emits the published type declarations for the library only.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist",
+    "outDir": "dist"
+  },
+  "files": ["src/index.ts"],
+  "include": []
+}

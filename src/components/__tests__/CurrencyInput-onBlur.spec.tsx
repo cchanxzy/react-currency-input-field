@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import CurrencyInput from '../CurrencyInput';
@@ -15,7 +15,8 @@ describe('<CurrencyInput/> onBlur', () => {
     jest.clearAllMocks();
   });
 
-  it('should call onBlur and onValueChange', () => {
+  it('should call onBlur and onValueChange', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         name={name}
@@ -26,8 +27,8 @@ describe('<CurrencyInput/> onBlur', () => {
       />
     );
 
-    userEvent.type(screen.getByRole('textbox'), '123');
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.type(screen.getByRole('textbox'), '123');
+    await user.tab();
 
     expect(onBlurSpy).toHaveBeenCalled();
 
@@ -40,7 +41,8 @@ describe('<CurrencyInput/> onBlur', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$123.00');
   });
 
-  it('should call onBlur, but not onValueChange', () => {
+  it('should call onBlur, but not onValueChange', async () => {
+    const user = userEvent.setup();
     render(
       <CurrencyInput
         name={name}
@@ -52,8 +54,8 @@ describe('<CurrencyInput/> onBlur', () => {
       />
     );
 
-    userEvent.type(screen.getByRole('textbox'), '123');
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.type(screen.getByRole('textbox'), '123');
+    await user.tab();
 
     expect(onBlurSpy).toHaveBeenCalled();
 
@@ -61,32 +63,36 @@ describe('<CurrencyInput/> onBlur', () => {
     expect(screen.getByRole('textbox')).toHaveValue('$123.00');
   });
 
-  it('should call onBlur for 0', () => {
+  it('should call onBlur for 0', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    userEvent.type(screen.getByRole('textbox'), '0');
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.type(screen.getByRole('textbox'), '0');
+    await user.tab();
 
     expect(onBlurSpy).toHaveBeenCalled();
 
     expect(screen.getByRole('textbox')).toHaveValue('$0');
   });
 
-  it('should call onBlur for empty value', () => {
+  it('should call onBlur for empty value', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.click(screen.getByRole('textbox'));
+    await user.tab();
 
     expect(onBlurSpy).toHaveBeenCalled();
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('should call onBlur for "-" char', () => {
+  it('should call onBlur for "-" char', async () => {
+    const user = userEvent.setup();
     render(<CurrencyInput name={name} prefix="$" onBlur={onBlurSpy} />);
 
-    userEvent.type(screen.getByRole('textbox'), '-');
-    fireEvent.focusOut(screen.getByRole('textbox'));
+    await user.type(screen.getByRole('textbox'), '-');
+    await user.tab();
 
     expect(onBlurSpy).toHaveBeenCalled();
 

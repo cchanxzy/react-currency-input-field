@@ -1,3 +1,35 @@
+## [4.0.12](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.11...v4.0.12) (2026-10-01)
+
+
+### Bug Fixes
+
+* load the ESM build and its types correctly on every Node version ([#447](https://github.com/cchanxzy/react-currency-input-field/issues/447)) ([97f238a](https://github.com/cchanxzy/react-currency-input-field/commit/97f238a6fa4b05d6ace6ea17c409dbd4ec2651d4))
+
+## [4.0.11](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.10...v4.0.11) (2026-10-01)
+
+
+### Bug Fixes
+
+* correct abbreviations, stepping and other input edge cases ([#444](https://github.com/cchanxzy/react-currency-input-field/issues/444)) ([ee3ddd3](https://github.com/cchanxzy/react-currency-input-field/commit/ee3ddd3d3bf3f1b2e33e182c586df18941ef6d3b))
+
+## [4.0.10](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.9...v4.0.10) (2026-09-30)
+
+
+### Bug Fixes
+
+* keep U+2212 negatives and format long integers exactly ([#442](https://github.com/cchanxzy/react-currency-input-field/issues/442)) ([607afb4](https://github.com/cchanxzy/react-currency-input-field/commit/607afb474efed918acfec7ce31272f0fd953d71c))
+
+## [4.0.9](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.8...v4.0.9) (2026-09-30)
+
+## [4.0.8](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.7...v4.0.8) (2026-09-29)
+
+## [4.0.7](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.6...v4.0.7) (2026-09-27)
+
+
+### Bug Fixes
+
+* **examples:** restore demo page rendering ([#431](https://github.com/cchanxzy/react-currency-input-field/issues/431)) ([ab70e42](https://github.com/cchanxzy/react-currency-input-field/commit/ab70e42ac3d3f26d8984f6e384f93b217b496cf3))
+
 ## [4.0.6](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.5...v4.0.6) (2026-07-14)
 
 

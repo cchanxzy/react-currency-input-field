@@ -203,6 +203,11 @@ describe('formatValue', () => {
     ).toEqual('$30');
   });
 
+  it('should pad to at most 20 decimals if decimalScale is above 20', () => {
+    expect(() => formatValue({ value: '1', decimalScale: 25 })).not.toThrow();
+    expect(formatValue({ value: '1', decimalScale: 25 })).toEqual(`1.${'0'.repeat(20)}`);
+  });
+
   it('should keep trailing zero decimals when prefix contains the decimal separator', () => {
     expect(
       formatValue({
@@ -609,6 +614,20 @@ describe('formatValue', () => {
           decimalScale: 2,
         })
       ).toEqual(`123,00`);
+    });
+  });
+
+  describe('long integers', () => {
+    it('should format an integer beyond 2^53 exactly', () => {
+      expect(formatValue({ value: '9007199254740993', intlConfig: { locale: 'en-US' } })).toEqual(
+        '9,007,199,254,740,993'
+      );
+    });
+
+    it('should format a 20-digit integer exactly', () => {
+      expect(
+        formatValue({ value: '12345678901234567890', intlConfig: { locale: 'en-US' } })
+      ).toEqual('12,345,678,901,234,567,890');
     });
   });
 });

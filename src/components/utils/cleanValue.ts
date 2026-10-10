@@ -1,8 +1,8 @@
-import { parseAbbrValue } from './parseAbbrValue';
+import type { CurrencyInputProps } from '../CurrencyInputProps';
+import { expandAbbrValue } from './parseAbbrValue';
 import { removeSeparators } from './removeSeparators';
 import { removeInvalidChars } from './removeInvalidChars';
 import { escapeRegExp } from './escapeRegExp';
-import { CurrencyInputProps } from '../CurrencyInputProps';
 
 export type CleanValueOptions = Pick<
   CurrencyInputProps,
@@ -20,7 +20,7 @@ export type CleanValueOptions = Pick<
  * Remove prefix, separators and extra decimals from value
  */
 export const cleanValue = ({
-  value,
+  value: rawInput,
   groupSeparator = ',',
   decimalSeparator = '.',
   allowDecimals = true,
@@ -30,18 +30,23 @@ export const cleanValue = ({
   prefix = '',
   transformRawValue = (rawValue) => rawValue,
 }: CleanValueOptions): string => {
+  // Intl uses U+2212 for the minus sign in some locales
+  const value = rawInput.replace(/\u2212/g, '-');
   const transformedValue = transformRawValue(value);
 
   if (transformedValue === '-') {
-    return transformedValue;
+    return allowNegativeValue ? transformedValue : '';
   }
 
   const abbreviations = disableAbbreviations ? [] : ['k', 'm', 'b'];
-  const reg = new RegExp(`((^|\\D)-\\d)|(-${escapeRegExp(prefix)})`);
+  // A minus sign followed by the decimal separator, eg. -.5, is also negative
+  const negativeDecimal = decimalSeparator ? `|(^-${escapeRegExp(decimalSeparator)})` : '';
+  const reg = new RegExp(`((^|\\D)-\\d)|(-${escapeRegExp(prefix)})${negativeDecimal}`);
   const isNegative = reg.test(transformedValue);
 
   // Is there a digit before the prefix? eg. 1$
-  const [prefixWithValue, preValue] = RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(value) || [];
+  const [prefixWithValue, preValue] =
+    RegExp(`(\\d+)-?${escapeRegExp(prefix)}`).exec(transformedValue) || [];
   const withoutPrefix = prefix
     ? prefixWithValue
       ? transformedValue.replace(prefixWithValue, '').concat(preValue)
@@ -55,6 +60,7 @@ export const cleanValue = ({
   ]);
 
   let valueOnly = withoutInvalidChars;
+  let isAbbreviation = false;
 
   if (!disableAbbreviations) {
     // disallow letter without number
@@ -65,18 +71,22 @@ export const cleanValue = ({
     ) {
       return '';
     }
-    const parsed = parseAbbrValue(withoutInvalidChars, decimalSeparator);
-    if (parsed) {
-      valueOnly = String(parsed);
+    const parsed = expandAbbrValue(withoutInvalidChars, decimalSeparator);
+    if (parsed !== undefined) {
+      valueOnly = parsed;
+      isAbbreviation = true;
     }
   }
 
   const includeNegative = isNegative && allowNegativeValue ? '-' : '';
 
   if (decimalSeparator && valueOnly.includes(decimalSeparator)) {
-    const [int, decimals] = withoutInvalidChars.split(decimalSeparator);
+    const [int, decimals] = valueOnly.split(decimalSeparator);
     const trimmedDecimals = decimalsLimit && decimals ? decimals.slice(0, decimalsLimit) : decimals;
-    const includeDecimals = allowDecimals ? `${decimalSeparator}${trimmedDecimals}` : '';
+    // An expanded abbreviation reports its decimals with ".", as it always has, eg. 1,5k is 1500
+    // and 1,2345k is 1234.5 with a "," decimal separator
+    const outputSeparator = isAbbreviation ? '.' : decimalSeparator;
+    const includeDecimals = allowDecimals ? `${outputSeparator}${trimmedDecimals}` : '';
 
     return `${includeNegative}${int}${includeDecimals}`;
   }

@@ -1,4 +1,4 @@
-import React, { FC, useReducer } from 'react';
+import React, { type FC, useReducer } from 'react';
 import CurrencyInput, { formatValue } from '../index';
 
 type Field = {

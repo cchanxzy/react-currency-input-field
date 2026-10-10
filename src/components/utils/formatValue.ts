@@ -1,6 +1,6 @@
 import { escapeRegExp } from './escapeRegExp';
 import { getSuffix } from './getSuffix';
-import { FormatValueOptions } from './formatValue.types';
+import type { FormatValueOptions } from './formatValue.types';
 
 /**
  * Format value with decimal separator, group separator and prefix
@@ -40,7 +40,8 @@ export const formatValue = (options: FormatValueOptions): string => {
 
   const defaultNumberFormatOptions = {
     ...formatOptions,
-    minimumFractionDigits: decimalScale || 0,
+    // Intl allows at most 20 fraction digits, and throws if minimum is more than maximum
+    minimumFractionDigits: Math.min(Math.max(decimalScale || 0, 0), 20),
     maximumFractionDigits: 20,
   };
 
@@ -51,7 +52,9 @@ export const formatValue = (options: FormatValueOptions): string => {
       })
     : new Intl.NumberFormat(undefined, defaultNumberFormatOptions);
 
-  const parts = numberFormatter.formatToParts(Number(value));
+  // Intl.NumberFormat formats decimal strings exactly (Chrome 106, Firefox 116, Safari 15.4);
+  // older engines convert the string to a number as before
+  const parts = numberFormatter.formatToParts(value as unknown as number);
 
   let formatted = replaceParts(parts, options);
 

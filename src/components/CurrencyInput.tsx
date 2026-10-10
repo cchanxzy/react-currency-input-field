@@ -1,5 +1,5 @@
 import React, {
-  FC,
+  type FC,
   useState,
   useEffect,
   useRef,
@@ -7,17 +7,17 @@ import React, {
   useMemo,
   useImperativeHandle,
 } from 'react';
-import { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
+import type { CurrencyInputProps, CurrencyInputOnChangeValues } from './CurrencyInputProps';
 import {
+  type CleanValueOptions,
+  type FormatValueOptions,
   isNumber,
   cleanValue,
   fixedDecimalValue,
   formatValue,
   getLocaleConfig,
   padTrimValue,
-  CleanValueOptions,
   getSuffix,
-  FormatValueOptions,
   repositionCursor,
 } from './utils';
 
@@ -95,7 +95,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
     const cleanValueOptions: Partial<CleanValueOptions> = {
       decimalSeparator,
-      groupSeparator,
+      // With group separators disabled, the locale's group separator can be the same as the
+      // decimal separator (eg. "," in en locales). Keep it as the decimal separator
+      groupSeparator:
+        disableGroupSeparators && groupSeparator === decimalSeparator ? '' : groupSeparator,
       allowDecimals,
       decimalsLimit: decimalsLimit || fixedDecimalLength || 2,
       allowNegativeValue,
@@ -129,7 +132,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         value,
         lastKeyStroke,
         stateValue,
-        groupSeparator,
+        // Matches cleanValue, so a "," decimal separator isn't taken for a group separator
+        groupSeparator: cleanValueOptions.groupSeparator,
       });
 
       const stringValue = cleanValue({ value: modifiedValue, ...cleanValueOptions });
@@ -138,11 +142,19 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         return;
       }
 
-      if (stringValue === '' || stringValue === '-' || stringValue === decimalSeparator) {
-        onValueChange && onValueChange(undefined, name, { float: null, formatted: '', value: '' });
+      // A minus sign followed by the decimal separator is kept as typed, like a lone minus sign
+      const negativeDecimal = `-${decimalSeparator}`;
+
+      if (
+        stringValue === '' ||
+        stringValue === '-' ||
+        stringValue === decimalSeparator ||
+        stringValue === negativeDecimal
+      ) {
+        onValueChange?.(undefined, name, { float: null, formatted: '', value: '' });
         setStateValue(stringValue);
-        // Always sets cursor after '-' or decimalSeparator input
-        setCursor(1);
+        // Always sets cursor after '-', decimalSeparator or '-' and decimalSeparator input
+        setCursor(stringValue === negativeDecimal ? negativeDecimal.length : 1);
         return;
       }
 
@@ -160,7 +172,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (cursorPosition != null) {
         // Prevent cursor jumping
         let newCursor = cursorPosition + (formattedValue.length - value.length);
-        newCursor = newCursor <= 0 ? (prefix ? prefix.length : 0) : newCursor;
+        newCursor = newCursor <= 0 ? (prefix || localeConfig.prefix).length : newCursor;
 
         setCursor(newCursor);
         setChangeCount(changeCount + 1);
@@ -188,14 +200,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       processChange(value, selectionStart);
 
-      onChange && onChange(event);
+      onChange?.(event);
     };
 
     /**
      * Handle focus event
      */
     const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>): number => {
-      onFocus && onFocus(event);
+      onFocus?.(event);
       return stateValue ? stateValue.length : 0;
     };
 
@@ -211,9 +223,14 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
-      if (valueOnly === '-' || valueOnly === decimalSeparator || !valueOnly) {
+      if (
+        valueOnly === '-' ||
+        valueOnly === decimalSeparator ||
+        valueOnly === `-${decimalSeparator}` ||
+        !valueOnly
+      ) {
         setStateValue('');
-        onBlur && onBlur(event);
+        onBlur?.(event);
         return;
       }
 
@@ -246,7 +263,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       setStateValue(formattedValue);
 
-      onBlur && onBlur(event);
+      onBlur?.(event);
     };
 
     /**
@@ -288,19 +305,40 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
           return;
         }
 
-        const fixedLength = String(step).includes('.')
-          ? Number(String(step).split('.')[1].length)
-          : undefined;
+        const stepString = String(step);
+        const valueString = String(currentValue);
+        const stepDecimals = stepString.includes('.') ? stepString.split('.')[1].length : 0;
 
+        const toStepValue = (decimals: number): string =>
+          String(decimals ? newValue.toFixed(decimals) : newValue).replace('.', decimalSeparator);
+
+        // A decimal step rounds the result to the step decimals, eg. 1.25 + 0.1 = 1.4
+        const stepValue = toStepValue(stepDecimals);
+
+        // An integer step rounds to the value decimals to drop floating point errors,
+        // eg. 8.2 - 1 = 7.199999999999999. Numbers in exponent notation, and inputs without a
+        // decimal separator, are left as they are
+        const valueDecimals =
+          decimalSeparator && Number.isInteger(step) && /^-?\d+\.\d+$/.test(valueString)
+            ? valueString.split('.')[1].length
+            : 0;
+        const roundedValue = valueDecimals ? toStepValue(valueDecimals) : stepValue;
+
+        const toNumber = (value: string): number => {
+          const cleaned = cleanValue({ ...cleanValueOptions, value, transformRawValue: undefined });
+          return parseFloat(cleaned.replace(decimalSeparator, '.'));
+        };
+
+        // Only use the rounded value when it gives a different number, so results that were
+        // already right keep their digits, eg. 34.7 - 12 still shows 22.70
         processChange(
-          String(fixedLength ? newValue.toFixed(fixedLength) : newValue).replace(
-            '.',
-            decimalSeparator
-          )
+          roundedValue === stepValue || toNumber(roundedValue) === toNumber(stepValue)
+            ? stepValue
+            : roundedValue
         );
       }
 
-      onKeyDown && onKeyDown(event);
+      onKeyDown?.(event);
     };
 
     /**
@@ -325,7 +363,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         }
       }
 
-      onKeyUp && onKeyUp(event);
+      onKeyUp?.(event);
     };
 
     // Update state if userValue changes to undefined

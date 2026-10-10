@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
 import * as esbuild from 'esbuild';
 
 // Exports ESM
@@ -24,3 +25,9 @@ esbuild.build({
   minify: true,
   external: ['react'],
 });
+
+// Mark dist/esm as ESM, so every Node version loads index.js as a module.
+// Without it, Node reads the .js file as CommonJS, and only versions with
+// module syntax detection (20.19+, 22.12+) recover from that.
+mkdirSync('dist/esm', { recursive: true });
+writeFileSync('dist/esm/package.json', `${JSON.stringify({ type: 'module' })}\n`);
