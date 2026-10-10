@@ -220,5 +220,107 @@ describe('<CurrencyInput/> abbreviated', () => {
 
       expect(screen.getByRole('textbox')).toHaveValue('55');
     });
+
+    it('should ignore a letter after a decimal', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput onValueChange={onValueChangeSpy} disableAbbreviations />);
+      await user.type(screen.getByRole('textbox'), '1.5k');
+
+      expect(screen.getByRole('textbox')).toHaveValue('1.5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1.5', undefined, {
+        float: 1.5,
+        formatted: '1.5',
+        value: '1.5',
+      });
+    });
+
+    it('should ignore upper-case letters', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput onValueChange={onValueChangeSpy} disableAbbreviations />);
+
+      await user.type(screen.getByRole('textbox'), '1K');
+      expect(screen.getByRole('textbox')).toHaveValue('1');
+
+      await user.clear(screen.getByRole('textbox'));
+      await user.type(screen.getByRole('textbox'), '2M');
+      expect(screen.getByRole('textbox')).toHaveValue('2');
+
+      await user.clear(screen.getByRole('textbox'));
+      await user.type(screen.getByRole('textbox'), '3B');
+      expect(screen.getByRole('textbox')).toHaveValue('3');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('3', undefined, {
+        float: 3,
+        formatted: '3',
+        value: '3',
+      });
+    });
+
+    it('should ignore the letters of a pasted abbreviated value', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput onValueChange={onValueChangeSpy} disableAbbreviations />);
+
+      await user.click(screen.getByRole('textbox'));
+      await user.paste('2.5m');
+
+      expect(screen.getByRole('textbox')).toHaveValue('2.5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('2.5', undefined, {
+        float: 2.5,
+        formatted: '2.5',
+        value: '2.5',
+      });
+    });
+
+    it('should ignore abbreviations with a prefix', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput prefix="$" onValueChange={onValueChangeSpy} disableAbbreviations />);
+      await user.type(screen.getByRole('textbox'), '1234k');
+
+      expect(screen.getByRole('textbox')).toHaveValue('$1,234');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234', undefined, {
+        float: 1234,
+        formatted: '$1,234',
+        value: '1234',
+      });
+    });
+
+    it('should ignore abbreviations with intlConfig', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          intlConfig={{ locale: 'en-US', currency: 'USD' }}
+          onValueChange={onValueChangeSpy}
+          disableAbbreviations
+        />
+      );
+      await user.type(screen.getByRole('textbox'), '2m');
+
+      expect(screen.getByRole('textbox')).toHaveValue('$2');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('2', undefined, {
+        float: 2,
+        formatted: '$2',
+        value: '2',
+      });
+    });
+
+    it('should expand the same inputs when abbreviations are not disabled', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput onValueChange={onValueChangeSpy} />);
+
+      await user.type(screen.getByRole('textbox'), '1.5k');
+      expect(screen.getByRole('textbox')).toHaveValue('1,500');
+
+      await user.clear(screen.getByRole('textbox'));
+      await user.type(screen.getByRole('textbox'), '2M');
+      expect(screen.getByRole('textbox')).toHaveValue('2,000,000');
+
+      await user.clear(screen.getByRole('textbox'));
+      await user.paste('2.5m');
+      expect(screen.getByRole('textbox')).toHaveValue('2,500,000');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('2500000', undefined, {
+        float: 2500000,
+        formatted: '2,500,000',
+        value: '2500000',
+      });
+    });
   });
 });

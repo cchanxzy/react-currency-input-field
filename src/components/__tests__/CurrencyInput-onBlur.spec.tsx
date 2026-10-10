@@ -98,4 +98,110 @@ describe('<CurrencyInput/> onBlur', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
+
+  describe('formatValueOnBlur', () => {
+    it('should report the unpadded value but display the padded one when false', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          name={name}
+          prefix="$"
+          formatValueOnBlur={false}
+          decimalScale={2}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '123');
+      await user.tab();
+
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('123', name, {
+        float: 123,
+        formatted: '$123',
+        value: '123',
+      });
+      expect(screen.getByRole('textbox')).toHaveValue('$123.00');
+    });
+
+    it('should call onValueChange once with the padded value on blur by default', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput name={name} prefix="$" decimalScale={2} onValueChange={onValueChangeSpy} />
+      );
+
+      await user.type(screen.getByRole('textbox'), '123');
+      onValueChangeSpy.mockClear();
+
+      await user.tab();
+
+      expect(onValueChangeSpy).toHaveBeenCalledTimes(1);
+      expect(onValueChangeSpy).toHaveBeenCalledWith('123.00', name, {
+        float: 123,
+        formatted: '$123.00',
+        value: '123.00',
+      });
+    });
+
+    it('should not call onValueChange on blur of an empty input when false', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          name={name}
+          prefix="$"
+          formatValueOnBlur={false}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.click(screen.getByRole('textbox'));
+      await user.tab();
+
+      expect(onValueChangeSpy).not.toHaveBeenCalled();
+      expect(screen.getByRole('textbox')).toHaveValue('');
+    });
+
+    it('should not call onValueChange on blur of a lone "-" when false', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          name={name}
+          prefix="$"
+          formatValueOnBlur={false}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '-');
+      onValueChangeSpy.mockClear();
+
+      await user.tab();
+
+      expect(onValueChangeSpy).not.toHaveBeenCalled();
+      expect(screen.getByRole('textbox')).toHaveValue('');
+    });
+
+    it('should still format the display on blur with intlConfig when false', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          intlConfig={{ locale: 'en-US', currency: 'USD' }}
+          formatValueOnBlur={false}
+          decimalScale={2}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '1234');
+      expect(screen.getByRole('textbox')).toHaveValue('$1,234');
+
+      await user.tab();
+
+      expect(screen.getByRole('textbox')).toHaveValue('$1,234.00');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234', undefined, {
+        float: 1234,
+        formatted: '$1,234',
+        value: '1234',
+      });
+    });
+  });
 });

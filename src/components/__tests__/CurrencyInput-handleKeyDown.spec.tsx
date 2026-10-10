@@ -568,4 +568,269 @@ describe('<CurrencyInput/> handleKeyDown', () => {
       });
     });
   });
+
+  describe('step with separators, affixes and other keys', () => {
+    it('should step across a group separator', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput defaultValue={999} step={1} onValueChange={onValueChangeSpy} />);
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('1,000');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1000', undefined, {
+        float: 1000,
+        formatted: '1,000',
+        value: '1000',
+      });
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('999');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('999', undefined, {
+        float: 999,
+        formatted: '999',
+        value: '999',
+      });
+    });
+
+    it('should step a value with a suffix', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput defaultValue={10} step={5} suffix="%" onValueChange={onValueChangeSpy} />
+      );
+
+      expect(screen.getByRole('textbox')).toHaveValue('10%');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('15%');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('15', undefined, {
+        float: 15,
+        formatted: '15%',
+        value: '15',
+      });
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('5%');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('5', undefined, {
+        float: 5,
+        formatted: '5%',
+        value: '5',
+      });
+    });
+
+    it('should step a value with a prefix and a suffix', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={1200}
+          step={100}
+          prefix="$"
+          suffix=" USD"
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).toHaveValue('$1,200 USD');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('$1,300 USD');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1300', undefined, {
+        float: 1300,
+        formatted: '$1,300 USD',
+        value: '1300',
+      });
+    });
+
+    it('should step up by a decimal step with a comma decimal separator', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={1234}
+          step={0.5}
+          decimalSeparator=","
+          groupSeparator="."
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).toHaveValue('1.234');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.234,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1234,5', undefined, {
+        float: 1234.5,
+        formatted: '1.234,5',
+        value: '1234,5',
+      });
+    });
+
+    it('should step down by a decimal step with a comma decimal separator', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={1234}
+          step={0.5}
+          decimalSeparator=","
+          groupSeparator="."
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('1.233,5');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('1233,5', undefined, {
+        float: 1233.5,
+        formatted: '1.233,5',
+        value: '1233,5',
+      });
+    });
+
+    it('should step a controlled input several times in a row', async () => {
+      const user = userEvent.setup();
+      const ControlledCurrencyInput = () => {
+        const [value, setValue] = useState<string | undefined>('8');
+        return (
+          <CurrencyInput
+            prefix="$"
+            step={2}
+            value={value}
+            onValueChange={(value, name, values) => {
+              setValue(value);
+              return onValueChangeSpy(value, name, values);
+            }}
+          />
+        );
+      };
+
+      render(<ControlledCurrencyInput />);
+
+      expect(screen.getByRole('textbox')).toHaveValue('$8');
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+      expect(screen.getByRole('textbox')).toHaveValue('$14');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('14', undefined, {
+        float: 14,
+        formatted: '$14',
+        value: '14',
+      });
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('$12');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('12', undefined, {
+        float: 12,
+        formatted: '$12',
+        value: '12',
+      });
+    });
+
+    it('should not step on other keys', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput prefix="£" defaultValue={100} step={1} onValueChange={onValueChangeSpy} />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowLeft}');
+      await user.type(screen.getByRole('textbox'), '{ArrowRight}');
+
+      expect(onValueChangeSpy).not.toBeCalled();
+      expect(screen.getByRole('textbox')).toHaveValue('£100');
+    });
+
+    it('should still call onKeyDown when stepping', async () => {
+      const user = userEvent.setup();
+      const onKeyDownSpy = jest.fn();
+      render(
+        <CurrencyInput
+          defaultValue={5}
+          step={1}
+          onKeyDown={onKeyDownSpy}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowUp}');
+
+      expect(onKeyDownSpy).toHaveBeenCalledTimes(1);
+      expect(onKeyDownSpy).toHaveBeenCalledWith(expect.objectContaining({ key: 'ArrowUp' }));
+      expect(screen.getByRole('textbox')).toHaveValue('6');
+    });
+  });
+
+  describe('min', () => {
+    it('should step down to a negative min and stop there', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput defaultValue={0} step={1} min={-2} onValueChange={onValueChangeSpy} />);
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('-2');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('-2', undefined, {
+        float: -2,
+        formatted: '-2',
+        value: '-2',
+      });
+
+      onValueChangeSpy.mockClear();
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('-2');
+      expect(onValueChangeSpy).not.toBeCalled();
+    });
+
+    it('should accept min as a string', async () => {
+      const user = userEvent.setup();
+      render(<CurrencyInput defaultValue={1} step={1} min="0" onValueChange={onValueChangeSpy} />);
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('0');
+
+      onValueChangeSpy.mockClear();
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('0');
+      expect(onValueChangeSpy).not.toBeCalled();
+    });
+
+    it('should stop exactly at a decimal min with a decimal step', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput defaultValue={1} step={0.25} min={0.5} onValueChange={onValueChangeSpy} />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('0.50');
+      expect(onValueChangeSpy).toHaveBeenLastCalledWith('0.50', undefined, {
+        float: 0.5,
+        formatted: '0.50',
+        value: '0.50',
+      });
+
+      onValueChangeSpy.mockClear();
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('0.50');
+      expect(onValueChangeSpy).not.toBeCalled();
+    });
+
+    it('should stop at min when negative values are not allowed', async () => {
+      const user = userEvent.setup();
+      render(
+        <CurrencyInput
+          defaultValue={3}
+          step={1}
+          min={1}
+          allowNegativeValue={false}
+          onValueChange={onValueChangeSpy}
+        />
+      );
+
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('1');
+
+      onValueChangeSpy.mockClear();
+      await user.type(screen.getByRole('textbox'), '{ArrowDown}');
+      expect(screen.getByRole('textbox')).toHaveValue('1');
+      expect(onValueChangeSpy).not.toBeCalled();
+    });
+  });
 });
