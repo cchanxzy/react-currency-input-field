@@ -1,3 +1,10 @@
+## [4.0.13](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.12...v4.0.13) (2026-10-10)
+
+
+### Bug Fixes
+
+* keep the decimals when stepping with a comma decimal separator ([#449](https://github.com/cchanxzy/react-currency-input-field/issues/449)) ([da6a9f9](https://github.com/cchanxzy/react-currency-input-field/commit/da6a9f99e68fea422d75b80b7ecc25d301999b5c))
+
 ## [4.0.12](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.11...v4.0.12) (2026-10-01)
 
 
