@@ -3,6 +3,11 @@ export const fixedDecimalValue = (
   decimalSeparator: string,
   fixedDecimalLength?: number
 ): string => {
+  // Keep the sign in one place so a later branch cannot drop it.
+  if (value.startsWith('-')) {
+    return `-${fixedDecimalValue(value.slice(1), decimalSeparator, fixedDecimalLength)}`;
+  }
+
   if (fixedDecimalLength !== undefined && value.length > 1) {
     if (fixedDecimalLength === 0) {
       return value.replace(decimalSeparator, '');
@@ -11,13 +16,12 @@ export const fixedDecimalValue = (
     if (value.includes(decimalSeparator)) {
       const [int, decimals] = value.split(decimalSeparator);
 
-      if (decimals.length === fixedDecimalLength) {
-        return value;
-      }
-
+      // A short decimal is padded later. Only a longer one is cut here.
       if (decimals.length > fixedDecimalLength) {
         return `${int}${decimalSeparator}${decimals.slice(0, fixedDecimalLength)}`;
       }
+
+      return value;
     }
 
     const reg =
