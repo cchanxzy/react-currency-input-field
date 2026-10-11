@@ -1,3 +1,10 @@
+## [4.0.14](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.13...v4.0.14) (2026-10-11)
+
+
+### Bug Fixes
+
+* keep the sign when fixed decimal length moves the point ([#430](https://github.com/cchanxzy/react-currency-input-field/issues/430)) ([4331d5b](https://github.com/cchanxzy/react-currency-input-field/commit/4331d5bf3d50b08701dacbedf30315afce78e00c))
+
 ## [4.0.13](https://github.com/cchanxzy/react-currency-input-field/compare/v4.0.12...v4.0.13) (2026-10-10)
 
 
