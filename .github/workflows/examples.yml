@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -16,6 +14,7 @@ concurrency:
 jobs:
   build:
     name: Build
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -44,7 +43,12 @@ jobs:
   deploy:
     name: Deploy
     needs: build
+    timeout-minutes: 10
     runs-on: ubuntu-latest
+    # Job permissions replace the workflow's, so deploy gets only what it uses.
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
