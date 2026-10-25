@@ -136,6 +136,9 @@ Examples:
 - 1k = 1,000
 - 2.5m = 2,500,000
 - 3.456B = 3,456,000,000
+- .5k = 500
+
+A `k`, `m` or `b` only counts on its own right after the number, as in `1k`, `1.5 m` or `(5k)`, also when a suffix follows. As part of a word, like the `k` of `kg`, or before more digits, it is ignored like any other letter.
 
 This can be turned off by passing in `disableAbbreviations={true}`.
 

@@ -1,10 +1,10 @@
 export { cleanValue } from './cleanValue';
 export type { CleanValueOptions } from './cleanValue';
 export { fixedDecimalValue } from './fixedDecimalValue';
-export { formatValue } from './formatValue';
-export type { FormatValueOptions } from './formatValue.types';
+export { formatValue, formatValueWithSuffix } from './formatValue';
+export type { FormatValueOptions, FormattedValue } from './formatValue.types';
+export { getIntlSuffix } from './getIntlSuffix';
 export { getLocaleConfig } from './getLocaleConfig';
-export { getSuffix } from './getSuffix';
 export { isNumber } from './isNumber';
 export { padTrimValue } from './padTrimValue';
 export { repositionCursor } from './repositionCursor';

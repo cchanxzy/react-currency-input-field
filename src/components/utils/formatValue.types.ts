@@ -53,3 +53,9 @@ export type FormatValueOptions = {
    */
   suffix?: string;
 };
+
+/** A formatted value and the suffix shown after its number, which it ends with */
+export type FormattedValue = {
+  formatted: string;
+  suffix: string;
+};

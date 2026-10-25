@@ -21,9 +21,14 @@ describe('utils index exports', () => {
     expect(typeof utils.getLocaleConfig).toBe('function');
   });
 
-  it('should export getSuffix function', () => {
-    expect(utils.getSuffix).toBeDefined();
-    expect(typeof utils.getSuffix).toBe('function');
+  it('should export getIntlSuffix function', () => {
+    expect(utils.getIntlSuffix).toBeDefined();
+    expect(typeof utils.getIntlSuffix).toBe('function');
+  });
+
+  it('should export formatValueWithSuffix function', () => {
+    expect(utils.formatValueWithSuffix).toBeDefined();
+    expect(typeof utils.formatValueWithSuffix).toBe('function');
   });
 
   it('should export isNumber function', () => {
@@ -64,9 +69,17 @@ describe('utils index exports', () => {
       expect(result).toHaveProperty('decimalSeparator');
     });
 
-    it('getSuffix should get suffix', () => {
-      const result = utils.getSuffix('100%', { groupSeparator: ',', decimalSeparator: '.' });
-      expect(result).toBe('%');
+    it('getIntlSuffix should get the suffix from the parts', () => {
+      const parts = new Intl.NumberFormat('sv-SE', { style: 'currency', currency: 'SEK' });
+      expect(utils.getIntlSuffix(parts.formatToParts(100))).toBe('\u00a0kr');
+    });
+
+    it('formatValueWithSuffix should format the value and return its suffix', () => {
+      const result = utils.formatValueWithSuffix({
+        value: '100',
+        intlConfig: { locale: 'sv-SE', currency: 'SEK' },
+      });
+      expect(result).toEqual({ formatted: '100\u00a0kr', suffix: '\u00a0kr' });
     });
 
     it('isNumber should validate numbers', () => {

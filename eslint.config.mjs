@@ -13,7 +13,15 @@ import tseslint from 'typescript-eslint';
 const reactVersion = createRequire(import.meta.url)('react/package.json').version;
 
 export default defineConfig(
-  globalIgnores(['dist', 'demo', 'coverage', 'playwright-report', 'test-results', '.parcel-cache']),
+  globalIgnores([
+    'dist',
+    'tests/fixtures/dist',
+    'demo',
+    'coverage',
+    'playwright-report',
+    'test-results',
+    '.parcel-cache',
+  ]),
   js.configs.recommended,
   tseslint.configs.recommended,
   react.configs.flat.recommended,

@@ -1,28 +1,114 @@
 import { escapeRegExp } from './escapeRegExp';
-import { getSuffix } from './getSuffix';
-import type { FormatValueOptions } from './formatValue.types';
+import { getIntlSuffix } from './getIntlSuffix';
+import type { FormatValueOptions, FormattedValue } from './formatValue.types';
 
 /**
  * Format value with decimal separator, group separator and prefix
  */
-export const formatValue = (options: FormatValueOptions): string => {
-  const {
-    value: _value,
-    decimalSeparator,
-    intlConfig,
-    decimalScale,
-    prefix = '',
-    suffix = '',
-  } = options;
+export const formatValue = (options: FormatValueOptions): string =>
+  formatValueWithSuffix(options).formatted;
+
+/**
+ * Format the value, and also return the suffix shown after the number: the custom suffix, or
+ * what Intl puts after the number, eg. " kr" for sv-SE or " US dollars". The formatted value
+ * always ends with it. It is what has to be removed before the value is read again
+ */
+export const formatValueWithSuffix = (options: FormatValueOptions): FormattedValue => {
+  const { value: _value, decimalSeparator, decimalScale, prefix = '', suffix = '' } = options;
 
   if (_value === '' || _value === undefined) {
-    return '';
+    return { formatted: '', suffix: '' };
   }
 
   if (_value === '-') {
-    return '-';
+    return { formatted: '-', suffix: '' };
   }
 
+  const { value, parts } = getValueParts({ ...options, value: _value });
+
+  let formatted = replaceParts(parts, options);
+
+  // Does intl formatting add a suffix?
+  const intlSuffix = getPartsSuffix(parts, options);
+
+  // Include decimal separator if user input ends with decimal separator
+  const includeDecimalSeparator = _value.slice(-1) === decimalSeparator ? decimalSeparator : '';
+
+  const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
+
+  // Keep original decimal padding if no decimalScale
+  if (decimalScale === undefined && decimals && decimalSeparator) {
+    // The prefix itself may contain the decimal separator (e.g. 'kr.' or 'د.إ'),
+    // so only check the formatted value excluding the prefix. Only the first
+    // occurrence is removed: it is always the prefix, as at most a minus sign
+    // can precede it, and later occurrences may belong to the number itself
+    const formattedWithoutPrefix = prefix ? formatted.replace(prefix, '') : formatted;
+    if (formattedWithoutPrefix.includes(decimalSeparator)) {
+      formatted = formatted.replace(
+        RegExp(`(\\d+)(${escapeRegExp(decimalSeparator)})(\\d+)`, 'g'),
+        `$1$2${decimals}`
+      );
+    } else {
+      // The decimals go before the suffix of the locale; a custom suffix replaces it below
+      if (intlSuffix) {
+        formatted = replaceTrailing(
+          formatted,
+          intlSuffix,
+          `${decimalSeparator}${decimals}${intlSuffix}`
+        );
+      } else {
+        formatted = `${formatted}${decimalSeparator}${decimals}`;
+      }
+    }
+  }
+
+  const shownSuffix = suffix || intlSuffix;
+
+  // A custom suffix replaces the suffix of the locale, also after a trailing decimal separator
+  if (intlSuffix && suffix) {
+    return {
+      formatted: replaceTrailing(formatted, intlSuffix, `${includeDecimalSeparator}${suffix}`),
+      suffix: shownSuffix,
+    };
+  }
+
+  if (intlSuffix && includeDecimalSeparator) {
+    return {
+      formatted: replaceTrailing(formatted, intlSuffix, `${includeDecimalSeparator}${intlSuffix}`),
+      suffix: shownSuffix,
+    };
+  }
+
+  return { formatted: [formatted, includeDecimalSeparator, suffix].join(''), suffix: shownSuffix };
+};
+
+/**
+ * Get the suffix Intl shows after the number. The currency is dropped from the parts if the
+ * prefix replaces it, as it isn't in the formatted value. What is left is not a suffix if it is
+ * only the group separator, eg. the no-break space after the number in sv-SE
+ */
+const getPartsSuffix = (
+  parts: ReadonlyArray<Intl.NumberFormatPart>,
+  { prefix, groupSeparator }: Pick<FormatValueOptions, 'prefix' | 'groupSeparator'>
+): string => {
+  const suffix = getIntlSuffix(prefix ? parts.filter(({ type }) => type !== 'currency') : parts);
+  const group = groupSeparator ?? parts.find(({ type }) => type === 'group')?.value ?? '';
+
+  return group && suffix.split(group).join('') === '' ? '' : suffix;
+};
+
+/**
+ * Format the value with Intl, as parts
+ *
+ * Also returns the value with "." as the decimal separator, as it was passed to Intl
+ */
+const getValueParts = ({
+  value: _value,
+  decimalSeparator,
+  intlConfig,
+  decimalScale,
+  prefix = '',
+}: FormatValueOptions & { value: string }): { value: string; parts: Intl.NumberFormatPart[] } => {
   const isNegative = new RegExp(`^\\d?-${prefix ? `${escapeRegExp(prefix)}?` : ''}\\d`).test(
     _value
   );
@@ -56,50 +142,17 @@ export const formatValue = (options: FormatValueOptions): string => {
   // older engines convert the string to a number as before
   const parts = numberFormatter.formatToParts(value as unknown as number);
 
-  let formatted = replaceParts(parts, options);
+  return { value, parts };
+};
 
-  // Does intl formatting add a suffix?
-  const intlSuffix = getSuffix(formatted, { ...options });
-
-  // Include decimal separator if user input ends with decimal separator
-  const includeDecimalSeparator = _value.slice(-1) === decimalSeparator ? decimalSeparator : '';
-
-  const [, decimals] = value.match(RegExp('\\d+\\.(\\d+)')) || [];
-
-  // Keep original decimal padding if no decimalScale
-  if (decimalScale === undefined && decimals && decimalSeparator) {
-    // The prefix itself may contain the decimal separator (e.g. 'kr.' or 'د.إ'),
-    // so only check the formatted value excluding the prefix. Only the first
-    // occurrence is removed: it is always the prefix, as at most a minus sign
-    // can precede it, and later occurrences may belong to the number itself
-    const formattedWithoutPrefix = prefix ? formatted.replace(prefix, '') : formatted;
-    if (formattedWithoutPrefix.includes(decimalSeparator)) {
-      formatted = formatted.replace(
-        RegExp(`(\\d+)(${escapeRegExp(decimalSeparator)})(\\d+)`, 'g'),
-        `$1$2${decimals}`
-      );
-    } else {
-      if (intlSuffix && !suffix) {
-        formatted = formatted.replace(intlSuffix, `${decimalSeparator}${decimals}${intlSuffix}`);
-      } else {
-        formatted = `${formatted}${decimalSeparator}${decimals}`;
-      }
-    }
-  }
-
-  if (suffix && includeDecimalSeparator) {
-    return `${formatted}${includeDecimalSeparator}${suffix}`;
-  }
-
-  if (intlSuffix && includeDecimalSeparator) {
-    return formatted.replace(intlSuffix, `${includeDecimalSeparator}${intlSuffix}`);
-  }
-
-  if (intlSuffix && suffix) {
-    return formatted.replace(intlSuffix, `${includeDecimalSeparator}${suffix}`);
-  }
-
-  return [formatted, includeDecimalSeparator, suffix].join('');
+/**
+ * Replace the suffix at the end of the value, not an earlier match such as a group separator
+ */
+const replaceTrailing = (value: string, suffix: string, replacement: string): string => {
+  const index = value.lastIndexOf(suffix);
+  return index === -1
+    ? value
+    : value.slice(0, index) + replacement + value.slice(index + suffix.length);
 };
 
 /**

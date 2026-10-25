@@ -28,10 +28,11 @@ const abbrExponents: AbbrExponents = { k: 3, m: 6, b: 9 };
  *
  * Moves the decimal separator instead of multiplying, so the result is exact
  * (4.1m is 4100000, not 4099999.9999999995). Any remaining decimals keep the
- * given decimal separator. Returns undefined if there is no abbreviation.
+ * given decimal separator. The whole part can be empty, eg. .5k is 500. Returns undefined if
+ * there is no abbreviation.
  */
 export const expandAbbrValue = (value: string, decimalSeparator = '.'): string | undefined => {
-  const reg = new RegExp(`(-?)(\\d+)(?:${escapeRegExp(decimalSeparator)}(\\d*))?([kmb])$`, 'i');
+  const reg = new RegExp(`(-?)(\\d*)(?:${escapeRegExp(decimalSeparator)}(\\d*))?([kmb])$`, 'i');
   const match = value.match(reg);
 
   if (!match) {
@@ -39,6 +40,12 @@ export const expandAbbrValue = (value: string, decimalSeparator = '.'): string |
   }
 
   const [, sign, int, decimals = '', abbr] = match;
+
+  // A letter without digits, eg. "k" or ".k", is not a number
+  if (!int && !decimals) {
+    return undefined;
+  }
+
   const exponent = abbrExponents[abbr.toLowerCase()];
   const paddedDecimals = decimals.padEnd(exponent, '0');
   const expandedInt = `${int}${paddedDecimals.slice(0, exponent)}`.replace(/^0+(?=\d)/, '');

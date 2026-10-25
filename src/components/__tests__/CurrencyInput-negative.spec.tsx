@@ -141,6 +141,98 @@ describe('<CurrencyInput/> negative value', () => {
       value: '5',
     });
   });
+
+  it('should make the value negative for a hyphen between digits', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} onValueChange={onValueChangeSpy} />);
+
+    await user.type(screen.getByRole('textbox'), '1-2');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-12');
+  });
+
+  it('should make the value negative for a hyphen typed at the end', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} onValueChange={onValueChangeSpy} />);
+
+    await user.type(screen.getByRole('textbox'), '123-');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-123');
+  });
+
+  it('should make the value negative for a hyphen typed in the middle', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} defaultValue={123} />);
+
+    await user.click(screen.getByRole('textbox'));
+    await user.keyboard('{ArrowLeft}{ArrowLeft}-');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-123');
+  });
+
+  it('should keep the minus sign when a letter is typed after it', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} />);
+
+    await user.type(screen.getByRole('textbox'), '-x5');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-5');
+  });
+
+  it('should keep the minus sign when the decimal separator is typed twice', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} intlConfig={{ locale: 'de-DE', currency: 'EUR' }} />);
+
+    await user.type(screen.getByRole('textbox'), '-,,5');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-0,5\u00a0€');
+  });
+
+  it('should not make the value negative for an en dash between digits', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} />);
+
+    await user.type(screen.getByRole('textbox'), '1\u20132');
+
+    expect(screen.getByRole('textbox')).toHaveValue('12');
+  });
+
+  it('should read an en dash before the digits as a minus sign', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} onValueChange={onValueChangeSpy} />);
+
+    await user.type(screen.getByRole('textbox'), '\u20135');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-5');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith('-5', undefined, {
+      float: -5,
+      formatted: '-5',
+      value: '-5',
+    });
+  });
+
+  it('should show a minus sign for a lone en dash', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} onValueChange={onValueChangeSpy} />);
+
+    await user.type(screen.getByRole('textbox'), '\u2013');
+
+    expect(screen.getByRole('textbox')).toHaveValue('-');
+    expect(onValueChangeSpy).toHaveBeenLastCalledWith(undefined, undefined, {
+      float: null,
+      formatted: '',
+      value: '',
+    });
+  });
+
+  it('should not show a lone en dash if allowNegativeValue is false', async () => {
+    const user = userEvent.setup();
+    render(<CurrencyInput id={id} allowNegativeValue={false} />);
+
+    await user.type(screen.getByRole('textbox'), '\u2013');
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
 });
 
 describe('<CurrencyInput/> minus sign followed by the decimal separator', () => {
