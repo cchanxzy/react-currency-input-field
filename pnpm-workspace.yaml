@@ -14,6 +14,8 @@ minimumReleaseAge: 4320
 
 overrides:
   form-data@>=4.0.0 <4.0.4: '>=4.0.4'
+  # serve 14.2.6 (the latest) pins compression 1.8.1 exactly.
+  compression@<1.8.2: '>=1.8.2'
 
 peerDependencyRules:
   allowedVersions:
