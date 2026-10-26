@@ -141,7 +141,6 @@ const shapes: ReadonlyArray<Shape> = [
     stepping: [`${rlm}11${nbsp}${rlm}₪`, `${rlm}9${nbsp}${rlm}₪`],
   },
   {
-    // Typing is not pinned: the "kr" suffix is read as an abbreviation.
     name: 'sv-SE / SEK (space before the symbol is also the group separator)',
     props: { intlConfig: { locale: 'sv-SE', currency: 'SEK' } },
     display: [
@@ -149,8 +148,60 @@ const shapes: ReadonlyArray<Shape> = [
       ['1234567', `1${nbsp}234${nbsp}567${nbsp}kr`],
       ['12345', `12${nbsp}345${nbsp}kr`],
     ],
-    typing: [],
-    abbreviations: [],
+    typing: [
+      ['1234', `1${nbsp}234${nbsp}kr`, '1234', 1234],
+      ['1234567', `1${nbsp}234${nbsp}567${nbsp}kr`, '1234567', 1234567],
+      ['12,5', `12,5${nbsp}kr`, '12,5', 12.5],
+      ['-1234', `${minus}1${nbsp}234${nbsp}kr`, '-1234', -1234],
+      ['-12,5', `${minus}12,5${nbsp}kr`, '-12,5', -12.5],
+    ],
+    abbreviations: [
+      ['1k', `1${nbsp}000${nbsp}kr`, '1000', 1000],
+      ['2,5m', `2${nbsp}500${nbsp}000${nbsp}kr`, '2500000', 2500000],
+    ],
+    stepping: [`11${nbsp}kr`, `9${nbsp}kr`],
+  },
+  {
+    name: 'da-DK / DKK (symbol "kr." contains the group separator)',
+    props: { intlConfig: { locale: 'da-DK', currency: 'DKK' } },
+    display: [
+      ['1234', `1.234${nbsp}kr.`],
+      ['1234567', `1.234.567${nbsp}kr.`],
+      ['1234.56', `1.234,56${nbsp}kr.`],
+    ],
+    typing: [
+      ['1234', `1.234${nbsp}kr.`, '1234', 1234],
+      ['1234567', `1.234.567${nbsp}kr.`, '1234567', 1234567],
+      ['12,5', `12,5${nbsp}kr.`, '12,5', 12.5],
+      ['-1234', `-1.234${nbsp}kr.`, '-1234', -1234],
+      ['-12,5', `-12,5${nbsp}kr.`, '-12,5', -12.5],
+    ],
+    abbreviations: [
+      ['1k', `1.000${nbsp}kr.`, '1000', 1000],
+      ['2,5m', `2.500.000${nbsp}kr.`, '2500000', 2500000],
+    ],
+    stepping: [`11${nbsp}kr.`, `9${nbsp}kr.`],
+  },
+  {
+    name: 'cs-CZ / CZK (symbol "Kč" after a space group separator)',
+    props: { intlConfig: { locale: 'cs-CZ', currency: 'CZK' } },
+    display: [
+      ['1234', `1${nbsp}234${nbsp}Kč`],
+      ['1234567', `1${nbsp}234${nbsp}567${nbsp}Kč`],
+      ['1234.56', `1${nbsp}234,56${nbsp}Kč`],
+    ],
+    typing: [
+      ['1234', `1${nbsp}234${nbsp}Kč`, '1234', 1234],
+      ['1234567', `1${nbsp}234${nbsp}567${nbsp}Kč`, '1234567', 1234567],
+      ['12,5', `12,5${nbsp}Kč`, '12,5', 12.5],
+      ['-1234', `-1${nbsp}234${nbsp}Kč`, '-1234', -1234],
+      ['-12,5', `-12,5${nbsp}Kč`, '-12,5', -12.5],
+    ],
+    abbreviations: [
+      ['1k', `1${nbsp}000${nbsp}Kč`, '1000', 1000],
+      ['2,5m', `2${nbsp}500${nbsp}000${nbsp}Kč`, '2500000', 2500000],
+    ],
+    stepping: [`11${nbsp}Kč`, `9${nbsp}Kč`],
   },
   {
     name: 'fi-FI / EUR (negatives use U+2212)',

@@ -11,15 +11,17 @@ import type { CurrencyInputProps, CurrencyInputOnChangeValues } from './Currency
 import {
   type CleanValueOptions,
   type FormatValueOptions,
+  type FormattedValue,
   isNumber,
   cleanValue,
   fixedDecimalValue,
-  formatValue,
+  formatValueWithSuffix,
   getLocaleConfig,
   padTrimValue,
-  getSuffix,
   repositionCursor,
 } from './utils';
+
+const empty: FormattedValue = { formatted: '', suffix: '' };
 
 export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
   HTMLInputElement,
@@ -93,6 +95,49 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       suffix: suffix,
     };
 
+    // The formatted value, with the suffix shown after its number, so that suffix can be
+    // removed before the value is read again
+    const [state, setState] = useState<FormattedValue>(() =>
+      defaultValue != null
+        ? formatValueWithSuffix({
+            ...formatValueOptions,
+            decimalScale,
+            value: String(defaultValue),
+          })
+        : userValue != null
+          ? formatValueWithSuffix({ ...formatValueOptions, decimalScale, value: String(userValue) })
+          : empty
+    );
+    const stateValue = state.formatted;
+    const [dirty, setDirty] = useState(false);
+    const [cursor, setCursor] = useState(0);
+    const [changeCount, setChangeCount] = useState(0);
+    const [lastKeyStroke, setLastKeyStroke] = useState<string | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
+
+    /**
+     * What the input shows. If user has only entered "-" or decimal separator,
+     * keep the char to allow them to enter next value
+     */
+    const getRendered = (): FormattedValue => {
+      if (
+        userValue != null &&
+        stateValue !== '-' &&
+        (!decimalSeparator || stateValue !== decimalSeparator)
+      ) {
+        return formatValueWithSuffix({
+          ...formatValueOptions,
+          decimalScale: dirty ? undefined : decimalScale,
+          value: String(userValue),
+        });
+      }
+
+      return state;
+    };
+
+    const rendered = getRendered();
+
     const cleanValueOptions: Partial<CleanValueOptions> = {
       decimalSeparator,
       // With group separators disabled, the locale's group separator can be the same as the
@@ -104,22 +149,11 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       allowNegativeValue,
       disableAbbreviations,
       prefix: prefix || localeConfig.prefix,
+      // The suffix shown is removed before the value is read. The locale config is the fallback
+      // for text pasted into an empty input
+      suffix: suffix || rendered.suffix || localeConfig.suffix,
       transformRawValue,
     };
-
-    const [stateValue, setStateValue] = useState(() =>
-      defaultValue != null
-        ? formatValue({ ...formatValueOptions, decimalScale, value: String(defaultValue) })
-        : userValue != null
-          ? formatValue({ ...formatValueOptions, decimalScale, value: String(userValue) })
-          : ''
-    );
-    const [dirty, setDirty] = useState(false);
-    const [cursor, setCursor] = useState(0);
-    const [changeCount, setChangeCount] = useState(0);
-    const [lastKeyStroke, setLastKeyStroke] = useState<string | null>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     /**
      * Process change in value
@@ -152,7 +186,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         stringValue === negativeDecimal
       ) {
         onValueChange?.(undefined, name, { float: null, formatted: '', value: '' });
-        setStateValue(stringValue);
+        setState({ formatted: stringValue, suffix: '' });
         // Always sets cursor after '-', decimalSeparator or '-' and decimalSeparator input
         setCursor(stringValue === negativeDecimal ? negativeDecimal.length : 1);
         return;
@@ -164,26 +198,31 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const numberValue = parseFloat(stringValueWithoutSeparator);
 
-      const formattedValue = formatValue({
+      const formatted = formatValueWithSuffix({
         value: stringValue,
         ...formatValueOptions,
       });
 
       if (cursorPosition != null) {
-        // Prevent cursor jumping
-        let newCursor = cursorPosition + (formattedValue.length - value.length);
+        // Prevent cursor jumping. A suffix that changes length with the value, eg. the plural form
+        // of a currency name, is left out of the comparison, as it is after the caret
+        const suffixChange =
+          rendered.suffix && formatted.suffix && value.endsWith(rendered.suffix)
+            ? formatted.suffix.length - rendered.suffix.length
+            : 0;
+        let newCursor = cursorPosition + (formatted.formatted.length - value.length) - suffixChange;
         newCursor = newCursor <= 0 ? (prefix || localeConfig.prefix).length : newCursor;
 
         setCursor(newCursor);
         setChangeCount(changeCount + 1);
       }
 
-      setStateValue(formattedValue);
+      setState(formatted);
 
       if (onValueChange) {
         const values: CurrencyInputOnChangeValues = {
           float: numberValue,
-          formatted: formattedValue,
+          formatted: formatted.formatted,
           value: stringValue,
         };
         onValueChange(stringValue, name, values);
@@ -229,7 +268,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         valueOnly === `-${decimalSeparator}` ||
         !valueOnly
       ) {
-        setStateValue('');
+        setState(empty);
         onBlur?.(event);
         return;
       }
@@ -248,7 +287,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
 
       const numberValue = parseFloat(stringValueWithoutSeparator);
 
-      const formattedValue = formatValue({
+      const formatted = formatValueWithSuffix({
         ...formatValueOptions,
         value: newValue,
       });
@@ -256,12 +295,12 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       if (onValueChange && formatValueOnBlur) {
         onValueChange(newValue, name, {
           float: numberValue,
-          formatted: formattedValue,
+          formatted: formatted.formatted,
           value: newValue,
         });
       }
 
-      setStateValue(formattedValue);
+      setState(formatted);
 
       onBlur?.(event);
     };
@@ -350,12 +389,12 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         currentTarget: { selectionStart },
       } = event;
       if (key !== 'ArrowUp' && key !== 'ArrowDown' && stateValue !== '-') {
-        const suffix = getSuffix(stateValue, { groupSeparator, decimalSeparator });
+        const { formatted: shown, suffix: shownSuffix } = rendered;
 
-        if (suffix && selectionStart && selectionStart > stateValue.length - suffix.length) {
+        if (shownSuffix && selectionStart && selectionStart > shown.length - shownSuffix.length) {
           /* istanbul ignore else */
           if (inputRef.current) {
-            const newCursor = stateValue.length - suffix.length;
+            const newCursor = shown.length - shownSuffix.length;
             inputRef.current.setSelectionRange(newCursor, newCursor);
           }
         }
@@ -367,7 +406,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
     // Update state if userValue changes to undefined
     useEffect(() => {
       if (userValue == null && defaultValue == null) {
-        setStateValue('');
+        setState(empty);
       }
     }, [defaultValue, userValue]);
 
@@ -383,26 +422,6 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       }
     }, [stateValue, cursor, inputRef, dirty, changeCount]);
 
-    /**
-     * If user has only entered "-" or decimal separator,
-     * keep the char to allow them to enter next value
-     */
-    const getRenderValue = () => {
-      if (
-        userValue != null &&
-        stateValue !== '-' &&
-        (!decimalSeparator || stateValue !== decimalSeparator)
-      ) {
-        return formatValue({
-          ...formatValueOptions,
-          decimalScale: dirty ? undefined : decimalScale,
-          value: String(userValue),
-        });
-      }
-
-      return stateValue;
-    };
-
     const inputProps: React.ComponentPropsWithRef<'input'> = {
       type: 'text',
       inputMode: 'decimal',
@@ -416,7 +435,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       onKeyUp: handleOnKeyUp,
       placeholder,
       disabled,
-      value: getRenderValue(),
+      value: rendered.formatted,
       ref: inputRef,
       ...props,
     };

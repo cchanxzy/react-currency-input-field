@@ -71,11 +71,21 @@ export default defineConfig({
   /* Build and serve the production demo bundle before starting the tests.
    * Running against the production build (rather than the Parcel dev
    * server via `pnpm start`) catches issues that only show up after
-   * tree-shaking/minification, such as https://github.com/cchanxzy/react-currency-input-field/pull/431. */
-  webServer: {
-    command: 'pnpm gh-predeploy && pnpm exec serve demo/examples -l 1234',
-    url: 'http://localhost:1234/',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+   * tree-shaking/minification, such as https://github.com/cchanxzy/react-currency-input-field/pull/431.
+   * The second server is a test-only page for the caret tests; the demo doesn't include it. */
+  webServer: [
+    {
+      command: 'pnpm gh-predeploy && pnpm exec serve demo/examples -l 1234',
+      url: 'http://localhost:1234/',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+    },
+    {
+      command:
+        'pnpm exec esbuild tests/fixtures/index.tsx --bundle --outfile=tests/fixtures/dist/index.js && pnpm exec serve tests/fixtures -l 1235',
+      url: 'http://localhost:1235/',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+    },
+  ],
 });

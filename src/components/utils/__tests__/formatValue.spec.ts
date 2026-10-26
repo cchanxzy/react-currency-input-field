@@ -630,4 +630,135 @@ describe('formatValue', () => {
       ).toEqual('12,345,678,901,234,567,890');
     });
   });
+
+  describe('suffix currencies', () => {
+    const nbsp = '\u00a0';
+
+    it('should keep typed decimals before the currency when the group separator is a space', () => {
+      const ruRU = {
+        intlConfig: { locale: 'ru-RU', currency: 'RUB' },
+        decimalSeparator: ',',
+        groupSeparator: nbsp,
+      };
+
+      expect(formatValue({ value: '1,0', ...ruRU })).toEqual(`1,0${nbsp}₽`);
+      expect(formatValue({ value: '1,', ...ruRU })).toEqual(`1,${nbsp}₽`);
+      expect(formatValue({ value: '1234,50', ...ruRU })).toEqual(`1${nbsp}234,50${nbsp}₽`);
+    });
+
+    it('should keep typed decimals before the currency in sv-SE', () => {
+      const svSE = {
+        intlConfig: { locale: 'sv-SE', currency: 'SEK' },
+        decimalSeparator: ',',
+        groupSeparator: nbsp,
+      };
+
+      expect(formatValue({ value: '1,0', ...svSE })).toEqual(`1,0${nbsp}kr`);
+      expect(formatValue({ value: '12,', ...svSE })).toEqual(`12,${nbsp}kr`);
+    });
+
+    it('should keep typed decimals before a currency symbol that contains the decimal separator', () => {
+      expect(
+        formatValue({
+          value: '12,50',
+          intlConfig: { locale: 'da-DK', currency: 'DKK' },
+          decimalSeparator: ',',
+          groupSeparator: '.',
+        })
+      ).toEqual(`12,50${nbsp}kr.`);
+    });
+  });
+
+  describe('suffix currencies with a custom prefix and suffix', () => {
+    const nbsp = '\u00a0';
+    const options = {
+      prefix: '$',
+      suffix: ' kg',
+      decimalSeparator: ',',
+      groupSeparator: nbsp,
+    };
+
+    it('should keep the group separators in sv-SE', () => {
+      expect(
+        formatValue({ value: '1234', intlConfig: { locale: 'sv-SE', currency: 'SEK' }, ...options })
+      ).toEqual(`$1${nbsp}234${nbsp} kg`);
+    });
+
+    it('should keep the group separators in cs-CZ', () => {
+      expect(
+        formatValue({ value: '1234', intlConfig: { locale: 'cs-CZ', currency: 'CZK' }, ...options })
+      ).toEqual(`$1${nbsp}234${nbsp} kg`);
+    });
+
+    it('should keep a typed decimal separator in sv-SE', () => {
+      expect(
+        formatValue({
+          value: '1234,',
+          intlConfig: { locale: 'sv-SE', currency: 'SEK' },
+          prefix: '$',
+          decimalSeparator: ',',
+          groupSeparator: nbsp,
+        })
+      ).toEqual(`$1${nbsp}234${nbsp},`);
+    });
+  });
+
+  describe('custom suffix with a trailing decimal separator', () => {
+    it('should not show the currency of the locale in de-DE', () => {
+      expect(
+        formatValue({
+          value: '1234,',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+          decimalSeparator: ',',
+          groupSeparator: '.',
+          suffix: ' pcs',
+        })
+      ).toEqual('1.234, pcs');
+    });
+
+    it('should not show the currency of the locale in sv-SE', () => {
+      expect(
+        formatValue({
+          value: '1234,',
+          intlConfig: { locale: 'sv-SE', currency: 'SEK' },
+          decimalSeparator: ',',
+          groupSeparator: '\u00a0',
+          suffix: ' pcs',
+        })
+      ).toEqual('1\u00a0234, pcs');
+    });
+  });
+
+  describe('custom suffix with trailing zero decimals', () => {
+    it('should keep the decimals before the suffix in sv-SE', () => {
+      expect(
+        formatValue({
+          value: '1,00',
+          intlConfig: { locale: 'sv-SE', currency: 'SEK' },
+          decimalSeparator: ',',
+          groupSeparator: '\u00a0',
+          suffix: ' kg',
+        })
+      ).toEqual('1,00 kg');
+    });
+
+    it('should keep the decimals before the suffix in de-DE', () => {
+      expect(
+        formatValue({
+          value: '1234,50',
+          intlConfig: { locale: 'de-DE', currency: 'EUR' },
+          decimalSeparator: ',',
+          groupSeparator: '.',
+          suffix: ' kg',
+        })
+      ).toEqual('1.234,50 kg');
+    });
+  });
+
+  it('should show a custom suffix after a value Intl cannot format', () => {
+    expect(formatValue({ value: '--1', decimalSeparator: '-', suffix: ' kg' })).toEqual('NaN kg');
+    expect(
+      formatValue({ value: '--1', decimalSeparator: '-', prefix: '$', suffix: ' kg' })
+    ).toEqual('$NaN kg');
+  });
 });

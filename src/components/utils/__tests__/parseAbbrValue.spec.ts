@@ -164,6 +164,18 @@ describe('expandAbbrValue', () => {
     expect(expandAbbrValue('-1.5k')).toEqual('-1500');
   });
 
+  it('should read an empty whole part as 0', () => {
+    expect(expandAbbrValue('.5k')).toEqual('500');
+    expect(expandAbbrValue('-.5k')).toEqual('-500');
+    expect(expandAbbrValue(',25m', ',')).toEqual('250000');
+    expect(expandAbbrValue('.0001k')).toEqual('0.1');
+  });
+
+  it('should return undefined if there are no digits', () => {
+    expect(expandAbbrValue('.k')).toBeUndefined();
+    expect(expandAbbrValue('-k')).toBeUndefined();
+  });
+
   it('should keep large values exact', () => {
     expect(expandAbbrValue('123456789.123b')).toEqual('123456789123000000');
     expect(parseAbbrValue('123456789.123b')).toBe(123456789123000000);

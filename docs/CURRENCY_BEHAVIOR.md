@@ -75,6 +75,8 @@ The facts code needs, so it doesn't depend on following the links above:
 These are conventions, and the choices are this library's own:
 
 - **Formatting while typing, caret position and paste.** No standard defines them. GOV.UK advises accepting any unambiguous format and ignoring stray characters ([validation pattern](https://design-system.service.gov.uk/patterns/validation/)).
+- **A hyphen works as it always has,** except that one in the suffix isn't read. The other minus characters count only before the first digit, so `–5` (en dash) reads as -5 and `1–2` as 12.
+- **A `k`, `m` or `b` is an abbreviation only when it stands alone right after the number,** not followed by a letter and with no more digits after it, so `1k kr` and `(5k)` read as 1000 and 5000, and `Balance: 100`, `12 kg`, `1k 234` and `1 British pound` read as 100, 12, 1234 and 1.
 - **Extra decimals** are cut off at the limit, not rounded.
 - **Cash rounding** (for example CHF to 0.05) isn't applied. `Intl.NumberFormat` has no cash option, and we don't emulate one with `roundingIncrement`.
 
