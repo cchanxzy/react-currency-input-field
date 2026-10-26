@@ -16,3 +16,19 @@ updates:
     commit-message:
       prefix: ci
       include: scope
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Security updates only: a limit of 0 turns off routine version updates.
+    open-pull-requests-limit: 0
+    groups:
+      # Security fixes for every open alert come as one PR.
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - '*'
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope

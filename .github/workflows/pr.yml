@@ -12,6 +12,7 @@ concurrency:
 jobs:
   install-build-and-test:
     name: Install, build and test PR
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -39,5 +40,8 @@ jobs:
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      # On a pull request semantic-release only loads the config and imports the
+      # plugins, then stops before verifying, analysing commits or generating
+      # notes. So this catches a plugin that no longer loads.
       - name: Prepare new release
         run: pnpm semantic-release --dry-run

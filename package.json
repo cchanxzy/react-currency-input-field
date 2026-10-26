@@ -42,7 +42,7 @@
     "gh-predeploy": "parcel build src/examples/index.html --target app",
     "semantic-release": "semantic-release",
     "prepare": "husky",
-    "publint": "publint",
+    "publint": "publint --strict",
     "attw": "attw --pack .",
     "verify-package": "pnpm publint && pnpm attw"
   },
